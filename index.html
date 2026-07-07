@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HAVN — Rise · Calm · Rest. Your daily ritual.</title>
 <meta name="description" content="HAVN is a three-part daily supplement ritual: RISE for focus, CALM for balance, REST for sleep. Clean, third-party tested, made in the USA.">
+<link rel="canonical" href="https://havn.co/">
+<link rel="preload" as="image" href="assets/products/calm_front.jpg">
+<link rel="preload" as="image" href="assets/products/rise_front.jpg">
+<link rel="preload" as="image" href="assets/products/rest_front.jpg">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta name="theme-color" content="#FF6A15">
@@ -259,7 +263,7 @@ header.nav.scrolled{box-shadow:0 6px 24px rgba(30,25,19,.10);}
 .hero-stage{align-items:center;gap:20px;height:auto;min-height:470px;padding:10px 0;}
 .hcard{border-radius:22px;overflow:hidden;box-shadow:0 18px 40px rgba(50,35,15,.16);background:#F4F4F2;
   opacity:0;transform:translateY(34px) scale(.97);animation:hIn .8s cubic-bezier(.2,.65,.25,1) forwards;}
-.hcard img{display:block;width:100%;height:auto;}
+.hcard img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;}
 .hcard.s1{width:31.5%;animation-delay:.15s;}
 .hcard.s2{width:41%;animation-delay:0s;z-index:2;}
 .hcard.s3{width:31.5%;animation-delay:.3s;}
@@ -278,7 +282,7 @@ header.nav.scrolled{box-shadow:0 6px 24px rgba(30,25,19,.10);}
 
 /* product card imagery + hover swap */
 .pcard .pimg{position:relative;width:100%;border-radius:16px;overflow:hidden;background:#F4F4F2;margin-bottom:20px;}
-.pcard .pimg img{display:block;width:100%;height:auto;transition:opacity .45s ease,transform .6s ease;}
+.pcard .pimg img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;transition:opacity .45s ease,transform .6s ease;}
 .pcard .pimg img.alt{position:absolute;inset:0;opacity:0;}
 .pcard:hover .pimg img.alt{opacity:1;}
 .pcard:hover .pimg img.base{transform:scale(1.04);}
