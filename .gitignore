@@ -1,0 +1,10 @@
+# temp / generator files
+_*.html
+_*.png
+.DS_Store
+Thumbs.db
+
+# deploy / tooling
+.vercel
+.netlify
+node_modules
