@@ -11,12 +11,12 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="HAVN — Rise · Calm · Rest. Your daily ritual.">
 <meta property="og:description" content="Three clean formulas for the three parts of your day. Focus, balance, sleep — one simple ritual.">
-<meta property="og:image" content="assets/og.png">
+<meta property="og:image" content="assets/products/trio_official.jpg">
 <meta property="og:url" content="https://havn.co">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="HAVN — Rise · Calm · Rest.">
 <meta name="twitter:description" content="A daily supplement ritual: focus, balance, sleep.">
-<meta name="twitter:image" content="assets/og.png">
+<meta name="twitter:image" content="assets/products/trio_official.jpg">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Brand","name":"HAVN","slogan":"Rise. Calm. Rest. Your daily ritual.","url":"https://havn.co","logo":"https://havn.co/assets/favicon.png","makesOffer":[
 {"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Rise — Lion's Mane 1000mg","category":"Dietary Supplement","description":"Organic Lion's Mane for memory, focus and clarity."},"price":"31.00","priceCurrency":"USD"},
@@ -74,7 +74,7 @@ header.nav{position:sticky;top:0;z-index:50;background:rgba(246,239,225,.86);bac
 
 /* hero */
 .hero{position:relative;padding:60px 0 40px;overflow:hidden;}
-.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:20px;align-items:center;}
+.hero-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:24px;align-items:center;}
 .hero h1{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 125;font-size:clamp(58px,8vw,116px);line-height:.86;letter-spacing:-3px;text-transform:uppercase;}
 .hero h1 .r{color:var(--rise);} .hero h1 .c{color:var(--calm);} .hero h1 .s{color:var(--rest);}
 .hero p.lead{font-size:19px;color:var(--muted);max-width:440px;margin:22px 0 30px;}
@@ -244,6 +244,78 @@ footer a:hover{color:#fff;}
   .badge{font-size:11px;padding:9px 15px;}
   .foot-bot{font-size:11px;}
 }
+
+/* ================= MOTION SYSTEM ================= */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.6,.2,1),transform .7s cubic-bezier(.2,.6,.2,1);}
+.reveal.in{opacity:1;transform:none;}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
+
+/* nav scrolled state */
+header.nav{transition:box-shadow .25s;}
+header.nav.scrolled{box-shadow:0 6px 24px rgba(30,25,19,.10);}
+.nav-links a.active{color:var(--ink);}
+
+/* hero product cards (official mockups) */
+.hero-stage{align-items:center;gap:20px;height:auto;min-height:470px;padding:10px 0;}
+.hcard{border-radius:22px;overflow:hidden;box-shadow:0 18px 40px rgba(50,35,15,.16);background:#F4F4F2;
+  opacity:0;transform:translateY(34px) scale(.97);animation:hIn .8s cubic-bezier(.2,.65,.25,1) forwards;}
+.hcard img{display:block;width:100%;height:auto;}
+.hcard.s1{width:31.5%;animation-delay:.15s;}
+.hcard.s2{width:41%;animation-delay:0s;z-index:2;}
+.hcard.s3{width:31.5%;animation-delay:.3s;}
+@keyframes hIn{to{opacity:1;transform:none;}}
+.hcard.float1{animation:hIn .8s .15s cubic-bezier(.2,.65,.25,1) forwards, bob 5.2s 1.2s ease-in-out infinite;}
+.hcard.float2{animation:hIn .8s 0s  cubic-bezier(.2,.65,.25,1) forwards, bob 6s 1.4s ease-in-out infinite;}
+.hcard.float3{animation:hIn .8s .3s cubic-bezier(.2,.65,.25,1) forwards, bob 5.6s 1.6s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+
+/* marquee ribbon */
+.marquee{background:var(--ink);color:var(--cream);overflow:hidden;padding:13px 0;border-top:1px solid rgba(255,255,255,.08);}
+.marquee .track{display:flex;gap:0;white-space:nowrap;width:max-content;animation:mq 26s linear infinite;}
+.marquee span{font-family:var(--monob);font-size:13px;letter-spacing:2.5px;text-transform:uppercase;padding:0 26px;}
+.marquee .r{color:var(--rise);} .marquee .c{color:var(--calm);} .marquee .s{color:#8f86e8;}
+@keyframes mq{to{transform:translateX(-50%);}}
+
+/* product card imagery + hover swap */
+.pcard .pimg{position:relative;width:100%;border-radius:16px;overflow:hidden;background:#F4F4F2;margin-bottom:20px;}
+.pcard .pimg img{display:block;width:100%;height:auto;transition:opacity .45s ease,transform .6s ease;}
+.pcard .pimg img.alt{position:absolute;inset:0;opacity:0;}
+.pcard:hover .pimg img.alt{opacity:1;}
+.pcard:hover .pimg img.base{transform:scale(1.04);}
+.pcard .seelabel{font-family:var(--monob);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);
+  background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px;margin-bottom:14px;}
+.pcard .seelabel:hover{color:var(--ink);}
+
+/* lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(20,15,8,.72);display:none;align-items:center;justify-content:center;z-index:200;padding:24px;}
+.lightbox.open{display:flex;animation:lbIn .25s ease;}
+@keyframes lbIn{from{opacity:0}to{opacity:1}}
+.lightbox .lb-in{background:#fff;border-radius:18px;padding:18px;max-width:min(92vw,720px);max-height:88vh;overflow:auto;position:relative;}
+.lightbox img{display:block;width:100%;height:auto;}
+.lightbox .lb-x{position:absolute;top:10px;right:14px;background:var(--ink);color:var(--cream);border:none;border-radius:50%;width:34px;height:34px;font-size:18px;cursor:pointer;}
+
+/* offer visual */
+.offer-visual{border-radius:20px;overflow:hidden;box-shadow:0 20px 44px rgba(0,0,0,.25);margin-bottom:18px;}
+.offer-visual img{display:block;width:100%;height:auto;}
+
+/* gift options clickable */
+.gopt{cursor:pointer;transition:opacity .15s;}
+.gopt:hover{opacity:.85;}
+
+/* count-up */
+.sci .k{font-variant-numeric:tabular-nums;}
+
+/* ship-bar celebrate */
+.ship-bar .fill.full{animation:pulseb .9s ease 2;}
+@keyframes pulseb{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25)}}
+
+/* reduced motion: kill it all */
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1;transform:none;transition:none;}
+  .hcard,.hcard.float1,.hcard.float2,.hcard.float3{animation:none;opacity:1;transform:none;}
+  .marquee .track{animation:none;}
+  html{scroll-behavior:auto;}
+}
 </style>
 </head>
 <body>
@@ -281,22 +353,27 @@ footer a:hover{color:#fff;}
       <div class="hero-note">◇ Vegan · Non-GMO · Third-party tested · Made in the USA</div>
     </div>
     <div class="hero-stage">
-      <div class="bottle rise hb"><div class="cap"></div><div class="neck"></div><div class="body"><div class="b-top"><span class="w">HAVN</span><span class="n">N°01</span></div><div><div class="b-name">Rise</div><div class="b-ing">LION'S MANE · 1000MG</div></div><div class="b-ben">Focus<br>&amp; clarity.</div><div class="b-bot"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><g stroke-linecap="round"><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.7 4.7l1.7 1.7M17.6 17.6l1.7 1.7M19.3 4.7l-1.7 1.7M6.4 17.6l-1.7 1.7"/></g></svg><span>60 CAPS</span></div></div></div>
-      <div class="bottle calm hb hb-mid"><div class="cap"></div><div class="neck"></div><div class="body"><div class="b-top"><span class="w">HAVN</span><span class="n">N°02</span></div><div><div class="b-name">Calm</div><div class="b-ing">ASHWAGANDHA+ · KSM-66®</div></div><div class="b-ben">Stress<br>relief.</div><div class="b-bot"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><path d="M3 18h18" stroke-linecap="round"/></svg><span>60 CAPS</span></div></div></div>
-      <div class="bottle rest hb"><div class="cap"></div><div class="neck"></div><div class="body"><div class="b-top"><span class="w">HAVN</span><span class="n">N°03</span></div><div><div class="b-name">Rest</div><div class="b-ing">MAGNESIUM · 275MG</div></div><div class="b-ben">Deep<br>sleep.</div><div class="b-bot"><svg viewBox="0 0 24 24"><path d="M16.5 3.2a9 9 0 1 0 4.8 15.2A7.3 7.3 0 0 1 16.5 3.2Z"/></svg><span>90 CAPS</span></div></div></div>
+      <div class="hcard s1 float1"><img src="assets/products/rise_front.jpg" alt="HAVN RISE — Lion's Mane 1000mg bottle" loading="eager"></div>
+      <div class="hcard s2 float2"><img src="assets/products/calm_front.jpg" alt="HAVN CALM — Ashwagandha Plus bottle" loading="eager"></div>
+      <div class="hcard s3 float3"><img src="assets/products/rest_front.jpg" alt="HAVN REST — Magnesium Glycinate bottle" loading="eager"></div>
     </div>
-    <img class="hero-img" src="assets/trio_hero.png" alt="HAVN Rise, Calm and Rest supplement trio">
+    <img class="hero-img" src="assets/products/trio_official.jpg" alt="HAVN Rise, Calm and Rest supplement trio">
   </div>
 </section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true"><div class="track" id="mqtrack">
+  <span><b class="r">☀ RISE</b></span><span>FOCUS</span><span><b class="c">◐ CALM</b></span><span>BALANCE</span><span><b class="s">☾ REST</b></span><span>SLEEP</span><span>THE HAVN DAILY RITUAL</span>
+</div></div>
 
 <!-- RITUAL -->
 <section class="ritual" id="ritual">
   <div class="wrap">
-    <div class="sec-head"><div class="eyebrow" style="color:#8B8172">Morning to night</div><h2>One ritual, three moments</h2><p style="color:#C9BFB0">HAVN maps to your day. Take each formula when your body needs it — the set is designed to work together.</p></div>
+    <div class="sec-head reveal"><div class="eyebrow" style="color:#8B8172">Morning to night</div><h2>One ritual, three moments</h2><p style="color:#C9BFB0">HAVN maps to your day. Take each formula when your body needs it — the set is designed to work together.</p></div>
     <div class="steps">
-      <div class="step rise"><div class="idx">01</div><div class="when">A.M. · Morning</div><div class="t">Rise</div><p>Organic Lion’s Mane for memory, focus and a clear head to start the day. Two capsules with breakfast.</p></div>
-      <div class="step calm"><div class="idx">02</div><div class="when">Midday · Afternoon</div><div class="t">Calm</div><p>KSM-66® Ashwagandha plus adaptogens to take the edge off stress — calm, not drowsy. Two capsules with water.</p></div>
-      <div class="step rest"><div class="idx">03</div><div class="when">P.M. · Night</div><div class="t">Rest</div><p>Gentle, highly-absorbable Magnesium Glycinate to wind down and sink into deep, restful sleep. Three capsules before bed.</p></div>
+      <div class="step rise reveal"><div class="idx">01</div><div class="when">A.M. · Morning</div><div class="t">Rise</div><p>Organic Lion’s Mane for memory, focus and a clear head to start the day. Two capsules with breakfast.</p></div>
+      <div class="step calm reveal d1"><div class="idx">02</div><div class="when">Midday · Afternoon</div><div class="t">Calm</div><p>KSM-66® Ashwagandha plus adaptogens to take the edge off stress — calm, not drowsy. Two capsules with water.</p></div>
+      <div class="step rest reveal d2"><div class="idx">03</div><div class="when">P.M. · Night</div><div class="t">Rest</div><p>Gentle, highly-absorbable Magnesium Glycinate to wind down and sink into deep, restful sleep. Three capsules before bed.</p></div>
     </div>
   </div>
 </section>
@@ -304,7 +381,7 @@ footer a:hover{color:#fff;}
 <!-- PRODUCTS -->
 <section class="products" id="products">
   <div class="wrap">
-    <div class="sec-head"><div class="eyebrow">Shop the range</div><h2>Pick your formula</h2><p>Start with one, or take the full ritual. Every bottle is a 30-day supply.</p></div>
+    <div class="sec-head reveal"><div class="eyebrow">Shop the range</div><h2>Pick your formula</h2><p>Start with one, or take the full ritual. Every bottle is a 30-day supply.</p></div>
     <div class="modetoggle" role="group" aria-label="Purchase type">
       <button id="mSub" class="mt on" onclick="setMode(true)">Subscribe &amp; Save 15%</button>
       <button id="mOne" class="mt" onclick="setMode(false)">One-time</button>
@@ -317,7 +394,7 @@ footer a:hover{color:#fff;}
 <section class="offer" id="trio">
   <div class="wrap">
     <div class="offer-card">
-      <div>
+      <div class="reveal">
         <div class="eyebrow" style="color:rgba(255,255,255,.85)">Best value · complete ritual</div>
         <h2>The Trio</h2>
         <div class="big-price"><span class="now">$92</span><span class="was">$108</span><span class="save">SUBSCRIBE &amp; SAVE 15%</span></div>
@@ -330,12 +407,13 @@ footer a:hover{color:#fff;}
         </ul>
         <button class="btn" onclick="setMode(true);addTrio()">Add the Trio — $92/mo</button>
       </div>
-      <div class="gift">
+      <div class="gift reveal d1">
+        <div class="offer-visual"><img src="assets/products/rest_duo.jpg" alt="HAVN REST bottle with capsules spilling out" loading="lazy"></div>
         <div class="eyebrow">Your free gift with the Trio — choose 1</div>
         <div style="margin-top:12px">
-          <div class="gopt"><span class="dot" id="g1">✓</span> Gut Health capsules <span style="margin-left:auto;opacity:.7;font-family:var(--mono);font-size:12px">Recommended</span></div>
-          <div class="gopt"><span class="dot"></span> GLP-1 Metabolism Support</div>
-          <div class="gopt"><span class="dot"></span> Normal Blood Sugar Drops</div>
+          <div class="gopt" onclick="pickGift(this,'Gut Health capsules')" role="radio" aria-checked="true"><span class="dot" id="g1">✓</span> Gut Health capsules <span style="margin-left:auto;opacity:.7;font-family:var(--mono);font-size:12px">Recommended</span></div>
+          <div class="gopt" onclick="pickGift(this,'GLP-1 Metabolism Support')" role="radio" aria-checked="false"><span class="dot"></span> GLP-1 Metabolism Support</div>
+          <div class="gopt" onclick="pickGift(this,'Normal Blood Sugar Drops')" role="radio" aria-checked="false"><span class="dot"></span> Normal Blood Sugar Drops</div>
         </div>
         <p style="font-family:var(--mono);font-size:11.5px;opacity:.8;margin-top:16px">Gift + free shipping repeat on every Trio subscription order. Cancel anytime — but you’ll lose the perks.</p>
       </div>
@@ -346,8 +424,8 @@ footer a:hover{color:#fff;}
 <!-- TRUST -->
 <section class="trust">
   <div class="wrap">
-    <div class="sec-head"><div class="eyebrow">No fillers. No junk.</div><h2>Clean by default</h2></div>
-    <div class="badgerow">
+    <div class="sec-head reveal"><div class="eyebrow">No fillers. No junk.</div><h2>Clean by default</h2></div>
+    <div class="badgerow reveal">
       <span class="badge">Vegan</span><span class="badge">Non-GMO</span><span class="badge">Gluten-Free</span>
       <span class="badge">Third-Party Tested</span><span class="badge">Made in the USA</span><span class="badge">cGMP Facility</span><span class="badge">No Artificial Fillers</span>
     </div>
@@ -357,11 +435,11 @@ footer a:hover{color:#fff;}
 <!-- SCIENCE -->
 <section id="science">
   <div class="wrap">
-    <div class="sec-head"><div class="eyebrow">Dosed to matter</div><h2>Real actives, real amounts</h2><p>We use studied ingredients at studied doses — the stuff that actually does something.</p></div>
+    <div class="sec-head reveal"><div class="eyebrow">Dosed to matter</div><h2>Real actives, real amounts</h2><p>We use studied ingredients at studied doses — the stuff that actually does something.</p></div>
     <div class="sci-grid">
-      <div class="sci rise"><div class="k">1000mg</div><h4>Rise · Lion’s Mane</h4><p>Organic fruiting body &amp; mycelium, standardized to 40% polysaccharides for cognitive support.</p></div>
-      <div class="sci calm"><div class="k">600mg</div><h4>Calm · KSM-66® Ashwagandha</h4><p>The most clinically-studied ashwagandha root extract, plus B-vitamins, maca and ginseng.</p></div>
-      <div class="sci rest"><div class="k">275mg</div><h4>Rest · Magnesium</h4><p>Chelated magnesium glycinate — the gentle, highly-absorbable form your body actually uses.</p></div>
+      <div class="sci rise reveal"><div class="k">1000mg</div><h4>Rise · Lion’s Mane</h4><p>Organic fruiting body &amp; mycelium, standardized to 40% polysaccharides for cognitive support.</p></div>
+      <div class="sci calm reveal d1"><div class="k">600mg</div><h4>Calm · KSM-66® Ashwagandha</h4><p>The most clinically-studied ashwagandha root extract, plus B-vitamins, maca and ginseng.</p></div>
+      <div class="sci rest reveal d2"><div class="k">275mg</div><h4>Rest · Magnesium</h4><p>Chelated magnesium glycinate — the gentle, highly-absorbable form your body actually uses.</p></div>
     </div>
   </div>
 </section>
@@ -369,11 +447,11 @@ footer a:hover{color:#fff;}
 <!-- REVIEWS -->
 <section class="reviews" id="reviews">
   <div class="wrap">
-    <div class="sec-head"><div class="eyebrow" style="color:#8B8172">4.8 ★ from early members</div><h2>People feel the difference</h2></div>
+    <div class="sec-head reveal"><div class="eyebrow" style="color:#8B8172">4.8 ★ from early members</div><h2>People feel the difference</h2></div>
     <div class="rgrid">
-      <div class="review"><div class="stars">★★★★★</div><p>“Rise is the first nootropic that actually cuts through my morning fog. And the packaging is gorgeous on my desk.”</p><div class="who">— Maya R., verified</div></div>
-      <div class="review"><div class="stars">★★★★★</div><p>“Calm does exactly what it says — I’m less wound up by 3pm without feeling sleepy. The trio just works.”</p><div class="who">— Dev P., verified</div></div>
-      <div class="review"><div class="stars">★★★★★</div><p>“Rest knocked out my 2am wake-ups. Falling back asleep is easy now. Won’t run out — I subscribed.”</p><div class="who">— Jordan K., verified</div></div>
+      <div class="review reveal"><div class="stars">★★★★★</div><p>“Rise is the first nootropic that actually cuts through my morning fog. And the packaging is gorgeous on my desk.”</p><div class="who">— Maya R., verified</div></div>
+      <div class="review reveal d1"><div class="stars">★★★★★</div><p>“Calm does exactly what it says — I’m less wound up by 3pm without feeling sleepy. The trio just works.”</p><div class="who">— Dev P., verified</div></div>
+      <div class="review reveal d2"><div class="stars">★★★★★</div><p>“Rest knocked out my 2am wake-ups. Falling back asleep is easy now. Won’t run out — I subscribed.”</p><div class="who">— Jordan K., verified</div></div>
     </div>
   </div>
 </section>
@@ -381,7 +459,7 @@ footer a:hover{color:#fff;}
 <!-- FAQ -->
 <section class="faq" id="faq">
   <div class="wrap" style="max-width:900px">
-    <div class="sec-head"><div class="eyebrow">Good to know</div><h2>Questions, answered</h2></div>
+    <div class="sec-head reveal"><div class="eyebrow">Good to know</div><h2>Questions, answered</h2></div>
     <details open><summary>How does the subscription work?</summary><p>Choose Subscribe &amp; Save at checkout to lock in 15% off and free shipping on the Trio. Your ritual arrives every 30 days. Skip, swap, or cancel anytime from your account — no phone calls, no hassle.</p></details>
     <details><summary>What’s the free gift with the Trio?</summary><p>Every Trio subscription includes a free bonus product each month — your pick of Gut Health capsules, GLP-1 Metabolism Support, or Normal Blood Sugar Drops. It ships with your order and repeats every cycle you stay subscribed.</p></details>
     <details><summary>When will I feel a difference?</summary><p>Rest and Calm are often felt within the first few days. Rise (Lion’s Mane) builds over 2–4 weeks of consistent daily use. That’s why we back it with a 30-day “feel it or free” guarantee.</p></details>
@@ -399,7 +477,7 @@ footer a:hover{color:#fff;}
       </div>
       <div><h5>Shop</h5><ul><li><a href="#products">Rise</a></li><li><a href="#products">Calm</a></li><li><a href="#products">Rest</a></li><li><a href="#trio">The Trio</a></li></ul></div>
       <div><h5>Company</h5><ul><li><a href="#science">Why HAVN</a></li><li><a href="#reviews">Reviews</a></li><li><a href="#faq">FAQ</a></li><li><a href="mailto:hello@havn.co">Contact</a></li></ul></div>
-      <div><h5>Get 15% off</h5><p style="color:#C9BFB0;font-size:13px;margin-bottom:12px">Join the ritual. First order, first to know.</p><input type="email" aria-label="Email address" style="width:100%;padding:12px;border-radius:10px;border:none;background:rgba(255,255,255,.1);color:#fff;font-family:var(--mono);font-size:13px" placeholder="you@email.com"><button class="btn rise" style="width:100%;justify-content:center;margin-top:10px">Subscribe</button></div>
+      <div><h5>Get 15% off</h5><p style="color:#C9BFB0;font-size:13px;margin-bottom:12px">Join the ritual. First order, first to know.</p><input id="nlemail" type="email" aria-label="Email address" style="width:100%;padding:12px;border-radius:10px;border:none;background:rgba(255,255,255,.1);color:#fff;font-family:var(--mono);font-size:13px" placeholder="you@email.com"><button class="btn rise" style="width:100%;justify-content:center;margin-top:10px" onclick="joinList(this)">Subscribe</button></div>
     </div>
     <div class="foot-bot">
       <span>© 2026 HAVN. These statements have not been evaluated by the FDA. Not intended to diagnose, treat, cure or prevent any disease.</span>
@@ -408,6 +486,11 @@ footer a:hover{color:#fff;}
     </div>
   </div>
 </footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLabel()" role="dialog" aria-label="Supplement Facts">
+  <div class="lb-in"><button class="lb-x" aria-label="Close" onclick="closeLabel()">×</button><img id="lbimg" src="" alt=""></div>
+</div>
 
 <!-- CART -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
@@ -445,19 +528,24 @@ function unitPrice(i){ return i.trio ? (subscribe?92:108)/3 : (subscribe ? i.sub
 function trioPrice(){ return subscribe ? 92 : 108; }
 
 function renderProducts(){
-  document.getElementById('pgrid').innerHTML = PRODUCTS.map(p=>{
+  document.getElementById('pgrid').innerHTML = PRODUCTS.map((p,i)=>{
     const main = subscribe ? p.subPrice : p.price;
     const suf  = subscribe ? ' /mo · sub' : ' one-time';
     const alt  = subscribe ? `or $${p.price} one-time` : `or $${p.subPrice}/mo subscribe`;
-    return `<div class="pcard ${p.cls}">
-      <div class="stage">${bottleHTML(p,168)}</div>
+    return `<div class="pcard ${p.cls} reveal d${i+1}">
+      <div class="pimg">
+        <img class="base" src="assets/products/${p.id}_front.jpg" alt="HAVN ${p.name} bottle" loading="lazy">
+        <img class="alt" src="assets/products/${p.id}_duo.jpg" alt="HAVN ${p.name} bottle with capsules" loading="lazy">
+      </div>
       <h3>${p.name}</h3><div class="sub">${p.sub}</div>
       <div class="desc">${p.desc}</div>
+      <button class="seelabel" onclick="openLabel('${p.id}','${p.name}')">See the label ↗</button>
       <div class="price">$${main}<small>${suf}</small></div>
       <div class="subprice">${alt}</div>
       <button class="btn" onclick="addItem('${p.id}')">Add to ritual</button>
     </div>`;
   }).join('');
+  wireReveals();
 }
 function updateTrioBtn(){
   const t = document.getElementById('trioBtn');
@@ -490,13 +578,75 @@ function update(){
   document.getElementById('shipFill').style.width = Math.min(100, st/FREE_SHIP*100)+'%';
   const rem = FREE_SHIP - st;
   document.getElementById('shipMsg').textContent = st>=FREE_SHIP ? '✓ Free shipping + free gift unlocked!' : `Add $${rem.toFixed(0)} for free shipping + a free gift`;
-  document.getElementById('giftLine').style.display = st>=FREE_SHIP ? 'block':'none';
+  document.getElementById('shipFill').classList.toggle('full', st>=FREE_SHIP);
+  const gl = document.getElementById('giftLine');
+  gl.style.display = st>=FREE_SHIP ? 'block':'none';
+  gl.textContent = '🎁 Free gift unlocked — ' + (typeof giftChoice!=='undefined'?giftChoice:'your pick') + ' added at checkout';
 }
 function toggleMenu(){ const n=document.querySelector('.nav-links'); n.style.display = (n.style.display==='flex')?'':'flex'; }
 function openCart(){ document.getElementById('drawer').classList.add('open'); document.getElementById('overlay').classList.add('open'); }
 function closeCart(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
 function checkout(){ if(!cart.length){return;} alert('Demo checkout — wire this button to a Stripe Payment Link or Checkout Session to go live.'); }
-renderProducts(); updateTrioBtn(); update();
+
+/* ---------- motion & interaction layer (scroll-sweep: works everywhere) ---------- */
+function countUp(el){
+  const txt = el.textContent, m = txt.match(/(\d+)/); if(!m) return;
+  const target = +m[1], suffix = txt.replace(m[1],'');
+  const t0 = performance.now(), dur = 1100;
+  function tick(t){
+    const k = Math.min(1,(t-t0)/dur), v = Math.round(target*(1-Math.pow(1-k,3)));
+    el.textContent = v + suffix;
+    if(k<1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+  setTimeout(()=>{ el.textContent = target + suffix; }, dur + 250); // guarantee final value even in throttled tabs
+}
+function motionSweep(){
+  const vh = innerHeight * 0.92;
+  document.querySelectorAll('.reveal:not(.in)').forEach(el=>{
+    if(el.getBoundingClientRect().top < vh) el.classList.add('in');
+  });
+  document.querySelectorAll('.sci .k:not(.counted)').forEach(el=>{
+    if(el.getBoundingClientRect().top < vh){ el.classList.add('counted'); countUp(el); }
+  });
+}
+addEventListener('scroll', motionSweep, {passive:true});
+addEventListener('resize', motionSweep, {passive:true});
+addEventListener('load', motionSweep);
+setTimeout(motionSweep, 400); setTimeout(motionSweep, 1500);
+function wireReveals(){ motionSweep(); }
+
+/* facts-label lightbox */
+function openLabel(id,name){
+  document.getElementById('lbimg').src = 'assets/products/facts_'+id+'.png';
+  document.getElementById('lbimg').alt = 'HAVN '+name+' Supplement Facts';
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLabel(){ document.getElementById('lightbox').classList.remove('open'); }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeLabel(); closeCart(); } });
+
+/* gift selector */
+let giftChoice = 'Gut Health capsules';
+function pickGift(el,name){
+  giftChoice = name;
+  document.querySelectorAll('.gopt .dot').forEach(d=>d.textContent='');
+  el.querySelector('.dot').textContent = '✓';
+  update();
+}
+
+/* newsletter */
+function joinList(btn){
+  const input = document.getElementById('nlemail');
+  if(!input.value || !input.value.includes('@')){ input.focus(); return; }
+  try{ localStorage.setItem('havn_nl', input.value); }catch(e){}
+  btn.textContent = "You're in ✓"; btn.disabled = true; input.disabled = true;
+}
+
+/* nav scrolled + marquee loop */
+addEventListener('scroll',()=>{ document.querySelector('header.nav').classList.toggle('scrolled', scrollY>8); },{passive:true});
+const mq = document.getElementById('mqtrack'); if(mq){ mq.innerHTML += mq.innerHTML; }
+
+renderProducts(); updateTrioBtn(); update(); wireReveals();
 if(location.hash==='#cart'){ addTrio(); openCart(); }
 </script>
 </body>
