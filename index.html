@@ -496,6 +496,17 @@ header.nav.scrolled{box-shadow:0 6px 24px rgba(30,25,19,.10);}
   <div class="lb-in"><button class="lb-x" aria-label="Close" onclick="closeLabel()">×</button><img id="lbimg" src="" alt=""></div>
 </div>
 
+<!-- CHECKOUT MODAL (pre-launch) -->
+<div class="lightbox" id="ckmodal" onclick="if(event.target===this)this.classList.remove('open')" role="dialog" aria-label="Checkout">
+  <div class="lb-in" style="max-width:440px;padding:34px 32px;text-align:center;">
+    <button class="lb-x" aria-label="Close" onclick="document.getElementById('ckmodal').classList.remove('open')">×</button>
+    <div style="font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:30px;text-transform:uppercase;letter-spacing:-.5px;margin-bottom:10px;">Almost live</div>
+    <p style="color:var(--muted);font-size:15px;line-height:1.55;margin-bottom:20px;">Checkout opens at launch. Drop your email below and you'll be first in line — with <b style="color:var(--ink)">15% off your first ritual</b>.</p>
+    <input id="ckemail" type="email" aria-label="Email address" placeholder="you@email.com" style="width:100%;padding:13px;border-radius:10px;border:1.5px solid var(--line);font-family:var(--mono);font-size:13px;margin-bottom:10px;">
+    <button class="btn rise" style="width:100%;justify-content:center;" onclick="ckJoin(this)">Notify me at launch</button>
+  </div>
+</div>
+
 <!-- CART -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <aside class="drawer" id="drawer">
@@ -590,7 +601,13 @@ function update(){
 function toggleMenu(){ const n=document.querySelector('.nav-links'); n.style.display = (n.style.display==='flex')?'':'flex'; }
 function openCart(){ document.getElementById('drawer').classList.add('open'); document.getElementById('overlay').classList.add('open'); }
 function closeCart(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
-function checkout(){ if(!cart.length){return;} alert('Demo checkout — wire this button to a Stripe Payment Link or Checkout Session to go live.'); }
+function checkout(){ if(!cart.length){return;} closeCart(); document.getElementById('ckmodal').classList.add('open'); }
+function ckJoin(btn){
+  const input = document.getElementById('ckemail');
+  if(!input.value || !input.value.includes('@')){ input.focus(); return; }
+  try{ localStorage.setItem('havn_waitlist', input.value); }catch(e){}
+  btn.textContent = "You're on the list ✓"; btn.disabled = true; input.disabled = true;
+}
 
 /* ---------- motion & interaction layer (scroll-sweep: works everywhere) ---------- */
 function countUp(el){
