@@ -2,18 +2,19 @@
 
 Marketing / commerce landing page for **HAVN**, a three-part daily supplement ritual: **Rise** (focus) · **Calm** (balance) · **Rest** (sleep).
 
-Static, dependency-free, single file. Bold "Spectrum" design system (Archivo Expanded + Space Mono, per-SKU color coding). Includes a working cart drawer with the free-shipping ($79) + free-gift progress mechanic.
+Static, dependency-free. Bold "Spectrum" design system (Archivo Expanded + Space Mono, per-SKU color coding), official Supliful product photography, and a vanilla-JS motion system: staggered hero cards, marquee ribbon, scroll reveals, count-up stats, facts lightbox, hover image swaps. Working cart drawer with the free-shipping ($79) + free-gift progress mechanic and a Subscribe/One-time price toggle.
 
 ## Structure
 ```
 havn-site/
-├── index.html          # the whole site (inline CSS + JS)
+├── index.html              # the whole site (inline CSS + JS)
+├── policies.html · 404.html · sitemap.xml · robots.txt
 ├── assets/
-│   ├── trio_hero.png   # hero / mobile product image
-│   ├── og.png          # social share image (1200×630)
+│   ├── og_official.jpg     # social share image (1200×630, official render)
 │   ├── favicon.png / apple-touch-icon.png
-│   └── RISE/CALM/REST_front.png
-└── fonts/              # Archivo, Hanken Grotesk, Space Grotesk/Mono (self-hosted)
+│   └── products/           # official Supliful renders: {sku}_front/duo/stack.jpg,
+│                           # facts_{sku}.png, trio_official.jpg, capsules.jpg
+└── fonts/                  # Archivo, Hanken Grotesk, Space Grotesk/Mono (self-hosted)
 ```
 
 ## Run locally
