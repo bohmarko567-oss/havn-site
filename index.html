@@ -272,7 +272,7 @@ section{padding:84px 0;position:relative;}
 .puzzle{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:26px;padding:30px;backdrop-filter:blur(8px);}
 .puzzle .ptitle{font-family:var(--monob);font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);margin-bottom:20px;text-align:center;}
 /* the ritual ring — interactive circular tracker */
-.ring{position:relative;width:min(400px,100%);margin:0 auto 6px;aspect-ratio:1;}
+.ring{position:relative;width:min(400px,100%);margin:16px auto 6px;aspect-ratio:1;}
 .ring svg{width:100%;height:100%;display:block;}
 .rseg{fill:none;stroke:rgba(255,255,255,.14);stroke-width:16;stroke-linecap:round;}
 .rfill{fill:none;stroke-width:16;stroke-linecap:round;transition:stroke-dashoffset .8s var(--ease),filter .5s;}
@@ -281,17 +281,17 @@ section{padding:84px 0;position:relative;}
 .ring::before{content:'';position:absolute;top:47%;left:50%;transform:translate(-50%,-50%);width:58%;height:58%;border-radius:50%;
   background:radial-gradient(circle,rgba(200,30,120,.24),transparent 66%);transition:opacity .6s;opacity:.6;}
 .ring.done::before{opacity:1;}
-.raddrow{display:flex;gap:10px;justify-content:center;margin:0 0 8px;}
-.radd{flex:1;max-width:150px;min-height:50px;display:flex;align-items:center;justify-content:center;gap:8px;
-  font-family:var(--monob);font-size:12.5px;letter-spacing:1px;text-transform:uppercase;
-  border-radius:100px;border:1.5px solid rgba(255,255,255,.4);background:rgba(20,16,12,.6);color:var(--cream);cursor:pointer;
-  transition:background .3s,border-color .3s,color .3s,transform .2s var(--ease);}
-.radd b{font-size:18px;line-height:1;font-weight:800;}
-.radd:hover{transform:translateY(-2px);border-color:var(--cream);}
-.radd.filled{pointer-events:none;}
-.radd.filled[data-sku="rise"]{background:var(--rise);border-color:var(--rise);color:var(--ink);}
-.radd.filled[data-sku="calm"]{background:var(--calm);border-color:var(--calm);color:var(--ink);}
-.radd.filled[data-sku="rest"]{background:#6E63E8;border-color:#6E63E8;color:#fff;}
+.rbtn{position:absolute;transform:translate(-50%,-50%);width:80px;height:80px;border-radius:50%;z-index:2;
+  border:1.5px solid rgba(255,255,255,.4);background:rgba(20,16,12,.82);color:var(--cream);cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:transform .25s var(--ease),border-color .3s,background .3s,color .3s;}
+.rbtn b{font-size:26px;line-height:1;font-weight:800;}
+.rbtn span{font-family:var(--monob);font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.rbtn:hover{transform:translate(-50%,-50%) scale(1.12);border-color:var(--cream);}
+.rbtn.filled{pointer-events:none;}
+.rbtn.filled[data-sku="rise"]{background:var(--rise);border-color:var(--rise);color:var(--ink);}
+.rbtn.filled[data-sku="calm"]{background:var(--calm);border-color:var(--calm);color:var(--ink);}
+.rbtn.filled[data-sku="rest"]{background:#6E63E8;border-color:#6E63E8;color:#fff;}
 .rcenter{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64%;border:none;background:none;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;text-align:center;color:var(--cream);padding:0;}
 .rcenter img{height:128px;width:auto;filter:grayscale(.8) opacity(.8) drop-shadow(0 14px 18px rgba(0,0,0,.4));transition:filter .6s var(--ease),transform .6s var(--ease);}
@@ -302,7 +302,6 @@ section{padding:84px 0;position:relative;}
 .rcenter .s4price{display:flex;align-items:baseline;gap:8px;margin:2px 0;}
 .rcenter .s4price s{font-family:var(--disp);font-weight:900;font-size:28px;}
 .rcenter .s4price .free{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:36px;letter-spacing:-.5px;color:#F08BC0;text-transform:uppercase;}
-.rcenter .l3{font-family:var(--body);font-weight:600;font-size:16px;color:var(--cream);max-width:210px;line-height:1.4;}
 .puzzle .pfoot{font-size:15px;color:#E9E1D2;margin-top:18px;line-height:1.6;}
 .puzzle .pfoot b{color:#F08BC0;font-weight:400;}
 
@@ -483,10 +482,10 @@ footer input:focus{border-color:var(--rise);outline:none;}
   .pgrid,.sci-grid,.ritual .steps{grid-template-columns:1fr;}
   .step{padding:26px 22px;}
   .puzzle{padding:16px 14px 18px;}
-  .rcenter img{height:108px;}
-  .radd{font-size:11px;gap:6px;min-height:48px;}
-  .radd b{font-size:16px;}
-  .rcenter .l3{font-size:15px;max-width:190px;}
+  .rcenter img{height:104px;}
+  .rbtn{width:70px;height:70px;}
+  .rbtn b{font-size:22px;}
+  .rbtn span{font-size:10px;}
   .rcenter .s4price .free{font-size:31px;}
   .puzzle .pfoot{padding:0 8px;}
   .chip{font-size:10px;padding:9px 13px;gap:7px;}
@@ -691,17 +690,14 @@ footer input:focus{border-color:var(--rise);outline:none;}
             <path id="fill-calm" class="rfill calm"/>
             <path id="fill-rest" class="rfill rest"/>
           </svg>
+          <button class="rbtn" data-sku="rise" onclick="ringAdd('rise')" aria-label="Add Rise — piece 01 — to your ritual"><b>+</b><span>01 Rise</span></button>
+          <button class="rbtn" data-sku="calm" onclick="ringAdd('calm')" aria-label="Add Calm — piece 02 — to your ritual"><b>+</b><span>02 Calm</span></button>
+          <button class="rbtn" data-sku="rest" onclick="ringAdd('rest')" aria-label="Add Rest — piece 03 — to your ritual"><b>+</b><span>03 Rest</span></button>
           <button class="rcenter" id="rcenter" onclick="if(!complete())addTrio()" aria-label="N°04 Steady — free when the circle is complete. Tap to add the complete ritual.">
             <img src="assets/products/cut_steady.webp" width="411" height="1200" alt="" aria-hidden="true" loading="lazy">
             <span class="rc4">N°04 · Steady</span>
             <span class="s4price"><s>$18</s><span class="free shimtxt">Free</span></span>
-            <span class="l3" id="slot4msg">complete the circle to unlock</span>
           </button>
-        </div>
-        <div class="raddrow" id="raddrow">
-          <button class="radd" data-sku="rise" onclick="ringAdd('rise')" aria-label="Add Rise — piece 01 — to your ritual"><b>+</b>01 · Rise</button>
-          <button class="radd" data-sku="calm" onclick="ringAdd('calm')" aria-label="Add Calm — piece 02 — to your ritual"><b>+</b>02 · Calm</button>
-          <button class="radd" data-sku="rest" onclick="ringAdd('rest')" aria-label="Add Rest — piece 03 — to your ritual"><b>+</b>03 · Rest</button>
         </div>
         <div class="pfoot">On its own, STEADY (Normal Blood Sugar Drops — cinnamon bark, bitter melon, turmeric &amp; three more botanicals) runs <b>$18</b>. Complete the circle in one order and it drops to $0 — and stays $0 every month you keep the ritual.</div>
       </div>
@@ -938,7 +934,7 @@ function update(){
   ['rise','calm','rest'].forEach((id,i)=>{
     const f = hasSku(id); if(f) filled++;
     document.querySelectorAll('.cslots .cs')[i].classList.toggle('f', f);
-    const rb = document.querySelector(`#raddrow .radd[data-sku="${id}"]`);
+    const rb = document.querySelector(`#ring .rbtn[data-sku="${id}"]`);
     const seg = document.getElementById('fill-'+id);
     if(rb){ rb.classList.toggle('filled', f); rb.querySelector('b').textContent = f ? '✓' : '+';
             rb.setAttribute('aria-label', f ? `${id} is in your ritual` : `Add ${id} to your ritual`); }
@@ -947,7 +943,6 @@ function update(){
   $('cs4').classList.toggle('f', done || cart.singles.steady>0);
   $('slotLbl').innerHTML = done ? 'Ritual complete —<br>N°04 is yours, free' : 'Complete 01–03<br>to unlock N°04';
   const ring = $('ring'); if(ring) ring.classList.toggle('done', done);
-  $('slot4msg').textContent = done ? 'unlocked — $0 in your order' : (filled ? `${3-filled} to go — tap + to add` : 'complete the circle to unlock');
   $('giftLine').style.display = done ? 'flex' : 'none';
   $('ckBtn').disabled = itemCount()===0;
   $('ckBtn').textContent = itemCount()===0 ? 'Checkout' : `Checkout — ${fmt(st)}${subscribe&&st>0?'/mo':''}`;
@@ -994,10 +989,10 @@ function balloons(){
   setTimeout(()=>host.remove(), 11000);
 }
 
-/* ritual ring geometry — three 112° arcs; dim base + colored fill that draws in */
+/* ritual ring geometry — wide orbit (R150, well clear of the bottle), tap buttons ON the arcs */
 (function(){
   const svg = document.getElementById('ringsvg'); if(!svg) return;
-  const C=170, R=128, SPAN=112;
+  const C=170, R=150, SPAN=104;
   const pt = a => { const r=a*Math.PI/180; return [C+R*Math.sin(r), C-R*Math.cos(r)]; };
   [['rise',0],['calm',120],['rest',240]].forEach(([id,mid])=>{
     const [x0,y0]=pt(mid-SPAN/2), [x1,y1]=pt(mid+SPAN/2);
@@ -1009,6 +1004,8 @@ function balloons(){
     f.dataset.len = len;
     f.style.strokeDasharray = len;
     f.style.strokeDashoffset = len;      /* hidden until its piece is in the cart */
+    const bt = document.querySelector(`#ring .rbtn[data-sku="${id}"]`);
+    if(bt){ const [bx,by]=pt(mid); bt.style.left=(bx/340*100)+'%'; bt.style.top=(by/340*100)+'%'; }
   });
 })();
 
