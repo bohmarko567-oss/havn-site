@@ -75,6 +75,41 @@ img{max-width:100%;}
 /* ---------- living nebula + sparkles (canvas, 21st.dev-style) ---------- */
 .fx{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;}
 
+/* ---------- border beam (traveling light around a panel edge) ---------- */
+@property --bb-angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
+@keyframes bbspin{to{--bb-angle:360deg;}}
+.beam{position:relative;}
+.beam::before{content:'';position:absolute;inset:-1.5px;border-radius:inherit;padding:1.5px;
+  background:conic-gradient(from var(--bb-angle),transparent 0 78%,var(--bb-c,#F08BC0) 87%,#FFFFFF 92%,var(--bb-c,#F08BC0) 97%,transparent 100%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  animation:bbspin 6s linear infinite;pointer-events:none;}
+.pcard.steady.beam::before{--bb-c:var(--steady);animation-duration:7.5s;}
+
+/* ---------- shine sweep for primary CTAs ---------- */
+.btn.shine{position:relative;overflow:hidden;}
+.btn.shine::after{content:'';position:absolute;top:-2px;bottom:-2px;left:-70%;width:34%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.5),transparent);
+  transform:skewX(-18deg);animation:shinesweep 4.4s ease-in-out infinite;pointer-events:none;}
+@keyframes shinesweep{0%,62%{left:-70%}88%,100%{left:135%}}
+
+/* ---------- shimmer text ---------- */
+.shimtxt{background:linear-gradient(100deg,#F08BC0 22%,#FFFFFF 40%,#F08BC0 56%);background-size:230% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:shimtxt 3.4s linear infinite;}
+@keyframes shimtxt{to{background-position:-230% 0;}}
+
+/* ---------- cursor spotlight on cards ---------- */
+.spot{position:relative;}
+.spot::after{content:'';position:absolute;inset:0;border-radius:inherit;opacity:0;transition:opacity .35s;pointer-events:none;
+  background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),var(--spot-c,rgba(30,25,19,.07)),transparent 68%);}
+.spot:hover::after{opacity:1;}
+.pcard.rise{--spot-c:rgba(255,106,21,.13);} .pcard.calm{--spot-c:rgba(18,165,148,.13);}
+.pcard.rest{--spot-c:rgba(78,67,201,.12);} .pcard.steady{--spot-c:rgba(200,30,120,.12);}
+.sci.rise{--spot-c:rgba(255,106,21,.10);} .sci.calm{--spot-c:rgba(18,165,148,.10);}
+.sci.rest{--spot-c:rgba(78,67,201,.09);} .sci.steady{--spot-c:rgba(200,30,120,.09);}
+
+/* marquee: pause on hover */
+.marquee:hover .track{animation-play-state:paused;}
+
 /* ---------- announcement ---------- */
 .anno{background:var(--ink);color:var(--cream);font-family:var(--monob);font-size:12px;letter-spacing:1.5px;text-align:center;padding:10px 14px;text-transform:uppercase;position:relative;min-height:38px;}
 .anno .msg{position:absolute;inset:0;padding:10px 14px;opacity:0;transition:opacity .5s;display:flex;align-items:center;justify-content:center;gap:6px;}
@@ -470,7 +505,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
         <div class="plus4">+ Steady<small>N°04 — <s>$18</s> free with the full ritual</small></div>
         <p class="lead">Three clean formulas carry your day — focus, balance, deep sleep. Complete all three and the $18 fourth piece comes <b>free, every month</b>.</p>
         <div class="hero-cta">
-          <button id="trioBtn" class="btn rise mag" onclick="addTrio()">Complete the Ritual — $92/mo</button>
+          <button id="trioBtn" class="btn rise mag shine" onclick="addTrio()">Complete the Ritual — $92/mo</button>
           <a href="#products" class="btn ghost mag">Meet the formulas</a>
         </div>
         <div class="hero-note">◇ Designed in Denmark · Made in the USA · Vegan · Non-GMO · Third-party tested</div>
@@ -527,7 +562,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
     <div class="offer-grid">
       <div class="rv rl">
         <div class="eyebrow" style="color:#F08BC0">The completion offer</div>
-        <h2>Complete the ritual.<br><span class="hl">Claim the 4th piece.</span></h2>
+        <h2>Complete the ritual.<br><span class="hl shimtxt">Claim the 4th piece.</span></h2>
         <div class="big-price"><span class="now" id="offerNow">$92</span><span class="was" id="offerWas">$108</span><span class="save" id="offerSave">SUBSCRIBE &amp; SAVE 15%</span></div>
         <p style="max-width:440px;color:#E9E1D2">Rise + Calm + Rest, delivered monthly — and STEADY, our Normal Blood Sugar Drops, added free to <b style="color:#F08BC0">every single order</b>. On its own it's $18. With the full ritual it's always $0.</p>
         <ul>
@@ -536,10 +571,10 @@ footer input:focus{border-color:var(--rise);outline:none;}
           <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Skip, swap or cancel anytime</li>
           <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> 30-day “feel it or free” guarantee</li>
         </ul>
-        <button class="btn onwhite mag" id="offerBtn" onclick="addTrio()">Complete my ritual — $92/mo</button>
+        <button class="btn onwhite mag shine" id="offerBtn" onclick="addTrio()">Complete my ritual — $92/mo</button>
         <div class="mononote">Cancel and the gift stops. Complete and it returns — every month.</div>
       </div>
-      <div class="puzzle rv rr d1" id="puzzlePanel">
+      <div class="puzzle beam rv rr d1" id="puzzlePanel">
         <div class="ptitle">Your ritual — live status</div>
         <div class="slots" id="offerSlots">
           <div class="slot" data-sku="rise"><div class="sn">01</div><div class="sname">Rise</div></div>
@@ -551,7 +586,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
           <div class="s4t">
             <div class="l1">N°04 · The 4th piece</div>
             <div class="l2">Steady</div>
-            <div class="s4price"><s>$18</s><span class="free">Free</span></div>
+            <div class="s4price"><s>$18</s><span class="free shimtxt">Free</span></div>
             <div class="l3" id="slot4msg">when 01–03 are in your order</div>
           </div>
           <span class="badge-free">FREE</span>
@@ -578,10 +613,10 @@ footer input:focus{border-color:var(--rise);outline:none;}
   <div class="wrap">
     <div class="sec-head rv"><div class="eyebrow">Dosed to matter</div><h2>Real actives, real amounts</h2><p>Studied ingredients at studied doses — the stuff that actually does something.</p></div>
     <div class="sci-grid">
-      <div class="sci rise rv"><div class="k">1000mg</div><h4>Rise · Lion's Mane</h4><p>Organic fruiting body &amp; mycelium, standardized to 40% polysaccharides for cognitive support.</p></div>
-      <div class="sci calm rv d1"><div class="k">600mg</div><h4>Calm · KSM-66® Ashwagandha</h4><p>The most clinically-studied ashwagandha root extract, plus B-vitamins, maca and ginseng.</p></div>
-      <div class="sci rest rv d2"><div class="k">275mg</div><h4>Rest · Magnesium</h4><p>Chelated magnesium glycinate — the gentle, highly-absorbable form your body actually uses.</p></div>
-      <div class="sci steady rv d3"><div class="k">6</div><h4>Steady · Botanicals</h4><p>Cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander &amp; resveratrol. Free with the full ritual.</p></div>
+      <div class="sci rise spot rv"><div class="k">1000mg</div><h4>Rise · Lion's Mane</h4><p>Organic fruiting body &amp; mycelium, standardized to 40% polysaccharides for cognitive support.</p></div>
+      <div class="sci calm spot rv d1"><div class="k">600mg</div><h4>Calm · KSM-66® Ashwagandha</h4><p>The most clinically-studied ashwagandha root extract, plus B-vitamins, maca and ginseng.</p></div>
+      <div class="sci rest spot rv d2"><div class="k">275mg</div><h4>Rest · Magnesium</h4><p>Chelated magnesium glycinate — the gentle, highly-absorbable form your body actually uses.</p></div>
+      <div class="sci steady spot rv d3"><div class="k">6</div><h4>Steady · Botanicals</h4><p>Cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander &amp; resveratrol. Free with the full ritual.</p></div>
     </div>
   </div>
 </section>
@@ -640,7 +675,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
 <!-- STICKY MOBILE CTA -->
 <div class="stickycta" id="stickycta">
   <div class="stot" id="stickyTot">The 4-piece ritual<br>$92/mo</div>
-  <button class="btn rise" onclick="addTrio()">Complete the ritual</button>
+  <button class="btn rise shine" onclick="addTrio()">Complete the ritual</button>
 </div>
 
 <!-- LIGHTBOX -->
@@ -721,7 +756,7 @@ function renderProducts(){
     const alt  = p.id==='steady'
       ? `or <b>FREE</b> with the complete ritual`
       : (sale ? `or $${p.price} one-time` : `or $${p.subPrice}/mo subscribed`);
-    return `<div class="pcard ${p.cls} rv d${i+1}">
+    return `<div class="pcard ${p.cls} spot${p.id==='steady'?' beam':''} rv d${i+1}">
       ${extra||''}
       <div class="pimg">
         <img class="base" src="assets/products/${p.id}_front.jpg" width="1200" height="1200" alt="HAVN ${p.name} bottle" loading="lazy">
@@ -945,6 +980,14 @@ if(matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion
     });
     b.addEventListener('mouseleave', ()=>{ b.style.removeProperty('translate'); });
   });
+  /* cursor spotlight on cards (delegated — survives re-renders) */
+  document.addEventListener('mousemove', e=>{
+    const c = e.target.closest && e.target.closest('.spot');
+    if(!c) return;
+    const r = c.getBoundingClientRect();
+    c.style.setProperty('--mx', (e.clientX-r.left)+'px');
+    c.style.setProperty('--my', (e.clientY-r.top)+'px');
+  }, {passive:true});
 }
 
 /* ================= living nebula + sparkles (canvas FX) ================= */
