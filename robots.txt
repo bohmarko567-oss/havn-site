@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://havn.co/sitemap.xml
+Sitemap: https://havnritual.store/sitemap.xml
