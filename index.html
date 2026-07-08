@@ -270,20 +270,20 @@ section{padding:84px 0;position:relative;}
 .offer .mononote{font-family:var(--mono);font-size:12px;color:var(--muted2);margin-top:14px;}
 /* puzzle panel */
 .puzzle{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:26px;padding:30px;backdrop-filter:blur(8px);}
-.puzzle .ptitle{font-family:var(--monob);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:18px;}
+.puzzle .ptitle{font-family:var(--monob);font-size:13px;letter-spacing:2px;text-transform:uppercase;color:#E9E1D2;margin-bottom:18px;}
 /* the ritual ring — interactive circular tracker */
-.ring{position:relative;width:min(340px,92%);margin:4px auto 10px;aspect-ratio:1;}
+.ring{position:relative;width:min(385px,100%);margin:4px auto 10px;aspect-ratio:1;}
 .ring svg{width:100%;height:100%;display:block;}
-.rtrack{fill:none;stroke:rgba(255,255,255,.12);stroke-width:10;}
-.rseg{fill:none;stroke:rgba(255,255,255,.26);stroke-width:10;stroke-linecap:round;stroke-dasharray:3 9;transition:stroke .5s,filter .5s;}
+.rtrack{fill:none;stroke:rgba(255,255,255,.14);stroke-width:14;}
+.rseg{fill:none;stroke:rgba(255,255,255,.34);stroke-width:14;stroke-linecap:round;stroke-dasharray:4 10;transition:stroke .5s,filter .5s;}
 .rseg.on{stroke-dasharray:none;}
 .rseg.on.rise{stroke:var(--rise);} .rseg.on.calm{stroke:var(--calm);} .rseg.on.rest{stroke:#8F86E8;}
 .rseg.on{filter:drop-shadow(0 0 9px rgba(255,255,255,.28));}
-.rbtn{position:absolute;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;z-index:2;
+.rbtn{position:absolute;transform:translate(-50%,-50%);width:68px;height:68px;border-radius:50%;z-index:2;
   border:1.5px dashed rgba(255,255,255,.45);background:rgba(20,16,12,.9);color:var(--cream);cursor:pointer;
   display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .25s var(--ease),border-color .3s,background .3s,color .3s;}
-.rbtn b{font-size:20px;line-height:1;}
-.rbtn span{font-family:var(--monob);font-size:8px;letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.rbtn b{font-size:24px;line-height:1;}
+.rbtn span{font-family:var(--monob);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
 .rbtn:hover{transform:translate(-50%,-50%) scale(1.14);border-color:var(--cream);border-style:solid;}
 .rbtn.filled{border-style:solid;pointer-events:none;}
 .rbtn.filled[data-sku="rise"]{background:var(--rise);border-color:var(--rise);color:var(--ink);}
@@ -295,12 +295,12 @@ section{padding:84px 0;position:relative;}
 .rcenter:hover img{transform:scale(1.05);}
 .ring.done .rcenter{cursor:default;}
 .ring.done .rcenter img{filter:grayscale(0) opacity(1) drop-shadow(0 16px 22px rgba(200,30,120,.4));transform:rotate(-5deg) scale(1.07);}
-.rcenter .rc4{font-family:var(--monob);font-size:9.5px;letter-spacing:2px;color:#F08BC0;text-transform:uppercase;margin-top:7px;}
+.rcenter .rc4{font-family:var(--monob);font-size:12px;letter-spacing:2px;color:#F08BC0;text-transform:uppercase;margin-top:8px;}
 .rcenter .s4price{display:flex;align-items:baseline;gap:8px;margin:2px 0;}
-.rcenter .s4price s{font-family:var(--disp);font-weight:900;font-size:19px;}
-.rcenter .s4price .free{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:22px;letter-spacing:-.5px;color:#F08BC0;text-transform:uppercase;}
-.rcenter .l3{font-family:var(--mono);font-size:11px;color:var(--muted2);max-width:160px;line-height:1.45;}
-.puzzle .pfoot{font-family:var(--mono);font-size:12px;color:var(--muted2);margin-top:16px;line-height:1.55;}
+.rcenter .s4price s{font-family:var(--disp);font-weight:900;font-size:23px;}
+.rcenter .s4price .free{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:27px;letter-spacing:-.5px;color:#F08BC0;text-transform:uppercase;}
+.rcenter .l3{font-family:var(--mono);font-size:14px;color:#E9E1D2;max-width:175px;line-height:1.45;}
+.puzzle .pfoot{font-family:var(--mono);font-size:13.5px;color:#C9BFB0;margin-top:16px;line-height:1.6;}
 .puzzle .pfoot b{color:#F08BC0;font-weight:400;}
 
 /* trust */
@@ -480,8 +480,8 @@ footer input:focus{border-color:var(--rise);outline:none;}
   .pgrid,.sci-grid,.ritual .steps{grid-template-columns:1fr;}
   .step{padding:26px 22px;}
   .puzzle{padding:20px;}
-  .rcenter img{height:80px;}
-  .rbtn{width:52px;height:52px;}
+  .rcenter img{height:92px;}
+  .rbtn{width:62px;height:62px;}
   .chip{font-size:10px;padding:9px 13px;gap:7px;}
   .foot-bot{font-size:11px;}
   .stage{height:360px;}
