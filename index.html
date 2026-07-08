@@ -289,7 +289,7 @@ section{padding:84px 0;position:relative;}
 .rbtn.filled[data-sku="rise"]{background:var(--rise);border-color:var(--rise);color:var(--ink);}
 .rbtn.filled[data-sku="calm"]{background:var(--calm);border-color:var(--calm);color:var(--ink);}
 .rbtn.filled[data-sku="rest"]{background:#6E63E8;border-color:#6E63E8;color:#fff;}
-.rcenter{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:62%;border:none;background:none;cursor:pointer;
+.rcenter{position:absolute;top:47%;left:50%;transform:translate(-50%,-50%);width:62%;border:none;background:none;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;text-align:center;color:var(--cream);padding:0;}
 .rcenter img{height:128px;width:auto;filter:grayscale(.9) opacity(.55) drop-shadow(0 14px 18px rgba(0,0,0,.4));transition:filter .6s var(--ease),transform .6s var(--ease);}
 .rcenter:hover img{transform:scale(1.05);}
@@ -993,7 +993,9 @@ function balloons(){
   const svg = document.getElementById('ringsvg'); if(!svg) return;
   const C=170, R=128, SPAN=100;
   const pt = a => { const r=a*Math.PI/180; return [C+R*Math.sin(r), C-R*Math.cos(r)]; };
-  [['rise',0],['calm',120],['rest',240]].forEach(([id,mid])=>{
+  /* 60/180/300: side buttons ride high where the slim bottle leaves room,
+     one sits bottom-center below the text — nothing crosses the price line */
+  [['rise',300],['calm',180],['rest',60]].forEach(([id,mid])=>{
     const [x0,y0]=pt(mid-SPAN/2), [x1,y1]=pt(mid+SPAN/2);
     document.getElementById('arc-'+id).setAttribute('d', `M ${x0.toFixed(1)} ${y0.toFixed(1)} A ${R} ${R} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`);
     const bt = document.querySelector(`#ring .rbtn[data-sku="${id}"]`);
