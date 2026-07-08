@@ -271,26 +271,35 @@ section{padding:84px 0;position:relative;}
 /* puzzle panel */
 .puzzle{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:26px;padding:30px;backdrop-filter:blur(8px);}
 .puzzle .ptitle{font-family:var(--monob);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:18px;}
-.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-.slot{border:1.5px dashed rgba(255,255,255,.25);border-radius:16px;padding:14px 10px;text-align:center;transition:border-color .3s,background .3s;}
-.slot .sn{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 80;font-size:22px;color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.4);}
-.slot .sname{font-family:var(--monob);font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;color:#E9E1D2;}
-.slot.filled{border-style:solid;background:rgba(255,255,255,.07);}
-.slot.filled.rise{border-color:var(--rise);} .slot.filled.rise .sn{-webkit-text-stroke-color:var(--rise);color:var(--rise);}
-.slot.filled.calm{border-color:var(--calm);} .slot.filled.calm .sn{-webkit-text-stroke-color:var(--calm);color:var(--calm);}
-.slot.filled.rest{border-color:#8F86E8;} .slot.filled.rest .sn{-webkit-text-stroke-color:#8F86E8;color:#8F86E8;}
-.slot4{margin-top:12px;border:1.5px dashed rgba(240,139,192,.4);border-radius:20px;padding:20px;display:flex;gap:18px;align-items:center;position:relative;overflow:hidden;transition:border-color .4s,background .4s;}
-.slot4 img{height:152px;width:auto;filter:grayscale(.9) opacity(.55) drop-shadow(0 14px 18px rgba(0,0,0,.4));transition:filter .6s var(--ease),transform .6s var(--ease);}
-.slot4 .s4t .l1{font-family:var(--monob);font-size:10.5px;letter-spacing:2px;color:#F08BC0;text-transform:uppercase;}
-.slot4 .s4t .l2{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:30px;text-transform:uppercase;letter-spacing:-.5px;margin:3px 0;}
-.slot4 .s4t .l3{font-family:var(--mono);font-size:12px;color:var(--muted2);}
-.slot4 .s4price{display:flex;align-items:baseline;gap:10px;margin:4px 0 6px;}
-.slot4 .s4price s{font-family:var(--disp);font-weight:900;font-size:24px;}
-.slot4 .s4price .free{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:28px;letter-spacing:-.5px;color:#F08BC0;text-transform:uppercase;}
-.slot4.unlocked{border-style:solid;border-color:var(--steady);background:linear-gradient(140deg,rgba(200,30,120,.22),rgba(200,30,120,.05));}
-.slot4.unlocked img{filter:grayscale(0) opacity(1) drop-shadow(0 16px 22px rgba(200,30,120,.35));transform:rotate(-5deg) scale(1.05);}
-.slot4 .badge-free{position:absolute;top:14px;right:14px;background:var(--steady);color:#fff;font-family:var(--monob);font-size:10.5px;letter-spacing:1.5px;padding:6px 12px;border-radius:100px;opacity:0;transform:scale(.6);transition:opacity .35s,transform .35s var(--ease);}
-.slot4.unlocked .badge-free{opacity:1;transform:none;}
+/* the ritual ring — interactive circular tracker */
+.ring{position:relative;width:min(340px,92%);margin:4px auto 10px;aspect-ratio:1;}
+.ring svg{width:100%;height:100%;display:block;}
+.rtrack{fill:none;stroke:rgba(255,255,255,.12);stroke-width:10;}
+.rseg{fill:none;stroke:rgba(255,255,255,.26);stroke-width:10;stroke-linecap:round;stroke-dasharray:3 9;transition:stroke .5s,filter .5s;}
+.rseg.on{stroke-dasharray:none;}
+.rseg.on.rise{stroke:var(--rise);} .rseg.on.calm{stroke:var(--calm);} .rseg.on.rest{stroke:#8F86E8;}
+.rseg.on{filter:drop-shadow(0 0 9px rgba(255,255,255,.28));}
+.rbtn{position:absolute;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;z-index:2;
+  border:1.5px dashed rgba(255,255,255,.45);background:rgba(20,16,12,.9);color:var(--cream);cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .25s var(--ease),border-color .3s,background .3s,color .3s;}
+.rbtn b{font-size:20px;line-height:1;}
+.rbtn span{font-family:var(--monob);font-size:8px;letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.rbtn:hover{transform:translate(-50%,-50%) scale(1.14);border-color:var(--cream);border-style:solid;}
+.rbtn.filled{border-style:solid;pointer-events:none;}
+.rbtn.filled[data-sku="rise"]{background:var(--rise);border-color:var(--rise);color:var(--ink);}
+.rbtn.filled[data-sku="calm"]{background:var(--calm);border-color:var(--calm);color:var(--ink);}
+.rbtn.filled[data-sku="rest"]{background:#6E63E8;border-color:#6E63E8;color:#fff;}
+.rcenter{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:62%;border:none;background:none;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;text-align:center;color:var(--cream);padding:0;}
+.rcenter img{height:104px;width:auto;filter:grayscale(.9) opacity(.55) drop-shadow(0 14px 18px rgba(0,0,0,.4));transition:filter .6s var(--ease),transform .6s var(--ease);}
+.rcenter:hover img{transform:scale(1.05);}
+.ring.done .rcenter{cursor:default;}
+.ring.done .rcenter img{filter:grayscale(0) opacity(1) drop-shadow(0 16px 22px rgba(200,30,120,.4));transform:rotate(-5deg) scale(1.07);}
+.rcenter .rc4{font-family:var(--monob);font-size:9.5px;letter-spacing:2px;color:#F08BC0;text-transform:uppercase;margin-top:7px;}
+.rcenter .s4price{display:flex;align-items:baseline;gap:8px;margin:2px 0;}
+.rcenter .s4price s{font-family:var(--disp);font-weight:900;font-size:19px;}
+.rcenter .s4price .free{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:22px;letter-spacing:-.5px;color:#F08BC0;text-transform:uppercase;}
+.rcenter .l3{font-family:var(--mono);font-size:11px;color:var(--muted2);max-width:160px;line-height:1.45;}
 .puzzle .pfoot{font-family:var(--mono);font-size:12px;color:var(--muted2);margin-top:16px;line-height:1.55;}
 .puzzle .pfoot b{color:#F08BC0;font-weight:400;}
 
@@ -384,9 +393,22 @@ footer input:focus{border-color:var(--rise);outline:none;}
 .drawer-foot .subnote{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px;}
 
 /* confetti */
-.burst{position:absolute;pointer-events:none;z-index:5;}
-.burst i{position:absolute;width:8px;height:12px;border-radius:2px;opacity:0;animation:conf .9s var(--ease) forwards;}
-@keyframes conf{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(260deg)}}
+/* balloons — the completion celebration (rise from the bottom of the page) */
+.balloons{position:fixed;inset:0;pointer-events:none;z-index:300;overflow:hidden;}
+.balloons i{position:absolute;bottom:-170px;width:52px;height:66px;
+  background:radial-gradient(circle at 35% 28%,var(--c1),var(--c2) 80%);
+  border-radius:50% 50% 50% 50% / 56% 56% 44% 44%;
+  animation:balloonUp var(--dur,6.5s) ease-in forwards;}
+.balloons i::before{content:'';position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);
+  border:5px solid transparent;border-top:8px solid var(--c2);}
+.balloons i::after{content:'';position:absolute;left:50%;top:100%;width:1.5px;height:76px;
+  background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,0));}
+@keyframes balloonUp{
+  0%{transform:translate(0,0) scale(var(--s,1)) rotate(-2deg);opacity:0;}
+  6%{opacity:1;}
+  50%{transform:translate(calc(var(--drift)*.5),-58vh) scale(var(--s,1)) rotate(3deg);}
+  100%{transform:translate(var(--drift),-125vh) scale(var(--s,1)) rotate(-3deg);opacity:1;}
+}
 
 /* lightbox + modal */
 .lightbox{position:fixed;inset:0;background:rgba(20,15,8,.72);display:none;align-items:center;justify-content:center;z-index:200;padding:24px;}
@@ -440,7 +462,8 @@ footer input:focus{border-color:var(--rise);outline:none;}
   .pgrid,.sci-grid,.ritual .steps{grid-template-columns:1fr;}
   .step{padding:26px 22px;}
   .puzzle{padding:20px;}
-  .slot4 img{height:88px;}
+  .rcenter img{height:80px;}
+  .rbtn{width:52px;height:52px;}
   .badge{font-size:11px;padding:10px 15px;}
   .foot-bot{font-size:11px;}
   .stage{height:360px;}
@@ -557,6 +580,30 @@ footer input:focus{border-color:var(--rise);outline:none;}
   </div>
 </section>
 
+<!-- SCIENCE — what's in it, before the sell -->
+<section id="science">
+  <div class="wrap">
+    <div class="sec-head rv"><div class="eyebrow">Dosed to matter</div><h2>Real actives, real amounts</h2><p>Studied ingredients at studied doses — the stuff that actually does something.</p></div>
+    <div class="sci-grid">
+      <div class="sci rise spot tilt3d rv"><div class="k">1000mg</div><h4>Rise · Lion's Mane</h4><p>Organic fruiting body &amp; mycelium, standardized to 40% polysaccharides for cognitive support.</p></div>
+      <div class="sci calm spot tilt3d rv d1"><div class="k">600mg</div><h4>Calm · KSM-66® Ashwagandha</h4><p>The most clinically-studied ashwagandha root extract, plus B-vitamins, maca and ginseng.</p></div>
+      <div class="sci rest spot tilt3d rv d2"><div class="k">275mg</div><h4>Rest · Magnesium</h4><p>Chelated magnesium glycinate — the gentle, highly-absorbable form your body actually uses.</p></div>
+      <div class="sci steady spot tilt3d rv d3"><div class="k">6</div><h4>Steady · Botanicals</h4><p>Cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander &amp; resveratrol. Free with the full ritual.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST — why us -->
+<section class="trust">
+  <div class="wrap">
+    <div class="sec-head rv"><div class="eyebrow">No fillers. No junk.</div><h2>Clean by default</h2></div>
+    <div class="badgerow rv rp">
+      <span class="badge">Designed in Denmark</span><span class="badge">Made in the USA</span><span class="badge">Vegan</span><span class="badge">Non-GMO</span>
+      <span class="badge">Gluten-Free</span><span class="badge">Third-Party Tested</span><span class="badge">cGMP Facility</span><span class="badge">No Artificial Fillers</span>
+    </div>
+  </div>
+</section>
+
 <!-- FORMULAS -->
 <section class="products" id="products">
   <div class="wrap">
@@ -577,7 +624,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
       <div class="rv rl">
         <div class="eyebrow" style="color:#F08BC0">The completion offer</div>
         <h2>Complete the ritual.<br><span class="hl shimtxt">Claim the 4th piece.</span></h2>
-        <div class="big-price"><span class="now" id="offerNow">$92</span><span class="was" id="offerWas">$108</span><span class="save" id="offerSave">SUBSCRIBE &amp; SAVE 15%</span></div>
+        <div class="big-price"><span class="now" id="offerNow">$92</span><s class="was" id="offerWas">$108</s><span class="save" id="offerSave">SUBSCRIBE &amp; SAVE 15%</span></div>
         <p style="max-width:440px;color:#E9E1D2">Rise + Calm + Rest, delivered monthly — and STEADY, our Normal Blood Sugar Drops, added free to <b style="color:#F08BC0">every single order</b>. On its own it's $18. With the full ritual it's always $0.</p>
         <ul>
           <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> N°04 STEADY — <s>$18</s>&nbsp;<b style="color:#F08BC0">FREE</b>, every order</li>
@@ -589,48 +636,26 @@ footer input:focus{border-color:var(--rise);outline:none;}
         <div class="mononote">Cancel and the gift stops. Complete and it returns — every month.</div>
       </div>
       <div class="puzzle beam rv rr d1" id="puzzlePanel">
-        <div class="ptitle">Your ritual — live status</div>
-        <div class="slots" id="offerSlots">
-          <div class="slot" data-sku="rise"><div class="sn">01</div><div class="sname">Rise</div></div>
-          <div class="slot" data-sku="calm"><div class="sn">02</div><div class="sname">Calm</div></div>
-          <div class="slot" data-sku="rest"><div class="sn">03</div><div class="sname">Rest</div></div>
+        <div class="ptitle">Your ritual — tap the circle to build it</div>
+        <div class="ring" id="ring">
+          <svg id="ringsvg" viewBox="0 0 340 340" aria-hidden="true">
+            <circle class="rtrack" cx="170" cy="170" r="128"/>
+            <path id="arc-rise" class="rseg rise"/>
+            <path id="arc-calm" class="rseg calm"/>
+            <path id="arc-rest" class="rseg rest"/>
+          </svg>
+          <button class="rbtn" data-sku="rise" onclick="ringAdd('rise')" aria-label="Add Rise — piece 01 — to your ritual"><b>+</b><span>01 Rise</span></button>
+          <button class="rbtn" data-sku="calm" onclick="ringAdd('calm')" aria-label="Add Calm — piece 02 — to your ritual"><b>+</b><span>02 Calm</span></button>
+          <button class="rbtn" data-sku="rest" onclick="ringAdd('rest')" aria-label="Add Rest — piece 03 — to your ritual"><b>+</b><span>03 Rest</span></button>
+          <button class="rcenter" id="rcenter" onclick="if(!complete())addTrio()" aria-label="N°04 Steady — free when the circle is complete. Tap to add the complete ritual.">
+            <img src="assets/products/cut_steady.webp" width="411" height="1200" alt="" aria-hidden="true" loading="lazy">
+            <span class="rc4">N°04 · Steady</span>
+            <span class="s4price"><s>$18</s><span class="free shimtxt">Free</span></span>
+            <span class="l3" id="slot4msg">complete the circle to unlock</span>
+          </button>
         </div>
-        <div class="slot4" id="slot4">
-          <img src="assets/products/cut_steady.webp" width="411" height="1200" alt="HAVN STEADY — Normal Blood Sugar Drops bottle" loading="lazy">
-          <div class="s4t">
-            <div class="l1">N°04 · The 4th piece</div>
-            <div class="l2">Steady</div>
-            <div class="s4price"><s>$18</s><span class="free shimtxt">Free</span></div>
-            <div class="l3" id="slot4msg">when 01–03 are in your order</div>
-          </div>
-          <span class="badge-free">FREE</span>
-        </div>
-        <div class="pfoot">On its own, STEADY (Normal Blood Sugar Drops — cinnamon bark, bitter melon, turmeric &amp; three more botanicals) runs <b>$18</b>. Put 01–03 in one order and it drops to $0 — and stays $0 every month you keep the ritual.</div>
+        <div class="pfoot">On its own, STEADY (Normal Blood Sugar Drops — cinnamon bark, bitter melon, turmeric &amp; three more botanicals) runs <b>$18</b>. Complete the circle in one order and it drops to $0 — and stays $0 every month you keep the ritual.</div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- TRUST -->
-<section class="trust">
-  <div class="wrap">
-    <div class="sec-head rv"><div class="eyebrow">No fillers. No junk.</div><h2>Clean by default</h2></div>
-    <div class="badgerow rv rp">
-      <span class="badge">Designed in Denmark</span><span class="badge">Made in the USA</span><span class="badge">Vegan</span><span class="badge">Non-GMO</span>
-      <span class="badge">Gluten-Free</span><span class="badge">Third-Party Tested</span><span class="badge">cGMP Facility</span><span class="badge">No Artificial Fillers</span>
-    </div>
-  </div>
-</section>
-
-<!-- SCIENCE -->
-<section id="science">
-  <div class="wrap">
-    <div class="sec-head rv"><div class="eyebrow">Dosed to matter</div><h2>Real actives, real amounts</h2><p>Studied ingredients at studied doses — the stuff that actually does something.</p></div>
-    <div class="sci-grid">
-      <div class="sci rise spot tilt3d rv"><div class="k">1000mg</div><h4>Rise · Lion's Mane</h4><p>Organic fruiting body &amp; mycelium, standardized to 40% polysaccharides for cognitive support.</p></div>
-      <div class="sci calm spot tilt3d rv d1"><div class="k">600mg</div><h4>Calm · KSM-66® Ashwagandha</h4><p>The most clinically-studied ashwagandha root extract, plus B-vitamins, maca and ginseng.</p></div>
-      <div class="sci rest spot tilt3d rv d2"><div class="k">275mg</div><h4>Rest · Magnesium</h4><p>Chelated magnesium glycinate — the gentle, highly-absorbable form your body actually uses.</p></div>
-      <div class="sci steady spot tilt3d rv d3"><div class="k">6</div><h4>Steady · Botanicals</h4><p>Cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander &amp; resveratrol. Free with the full ritual.</p></div>
     </div>
   </div>
 </section>
@@ -855,45 +880,66 @@ function update(){
   $('shipMsg').textContent = st>=FREE_SHIP ? '✓ Free U.S. shipping unlocked' : (st>0 ? `Add ${fmt(FREE_SHIP-st)} for free U.S. shipping` : 'Free U.S. shipping at $79');
   $('shipFill').classList.toggle('full', st>=FREE_SHIP);
 
-  /* slots (cart + offer panel) */
+  /* slots (cart) + the ritual ring (offer panel) */
+  let filled = 0;
   ['rise','calm','rest'].forEach((id,i)=>{
-    document.querySelectorAll('.cslots .cs')[i].classList.toggle('f', hasSku(id));
-    const os = document.querySelector(`#offerSlots .slot[data-sku="${id}"]`);
-    if(os){ os.classList.toggle('filled', hasSku(id)); os.classList.toggle(id, true); }
+    const f = hasSku(id); if(f) filled++;
+    document.querySelectorAll('.cslots .cs')[i].classList.toggle('f', f);
+    const rb = document.querySelector(`#ring .rbtn[data-sku="${id}"]`);
+    const seg = document.getElementById('arc-'+id);
+    if(rb){ rb.classList.toggle('filled', f); rb.querySelector('b').textContent = f ? '✓' : '+';
+            rb.setAttribute('aria-label', f ? `${id} is in your ritual` : `Add ${id} to your ritual`); }
+    if(seg) seg.classList.toggle('on', f);
   });
   $('cs4').classList.toggle('f', done);
   $('slotLbl').innerHTML = done ? 'Ritual complete —<br>N°04 is yours, free' : 'Complete 01–03<br>to unlock N°04';
-  $('slot4').classList.toggle('unlocked', done);
-  $('slot4msg').textContent = done ? 'unlocked — $0 in your order' : 'when 01–03 are in your order';
+  const ring = $('ring'); if(ring) ring.classList.toggle('done', done);
+  $('slot4msg').textContent = done ? 'unlocked — $0 in your order' : (filled ? `${3-filled} to go — tap + to add` : 'complete the circle to unlock');
   $('giftLine').style.display = done ? 'flex' : 'none';
   $('ckBtn').disabled = itemCount()===0;
   $('ckBtn').textContent = itemCount()===0 ? 'Checkout' : `Checkout — ${fmt(st)}${subscribe&&st>0?'/mo':''}`;
   $('footNote').textContent = subscribe ? 'Subscription renews monthly · skip or cancel anytime' : 'One-time order · switch to Subscribe & Save for 15% off';
 
-  if(done && !prevComplete){ burst($('cs4')); burst($('slot4')); }
+  if(done && !prevComplete){ balloons(); }
   prevComplete = done;
 }
 
-/* confetti burst */
-function burst(host){
-  if(!host || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const b = document.createElement('div'); b.className='burst';
-  const r = host.getBoundingClientRect();
-  b.style.left = (r.width/2)+'px'; b.style.top = (r.height/2)+'px';
-  host.style.position = host.style.position || 'relative';
-  const cols = ['#FF6A15','#12A594','#4E43C9','#C81E78','#F6EFE1'];
-  for(let i=0;i<14;i++){
-    const s = document.createElement('i');
-    const a = Math.random()*Math.PI*2, d = 40+Math.random()*70;
-    s.style.setProperty('--dx', Math.cos(a)*d+'px');
-    s.style.setProperty('--dy', Math.sin(a)*d-30+'px');
-    s.style.background = cols[i%cols.length];
-    s.style.animationDelay = (Math.random()*.12)+'s';
-    b.appendChild(s);
+/* quiet add from the ring — fills the circle without yanking the drawer open */
+function ringAdd(sku){ if(hasSku(sku)) return; cart.singles[sku]++; update(); }
+
+/* balloons — a few float up from the bottom of the page when the ritual completes */
+function balloons(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const host = document.createElement('div'); host.className='balloons'; host.setAttribute('aria-hidden','true');
+  const cols = [['#FF6A15','#C4440A'],['#12A594','#0A6E60'],['#6E63E8','#2E259B'],['#C81E78','#8A0E52'],['#F6EFE1','#D9CBAF']];
+  for(let i=0;i<9;i++){
+    const b = document.createElement('i');
+    const c = cols[i%cols.length];
+    b.style.setProperty('--c1', c[0]); b.style.setProperty('--c2', c[1]);
+    b.style.left = (5+Math.random()*88)+'%';
+    b.style.setProperty('--drift', (Math.random()*140-70).toFixed(0)+'px');
+    b.style.setProperty('--dur', (5.5+Math.random()*3).toFixed(2)+'s');
+    b.style.setProperty('--s', (.65+Math.random()*.6).toFixed(2));
+    b.style.animationDelay = (Math.random()*1.5).toFixed(2)+'s';
+    host.appendChild(b);
   }
-  host.appendChild(b);
-  setTimeout(()=>b.remove(), 1300);
+  document.body.appendChild(host);
+  setTimeout(()=>host.remove(), 11000);
 }
+
+/* ritual ring geometry — three 100° arcs with buttons at their midpoints */
+(function(){
+  const svg = document.getElementById('ringsvg'); if(!svg) return;
+  const C=170, R=128, SPAN=100;
+  const pt = a => { const r=a*Math.PI/180; return [C+R*Math.sin(r), C-R*Math.cos(r)]; };
+  [['rise',0],['calm',120],['rest',240]].forEach(([id,mid])=>{
+    const [x0,y0]=pt(mid-SPAN/2), [x1,y1]=pt(mid+SPAN/2);
+    document.getElementById('arc-'+id).setAttribute('d', `M ${x0.toFixed(1)} ${y0.toFixed(1)} A ${R} ${R} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`);
+    const bt = document.querySelector(`#ring .rbtn[data-sku="${id}"]`);
+    const [bx,by]=pt(mid);
+    bt.style.left=(bx/340*100)+'%'; bt.style.top=(by/340*100)+'%';
+  });
+})();
 
 /* ================= drawer / modals / menu ================= */
 let lastFocus = null;
@@ -1115,6 +1161,7 @@ if(matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion
 
 /* boot */
 renderProducts(); syncOfferCopy(); update(); motionSweep();
+if(location.search.includes('balloons=1')) setTimeout(balloons, 500); /* visual test hook */
 setTimeout(()=>{ const st = $('stage'); if(st) st.classList.add('settle'); }, 1800);
 if(location.hash==='#cart'){ addTrio(); }
 </script>
