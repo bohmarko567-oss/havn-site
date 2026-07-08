@@ -493,7 +493,8 @@ footer input:focus{border-color:var(--rise);outline:none;}
 /* ===== cosmic2 — dark 21st.dev shader islands (trust; +products in ?bg=xenon) ===== */
 .cosmic2{background:#14100C;color:var(--cream);}
 .cosmic2 .wrap{position:relative;z-index:2;}
-.cosmic2 .eyebrow{color:#8B8172;}
+.cosmic2 .eyebrow{color:#C9BFB0;text-shadow:0 1px 10px rgba(20,16,12,.75);}
+.cosmic2 .sec-head h2{text-shadow:0 2px 18px rgba(20,16,12,.4);}
 .cosmic2 .sec-head p{color:#C9BFB0;}
 .cosmic2 .modetoggle{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.28);}
 .cosmic2 .mt{color:var(--cream);}
@@ -1215,21 +1216,8 @@ if(matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion
 })();
 
 /* ================= glfx-lite: 21st.dev shader islands =================
-   trust = Lissajous nebula (port: 21st.dev dhiluxui #7312, dimmed for backdrop duty).
-   ?bg=xenon swaps trust to xenon flowing-lines (uvcanvas-inspired) and extends it
-   over the products section too — the two variants the boss wants to compare. */
+   trust = Lissajous nebula (port: 21st.dev dhiluxui #7312), boss-approved and cranked. */
 (function(){
-  const mode = new URLSearchParams(location.search).get('bg') || 'lissa';
-  if(mode === 'xenon'){
-    const t = document.querySelector('.trust .glfx'); if(t) t.dataset.shader = 'xenon';
-    const p = document.getElementById('products');
-    if(p && !p.querySelector('.glfx')){
-      p.classList.add('cosmic2');
-      const c = document.createElement('canvas'); c.className = 'glfx';
-      c.dataset.shader = 'xenon'; c.setAttribute('aria-hidden','true');
-      p.prepend(c);
-    }
-  }
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const VERT = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
   const LIB = `precision mediump float;uniform vec2 R;uniform float T;
@@ -1250,24 +1238,7 @@ if(matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion
       float edge=smoothstep(.2,.3,abs(sw));
       vec3 pal=.5+.5*cos(6.28318*(vec3(.7,.4,1.2)*(r+sw*.5+t)+vec3(0.,.33,.67)));
       pal*=vec3(1.,.62,.95);
-      pal=mix(vec3(dot(pal,vec3(.33))),pal,.9);
-      gl_FragColor=vec4(mix(vec3(.055,.047,.039),pal*.8,edge*.42)+stars(p,T)*.55,1.);}`,
-    xenon: LIB+`void main(){
-      vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; float t=T*.12;
-      float g=0.;
-      for(int i=0;i<6;i++){
-        float fi=float(i);
-        float y=uv.y
-          + sin(uv.x*(1.6+fi*.22) + t*(.6+fi*.11) + fi*2.4)*.16
-          + (fbm(vec2(uv.x*1.2+fi*4.7, t*.35+fi))-.5)*.5
-          + (fi-2.5)*.14;
-        g += .003/(abs(y)+.006);
-      }
-      vec3 col=vec3(.05,.047,.04);
-      col += g*vec3(.1,.78,.55)*.6;
-      col += g*g*.015*vec3(.5,1.,.75);
-      col += stars(uv,T)*.3;
-      gl_FragColor=vec4(col,1.);}`
+      gl_FragColor=vec4(mix(vec3(.055,.047,.039),pal*.95,edge*.6)+stars(p,T)*.6,1.);}`
   };
   function boot(cv){
     if(cv.dataset.glon) return;
