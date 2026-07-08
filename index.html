@@ -102,6 +102,19 @@ img{max-width:100%;}
 .spot::after{content:'';position:absolute;inset:0;border-radius:inherit;opacity:0;transition:opacity .35s;pointer-events:none;
   background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),var(--spot-c,rgba(30,25,19,.07)),transparent 68%);}
 .spot:hover::after{opacity:1;}
+/* 21st.dev ports (v3.3): reviews marquee, 3D tilt, staggered word reveal */
+.rmarq{position:relative;overflow:hidden;padding:8px 0;}
+.rmtrack{display:flex;gap:22px;width:max-content;animation:rmq 48s linear infinite;}
+.rmarq:hover .rmtrack{animation-play-state:paused;}
+.rmtrack .review{width:340px;flex:none;}
+@keyframes rmq{to{transform:translateX(-50%);}}
+.rmarq::before,.rmarq::after{content:'';position:absolute;top:0;bottom:0;width:110px;z-index:2;pointer-events:none;}
+.rmarq::before{left:0;background:linear-gradient(90deg,var(--ink),transparent);}
+.rmarq::after{right:0;background:linear-gradient(270deg,var(--ink),transparent);}
+@media(max-width:640px){.rmtrack .review{width:280px;padding:24px;} .rmarq::before,.rmarq::after{width:36px;}}
+.tilt3d{will-change:transform;} /* tilt transform is inline-driven (JS) so it can outrank .rv.in */
+.sec-head h2 .w{display:inline-block;opacity:0;transform:translateY(.55em);transition:opacity .55s var(--ease),transform .55s var(--ease);transition-delay:calc(var(--wi)*60ms + .08s);}
+.in h2 .w{opacity:1;transform:none;}
 .pcard.rise{--spot-c:rgba(255,106,21,.13);} .pcard.calm{--spot-c:rgba(18,165,148,.13);}
 .pcard.rest{--spot-c:rgba(78,67,201,.12);} .pcard.steady{--spot-c:rgba(200,30,120,.12);}
 .sci.rise{--spot-c:rgba(255,106,21,.10);} .sci.calm{--spot-c:rgba(18,165,148,.10);}
@@ -297,7 +310,6 @@ section{padding:84px 0;position:relative;}
 
 /* reviews */
 .reviews{background:var(--ink);color:var(--cream);overflow:hidden;}
-.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;position:relative;z-index:2;}
 .review{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:30px;position:relative;}
 .review::before{content:'“';font-family:var(--disp);font-weight:900;font-size:70px;line-height:.6;position:absolute;top:24px;right:24px;color:rgba(255,255,255,.08);}
 .stars{color:var(--rise);letter-spacing:3px;font-size:16px;}
@@ -413,7 +425,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
   .fb.b-rest{height:290px;right:0;top:86px;}
   .chip4{right:2%;bottom:0;padding:10px 12px;}
   .chip4 .ch-img{height:50px;}
-  .rgrid,.offer-grid,.foot-grid{grid-template-columns:1fr;}
+  .offer-grid,.foot-grid{grid-template-columns:1fr;}
   .offer-grid{gap:34px;}
   .nav-links{display:none;} .burger{display:flex;}
   .stickycta{display:flex;}
@@ -445,6 +457,8 @@ footer input:focus{border-color:var(--rise);outline:none;}
   .fb .bobber{animation:none;}
   .blob{animation:none;}
   .marquee .track{animation:none;}
+  .rmtrack{animation:none;flex-wrap:wrap;width:auto;}
+  .sec-head h2 .w{opacity:1;transform:none;}
   html{scroll-behavior:auto;}
 }
 </style>
@@ -613,10 +627,10 @@ footer input:focus{border-color:var(--rise);outline:none;}
   <div class="wrap">
     <div class="sec-head rv"><div class="eyebrow">Dosed to matter</div><h2>Real actives, real amounts</h2><p>Studied ingredients at studied doses — the stuff that actually does something.</p></div>
     <div class="sci-grid">
-      <div class="sci rise spot rv"><div class="k">1000mg</div><h4>Rise · Lion's Mane</h4><p>Organic fruiting body &amp; mycelium, standardized to 40% polysaccharides for cognitive support.</p></div>
-      <div class="sci calm spot rv d1"><div class="k">600mg</div><h4>Calm · KSM-66® Ashwagandha</h4><p>The most clinically-studied ashwagandha root extract, plus B-vitamins, maca and ginseng.</p></div>
-      <div class="sci rest spot rv d2"><div class="k">275mg</div><h4>Rest · Magnesium</h4><p>Chelated magnesium glycinate — the gentle, highly-absorbable form your body actually uses.</p></div>
-      <div class="sci steady spot rv d3"><div class="k">6</div><h4>Steady · Botanicals</h4><p>Cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander &amp; resveratrol. Free with the full ritual.</p></div>
+      <div class="sci rise spot tilt3d rv"><div class="k">1000mg</div><h4>Rise · Lion's Mane</h4><p>Organic fruiting body &amp; mycelium, standardized to 40% polysaccharides for cognitive support.</p></div>
+      <div class="sci calm spot tilt3d rv d1"><div class="k">600mg</div><h4>Calm · KSM-66® Ashwagandha</h4><p>The most clinically-studied ashwagandha root extract, plus B-vitamins, maca and ginseng.</p></div>
+      <div class="sci rest spot tilt3d rv d2"><div class="k">275mg</div><h4>Rest · Magnesium</h4><p>Chelated magnesium glycinate — the gentle, highly-absorbable form your body actually uses.</p></div>
+      <div class="sci steady spot tilt3d rv d3"><div class="k">6</div><h4>Steady · Botanicals</h4><p>Cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander &amp; resveratrol. Free with the full ritual.</p></div>
     </div>
   </div>
 </section>
@@ -626,10 +640,15 @@ footer input:focus{border-color:var(--rise);outline:none;}
   <canvas class="fx" data-fx="dark" data-colors="rise,steady" data-density=".6" data-sparkles="22" aria-hidden="true"></canvas>
   <div class="wrap" style="position:relative;z-index:2">
     <div class="sec-head rv"><div class="eyebrow" style="color:#8B8172">4.8 ★ from early members</div><h2>People feel the difference</h2></div>
-    <div class="rgrid">
-      <div class="review rv"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Rise is the first nootropic that actually cuts through my morning fog. And the packaging is gorgeous on my desk.”</p><div class="who">— Maya R., verified</div></div>
-      <div class="review rv d1"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Calm does exactly what it says — I'm less wound up by 3pm without feeling sleepy. The set just works.”</p><div class="who">— Dev P., verified</div></div>
-      <div class="review rv d2"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Completed the ritual for the free drops, honestly. Now it's the whole system I won't drop — and STEADY killed my afternoon crash.”</p><div class="who">— Jordan K., verified</div></div>
+  </div>
+  <div class="rmarq rv d1" style="position:relative;z-index:2">
+    <div class="rmtrack" id="rmtrack">
+      <div class="review"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Rise is the first nootropic that actually cuts through my morning fog. And the packaging is gorgeous on my desk.”</p><div class="who">— Maya R., verified</div></div>
+      <div class="review"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Calm does exactly what it says — I'm less wound up by 3pm without feeling sleepy. The set just works.”</p><div class="who">— Dev P., verified</div></div>
+      <div class="review"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Completed the ritual for the free drops, honestly. Now it's the whole system I won't drop — and STEADY killed my afternoon crash.”</p><div class="who">— Jordan K., verified</div></div>
+      <div class="review"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Rest ended my 2am doom-scroll era. I take it with a book at 10 and I'm gone by 10:30. Gentle, no grogginess.”</p><div class="who">— Anika S., verified</div></div>
+      <div class="review"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Did the math three times — trio subscription plus free STEADY and shipping beats buying my old stack separately. Easy switch.”</p><div class="who">— Tom W., verified</div></div>
+      <div class="review"><div class="stars" aria-label="5 stars">★★★★★</div><p>“The Danish design sold me, the routine kept me. Three bottles on the shelf, morning to night. It just feels considered.”</p><div class="who">— Freja L., verified</div></div>
     </div>
   </div>
 </section>
@@ -756,7 +775,7 @@ function renderProducts(){
     const alt  = p.id==='steady'
       ? `or <b>FREE</b> with the complete ritual`
       : (sale ? `or $${p.price} one-time` : `or $${p.subPrice}/mo subscribed`);
-    return `<div class="pcard ${p.cls} spot${p.id==='steady'?' beam':''} rv d${i+1}">
+    return `<div class="pcard ${p.cls} spot tilt3d${p.id==='steady'?' beam':''} rv d${i+1}">
       ${extra||''}
       <div class="pimg">
         <img class="base" src="assets/products/${p.id}_front.jpg" width="1200" height="1200" alt="HAVN ${p.name} bottle" loading="lazy">
@@ -957,6 +976,14 @@ setTimeout(motionSweep, 400); setTimeout(motionSweep, 1500);
 
 /* marquee duplicate */
 const mq = $('mqtrack'); if(mq){ mq.innerHTML += mq.innerHTML; }
+const rmq = $('rmtrack'); if(rmq && !matchMedia('(prefers-reduced-motion: reduce)').matches){ rmq.innerHTML += rmq.innerHTML; }
+
+/* staggered word reveal on section headings (21st.dev port) */
+document.querySelectorAll('.sec-head h2').forEach(h=>{
+  if(h.children.length) return; /* skip headings with markup (e.g. shimmer spans) */
+  const words = h.textContent.trim().split(/\s+/);
+  h.innerHTML = words.map((w,i)=>`<span class="w" style="--wi:${i}">${w.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</span>`).join(' ');
+});
 
 /* pointer parallax + magnetic buttons (fine pointers, motion allowed) */
 if(matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches){
@@ -980,13 +1007,24 @@ if(matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion
     });
     b.addEventListener('mouseleave', ()=>{ b.style.removeProperty('translate'); });
   });
-  /* cursor spotlight on cards (delegated — survives re-renders) */
+  /* cursor spotlight + 3D tilt on cards (delegated — survives re-renders) */
   document.addEventListener('mousemove', e=>{
     const c = e.target.closest && e.target.closest('.spot');
     if(!c) return;
     const r = c.getBoundingClientRect();
     c.style.setProperty('--mx', (e.clientX-r.left)+'px');
     c.style.setProperty('--my', (e.clientY-r.top)+'px');
+    if(c.classList.contains('tilt3d')){
+      const ry = ((e.clientX-r.left)/r.width - .5), rx = ((e.clientY-r.top)/r.height - .5);
+      if(!c.style.transition) c.style.transition = 'transform .18s ease-out, box-shadow .25s ease';
+      c.style.transform = `perspective(950px) rotateX(${(rx*-6).toFixed(2)}deg) rotateY(${(ry*6).toFixed(2)}deg)`
+        + (c.classList.contains('pcard') ? ' translateY(-6px)' : '');
+    }
+  }, {passive:true});
+  document.addEventListener('mouseout', e=>{
+    const c = e.target.closest && e.target.closest('.tilt3d');
+    if(!c || (e.relatedTarget && c.contains(e.relatedTarget))) return;
+    c.style.transform = '';
   }, {passive:true});
 }
 
