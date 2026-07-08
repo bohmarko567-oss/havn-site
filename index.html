@@ -304,8 +304,22 @@ section{padding:84px 0;position:relative;}
 .puzzle .pfoot b{color:#F08BC0;font-weight:400;}
 
 /* trust */
-.badgerow{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;position:relative;z-index:2;}
-.badge{font-family:var(--monob);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;border:1.5px solid var(--ink);border-radius:100px;padding:12px 20px;background:var(--cream);}
+.cleanrow{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 13px;position:relative;z-index:2;max-width:840px;margin:0 auto;}
+.chip{--r:0deg;display:inline-flex;align-items:center;gap:9px;font-family:var(--monob);font-size:11.5px;letter-spacing:1.2px;text-transform:uppercase;
+  border:1.5px solid var(--c,var(--ink));border-radius:100px;padding:11px 18px;background:#fff;color:var(--ink);
+  box-shadow:0 4px 0 var(--c,var(--ink));transform:rotate(var(--r));
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease);}
+.chip svg{flex:none;display:block;}
+.chip:nth-child(odd){--r:-1.8deg;}
+.chip:nth-child(even){--r:1.4deg;}
+.chip:hover{transform:rotate(0deg) scale(1.07);box-shadow:0 7px 0 var(--c,var(--ink));}
+@media(prefers-reduced-motion:no-preference){
+  .chip{animation:chipbob 3.8s ease-in-out infinite;}
+  .chip:nth-child(2n){animation-duration:4.4s;animation-delay:.4s;}
+  .chip:nth-child(3n){animation-delay:.9s;}
+  .chip:nth-child(4n){animation-duration:5s;animation-delay:1.3s;}
+}
+@keyframes chipbob{0%,100%{translate:0 0;}50%{translate:0 -5px;}}
 
 /* science */
 .sci-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative;z-index:2;}
@@ -450,6 +464,10 @@ footer input:focus{border-color:var(--rise);outline:none;}
   .offer-grid,.foot-grid{grid-template-columns:1fr;}
   .offer-grid{gap:34px;}
   .nav-links{display:none;} .burger{display:flex;}
+  /* mobile: burger top-left, cart top-right, logo centered */
+  .nav-right{display:contents;}
+  .burger{order:-1;margin-left:-10px;}
+  .cart-btn{order:1;margin-right:-6px;}
   .stickycta{display:flex;}
 }
 @media(max-width:560px){
@@ -464,7 +482,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
   .puzzle{padding:20px;}
   .rcenter img{height:80px;}
   .rbtn{width:52px;height:52px;}
-  .badge{font-size:11px;padding:10px 15px;}
+  .chip{font-size:10px;padding:9px 13px;gap:7px;}
   .foot-bot{font-size:11px;}
   .stage{height:360px;}
   .fb.b-rise{height:225px;top:80px;}
@@ -597,9 +615,15 @@ footer input:focus{border-color:var(--rise);outline:none;}
 <section class="trust">
   <div class="wrap">
     <div class="sec-head rv"><div class="eyebrow">No fillers. No junk.</div><h2>Clean by default</h2></div>
-    <div class="badgerow rv rp">
-      <span class="badge">Designed in Denmark</span><span class="badge">Made in the USA</span><span class="badge">Vegan</span><span class="badge">Non-GMO</span>
-      <span class="badge">Gluten-Free</span><span class="badge">Third-Party Tested</span><span class="badge">cGMP Facility</span><span class="badge">No Artificial Fillers</span>
+    <div class="cleanrow rv rp" role="list" aria-label="Quality credentials">
+      <span class="chip" role="listitem" style="--c:#C8102E"><svg width="22" height="16" viewBox="0 0 22 16" aria-hidden="true"><rect width="22" height="16" rx="2.5" fill="#C8102E"/><rect x="6.5" width="3" height="16" fill="#fff"/><rect y="6.5" width="22" height="3" fill="#fff"/></svg>Designed in Denmark</span>
+      <span class="chip" role="listitem" style="--c:#3C3B6E"><svg width="22" height="16" viewBox="0 0 22 16" aria-hidden="true"><rect width="22" height="16" rx="2.5" fill="#fff"/><path d="M0 3h22v2.6H0zM0 8.2h22v2.6H0zM0 13.4h22V16H0z" fill="#B22234"/><path d="M0 2.5A2.5 2.5 0 0 1 2.5 0H22v3H0z" fill="#B22234"/><rect width="10" height="8" rx="2" fill="#3C3B6E"/><g fill="#fff"><circle cx="2.6" cy="2.4" r=".8"/><circle cx="5" cy="2.4" r=".8"/><circle cx="7.4" cy="2.4" r=".8"/><circle cx="3.8" cy="4.1" r=".8"/><circle cx="6.2" cy="4.1" r=".8"/><circle cx="2.6" cy="5.8" r=".8"/><circle cx="5" cy="5.8" r=".8"/><circle cx="7.4" cy="5.8" r=".8"/></g></svg>Made in the USA</span>
+      <span class="chip" role="listitem" style="--c:#2F9E44"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2F9E44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20C4 11 11 4 20 4c0 9-7 16-16 16z"/><path d="M4 20c4-6 8-10 12-12"/></svg>Vegan</span>
+      <span class="chip" role="listitem" style="--c:#B7791F"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B7791F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7v14"/><path d="M12 9c-2.2-4-6.5-5-7.6-2.2S5.6 13 9.4 13c-3.8 1-4.6 4.6-1.9 5.6s4.5-2 4.5-4.6"/><path d="M12 9c2.2-4 6.5-5 7.6-2.2S18.4 13 14.6 13c3.8 1 4.6 4.6 1.9 5.6s-4.5-2-4.5-4.6"/><path d="M10.3 4.2L12 6.4l1.7-2.2"/></svg>Non-GMO</span>
+      <span class="chip" role="listitem" style="--c:#C77D1F"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C77D1F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22V8"/><path d="M12 8C8.9 8 8 5.4 8 3c3.1 0 4 2.6 4 5zm0 0c3.1 0 4-2.6 4-5-3.1 0-4 2.6-4 5zm0 6c-3.1 0-4-2.6-4-5 3.1 0 4 2.6 4 5zm0 0c3.1 0 4-2.6 4-5-3.1 0-4 2.6-4 5z"/><path d="M4.5 4.5l15 15" stroke="#C8102E" stroke-width="2.4"/></svg>Gluten-Free</span>
+      <span class="chip" role="listitem" style="--c:#4E43C9"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4E43C9" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v5L4.6 18a2 2 0 0 0 1.8 3h11.2a2 2 0 0 0 1.8-3L14 8V3"/><path d="M9.5 15.5l2 2 3.5-3.5"/></svg>Third-Party Tested</span>
+      <span class="chip" role="listitem" style="--c:#0A6E60"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A6E60" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M8.5 12l2.5 2.5L15.5 10"/></svg>cGMP Facility</span>
+      <span class="chip" role="listitem" style="--c:#C81E78"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C81E78" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 15.5l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg>No Artificial Fillers</span>
     </div>
   </div>
 </section>
@@ -744,7 +768,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Cart">
   <div class="drawer-head"><h3>Your ritual</h3><button class="x" id="drawerX" aria-label="Close cart" onclick="closeCart()">×</button></div>
-  <div class="ship-bar"><div class="msg" id="shipMsg">Add $79 for free U.S. shipping</div><div class="track" role="progressbar" aria-label="Free shipping progress" aria-valuemin="0" aria-valuemax="79" aria-valuenow="0" id="shipTrack"><div class="fill" id="shipFill"></div></div></div>
+  <div class="ship-bar"><div class="msg" id="shipMsg">Add $75 for free U.S. shipping</div><div class="track" role="progressbar" aria-label="Free shipping progress" aria-valuemin="0" aria-valuemax="75" aria-valuenow="0" id="shipTrack"><div class="fill" id="shipFill"></div></div></div>
   <div class="cslots" id="cartSlots" aria-label="Ritual completion">
     <div class="cs s1">01</div><div class="cs s2">02</div><div class="cs s3">03</div><div class="cs s4" id="cs4">04</div>
     <div class="lbl" id="slotLbl">Complete 01–03<br>to unlock N°04</div>
@@ -843,6 +867,10 @@ function bumpSingle(id,d){ cart.singles[id] = Math.max(0, cart.singles[id] + d);
 
 let prevComplete = complete();
 function update(){
+  /* three loose mains always collapse into the Complete Ritual line (also fixes 3×$31=$93 vs trio $92) */
+  while(cart.singles.rise>0 && cart.singles.calm>0 && cart.singles.rest>0){
+    cart.singles.rise--; cart.singles.calm--; cart.singles.rest--; cart.trio++;
+  }
   const done = complete();
   /* the $18 -> FREE moment: completing the set converts a paid STEADY into the gift */
   if(done && !prevComplete && cart.singles.steady>0) cart.singles.steady--;
@@ -877,7 +905,7 @@ function update(){
   $('subtotal').textContent = fmt(st);
   $('shipFill').style.width = Math.min(100, st/FREE_SHIP*100)+'%';
   $('shipTrack').setAttribute('aria-valuenow', Math.min(FREE_SHIP, Math.round(st)));
-  $('shipMsg').textContent = st>=FREE_SHIP ? '✓ Free U.S. shipping unlocked' : (st>0 ? `Add ${fmt(FREE_SHIP-st)} for free U.S. shipping` : 'Free U.S. shipping at $79');
+  $('shipMsg').textContent = st>=FREE_SHIP ? '✓ Free U.S. shipping unlocked' : (st>0 ? `Add ${fmt(FREE_SHIP-st)} for free U.S. shipping` : 'Free U.S. shipping at $75');
   $('shipFill').classList.toggle('full', st>=FREE_SHIP);
 
   /* slots (cart) + the ritual ring (offer panel) */
@@ -891,7 +919,7 @@ function update(){
             rb.setAttribute('aria-label', f ? `${id} is in your ritual` : `Add ${id} to your ritual`); }
     if(seg) seg.classList.toggle('on', f);
   });
-  $('cs4').classList.toggle('f', done);
+  $('cs4').classList.toggle('f', done || cart.singles.steady>0);
   $('slotLbl').innerHTML = done ? 'Ritual complete —<br>N°04 is yours, free' : 'Complete 01–03<br>to unlock N°04';
   const ring = $('ring'); if(ring) ring.classList.toggle('done', done);
   $('slot4msg').textContent = done ? 'unlocked — $0 in your order' : (filled ? `${3-filled} to go — tap + to add` : 'complete the circle to unlock');
@@ -907,9 +935,11 @@ function update(){
 /* quiet add from the ring — fills the circle without yanking the drawer open */
 function ringAdd(sku){ if(hasSku(sku)) return; cart.singles[sku]++; update(); }
 
-/* balloons — a few float up from the bottom of the page when the ritual completes */
+/* balloons — float up from the bottom when the ritual completes.
+   Real ones = balloons-js by Artur Bień (MIT, self-hosted in assets/) — the CSS bunch below is only a fallback. */
 function balloons(){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(window.libBalloons){ try{ window.libBalloons(); return; }catch(e){} }
   const host = document.createElement('div'); host.className='balloons'; host.setAttribute('aria-hidden','true');
   const cols = [['#FF6A15','#C4440A'],['#12A594','#0A6E60'],['#6E63E8','#2E259B'],['#C81E78','#8A0E52'],['#F6EFE1','#D9CBAF']];
   for(let i=0;i<9;i++){
@@ -1161,7 +1191,11 @@ if(matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion
 
 /* boot */
 renderProducts(); syncOfferCopy(); update(); motionSweep();
-if(location.search.includes('balloons=1')) setTimeout(balloons, 500); /* visual test hook */
+if(location.search.includes('balloons=1')) setTimeout(balloons, 900); /* visual test hook */
+</script>
+<script type="module">
+  import { balloons as libBalloons } from './assets/balloons.esm.js';
+  window.libBalloons = libBalloons;
 setTimeout(()=>{ const st = $('stage'); if(st) st.classList.add('settle'); }, 1800);
 if(location.hash==='#cart'){ addTrio(); }
 </script>
