@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HAVN — The 4-piece daily ritual. Rise · Calm · Rest + Steady.</title>
-<meta name="description" content="Three clean formulas you buy — focus, balance, sleep. A fourth piece, STEADY, you can only earn: free with the complete ritual, every month.">
+<meta name="description" content="Three clean formulas — focus, balance, sleep. Complete the ritual and the $18 fourth piece, STEADY, comes free every month. Designed in Denmark, made in the USA.">
 <link rel="canonical" href="https://bohmarko567-oss.github.io/havn-site/">
 <link rel="preload" as="font" type="font/ttf" href="fonts/Archivo.ttf" crossorigin>
 <link rel="preload" as="font" type="font/ttf" href="fonts/HankenGrotesk.ttf" crossorigin>
@@ -14,19 +14,20 @@
 <meta name="theme-color" content="#1E1913">
 <meta property="og:type" content="website">
 <meta property="og:title" content="HAVN — The 4-piece daily ritual.">
-<meta property="og:description" content="Rise, Calm, Rest — and a 4th piece you can't buy. STEADY ships free with the complete ritual, every month.">
+<meta property="og:description" content="Rise, Calm, Rest — and STEADY, the $18 4th piece that ships free with the complete ritual, every month.">
 <meta property="og:image" content="https://bohmarko567-oss.github.io/havn-site/assets/products/og_v2.jpg">
 <meta property="og:url" content="https://bohmarko567-oss.github.io/havn-site/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="HAVN — The 4-piece daily ritual.">
-<meta name="twitter:description" content="Three formulas you buy. A fourth you earn. STEADY is free with the complete ritual.">
+<meta name="twitter:description" content="Three formulas carry your day. The $18 fourth piece comes free with the complete ritual.">
 <meta name="twitter:image" content="https://bohmarko567-oss.github.io/havn-site/assets/products/og_v2.jpg">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Brand","name":"HAVN","slogan":"Rise. Calm. Rest. And the piece you earn.","url":"https://bohmarko567-oss.github.io/havn-site/","logo":"https://bohmarko567-oss.github.io/havn-site/assets/favicon.png","makesOffer":[
 {"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Rise — Lion's Mane 1000mg","category":"Dietary Supplement","description":"Organic Lion's Mane for memory, focus and clarity.","image":"https://bohmarko567-oss.github.io/havn-site/assets/products/rise_front.jpg"},"price":"31.00","priceCurrency":"USD"},
 {"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Calm — Ashwagandha Plus","category":"Dietary Supplement","description":"KSM-66 Ashwagandha and adaptogens for stress relief and balance.","image":"https://bohmarko567-oss.github.io/havn-site/assets/products/calm_front.jpg"},"price":"31.00","priceCurrency":"USD"},
 {"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Rest — Magnesium Glycinate","category":"Dietary Supplement","description":"Chelated magnesium glycinate for deep, restful sleep.","image":"https://bohmarko567-oss.github.io/havn-site/assets/products/rest_front.jpg"},"price":"31.00","priceCurrency":"USD"},
-{"@type":"Offer","name":"The Complete Ritual","price":"92.00","priceCurrency":"USD","description":"Rise + Calm + Rest, monthly. Includes N°04 Steady (Normal Blood Sugar Drops) free with every order — it is not sold separately."}]}
+{"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Steady — Normal Blood Sugar Drops","category":"Dietary Supplement","description":"Six botanicals in daily drops to support healthy energy metabolism. Free with the complete ritual.","image":"https://bohmarko567-oss.github.io/havn-site/assets/products/steady_front.jpg"},"price":"15.00","priceCurrency":"USD"},
+{"@type":"Offer","name":"The Complete Ritual","price":"92.00","priceCurrency":"USD","description":"Rise + Calm + Rest, monthly. Includes N°04 Steady (Normal Blood Sugar Drops, $18 value) free with every order."}]}
 </script>
 <style>
 @font-face{font-family:'Archivo';src:url('fonts/Archivo.ttf');font-weight:100 900;font-display:swap;}
@@ -44,7 +45,11 @@
   --disp:'Archivo',sans-serif; --body:'Hanken',sans-serif; --mono:'Mono',monospace; --monob:'MonoB',monospace;
   --maxw:1240px;
   --ease:cubic-bezier(.22,.61,.21,1);
+  --sale:#E03131; --sale-dark:#FF7B7B;
 }
+/* sale strikethrough: old price + cross in red, new price keeps its color */
+s{color:var(--sale);text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--sale);}
+.ritual s,.offer s,.reviews s,.anno s,.mmenu s,footer s{color:var(--sale-dark);text-decoration-color:var(--sale-dark);}
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--cream);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden;}
@@ -67,16 +72,8 @@ img{max-width:100%;}
 .btn.berry{background:var(--steady);border-color:var(--steady);color:#fff;}
 .btn.onwhite{background:#fff;color:var(--ink);border-color:#fff;}
 
-/* ---------- living nebula ---------- */
-.nebula{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
-.blob{position:absolute;width:46vw;height:46vw;min-width:340px;min-height:340px;border-radius:50%;filter:blur(80px);opacity:.5;background:radial-gradient(circle at 38% 38%, var(--c), transparent 66%);will-change:transform;}
-@keyframes drift1{0%{transform:translate3d(-6%,-4%,0) scale(1) rotate(0deg)}50%{transform:translate3d(7%,6%,0) scale(1.16) rotate(12deg)}100%{transform:translate3d(-3%,8%,0) scale(.95) rotate(-8deg)}}
-@keyframes drift2{0%{transform:translate3d(5%,6%,0) scale(1.05)}50%{transform:translate3d(-8%,-5%,0) scale(.92)}100%{transform:translate3d(6%,-8%,0) scale(1.12)}}
-@keyframes drift3{0%{transform:translate3d(0,7%,0) scale(.94)}50%{transform:translate3d(-6%,-6%,0) scale(1.1)}100%{transform:translate3d(8%,2%,0) scale(1)}}
-.blob.a1{animation:drift1 26s ease-in-out infinite alternate;}
-.blob.a2{animation:drift2 32s ease-in-out infinite alternate;}
-.blob.a3{animation:drift3 24s ease-in-out infinite alternate;}
-@media (max-width:560px){.blob{filter:blur(56px);width:70vw;height:70vw;}}
+/* ---------- living nebula + sparkles (canvas, 21st.dev-style) ---------- */
+.fx{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;}
 
 /* ---------- announcement ---------- */
 .anno{background:var(--ink);color:var(--cream);font-family:var(--monob);font-size:12px;letter-spacing:1.5px;text-align:center;padding:10px 14px;text-transform:uppercase;position:relative;min-height:38px;}
@@ -140,6 +137,8 @@ header.nav.scrolled{box-shadow:0 6px 24px rgba(30,25,19,.10);}
 .fb{opacity:0;transform:translateY(40px);animation:fbIn .9s var(--ease) forwards;}
 .fb.b-calm{animation-delay:.05s;} .fb.b-rise{animation-delay:.22s;} .fb.b-rest{animation-delay:.38s;}
 @keyframes fbIn{to{opacity:1;transform:none;}}
+/* guarantee visibility even if entrance animations get throttled (bg tabs, embeds) */
+.stage.settle .fb,.stage.settle .chip4{animation:none;opacity:1;transform:none;}
 /* steady teaser chip */
 .chip4{position:absolute;right:4%;bottom:8px;z-index:3;display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border:1.5px solid var(--steady);border-radius:18px;padding:12px 16px 12px 12px;box-shadow:0 18px 40px rgba(138,14,82,.18);cursor:pointer;opacity:0;transform:translateY(30px);animation:fbIn .8s .7s var(--ease) forwards;}
 .chip4:hover .ch-img{transform:rotate(6deg) scale(1.06);}
@@ -173,7 +172,7 @@ section{padding:84px 0;position:relative;}
 .step p{color:#C9BFB0;margin-top:12px;font-size:14.5px;}
 .step.steady{background:linear-gradient(160deg,#2A1020,#1E1913 70%);}
 .step.steady .idx{-webkit-text-stroke-color:rgba(240,139,192,.45);}
-.step .lockrow{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font-family:var(--monob);font-size:10.5px;letter-spacing:1.5px;color:#F08BC0;text-transform:uppercase;border:1px solid rgba(240,139,192,.4);border-radius:100px;padding:6px 12px;}
+.step .lockrow{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font-family:var(--monob);font-size:10.5px;letter-spacing:1.5px;color:#F08BC0;text-transform:uppercase;border:1px solid rgba(240,139,192,.4);border-radius:100px;padding:6px 12px;white-space:nowrap;}
 
 /* formulas */
 .products{background:var(--cream2);}
@@ -193,8 +192,9 @@ section{padding:84px 0;position:relative;}
 .pcard .desc{color:var(--muted);font-size:14px;min-height:64px;}
 .pcard .seelabel{font-family:var(--monob);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px;margin:10px 0 12px;padding:6px;}
 .pcard .seelabel:hover{color:var(--ink);}
-.pcard .price{font-family:var(--disp);font-weight:900;font-size:28px;margin:2px 0 2px;}
+.pcard .price{font-family:var(--disp);font-weight:900;font-size:28px;margin:2px 0 2px;display:flex;align-items:baseline;justify-content:center;gap:8px;}
 .pcard .price small{font-family:var(--body);font-weight:600;font-size:13.5px;color:var(--muted);}
+.pcard .price s{font-size:18px;font-weight:800;}
 .pcard .subprice{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:14px;}
 .pcard .btn{width:100%;padding:14px 18px;}
 .pcard.rise .btn{background:var(--rise);border-color:var(--rise);color:var(--ink);}
@@ -203,7 +203,7 @@ section{padding:84px 0;position:relative;}
 /* locked steady card */
 .pcard.steady{background:linear-gradient(170deg,var(--steady-tint),#fff 60%);border-color:#EFC3DC;position:relative;}
 .pcard.steady .lockchip{position:absolute;top:16px;right:16px;background:var(--steady);color:#fff;font-family:var(--monob);font-size:10px;letter-spacing:1.5px;border-radius:100px;padding:7px 12px;display:flex;gap:6px;align-items:center;z-index:3;}
-.pcard.steady .price{color:var(--steady-deep);font-size:20px;letter-spacing:0;}
+.pcard.steady .price{color:var(--steady-deep);}
 .pcard.steady .btn{background:var(--steady);border-color:var(--steady);color:#fff;}
 
 /* ---------- offer / complete the ritual ---------- */
@@ -214,7 +214,7 @@ section{padding:84px 0;position:relative;}
 .offer h2 .hl{color:#F08BC0;}
 .offer .big-price{display:flex;align-items:baseline;gap:14px;margin:22px 0 6px;flex-wrap:wrap;}
 .offer .big-price .now{font-family:var(--disp);font-weight:900;font-size:54px;}
-.offer .big-price .was{font-size:22px;text-decoration:line-through;opacity:.6;}
+.offer .big-price .was{font-size:22px;}
 .offer .big-price .save{font-family:var(--monob);font-size:11.5px;letter-spacing:1px;background:var(--cream);color:var(--ink);padding:6px 12px;border-radius:100px;}
 .offer ul{list-style:none;margin:22px 0 26px;display:flex;flex-direction:column;gap:12px;}
 .offer li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;color:#E9E1D2;}
@@ -236,6 +236,9 @@ section{padding:84px 0;position:relative;}
 .slot4 .s4t .l1{font-family:var(--monob);font-size:10.5px;letter-spacing:2px;color:#F08BC0;text-transform:uppercase;}
 .slot4 .s4t .l2{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:30px;text-transform:uppercase;letter-spacing:-.5px;margin:3px 0;}
 .slot4 .s4t .l3{font-family:var(--mono);font-size:12px;color:var(--muted2);}
+.slot4 .s4price{display:flex;align-items:baseline;gap:10px;margin:4px 0 6px;}
+.slot4 .s4price s{font-family:var(--disp);font-weight:900;font-size:24px;}
+.slot4 .s4price .free{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:28px;letter-spacing:-.5px;color:#F08BC0;text-transform:uppercase;}
 .slot4.unlocked{border-style:solid;border-color:var(--steady);background:linear-gradient(140deg,rgba(200,30,120,.22),rgba(200,30,120,.05));}
 .slot4.unlocked img{filter:grayscale(0) opacity(1) drop-shadow(0 16px 22px rgba(200,30,120,.35));transform:rotate(-5deg) scale(1.05);}
 .slot4 .badge-free{position:absolute;top:14px;right:14px;background:var(--steady);color:#fff;font-family:var(--monob);font-size:10.5px;letter-spacing:1.5px;padding:6px 12px;border-radius:100px;opacity:0;transform:scale(.6);transition:opacity .35s,transform .35s var(--ease);}
@@ -416,9 +419,9 @@ footer input:focus{border-color:var(--rise);outline:none;}
 <a class="skip" href="#main">Skip to content</a>
 
 <div class="anno" id="anno" aria-live="off">
-  <div class="msg on"><span class="berrytx">N°04 STEADY is never sold — it's earned.</span>&nbsp;Free with the complete ritual.</div>
-  <div class="msg">Free U.S. shipping on the ritual &nbsp;·&nbsp; <b>Subscribe &amp; save 15%</b></div>
-  <div class="msg">30-day “feel it or free” guarantee — even on empty bottles</div>
+  <div class="msg on">Free U.S. shipping over <b>$75</b> — the full ritual always ships free</div>
+  <div class="msg"><span class="berrytx">N°04 STEADY:</span>&nbsp;<s>$18</s>&nbsp;<b>FREE</b>&nbsp;with the complete ritual</div>
+  <div class="msg">Subscribe &amp; save 15% &nbsp;·&nbsp; 30-day “feel it or free” guarantee</div>
 </div>
 
 <header class="nav">
@@ -458,24 +461,19 @@ footer input:focus{border-color:var(--rise);outline:none;}
 
 <!-- HERO -->
 <section class="hero">
-  <div class="nebula" aria-hidden="true">
-    <div class="blob a1" data-px="22" style="--c:rgba(255,106,21,.5);left:-12%;top:-18%;"></div>
-    <div class="blob a2" data-px="30" style="--c:rgba(18,165,148,.45);right:-14%;top:-4%;"></div>
-    <div class="blob a3" data-px="26" style="--c:rgba(78,67,201,.38);right:6%;bottom:-30%;"></div>
-    <div class="blob a2" data-px="18" style="--c:rgba(200,30,120,.30);left:22%;bottom:-36%;animation-delay:-8s;"></div>
-  </div>
+  <canvas class="fx" data-fx="light" data-colors="rise,calm,rest,steady" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="hero-grid">
       <div>
         <div class="eyebrow">The 4-piece daily ritual</div>
         <h1><span class="r">Rise.</span><br><span class="c">Calm.</span><br><span class="s">Rest.</span></h1>
-        <div class="plus4">+ Steady<small>N°04 — the piece you can't buy</small></div>
-        <p class="lead">Three clean formulas carry your day — focus, balance, deep sleep. Complete all three and the fourth piece ships <b>free, every month</b>.</p>
+        <div class="plus4">+ Steady<small>N°04 — <s>$18</s> free with the full ritual</small></div>
+        <p class="lead">Three clean formulas carry your day — focus, balance, deep sleep. Complete all three and the $18 fourth piece comes <b>free, every month</b>.</p>
         <div class="hero-cta">
           <button id="trioBtn" class="btn rise mag" onclick="addTrio()">Complete the Ritual — $92/mo</button>
           <a href="#products" class="btn ghost mag">Meet the formulas</a>
         </div>
-        <div class="hero-note">◇ Vegan · Non-GMO · Third-party tested · Made in the USA</div>
+        <div class="hero-note">◇ Designed in Denmark · Made in the USA · Vegan · Non-GMO · Third-party tested</div>
       </div>
       <div class="stage" id="stage">
         <div class="fb b-rise" data-px="14"><div class="tilt"><div class="bobber"><img src="assets/products/cut_rise.webp" width="624" height="1200" alt="HAVN RISE — Lion's Mane bottle" loading="eager"></div></div></div>
@@ -483,7 +481,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
         <div class="fb b-rest" data-px="16"><div class="tilt"><div class="bobber"><img src="assets/products/cut_rest.webp" width="600" height="1200" alt="HAVN REST — Magnesium Glycinate bottle" loading="eager"></div></div></div>
         <div class="chip4" data-px="24" onclick="document.getElementById('steady').scrollIntoView({behavior:'smooth'})" role="link" tabindex="0" aria-label="N°04 Steady — the fourth piece, free inside the complete ritual" onkeydown="if(event.key==='Enter')this.click()">
           <img class="ch-img" src="assets/products/cut_steady.webp" alt="" aria-hidden="true">
-          <div><div class="t1">N°04 · Never sold</div><div class="t2">Steady</div><div class="t3">free inside the full ritual ↓</div></div>
+          <div><div class="t1">N°04 · The 4th piece</div><div class="t2">Steady</div><div class="t3"><s>$18</s> free with the full ritual ↓</div></div>
         </div>
       </div>
     </div>
@@ -492,23 +490,20 @@ footer input:focus{border-color:var(--rise);outline:none;}
 
 <!-- MARQUEE -->
 <div class="marquee" aria-hidden="true"><div class="track" id="mqtrack">
-  <span><b class="r">☀ RISE</b></span><span>FOCUS</span><span><b class="c">◐ CALM</b></span><span>BALANCE</span><span><b class="s">☾ REST</b></span><span>SLEEP</span><span><b class="y">⊖ STEADY</b></span><span>THE 4TH PIECE — NEVER SOLD, ONLY EARNED</span>
+  <span><b class="r">☀ RISE</b></span><span>FOCUS</span><span><b class="c">◐ CALM</b></span><span>BALANCE</span><span><b class="s">☾ REST</b></span><span>SLEEP</span><span><b class="y">⊖ STEADY</b></span><span>THE 4TH PIECE: <s>$18</s> FREE WITH THE FULL RITUAL</span><span>DESIGNED IN DENMARK · MADE IN USA</span>
 </div></div>
 
 <!-- RITUAL -->
 <section class="ritual" id="ritual">
-  <div class="nebula" aria-hidden="true">
-    <div class="blob a3" style="--c:rgba(255,106,21,.14);left:-10%;top:-30%;"></div>
-    <div class="blob a1" style="--c:rgba(78,67,201,.16);right:-12%;bottom:-40%;"></div>
-  </div>
+  <canvas class="fx" data-fx="dark" data-colors="rise,rest" data-density=".7" data-sparkles="16" aria-hidden="true"></canvas>
   <div class="wrap" style="position:relative;z-index:2">
-    <div class="sec-head rv"><div class="eyebrow" style="color:#8B8172">Morning to night — and underneath it all</div><h2>One ritual, four pieces</h2><p style="color:#C9BFB0">Three formulas map to the three moments of your day. The fourth runs quietly beneath all of them — and it can't be bought.</p></div>
+    <div class="sec-head rv"><div class="eyebrow" style="color:#8B8172">Morning to night — and underneath it all</div><h2>One ritual, four pieces</h2><p style="color:#C9BFB0">Three formulas map to the three moments of your day. The fourth runs quietly beneath all of them — and comes free when you take all three.</p></div>
     <div class="steps">
       <div class="step rise rv rl"><div class="idx">01</div><div class="when">A.M. · Morning</div><div class="t">Rise</div><p>Organic Lion's Mane for memory, focus and a clear head to start the day. Two capsules with breakfast.</p></div>
       <div class="step calm rv rl d1"><div class="idx">02</div><div class="when">Midday · Afternoon</div><div class="t">Calm</div><p>KSM-66® Ashwagandha plus adaptogens to take the edge off stress — calm, not drowsy.</p></div>
       <div class="step rest rv rr d2"><div class="idx">03</div><div class="when">P.M. · Night</div><div class="t">Rest</div><p>Gentle, highly-absorbable Magnesium Glycinate to wind down and sink into deep sleep.</p></div>
       <div class="step steady rv rr d3"><div class="idx">04</div><div class="when">All day · Underneath</div><div class="t">Steady</div><p>Six botanicals in daily drops to keep energy steady while the other three do their work.</p>
-        <span class="lockrow"><svg width="11" height="13" viewBox="0 0 11 13" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="1" y="5.5" width="9" height="6.5" rx="1.5"/><path d="M3 5.5V4a2.5 2.5 0 0 1 5 0v1.5"/></svg> Earned, not sold</span></div>
+        <span class="lockrow"><s>$18</s>&nbsp;· free with the full set</span></div>
     </div>
   </div>
 </section>
@@ -527,20 +522,16 @@ footer input:focus{border-color:var(--rise);outline:none;}
 
 <!-- COMPLETE THE RITUAL -->
 <section class="offer" id="steady">
-  <div class="nebula" aria-hidden="true">
-    <div class="blob a1" style="--c:rgba(200,30,120,.34);right:-10%;top:-24%;"></div>
-    <div class="blob a2" style="--c:rgba(78,67,201,.3);left:-12%;bottom:-30%;"></div>
-    <div class="blob a3" style="--c:rgba(18,165,148,.18);left:30%;top:-40%;"></div>
-  </div>
+  <canvas class="fx" data-fx="dark" data-colors="steady,rest,calm" data-sparkles="30" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="offer-grid">
       <div class="rv rl">
         <div class="eyebrow" style="color:#F08BC0">The completion offer</div>
         <h2>Complete the ritual.<br><span class="hl">Claim the 4th piece.</span></h2>
         <div class="big-price"><span class="now" id="offerNow">$92</span><span class="was" id="offerWas">$108</span><span class="save" id="offerSave">SUBSCRIBE &amp; SAVE 15%</span></div>
-        <p style="max-width:440px;color:#E9E1D2">Rise + Calm + Rest, delivered monthly — and STEADY, our Normal Blood Sugar Drops, added free to <b style="color:#F08BC0">every single order</b>. It's the only way to get it.</p>
+        <p style="max-width:440px;color:#E9E1D2">Rise + Calm + Rest, delivered monthly — and STEADY, our Normal Blood Sugar Drops, added free to <b style="color:#F08BC0">every single order</b>. On its own it's $18. With the full ritual it's always $0.</p>
         <ul>
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> N°04 STEADY free — never sold separately</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> N°04 STEADY — <s>$18</s>&nbsp;<b style="color:#F08BC0">FREE</b>, every order</li>
           <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Free U.S. shipping, every month</li>
           <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Skip, swap or cancel anytime</li>
           <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> 30-day “feel it or free” guarantee</li>
@@ -560,11 +551,12 @@ footer input:focus{border-color:var(--rise);outline:none;}
           <div class="s4t">
             <div class="l1">N°04 · The 4th piece</div>
             <div class="l2">Steady</div>
-            <div class="l3" id="slot4msg">Locked — complete 01–03 to unlock</div>
+            <div class="s4price"><s>$18</s><span class="free">Free</span></div>
+            <div class="l3" id="slot4msg">when 01–03 are in your order</div>
           </div>
           <span class="badge-free">FREE</span>
         </div>
-        <div class="pfoot">STEADY (Normal Blood Sugar Drops — cinnamon bark, bitter melon, turmeric &amp; three more botanicals) is <b>not for sale</b>. It ships free with every complete ritual, and again every month you stay.</div>
+        <div class="pfoot">On its own, STEADY (Normal Blood Sugar Drops — cinnamon bark, bitter melon, turmeric &amp; three more botanicals) runs <b>$18</b>. Put 01–03 in one order and it drops to $0 — and stays $0 every month you keep the ritual.</div>
       </div>
     </div>
   </div>
@@ -575,34 +567,28 @@ footer input:focus{border-color:var(--rise);outline:none;}
   <div class="wrap">
     <div class="sec-head rv"><div class="eyebrow">No fillers. No junk.</div><h2>Clean by default</h2></div>
     <div class="badgerow rv rp">
-      <span class="badge">Vegan</span><span class="badge">Non-GMO</span><span class="badge">Gluten-Free</span>
-      <span class="badge">Third-Party Tested</span><span class="badge">Made in the USA</span><span class="badge">cGMP Facility</span><span class="badge">No Artificial Fillers</span>
+      <span class="badge">Designed in Denmark</span><span class="badge">Made in the USA</span><span class="badge">Vegan</span><span class="badge">Non-GMO</span>
+      <span class="badge">Gluten-Free</span><span class="badge">Third-Party Tested</span><span class="badge">cGMP Facility</span><span class="badge">No Artificial Fillers</span>
     </div>
   </div>
 </section>
 
 <!-- SCIENCE -->
 <section id="science">
-  <div class="nebula" aria-hidden="true">
-    <div class="blob a2" style="--c:rgba(18,165,148,.16);left:-14%;top:-20%;"></div>
-  </div>
   <div class="wrap">
     <div class="sec-head rv"><div class="eyebrow">Dosed to matter</div><h2>Real actives, real amounts</h2><p>Studied ingredients at studied doses — the stuff that actually does something.</p></div>
     <div class="sci-grid">
       <div class="sci rise rv"><div class="k">1000mg</div><h4>Rise · Lion's Mane</h4><p>Organic fruiting body &amp; mycelium, standardized to 40% polysaccharides for cognitive support.</p></div>
       <div class="sci calm rv d1"><div class="k">600mg</div><h4>Calm · KSM-66® Ashwagandha</h4><p>The most clinically-studied ashwagandha root extract, plus B-vitamins, maca and ginseng.</p></div>
       <div class="sci rest rv d2"><div class="k">275mg</div><h4>Rest · Magnesium</h4><p>Chelated magnesium glycinate — the gentle, highly-absorbable form your body actually uses.</p></div>
-      <div class="sci steady rv d3"><div class="k">6</div><h4>Steady · Botanicals</h4><p>Cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander &amp; resveratrol. Gift-only.</p></div>
+      <div class="sci steady rv d3"><div class="k">6</div><h4>Steady · Botanicals</h4><p>Cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander &amp; resveratrol. Free with the full ritual.</p></div>
     </div>
   </div>
 </section>
 
 <!-- REVIEWS -->
 <section class="reviews" id="reviews">
-  <div class="nebula" aria-hidden="true">
-    <div class="blob a1" style="--c:rgba(255,106,21,.12);left:-10%;bottom:-36%;"></div>
-    <div class="blob a3" style="--c:rgba(200,30,120,.12);right:-10%;top:-30%;"></div>
-  </div>
+  <canvas class="fx" data-fx="dark" data-colors="rise,steady" data-density=".6" data-sparkles="22" aria-hidden="true"></canvas>
   <div class="wrap" style="position:relative;z-index:2">
     <div class="sec-head rv"><div class="eyebrow" style="color:#8B8172">4.8 ★ from early members</div><h2>People feel the difference</h2></div>
     <div class="rgrid">
@@ -617,12 +603,12 @@ footer input:focus{border-color:var(--rise);outline:none;}
 <section class="faq" id="faq">
   <div class="wrap" style="max-width:900px">
     <div class="sec-head rv"><div class="eyebrow">Good to know</div><h2>Questions, answered</h2></div>
-    <details open><summary>What is the 4th piece?</summary><div class="fa"><p>STEADY — N°04, our Normal Blood Sugar Drops. Six botanicals (cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander and Japanese knotweed resveratrol) in a daily 2&nbsp;ml dropper to support healthy energy metabolism*. It ships free with every complete ritual order — and repeats every month you stay subscribed.</p></div></details>
-    <details><summary>Can I buy STEADY on its own?</summary><div class="fa"><p>No — and that's the point. STEADY is not listed, priced, or sold anywhere. The only way to get N°04 is to complete the ritual: Rise, Calm and Rest in one order. It's our reward for doing the whole thing, not another upsell.</p></div></details>
+    <details open><summary>What is the 4th piece?</summary><div class="fa"><p>STEADY — N°04, our Normal Blood Sugar Drops. Six botanicals (cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander and Japanese knotweed resveratrol) in a daily 2&nbsp;ml dropper to support healthy energy metabolism*. On its own it's $18 — but it ships free with every complete ritual order, and repeats every month you stay subscribed.</p></div></details>
+    <details><summary>Can I buy STEADY on its own?</summary><div class="fa"><p>Yes — $18 one-time, or $15/mo subscribed. But here's the easy math: complete the ritual (Rise + Calm + Rest in one order) and you never pay for it. N°04 rides along free, every single order.</p></div></details>
     <details><summary>How does the subscription work?</summary><div class="fa"><p>Choose Subscribe &amp; Save to lock in 15% off, free shipping, and your monthly STEADY. Your ritual arrives every 30 days. Skip, swap, or cancel anytime from your account — no phone calls, no hassle. Cancel and the gift stops; come back and it returns.</p></div></details>
     <details><summary>When will I feel a difference?</summary><div class="fa"><p>Rest and Calm are often felt within the first few days. Rise (Lion's Mane) builds over 2–4 weeks of consistent use. That's why we back the whole ritual with a 30-day “feel it or free” guarantee.</p></div></details>
     <details><summary>Can I take all four together?</summary><div class="fa"><p>Yes — they're designed as a system, taken at different times: Rise in the morning, Calm midday, Rest before bed, STEADY drops any morning moment. If you're pregnant, nursing, or on medication, check with your doctor first.</p></div></details>
-    <details><summary>Shipping &amp; returns?</summary><div class="fa"><p>Orders $79+ ship free in the U.S. (the complete ritual always qualifies). Not feeling it? Reach out within 30 days for a full refund — even on empty bottles.</p></div></details>
+    <details><summary>Shipping &amp; returns?</summary><div class="fa"><p>Orders $75+ ship free in the U.S. (the complete ritual always qualifies). Not feeling it? Reach out within 30 days for a full refund — even on empty bottles.</p></div></details>
   </div>
 </section>
 
@@ -633,9 +619,10 @@ footer input:focus{border-color:var(--rise);outline:none;}
     <div class="foot-grid">
       <div>
         <div class="foot-logo">HAVN</div>
-        <p style="color:#C9BFB0;font-size:14px;max-width:280px;margin-top:14px">A daily ritual for a clearer, calmer, better-rested you. Three you buy. One you earn.</p>
+        <p style="color:#C9BFB0;font-size:14px;max-width:280px;margin-top:14px">A daily ritual for a clearer, calmer, better-rested you. Three you buy. The fourth comes free.</p>
+        <p style="font-family:var(--mono);font-size:11.5px;color:var(--muted2);margin-top:12px">Designed in Denmark · Made in the USA</p>
       </div>
-      <div><h5>Shop</h5><ul><li><a href="#products">Rise</a></li><li><a href="#products">Calm</a></li><li><a href="#products">Rest</a></li><li><a href="#steady">Steady — gift only</a></li></ul></div>
+      <div><h5>Shop</h5><ul><li><a href="#products">Rise</a></li><li><a href="#products">Calm</a></li><li><a href="#products">Rest</a></li><li><a href="#steady">Steady — N°04</a></li></ul></div>
       <div><h5>Company</h5><ul><li><a href="#science">Why HAVN</a></li><li><a href="#reviews">Reviews</a></li><li><a href="#faq">FAQ</a></li><li><a href="mailto:hello@havn.co">Contact</a></li></ul></div>
       <div><h5>Get 15% off</h5><p style="color:#C9BFB0;font-size:13px;margin-bottom:12px">Join the ritual. First order, first to know.</p>
         <label for="nlemail" style="position:absolute;left:-9999px">Email address</label>
@@ -687,7 +674,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
   <div class="drawer-foot">
     <div class="gift-line" id="giftLine" role="status">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13M12 8s-4.5.2-4.5-2.6C7.5 3 12 3.6 12 8Zm0 0s4.5.2 4.5-2.6C16.5 3 12 3.6 12 8Z"/></svg>
-      <span>STEADY unlocked — free in this order &amp; every renewal</span>
+      <span>STEADY unlocked — <s>$18</s> <b>FREE</b> in this order</span>
     </div>
     <div class="row"><span>Subtotal</span><span id="subtotal">$0</span></div>
     <button class="btn" id="ckBtn" onclick="checkout()" disabled>Checkout</button>
@@ -706,30 +693,36 @@ const PRODUCTS = [
    desc:'Deep, restful sleep and easy wind-down. The gentle, absorbable form.', price:36, subPrice:31},
 ];
 const STEADY = {id:'steady', name:'Steady', sub:'Blood Sugar Drops · 6 botanicals', n:'N°04', cls:'steady',
-   desc:'Six botanicals to keep energy level all day. The 4th piece — never sold, only earned.'};
+   desc:'Six botanicals to keep energy level all day. $18 on its own — free with the complete ritual.', price:18, subPrice:15};
+const ALL = [...PRODUCTS, STEADY];
 const HEX = {rise:'#FF6A15', calm:'#12A594', rest:'#4E43C9', steady:'#C81E78'};
-const FREE_SHIP = 79;
+const FREE_SHIP = 75;
 
 let subscribe = true;
-let cart = {trio:0, singles:{rise:0, calm:0, rest:0}};
-try{ const c = JSON.parse(localStorage.getItem('havn_cart')||'null'); if(c && c.singles) cart = c; }catch(e){}
+let cart = {trio:0, singles:{rise:0, calm:0, rest:0, steady:0}};
+try{ const c = JSON.parse(localStorage.getItem('havn_cart')||'null'); if(c && c.singles){ cart = c; ALL.forEach(p=>{ if(typeof cart.singles[p.id]!=='number') cart.singles[p.id]=0; }); } }catch(e){}
 
 const $ = id => document.getElementById(id);
 const fmt = n => Number.isInteger(n) ? '$'+n : '$'+n.toFixed(2);
 const trioPrice = () => subscribe ? 92 : 108;
-const singlePrice = () => subscribe ? 31 : 36;
-const itemCount = () => cart.trio*3 + cart.singles.rise + cart.singles.calm + cart.singles.rest;
+const priceOf = p => subscribe ? p.subPrice : p.price;
+const itemCount = () => cart.trio*3 + ALL.reduce((s,p)=>s+cart.singles[p.id],0);
 const hasSku = id => cart.trio>0 || cart.singles[id]>0;
 const complete = () => cart.trio>0 || (cart.singles.rise>0 && cart.singles.calm>0 && cart.singles.rest>0);
-const subtotal = () => cart.trio*trioPrice() + (cart.singles.rise+cart.singles.calm+cart.singles.rest)*singlePrice();
+const subtotal = () => cart.trio*trioPrice() + ALL.reduce((s,p)=>s+cart.singles[p.id]*priceOf(p),0);
 
 /* ================= products grid ================= */
 function renderProducts(){
-  const cards = PRODUCTS.map((p,i)=>{
-    const main = subscribe ? p.subPrice : p.price;
-    const suf  = subscribe ? ' /mo' : ' one-time';
-    const alt  = subscribe ? `or $${p.price} one-time` : `or $${p.subPrice}/mo subscribed`;
+  const card = (p,i,extra) => {
+    const sale = subscribe;
+    const main = sale ? p.subPrice : p.price;
+    const wasHTML = sale ? `<s>$${p.price}</s>` : '';
+    const suf  = sale ? ' /mo' : ' one-time';
+    const alt  = p.id==='steady'
+      ? `or <b>FREE</b> with the complete ritual`
+      : (sale ? `or $${p.price} one-time` : `or $${p.subPrice}/mo subscribed`);
     return `<div class="pcard ${p.cls} rv d${i+1}">
+      ${extra||''}
       <div class="pimg">
         <img class="base" src="assets/products/${p.id}_front.jpg" width="1200" height="1200" alt="HAVN ${p.name} bottle" loading="lazy">
         <img class="alt" src="assets/products/${p.id}_duo.jpg" width="1200" height="1200" alt="" aria-hidden="true" loading="lazy">
@@ -737,24 +730,13 @@ function renderProducts(){
       <h3>${p.name}</h3><div class="sub">${p.n} · ${p.sub}</div>
       <div class="desc">${p.desc}</div>
       <button class="seelabel" onclick="openLabel('${p.id}','${p.name}')">See the label ↗</button>
-      <div class="price">$${main}<small>${suf}</small></div>
+      <div class="price">${wasHTML}$${main}<small>${suf}</small></div>
       <div class="subprice">${alt}</div>
       <button class="btn" onclick="addItem('${p.id}')">Add to ritual</button>
     </div>`;
-  });
-  cards.push(`<div class="pcard steady rv d4">
-      <span class="lockchip"><svg width="10" height="12" viewBox="0 0 11 13" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="1" y="5.5" width="9" height="6.5" rx="1.5"/><path d="M3 5.5V4a2.5 2.5 0 0 1 5 0v1.5"/></svg> GIFT ONLY</span>
-      <div class="pimg">
-        <img class="base" src="assets/products/steady_front.jpg" width="1200" height="1200" alt="HAVN STEADY — Normal Blood Sugar Drops bottle" loading="lazy">
-        <img class="alt" src="assets/products/steady_duo.jpg" width="1200" height="1200" alt="" aria-hidden="true" loading="lazy">
-      </div>
-      <h3>${STEADY.name}</h3><div class="sub">${STEADY.n} · ${STEADY.sub}</div>
-      <div class="desc">${STEADY.desc}</div>
-      <button class="seelabel" onclick="openLabel('steady','Steady')">See the label ↗</button>
-      <div class="price">Not for sale</div>
-      <div class="subprice">free with the complete ritual</div>
-      <button class="btn" onclick="document.getElementById('steady').scrollIntoView({behavior:'smooth'})">Unlock it ↓</button>
-    </div>`);
+  };
+  const cards = PRODUCTS.map((p,i)=>card(p,i));
+  cards.push(card(STEADY,3,`<span class="lockchip"><s style="color:#fff;text-decoration-color:#fff">$18</s>&nbsp;FREE W/ FULL RITUAL</span>`));
   $('pgrid').innerHTML = cards.join('');
   motionSweep();
 }
@@ -782,6 +764,9 @@ function bumpSingle(id,d){ cart.singles[id] = Math.max(0, cart.singles[id] + d);
 
 let prevComplete = complete();
 function update(){
+  const done = complete();
+  /* the $18 -> FREE moment: completing the set converts a paid STEADY into the gift */
+  if(done && !prevComplete && cart.singles.steady>0) cart.singles.steady--;
   try{ localStorage.setItem('havn_cart', JSON.stringify(cart)); }catch(e){}
   $('cc').textContent = itemCount() + (complete() ? 1 : 0);
   document.querySelector('.cart-btn').setAttribute('aria-label', `Open cart, ${itemCount()} items`);
@@ -793,12 +778,12 @@ function update(){
       <div><div class="ci-n">Complete Ritual</div><div class="ci-s">Rise + Calm + Rest ${subscribe?'· monthly':''} · N°04 free</div></div>
       <div class="ci-right"><span class="ci-p">${fmt(cart.trio*trioPrice())}</span>
         <div class="qty" aria-label="Complete Ritual quantity"><button onclick="bumpTrio(-1)" aria-label="Decrease">−</button><span class="q">${cart.trio}</span><button onclick="bumpTrio(1)" aria-label="Increase">+</button></div></div></div>`);
-  PRODUCTS.forEach(p=>{
+  ALL.forEach(p=>{
     const q = cart.singles[p.id];
     if(q>0) items.push(`
     <div class="citem"><div class="sw" style="background:${HEX[p.id]}" aria-hidden="true">${p.n.slice(2)}</div>
       <div><div class="ci-n">${p.name}</div><div class="ci-s">${p.sub} · ${subscribe?'$'+p.subPrice+'/mo':'$'+p.price}</div></div>
-      <div class="ci-right"><span class="ci-p">${fmt(q*singlePrice())}</span>
+      <div class="ci-right"><span class="ci-p">${fmt(q*priceOf(p))}</span>
         <div class="qty" aria-label="${p.name} quantity"><button onclick="bumpSingle('${p.id}',-1)" aria-label="Decrease ${p.name}">−</button><span class="q">${q}</span><button onclick="bumpSingle('${p.id}',1)" aria-label="Increase ${p.name}">+</button></div></div></div>`);
   });
   if(complete()) items.push(`
@@ -822,11 +807,10 @@ function update(){
     const os = document.querySelector(`#offerSlots .slot[data-sku="${id}"]`);
     if(os){ os.classList.toggle('filled', hasSku(id)); os.classList.toggle(id, true); }
   });
-  const done = complete();
   $('cs4').classList.toggle('f', done);
   $('slotLbl').innerHTML = done ? 'Ritual complete —<br>N°04 is yours, free' : 'Complete 01–03<br>to unlock N°04';
   $('slot4').classList.toggle('unlocked', done);
-  $('slot4msg').textContent = done ? 'Unlocked — free in your order' : 'Locked — complete 01–03 to unlock';
+  $('slot4msg').textContent = done ? 'unlocked — $0 in your order' : 'when 01–03 are in your order';
   $('giftLine').style.display = done ? 'flex' : 'none';
   $('ckBtn').disabled = itemCount()===0;
   $('ckBtn').textContent = itemCount()===0 ? 'Checkout' : `Checkout — ${fmt(st)}${subscribe&&st>0?'/mo':''}`;
@@ -870,8 +854,8 @@ function checkout(){
   if(itemCount()===0) return;
   const lines = [];
   if(cart.trio>0) lines.push(`<div class="l"><span>Complete Ritual ×${cart.trio}</span><span>${fmt(cart.trio*trioPrice())}</span></div>`);
-  PRODUCTS.forEach(p=>{ if(cart.singles[p.id]>0) lines.push(`<div class="l"><span>${p.name} ×${cart.singles[p.id]}</span><span>${fmt(cart.singles[p.id]*singlePrice())}</span></div>`); });
-  if(complete()) lines.push(`<div class="l g"><span>Steady — N°04 gift</span><span>FREE</span></div>`);
+  ALL.forEach(p=>{ if(cart.singles[p.id]>0) lines.push(`<div class="l"><span>${p.name} ×${cart.singles[p.id]}</span><span>${fmt(cart.singles[p.id]*priceOf(p))}</span></div>`); });
+  if(complete()) lines.push(`<div class="l g"><span>Steady — N°04 gift</span><span><s>$18</s> FREE</span></div>`);
   lines.push(`<div class="l"><span>Shipping</span><span>${subtotal()>=FREE_SHIP?'FREE':'at checkout'}</span></div>`);
   lines.push(`<div class="l t"><span>Total${subscribe?' / month':''}</span><span>${fmt(subtotal())}</span></div>`);
   $('ckSummary').innerHTML = lines.join('');
@@ -963,8 +947,94 @@ if(matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion
   });
 }
 
+/* ================= living nebula + sparkles (canvas FX) ================= */
+(function(){
+  const COLS = {rise:[255,106,21], calm:[18,165,148], rest:[98,86,226], steady:[214,44,134]};
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('canvas.fx').forEach(cv=>{
+    const dark = cv.dataset.fx !== 'light';
+    const names = (cv.dataset.colors||'rise,calm').split(',');
+    const density = +(cv.dataset.density||1);
+    const sparkN = reduced ? 0 : +(cv.dataset.sparkles||0);
+    const ctx = cv.getContext('2d');
+    let W, H, clouds = [], sparks = [], t = Math.random()*100, running = false, raf = null;
+
+    function size(){
+      const r = cv.parentElement.getBoundingClientRect();
+      W = cv.width = Math.max(4, Math.round(r.width/3));   /* low-res render = free softness */
+      H = cv.height = Math.max(4, Math.round(r.height/3));
+    }
+    function init(){
+      size(); clouds = []; sparks = [];
+      names.forEach((n,i)=>{
+        const c = COLS[n] || COLS.rise;
+        if(dark){
+          for(let k=0;k<2;k++) clouds.push({c,
+            r:(.5+Math.random()*.45)*Math.min(W,H)*1.7*density,
+            x:(.14+.72*Math.random()), y:(.1+.8*Math.random()),
+            sx:.05+Math.random()*.1, sy:.04+Math.random()*.09,
+            px:Math.random()*7, py:Math.random()*7,
+            a:.4*(k? .65 : 1)});
+        }else{
+          /* light mode: one soft pastel cloud per color, pinned to the perimeter so the cream stays dominant */
+          const ang = (i/names.length)*Math.PI*2 + .6;
+          clouds.push({c,
+            r:(.55+Math.random()*.2)*Math.min(W,H)*1.15*density,
+            x:.5+.44*Math.cos(ang), y:.5+.42*Math.sin(ang),
+            sx:.04+Math.random()*.06, sy:.03+Math.random()*.05,
+            px:Math.random()*7, py:Math.random()*7,
+            a:.17});
+        }
+      });
+      for(let i=0;i<sparkN;i++) sparks.push({x:Math.random(), y:Math.random(), r:.5+Math.random()*1.3, p:Math.random()*7, v:.5+Math.random()});
+    }
+    function frame(){
+      t += .016;
+      ctx.clearRect(0,0,W,H);
+      ctx.globalCompositeOperation = dark ? 'lighter' : 'source-over';
+      for(const b of clouds){
+        const x = (b.x + Math.sin(t*b.sx + b.px)*.2)*W;
+        const y = (b.y + Math.cos(t*b.sy + b.py)*.17)*H;
+        const rr = b.r*(1 + Math.sin(t*.1 + b.px)*.14);
+        const g = ctx.createRadialGradient(x,y,0,x,y,rr);
+        g.addColorStop(0, `rgba(${b.c[0]},${b.c[1]},${b.c[2]},${b.a})`);
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+      }
+      if(sparks.length){
+        ctx.globalCompositeOperation = 'lighter';
+        for(const s of sparks){
+          s.y -= s.v*.0006; if(s.y < -.02) s.y = 1.02;
+          const tw = .3 + .7*Math.abs(Math.sin(t*1.6 + s.p));
+          ctx.fillStyle = `rgba(246,239,225,${.8*tw})`;
+          ctx.beginPath(); ctx.arc(s.x*W, s.y*H, s.r*tw, 0, 7); ctx.fill();
+        }
+      }
+    }
+    function loop(){ if(!running) return; frame(); raf = requestAnimationFrame(loop); }
+    function healthy(){ const r = cv.parentElement.getBoundingClientRect(); return r.width > 50 && Math.abs(Math.round(r.width/3) - W) < Math.max(40, W*.4); }
+    function start(){
+      if(reduced) return;
+      if(!healthy()){ init(); }                       /* re-init if sized while hidden/0-width */
+      if(running) return; running = true; raf = requestAnimationFrame(loop);
+    }
+    function stop(){ running = false; if(raf) cancelAnimationFrame(raf); }
+
+    init(); frame();                                  /* static first paint = reduced-motion state */
+    if(!reduced){
+      if('IntersectionObserver' in window){
+        new IntersectionObserver(es=>es.forEach(e=> e.isIntersecting ? start() : stop()), {rootMargin:'160px'}).observe(cv.parentElement);
+      }
+      setTimeout(start, 350);                         /* fallback where IO is throttled */
+      document.addEventListener('visibilitychange', ()=>{ document.hidden ? stop() : start(); });
+      let rt; addEventListener('resize', ()=>{ clearTimeout(rt); rt = setTimeout(()=>{ init(); frame(); }, 180); }, {passive:true});
+    }
+  });
+})();
+
 /* boot */
 renderProducts(); syncOfferCopy(); update(); motionSweep();
+setTimeout(()=>{ const st = $('stage'); if(st) st.classList.add('settle'); }, 1800);
 if(location.hash==='#cart'){ addTrio(); }
 </script>
 </body>
