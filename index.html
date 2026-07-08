@@ -3,320 +3,409 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HAVN — Rise · Calm · Rest. Your daily ritual.</title>
-<meta name="description" content="HAVN is a three-part daily supplement ritual: RISE for focus, CALM for balance, REST for sleep. Clean, third-party tested, made in the USA.">
-<link rel="canonical" href="https://havn.co/">
-<link rel="preload" as="image" href="assets/products/calm_front.jpg">
-<link rel="preload" as="image" href="assets/products/rise_front.jpg">
-<link rel="preload" as="image" href="assets/products/rest_front.jpg">
+<title>HAVN — The 4-piece daily ritual. Rise · Calm · Rest + Steady.</title>
+<meta name="description" content="Three clean formulas you buy — focus, balance, sleep. A fourth piece, STEADY, you can only earn: free with the complete ritual, every month.">
+<link rel="canonical" href="https://bohmarko567-oss.github.io/havn-site/">
+<link rel="preload" as="font" type="font/ttf" href="fonts/Archivo.ttf" crossorigin>
+<link rel="preload" as="font" type="font/ttf" href="fonts/HankenGrotesk.ttf" crossorigin>
+<link rel="preload" as="image" href="assets/products/cut_calm.webp">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<meta name="theme-color" content="#FF6A15">
+<meta name="theme-color" content="#1E1913">
 <meta property="og:type" content="website">
-<meta property="og:title" content="HAVN — Rise · Calm · Rest. Your daily ritual.">
-<meta property="og:description" content="Three clean formulas for the three parts of your day. Focus, balance, sleep — one simple ritual.">
-<meta property="og:image" content="assets/og_official.jpg">
-<meta property="og:url" content="https://havn.co">
+<meta property="og:title" content="HAVN — The 4-piece daily ritual.">
+<meta property="og:description" content="Rise, Calm, Rest — and a 4th piece you can't buy. STEADY ships free with the complete ritual, every month.">
+<meta property="og:image" content="https://bohmarko567-oss.github.io/havn-site/assets/products/og_v2.jpg">
+<meta property="og:url" content="https://bohmarko567-oss.github.io/havn-site/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="HAVN — Rise · Calm · Rest.">
-<meta name="twitter:description" content="A daily supplement ritual: focus, balance, sleep.">
-<meta name="twitter:image" content="assets/og_official.jpg">
+<meta name="twitter:title" content="HAVN — The 4-piece daily ritual.">
+<meta name="twitter:description" content="Three formulas you buy. A fourth you earn. STEADY is free with the complete ritual.">
+<meta name="twitter:image" content="https://bohmarko567-oss.github.io/havn-site/assets/products/og_v2.jpg">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Brand","name":"HAVN","slogan":"Rise. Calm. Rest. Your daily ritual.","url":"https://havn.co","logo":"https://havn.co/assets/favicon.png","makesOffer":[
-{"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Rise — Lion's Mane 1000mg","category":"Dietary Supplement","description":"Organic Lion's Mane for memory, focus and clarity."},"price":"31.00","priceCurrency":"USD"},
-{"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Calm — Ashwagandha Plus","category":"Dietary Supplement","description":"KSM-66 Ashwagandha and adaptogens for stress relief and balance."},"price":"31.00","priceCurrency":"USD"},
-{"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Rest — Magnesium Glycinate","category":"Dietary Supplement","description":"Chelated magnesium glycinate for deep, restful sleep."},"price":"31.00","priceCurrency":"USD"},
-{"@type":"Offer","name":"The Trio","price":"92.00","priceCurrency":"USD","description":"Rise + Calm + Rest. Free shipping and a free gift on subscription."}]}
+{"@context":"https://schema.org","@type":"Brand","name":"HAVN","slogan":"Rise. Calm. Rest. And the piece you earn.","url":"https://bohmarko567-oss.github.io/havn-site/","logo":"https://bohmarko567-oss.github.io/havn-site/assets/favicon.png","makesOffer":[
+{"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Rise — Lion's Mane 1000mg","category":"Dietary Supplement","description":"Organic Lion's Mane for memory, focus and clarity.","image":"https://bohmarko567-oss.github.io/havn-site/assets/products/rise_front.jpg"},"price":"31.00","priceCurrency":"USD"},
+{"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Calm — Ashwagandha Plus","category":"Dietary Supplement","description":"KSM-66 Ashwagandha and adaptogens for stress relief and balance.","image":"https://bohmarko567-oss.github.io/havn-site/assets/products/calm_front.jpg"},"price":"31.00","priceCurrency":"USD"},
+{"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Rest — Magnesium Glycinate","category":"Dietary Supplement","description":"Chelated magnesium glycinate for deep, restful sleep.","image":"https://bohmarko567-oss.github.io/havn-site/assets/products/rest_front.jpg"},"price":"31.00","priceCurrency":"USD"},
+{"@type":"Offer","name":"The Complete Ritual","price":"92.00","priceCurrency":"USD","description":"Rise + Calm + Rest, monthly. Includes N°04 Steady (Normal Blood Sugar Drops) free with every order — it is not sold separately."}]}
 </script>
 <style>
 @font-face{font-family:'Archivo';src:url('fonts/Archivo.ttf');font-weight:100 900;font-display:swap;}
 @font-face{font-family:'Hanken';src:url('fonts/HankenGrotesk.ttf');font-weight:100 900;font-display:swap;}
-@font-face{font-family:'SpaceGro';src:url('fonts/SpaceGrotesk.ttf');font-weight:300 700;font-display:swap;}
 @font-face{font-family:'Mono';src:url('fonts/SpaceMono-Regular.ttf');font-display:swap;}
 @font-face{font-family:'MonoB';src:url('fonts/SpaceMono-Bold.ttf');font-display:swap;}
 
 :root{
   --cream:#F6EFE1; --cream2:#FBF6EC; --paper:#FFFFFF;
-  --ink:#1E1913; --muted:#6E6456; --muted2:#A79E8C; --line:#E3D9C6;
+  --ink:#1E1913; --ink2:#2A241C; --muted:#6E6456; --muted2:#A79E8C; --line:#E3D9C6;
   --rise:#FF6A15; --rise-deep:#C4440A; --rise-tint:#FBE6D2;
   --calm:#12A594; --calm-deep:#0A6E60; --calm-tint:#D6EEE8;
   --rest:#4E43C9; --rest-deep:#2E259B; --rest-tint:#E2E0F7;
+  --steady:#C81E78; --steady-deep:#8A0E52; --steady-tint:#F7DBEA;
   --disp:'Archivo',sans-serif; --body:'Hanken',sans-serif; --mono:'Mono',monospace; --monob:'MonoB',monospace;
   --maxw:1240px;
+  --ease:cubic-bezier(.22,.61,.21,1);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--cream);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden;}
+body.lock{overflow:hidden;}
 a{color:inherit;text-decoration:none;}
+img{max-width:100%;}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
 .disp{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 120;letter-spacing:-1.5px;line-height:.92;text-transform:uppercase;}
-.mono{font-family:var(--mono);}
 .eyebrow{font-family:var(--monob);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
-.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--monob);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;padding:15px 26px;border-radius:100px;background:var(--ink);color:var(--cream);border:2px solid var(--ink);cursor:pointer;transition:.15s;}
-.btn:hover{transform:translateY(-2px);}
-.btn.ghost{background:transparent;color:var(--ink);}
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--cream);padding:12px 18px;z-index:300;font-family:var(--monob);}
+.skip:focus{left:12px;top:12px;}
+
+:focus-visible{outline:3px solid var(--rise);outline-offset:3px;border-radius:4px;}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--monob);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;padding:16px 28px;min-height:48px;border-radius:100px;background:var(--ink);color:var(--cream);border:2px solid var(--ink);cursor:pointer;transition:transform .18s var(--ease),box-shadow .18s var(--ease);will-change:transform;}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(30,25,19,.18);}
+.btn:active{transform:translateY(0) scale(.97);box-shadow:none;}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:none;}
 .btn.rise{background:var(--rise);border-color:var(--rise);color:var(--ink);}
-.btn.calm{background:var(--calm);border-color:var(--calm);color:var(--ink);}
-.btn.rest{background:var(--rest);border-color:var(--rest);color:#fff;}
+.btn.berry{background:var(--steady);border-color:var(--steady);color:#fff;}
+.btn.onwhite{background:#fff;color:var(--ink);border-color:#fff;}
 
-/* announcement */
-.anno{background:var(--ink);color:var(--cream);font-family:var(--monob);font-size:12px;letter-spacing:1.5px;text-align:center;padding:9px 14px;text-transform:uppercase;}
-.anno b{color:var(--rise);}
+/* ---------- living nebula ---------- */
+.nebula{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
+.blob{position:absolute;width:46vw;height:46vw;min-width:340px;min-height:340px;border-radius:50%;filter:blur(80px);opacity:.5;background:radial-gradient(circle at 38% 38%, var(--c), transparent 66%);will-change:transform;}
+@keyframes drift1{0%{transform:translate3d(-6%,-4%,0) scale(1) rotate(0deg)}50%{transform:translate3d(7%,6%,0) scale(1.16) rotate(12deg)}100%{transform:translate3d(-3%,8%,0) scale(.95) rotate(-8deg)}}
+@keyframes drift2{0%{transform:translate3d(5%,6%,0) scale(1.05)}50%{transform:translate3d(-8%,-5%,0) scale(.92)}100%{transform:translate3d(6%,-8%,0) scale(1.12)}}
+@keyframes drift3{0%{transform:translate3d(0,7%,0) scale(.94)}50%{transform:translate3d(-6%,-6%,0) scale(1.1)}100%{transform:translate3d(8%,2%,0) scale(1)}}
+.blob.a1{animation:drift1 26s ease-in-out infinite alternate;}
+.blob.a2{animation:drift2 32s ease-in-out infinite alternate;}
+.blob.a3{animation:drift3 24s ease-in-out infinite alternate;}
+@media (max-width:560px){.blob{filter:blur(56px);width:70vw;height:70vw;}}
 
-/* nav */
-header.nav{position:sticky;top:0;z-index:50;background:rgba(246,239,225,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+/* ---------- announcement ---------- */
+.anno{background:var(--ink);color:var(--cream);font-family:var(--monob);font-size:12px;letter-spacing:1.5px;text-align:center;padding:10px 14px;text-transform:uppercase;position:relative;min-height:38px;}
+.anno .msg{position:absolute;inset:0;padding:10px 14px;opacity:0;transition:opacity .5s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.anno .msg.on{opacity:1;}
+.anno b{color:var(--rise);} .anno .berrytx{color:#F08BC0;}
+
+/* ---------- nav ---------- */
+header.nav{position:sticky;top:0;z-index:50;background:rgba(246,239,225,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);transition:box-shadow .25s;}
+header.nav.scrolled{box-shadow:0 6px 24px rgba(30,25,19,.10);}
 .nav-in{display:flex;align-items:center;justify-content:space-between;height:70px;}
 .logo{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:28px;letter-spacing:1px;}
-.nav-links{display:flex;gap:30px;font-family:var(--monob);font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;}
-.nav-links a{color:var(--muted);transition:.15s;}
+.nav-links{display:flex;gap:28px;font-family:var(--monob);font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;}
+.nav-links a{color:var(--muted);transition:color .15s;padding:6px 2px;}
 .nav-links a:hover{color:var(--ink);}
-.nav-right{display:flex;align-items:center;gap:18px;}
-.cart-btn{display:flex;align-items:center;gap:8px;font-family:var(--monob);font-size:12.5px;letter-spacing:1px;cursor:pointer;background:none;border:none;color:var(--ink);text-transform:uppercase;}
-.cart-count{background:var(--rise);color:#fff;border-radius:50%;width:20px;height:20px;display:grid;place-items:center;font-size:11px;}
-.burger{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;}
-.burger span{width:24px;height:2px;background:var(--ink);}
+.nav-links a.n4{color:var(--steady);}
+.nav-right{display:flex;align-items:center;gap:14px;}
+.cart-btn{display:flex;align-items:center;gap:8px;font-family:var(--monob);font-size:12.5px;letter-spacing:1px;cursor:pointer;background:none;border:none;color:var(--ink);text-transform:uppercase;padding:10px;min-height:44px;}
+.cart-count{background:var(--rise);color:var(--ink);border-radius:50%;width:22px;height:22px;display:grid;place-items:center;font-size:11px;font-family:var(--monob);}
+.burger{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:12px;min-height:44px;}
+.burger span{width:24px;height:2px;background:var(--ink);transition:.2s;}
 
-/* hero */
-.hero{position:relative;padding:60px 0 40px;overflow:hidden;}
-.hero-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:24px;align-items:center;}
-.hero h1{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 125;font-size:clamp(58px,8vw,116px);line-height:.86;letter-spacing:-3px;text-transform:uppercase;}
+/* mobile menu */
+.mmenu{position:fixed;inset:0;background:var(--ink);color:var(--cream);z-index:150;display:none;flex-direction:column;padding:26px 28px;}
+.mmenu.open{display:flex;animation:fadeIn .25s var(--ease);}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.mmenu .top{display:flex;justify-content:space-between;align-items:center;}
+.mmenu .x{background:none;border:none;color:var(--cream);font-size:30px;cursor:pointer;padding:8px 14px;min-height:44px;}
+.mmenu nav{display:flex;flex-direction:column;gap:6px;margin-top:40px;}
+.mmenu nav a{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 116;font-size:clamp(34px,9vw,52px);text-transform:uppercase;letter-spacing:-1px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.1);}
+.mmenu nav a.n4{color:#F08BC0;}
+.mmenu .foot{margin-top:auto;font-family:var(--mono);font-size:12px;color:var(--muted2);}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:64px 0 60px;overflow:hidden;}
+.hero .wrap{position:relative;z-index:2;}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:20px;align-items:center;}
+.hero h1{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 125;font-size:clamp(56px,7.6vw,112px);line-height:.86;letter-spacing:-3px;text-transform:uppercase;}
 .hero h1 .r{color:var(--rise);} .hero h1 .c{color:var(--calm);} .hero h1 .s{color:var(--rest);}
-.hero p.lead{font-size:19px;color:var(--muted);max-width:440px;margin:22px 0 30px;}
+.hero .plus4{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 122;font-size:clamp(26px,3.4vw,44px);text-transform:uppercase;letter-spacing:-1px;margin-top:14px;color:transparent;-webkit-text-stroke:1.6px var(--steady);}
+.hero .plus4 small{font-family:var(--monob);font-size:12px;letter-spacing:2px;color:var(--steady);-webkit-text-stroke:0;display:block;margin-top:4px;}
+.hero p.lead{font-size:18.5px;color:var(--muted);max-width:460px;margin:20px 0 28px;}
+.hero p.lead b{color:var(--ink);}
 .hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
 .hero-note{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:18px;}
-.hero-stage{display:flex;justify-content:center;align-items:flex-end;gap:16px;height:520px;}
-.hb{--bw:186px;} .hb-mid{--bw:216px;margin-bottom:34px;}
-.hero-img{display:none;width:100%;max-width:440px;margin:8px auto 0;border-radius:18px;}
 
-/* BOTTLE COMPONENT */
-.bottle{position:relative;filter:drop-shadow(0 22px 30px rgba(50,30,10,.26));--tint:#fff;}
-.bottle.rise{--field:var(--rise);--deep:var(--rise-deep);--tint:var(--rise-tint);}
-.bottle.calm{--field:var(--calm);--deep:var(--calm-deep);--tint:var(--calm-tint);}
-.bottle.rest{--field:var(--rest);--deep:var(--rest-deep);--tint:var(--rest-tint);}
-.bottle .cap{height:calc(var(--bw)*.28);margin:0 calc(var(--bw)*.07);border-radius:12px 12px 6px 6px;position:relative;overflow:hidden;background:var(--deep);}
-.bottle .cap::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.16) 0 3px,rgba(255,255,255,.05) 3px 9px),linear-gradient(90deg,rgba(0,0,0,.32),transparent 20%,rgba(255,255,255,.16) 46%,transparent 74%,rgba(0,0,0,.36));}
-.bottle .neck{height:calc(var(--bw)*.04);margin:0 calc(var(--bw)*.16);background:rgba(0,0,0,.14);}
-.bottle .body{width:var(--bw);border-radius:9% 9% 7% 7%/6% 6% 5% 5%;height:calc(var(--bw)*1.66);position:relative;overflow:hidden;color:var(--tint);padding:8% 8% 7%;display:flex;flex-direction:column;justify-content:space-between;background:var(--field);}
-.bottle .body::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.30) 0%,rgba(0,0,0,0) 15%,rgba(255,255,255,.16) 40%,rgba(255,255,255,.04) 56%,rgba(0,0,0,0) 74%,rgba(0,0,0,.32) 100%);}
-.bottle .b-top{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2;font-family:var(--monob);}
-.bottle .b-top .w{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 116;letter-spacing:.5px;font-size:calc(var(--bw)*.062);}
-.bottle .b-top .n{font-size:calc(var(--bw)*.032);letter-spacing:1.5px;opacity:.9;}
-.bottle .b-name{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 104;font-size:calc(var(--bw)*.235);line-height:.82;letter-spacing:-1.5px;text-transform:uppercase;white-space:nowrap;position:relative;z-index:2;}
-.bottle .b-ing{font-family:var(--monob);font-size:calc(var(--bw)*.032);letter-spacing:1.5px;margin-top:5%;border-top:1.5px solid rgba(255,255,255,.5);padding-top:4%;position:relative;z-index:2;}
-.bottle .b-ben{font-family:var(--disp);font-weight:800;font-variation-settings:'wght' 800,'wdth' 108;font-size:calc(var(--bw)*.066);line-height:1;letter-spacing:-.5px;position:relative;z-index:2;text-transform:none;}
-.bottle .b-bot{display:flex;justify-content:space-between;align-items:flex-end;position:relative;z-index:2;font-family:var(--monob);font-size:calc(var(--bw)*.03);letter-spacing:1px;}
-.bottle .b-bot svg{width:calc(var(--bw)*.07);height:calc(var(--bw)*.07);fill:none;stroke:var(--tint);stroke-width:1.5;}
+/* hero stage: floating cut bottles over nebula */
+.stage{position:relative;height:600px;z-index:1;}
+.fb{position:absolute;will-change:transform;}
+.fb img{height:100%;width:auto;filter:drop-shadow(0 34px 34px rgba(40,24,8,.28));}
+.fb.b-rise{height:390px;left:1%;top:130px;}
+.fb.b-calm{height:490px;left:50%;margin-left:-160px;top:22px;z-index:2;}
+.fb.b-rest{height:400px;right:0;top:120px;}
+.fb .tilt{height:100%;}
+.b-rise .tilt{transform:rotate(-11deg);}
+.b-rest .tilt{transform:rotate(9deg);}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.fb .bobber{height:100%;animation:bob 5.4s ease-in-out infinite;}
+.b-calm .bobber{animation-duration:6.4s;animation-delay:.5s;}
+.b-rest .bobber{animation-duration:5.9s;animation-delay:.9s;}
+.fb{opacity:0;transform:translateY(40px);animation:fbIn .9s var(--ease) forwards;}
+.fb.b-calm{animation-delay:.05s;} .fb.b-rise{animation-delay:.22s;} .fb.b-rest{animation-delay:.38s;}
+@keyframes fbIn{to{opacity:1;transform:none;}}
+/* steady teaser chip */
+.chip4{position:absolute;right:4%;bottom:8px;z-index:3;display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border:1.5px solid var(--steady);border-radius:18px;padding:12px 16px 12px 12px;box-shadow:0 18px 40px rgba(138,14,82,.18);cursor:pointer;opacity:0;transform:translateY(30px);animation:fbIn .8s .7s var(--ease) forwards;}
+.chip4:hover .ch-img{transform:rotate(6deg) scale(1.06);}
+.chip4 .ch-img{height:64px;transition:transform .3s var(--ease);}
+.chip4 .t1{font-family:var(--monob);font-size:10.5px;letter-spacing:1.5px;color:var(--steady-deep);text-transform:uppercase;}
+.chip4 .t2{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 116;font-size:19px;text-transform:uppercase;letter-spacing:-.3px;}
+.chip4 .t3{font-family:var(--mono);font-size:11px;color:var(--muted);}
 
-/* sections */
-section{padding:78px 0;}
-.sec-head{text-align:center;margin-bottom:52px;}
+/* ---------- marquee ---------- */
+.marquee{background:var(--ink);color:var(--cream);overflow:hidden;padding:13px 0;border-top:1px solid rgba(255,255,255,.08);}
+.marquee .track{display:flex;white-space:nowrap;width:max-content;animation:mq 30s linear infinite;}
+.marquee span{font-family:var(--monob);font-size:13px;letter-spacing:2.5px;text-transform:uppercase;padding:0 26px;}
+.marquee .r{color:var(--rise);} .marquee .c{color:var(--calm);} .marquee .s{color:#8F86E8;} .marquee .y{color:#F08BC0;}
+@keyframes mq{to{transform:translateX(-50%);}}
+
+/* ---------- sections ---------- */
+section{padding:84px 0;position:relative;}
+.sec-head{text-align:center;margin-bottom:52px;position:relative;z-index:2;}
 .sec-head h2{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:clamp(34px,5vw,58px);line-height:.95;letter-spacing:-1.5px;text-transform:uppercase;margin:10px 0 12px;}
-.sec-head p{color:var(--muted);font-size:17px;max-width:560px;margin:0 auto;}
+.sec-head p{color:var(--muted);font-size:17px;max-width:600px;margin:0 auto;}
 
-/* ritual strip */
-.ritual{background:var(--ink);color:var(--cream);}
-.ritual .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);border-radius:20px;overflow:hidden;}
-.step{background:var(--ink);padding:38px 32px;position:relative;}
-.step .idx{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 70;font-size:60px;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.3);line-height:.8;}
-.step .t{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:30px;margin:14px 0 4px;text-transform:uppercase;}
-.step.rise .t{color:var(--rise);} .step.calm .t{color:var(--calm);} .step.rest .t{color:var(--rest);}
+/* ritual */
+.ritual{background:var(--ink);color:var(--cream);overflow:hidden;}
+.ritual .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);border-radius:20px;overflow:hidden;position:relative;z-index:2;}
+.step{background:var(--ink);padding:34px 28px;position:relative;transition:background .3s;}
+.step:hover{background:var(--ink2);}
+.step .idx{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 70;font-size:58px;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.3);line-height:.8;}
+.step .t{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:28px;margin:14px 0 4px;text-transform:uppercase;}
+.step.rise .t{color:var(--rise);} .step.calm .t{color:var(--calm);} .step.rest .t{color:#8F86E8;} .step.steady .t{color:#F08BC0;}
 .step .when{font-family:var(--monob);font-size:11px;letter-spacing:2px;color:var(--muted2);text-transform:uppercase;}
-.step p{color:#C9BFB0;margin-top:12px;font-size:15px;}
+.step p{color:#C9BFB0;margin-top:12px;font-size:14.5px;}
+.step.steady{background:linear-gradient(160deg,#2A1020,#1E1913 70%);}
+.step.steady .idx{-webkit-text-stroke-color:rgba(240,139,192,.45);}
+.step .lockrow{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font-family:var(--monob);font-size:10.5px;letter-spacing:1.5px;color:#F08BC0;text-transform:uppercase;border:1px solid rgba(240,139,192,.4);border-radius:100px;padding:6px 12px;}
 
-/* products */
+/* formulas */
 .products{background:var(--cream2);}
-.modetoggle{display:flex;gap:0;margin:-30px auto 42px;background:var(--paper);border:1.5px solid var(--ink);border-radius:100px;padding:5px;width:max-content;max-width:100%;}
-.mt{font-family:var(--monob);font-size:12px;letter-spacing:.5px;text-transform:uppercase;padding:11px 20px;border-radius:100px;border:none;background:transparent;color:var(--ink);cursor:pointer;white-space:nowrap;}
+.modetoggle{display:flex;margin:-28px auto 44px;background:var(--paper);border:1.5px solid var(--ink);border-radius:100px;padding:5px;width:max-content;max-width:100%;position:relative;z-index:2;}
+.mt{font-family:var(--monob);font-size:12px;letter-spacing:.5px;text-transform:uppercase;padding:13px 22px;min-height:44px;border-radius:100px;border:none;background:transparent;color:var(--ink);cursor:pointer;white-space:nowrap;transition:background .2s,color .2s;}
 .mt.on{background:var(--ink);color:var(--cream);}
-.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
-.pcard{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:34px 28px 28px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:.2s;}
-.pcard:hover{transform:translateY(-4px);box-shadow:0 24px 44px rgba(50,30,10,.12);}
-.pcard .stage{height:290px;display:flex;align-items:flex-end;margin-bottom:22px;}
-.pcard h3{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 116;font-size:30px;text-transform:uppercase;letter-spacing:-.5px;}
-.pcard .sub{font-family:var(--monob);font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin:6px 0 12px;}
-.pcard .desc{color:var(--muted);font-size:14.5px;min-height:44px;}
-.pcard .price{font-family:var(--disp);font-weight:900;font-size:30px;margin:16px 0 4px;}
-.pcard .price small{font-family:var(--body);font-weight:600;font-size:14px;color:var(--muted);}
-.pcard .subprice{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:16px;}
-.pcard .btn{width:100%;justify-content:center;}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative;z-index:2;}
+.pcard{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:26px 22px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .25s var(--ease),box-shadow .25s var(--ease);}
+.pcard:hover{transform:translateY(-6px);box-shadow:0 26px 48px rgba(50,30,10,.13);}
+.pcard .pimg{position:relative;width:100%;border-radius:16px;overflow:hidden;background:#F2F1F5;margin-bottom:18px;}
+.pcard .pimg img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;transition:opacity .45s ease,transform .6s ease;}
+.pcard .pimg img.alt{position:absolute;inset:0;opacity:0;}
+.pcard:hover .pimg img.alt{opacity:1;}
+.pcard:hover .pimg img.base{transform:scale(1.05);}
+.pcard h3{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 116;font-size:27px;text-transform:uppercase;letter-spacing:-.5px;}
+.pcard .sub{font-family:var(--monob);font-size:10.5px;letter-spacing:1.8px;color:var(--muted);text-transform:uppercase;margin:6px 0 10px;}
+.pcard .desc{color:var(--muted);font-size:14px;min-height:64px;}
+.pcard .seelabel{font-family:var(--monob);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px;margin:10px 0 12px;padding:6px;}
+.pcard .seelabel:hover{color:var(--ink);}
+.pcard .price{font-family:var(--disp);font-weight:900;font-size:28px;margin:2px 0 2px;}
+.pcard .price small{font-family:var(--body);font-weight:600;font-size:13.5px;color:var(--muted);}
+.pcard .subprice{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:14px;}
+.pcard .btn{width:100%;padding:14px 18px;}
 .pcard.rise .btn{background:var(--rise);border-color:var(--rise);color:var(--ink);}
 .pcard.calm .btn{background:var(--calm);border-color:var(--calm);color:var(--ink);}
 .pcard.rest .btn{background:var(--rest);border-color:var(--rest);color:#fff;}
+/* locked steady card */
+.pcard.steady{background:linear-gradient(170deg,var(--steady-tint),#fff 60%);border-color:#EFC3DC;position:relative;}
+.pcard.steady .lockchip{position:absolute;top:16px;right:16px;background:var(--steady);color:#fff;font-family:var(--monob);font-size:10px;letter-spacing:1.5px;border-radius:100px;padding:7px 12px;display:flex;gap:6px;align-items:center;z-index:3;}
+.pcard.steady .price{color:var(--steady-deep);font-size:20px;letter-spacing:0;}
+.pcard.steady .btn{background:var(--steady);border-color:var(--steady);color:#fff;}
 
-/* trio offer */
-.offer{background:linear-gradient(135deg,var(--rise) 0%,var(--calm) 52%,var(--rest) 100%);color:#fff;}
-.offer-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);border-radius:28px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;backdrop-filter:blur(6px);}
-.offer h2{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(38px,5vw,66px);line-height:.9;text-transform:uppercase;letter-spacing:-2px;}
-.offer .big-price{display:flex;align-items:baseline;gap:14px;margin:20px 0 6px;}
-.offer .big-price .now{font-family:var(--disp);font-weight:900;font-size:56px;}
-.offer .big-price .was{font-size:22px;text-decoration:line-through;opacity:.7;}
-.offer .big-price .save{font-family:var(--monob);font-size:12px;letter-spacing:1px;background:#fff;color:var(--ink);padding:5px 12px;border-radius:100px;}
-.offer ul{list-style:none;margin:22px 0;display:flex;flex-direction:column;gap:12px;}
-.offer li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;}
-.offer li svg{flex:none;margin-top:2px;}
-.offer .btn{background:#fff;color:var(--ink);border-color:#fff;font-size:14px;padding:17px 32px;}
-.gift{background:rgba(0,0,0,.16);border-radius:18px;padding:24px;}
-.gift .eyebrow{color:rgba(255,255,255,.85);}
-.gift .gopt{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.2);font-size:15px;}
-.gift .gopt:last-child{border-bottom:none;}
-.gift .dot{width:22px;height:22px;border-radius:50%;border:2px solid #fff;flex:none;display:grid;place-items:center;font-size:12px;}
+/* ---------- offer / complete the ritual ---------- */
+.offer{background:var(--ink);color:var(--cream);overflow:hidden;}
+.offer .wrap{position:relative;z-index:2;}
+.offer-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:52px;align-items:center;}
+.offer h2{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(38px,4.6vw,62px);line-height:.9;text-transform:uppercase;letter-spacing:-2px;}
+.offer h2 .hl{color:#F08BC0;}
+.offer .big-price{display:flex;align-items:baseline;gap:14px;margin:22px 0 6px;flex-wrap:wrap;}
+.offer .big-price .now{font-family:var(--disp);font-weight:900;font-size:54px;}
+.offer .big-price .was{font-size:22px;text-decoration:line-through;opacity:.6;}
+.offer .big-price .save{font-family:var(--monob);font-size:11.5px;letter-spacing:1px;background:var(--cream);color:var(--ink);padding:6px 12px;border-radius:100px;}
+.offer ul{list-style:none;margin:22px 0 26px;display:flex;flex-direction:column;gap:12px;}
+.offer li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;color:#E9E1D2;}
+.offer li svg{flex:none;margin-top:3px;}
+.offer .mononote{font-family:var(--mono);font-size:12px;color:var(--muted2);margin-top:14px;}
+/* puzzle panel */
+.puzzle{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:26px;padding:30px;backdrop-filter:blur(8px);}
+.puzzle .ptitle{font-family:var(--monob);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:18px;}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.slot{border:1.5px dashed rgba(255,255,255,.25);border-radius:16px;padding:14px 10px;text-align:center;transition:border-color .3s,background .3s;}
+.slot .sn{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 80;font-size:22px;color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.4);}
+.slot .sname{font-family:var(--monob);font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;color:#E9E1D2;}
+.slot.filled{border-style:solid;background:rgba(255,255,255,.07);}
+.slot.filled.rise{border-color:var(--rise);} .slot.filled.rise .sn{-webkit-text-stroke-color:var(--rise);color:var(--rise);}
+.slot.filled.calm{border-color:var(--calm);} .slot.filled.calm .sn{-webkit-text-stroke-color:var(--calm);color:var(--calm);}
+.slot.filled.rest{border-color:#8F86E8;} .slot.filled.rest .sn{-webkit-text-stroke-color:#8F86E8;color:#8F86E8;}
+.slot4{margin-top:12px;border:1.5px dashed rgba(240,139,192,.4);border-radius:20px;padding:20px;display:flex;gap:18px;align-items:center;position:relative;overflow:hidden;transition:border-color .4s,background .4s;}
+.slot4 img{height:152px;width:auto;filter:grayscale(.9) opacity(.55) drop-shadow(0 14px 18px rgba(0,0,0,.4));transition:filter .6s var(--ease),transform .6s var(--ease);}
+.slot4 .s4t .l1{font-family:var(--monob);font-size:10.5px;letter-spacing:2px;color:#F08BC0;text-transform:uppercase;}
+.slot4 .s4t .l2{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:30px;text-transform:uppercase;letter-spacing:-.5px;margin:3px 0;}
+.slot4 .s4t .l3{font-family:var(--mono);font-size:12px;color:var(--muted2);}
+.slot4.unlocked{border-style:solid;border-color:var(--steady);background:linear-gradient(140deg,rgba(200,30,120,.22),rgba(200,30,120,.05));}
+.slot4.unlocked img{filter:grayscale(0) opacity(1) drop-shadow(0 16px 22px rgba(200,30,120,.35));transform:rotate(-5deg) scale(1.05);}
+.slot4 .badge-free{position:absolute;top:14px;right:14px;background:var(--steady);color:#fff;font-family:var(--monob);font-size:10.5px;letter-spacing:1.5px;padding:6px 12px;border-radius:100px;opacity:0;transform:scale(.6);transition:opacity .35s,transform .35s var(--ease);}
+.slot4.unlocked .badge-free{opacity:1;transform:none;}
+.puzzle .pfoot{font-family:var(--mono);font-size:12px;color:var(--muted2);margin-top:16px;line-height:1.55;}
+.puzzle .pfoot b{color:#F08BC0;font-weight:400;}
 
 /* trust */
-.trust{background:var(--cream);}
-.badgerow{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;}
-.badge{font-family:var(--monob);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;border:1.5px solid var(--ink);border-radius:100px;padding:11px 20px;}
+.badgerow{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;position:relative;z-index:2;}
+.badge{font-family:var(--monob);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;border:1.5px solid var(--ink);border-radius:100px;padding:12px 20px;background:var(--cream);}
 
 /* science */
-.sci-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
-.sci{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:30px;}
-.sci .k{font-family:var(--disp);font-weight:900;font-size:42px;line-height:1;}
-.sci.rise .k{color:var(--rise);} .sci.calm .k{color:var(--calm);} .sci.rest .k{color:var(--rest);}
-.sci h4{font-family:var(--monob);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin:12px 0 8px;}
-.sci p{color:var(--muted);font-size:14.5px;}
+.sci-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative;z-index:2;}
+.sci{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:28px;transition:transform .25s var(--ease);}
+.sci:hover{transform:translateY(-4px);}
+.sci .k{font-family:var(--disp);font-weight:900;font-size:38px;line-height:1;font-variant-numeric:tabular-nums;}
+.sci.rise .k{color:var(--rise);} .sci.calm .k{color:var(--calm);} .sci.rest .k{color:var(--rest);} .sci.steady .k{color:var(--steady);}
+.sci h4{font-family:var(--monob);font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;margin:12px 0 8px;}
+.sci p{color:var(--muted);font-size:14px;}
+.sci.steady{background:linear-gradient(170deg,var(--steady-tint),#fff 65%);border-color:#EFC3DC;}
 
 /* reviews */
-.reviews{background:var(--ink);color:var(--cream);}
-.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
-.review{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:30px;}
+.reviews{background:var(--ink);color:var(--cream);overflow:hidden;}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;position:relative;z-index:2;}
+.review{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:30px;position:relative;}
+.review::before{content:'“';font-family:var(--disp);font-weight:900;font-size:70px;line-height:.6;position:absolute;top:24px;right:24px;color:rgba(255,255,255,.08);}
 .stars{color:var(--rise);letter-spacing:3px;font-size:16px;}
-.review p{margin:14px 0;font-size:16px;line-height:1.55;}
+.review p{margin:14px 0;font-size:15.5px;line-height:1.55;}
 .review .who{font-family:var(--monob);font-size:11px;letter-spacing:1.5px;color:var(--muted2);text-transform:uppercase;}
 
 /* faq */
 .faq details{border-bottom:1px solid var(--line);padding:22px 0;}
-.faq summary{font-family:var(--disp);font-weight:800;font-variation-settings:'wght' 800,'wdth' 108;font-size:22px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;text-transform:uppercase;letter-spacing:-.3px;}
+.faq summary{font-family:var(--disp);font-weight:800;font-variation-settings:'wght' 800,'wdth' 108;font-size:21px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;text-transform:uppercase;letter-spacing:-.3px;min-height:44px;}
 .faq summary::-webkit-details-marker{display:none;}
-.faq summary::after{content:'+';font-family:var(--mono);font-size:26px;color:var(--muted);}
-.faq details[open] summary::after{content:'–';}
-.faq p{color:var(--muted);margin-top:14px;font-size:15.5px;max-width:800px;}
+.faq summary::after{content:'+';font-family:var(--mono);font-size:26px;color:var(--muted);flex:none;transition:transform .25s var(--ease);}
+.faq details[open] summary::after{transform:rotate(45deg);}
+.faq .fa{color:var(--muted);font-size:15.5px;max-width:800px;overflow:hidden;}
+.faq .fa p{margin-top:14px;}
 
 /* footer */
-footer{background:var(--ink);color:var(--cream);padding:64px 0 30px;}
-.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px;margin-bottom:44px;}
+footer{background:var(--ink);color:var(--cream);padding:64px 0 110px;}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:30px;margin-bottom:44px;}
 .foot-logo{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 120;font-size:44px;letter-spacing:1px;}
 footer h5{font-family:var(--monob);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:16px;}
 footer ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
 footer a{color:#C9BFB0;font-size:14px;}
 footer a:hover{color:#fff;}
+footer input{width:100%;padding:13px;min-height:46px;border-radius:10px;border:1.5px solid transparent;background:rgba(255,255,255,.1);color:#fff;font-family:var(--mono);font-size:13px;transition:border-color .2s;}
+footer input:focus{border-color:var(--rise);outline:none;}
 .foot-bot{border-top:1px solid rgba(255,255,255,.14);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:var(--mono);font-size:11.5px;color:var(--muted2);}
 
-/* cart drawer */
-.overlay{position:fixed;inset:0;background:rgba(20,15,8,.5);opacity:0;pointer-events:none;transition:.25s;z-index:90;}
+/* ---------- cart drawer ---------- */
+.overlay{position:fixed;inset:0;background:rgba(20,15,8,.55);opacity:0;pointer-events:none;transition:.25s;z-index:90;}
 .overlay.open{opacity:1;pointer-events:auto;}
-.drawer{position:fixed;top:0;right:0;height:100%;width:420px;max-width:92vw;background:var(--cream2);z-index:100;display:none;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.2);}
-.drawer.open{display:flex;animation:slideIn .3s cubic-bezier(.4,0,.2,1);}
+.drawer{position:fixed;top:0;right:0;height:100%;width:440px;max-width:94vw;background:var(--cream2);z-index:100;display:none;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.2);}
+.drawer.open{display:flex;animation:slideIn .32s var(--ease);}
 @keyframes slideIn{from{transform:translateX(100%)}to{transform:none}}
-.drawer-head{padding:22px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);}
+.drawer-head{padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);}
 .drawer-head h3{font-family:var(--disp);font-weight:900;font-size:22px;text-transform:uppercase;}
-.drawer-head .x{background:none;border:none;font-size:26px;cursor:pointer;color:var(--ink);}
-.ship-bar{padding:18px 24px;background:var(--paper);border-bottom:1px solid var(--line);}
+.drawer-head .x{background:none;border:none;font-size:26px;cursor:pointer;color:var(--ink);padding:8px 14px;min-height:44px;}
+.ship-bar{padding:16px 24px 14px;background:var(--paper);border-bottom:1px solid var(--line);}
 .ship-bar .msg{font-family:var(--monob);font-size:12px;letter-spacing:.5px;margin-bottom:10px;}
 .ship-bar .track{height:8px;background:var(--line);border-radius:100px;overflow:hidden;}
-.ship-bar .fill{height:100%;width:0;background:linear-gradient(90deg,var(--rise),var(--calm));border-radius:100px;transition:.4s;}
+.ship-bar .fill{height:100%;width:0;background:linear-gradient(90deg,var(--rise),var(--calm));border-radius:100px;transition:width .4s var(--ease);}
+.ship-bar .fill.full{animation:pulseb .9s ease 2;}
+@keyframes pulseb{0%,100%{filter:brightness(1)}50%{filter:brightness(1.3)}}
+/* mini slots in cart */
+.cslots{display:flex;gap:8px;padding:14px 24px;border-bottom:1px solid var(--line);background:var(--paper);align-items:center;}
+.cslots .cs{width:40px;height:40px;border-radius:50%;border:1.6px dashed var(--muted2);display:grid;place-items:center;font-family:var(--monob);font-size:11px;color:var(--muted);transition:.3s;position:relative;}
+.cslots .cs.f{border-style:solid;color:#fff;}
+.cslots .cs.f.s1{background:var(--rise);border-color:var(--rise);color:var(--ink);}
+.cslots .cs.f.s2{background:var(--calm);border-color:var(--calm);color:var(--ink);}
+.cslots .cs.f.s3{background:var(--rest);border-color:var(--rest);}
+.cslots .cs.f.s4{background:var(--steady);border-color:var(--steady);animation:pop .5s var(--ease);}
+@keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.18)}100%{transform:scale(1)}}
+.cslots .lbl{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:auto;text-align:right;line-height:1.4;}
 .cart-items{flex:1;overflow-y:auto;padding:8px 24px;}
-.citem{display:flex;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);}
-.citem .sw{width:46px;height:46px;border-radius:10px;flex:none;}
-.citem .ci-n{font-family:var(--disp);font-weight:800;font-size:16px;text-transform:uppercase;}
-.citem .ci-s{font-family:var(--mono);font-size:11px;color:var(--muted);}
-.citem .ci-p{margin-left:auto;font-family:var(--monob);font-size:14px;}
-.citem .rm{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;}
-.cart-empty{padding:50px 24px;text-align:center;color:var(--muted);}
-.drawer-foot{padding:22px 24px;border-top:1px solid var(--line);background:var(--paper);}
-.drawer-foot .row{display:flex;justify-content:space-between;font-family:var(--monob);font-size:15px;margin-bottom:8px;}
-.gift-line{color:var(--calm-deep);font-family:var(--mono);font-size:12px;margin-bottom:14px;}
-.drawer-foot .btn{width:100%;justify-content:center;}
+.citem{display:flex;gap:13px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);}
+.citem .sw{width:46px;height:46px;border-radius:12px;flex:none;display:grid;place-items:center;font-family:var(--monob);font-size:10px;color:rgba(255,255,255,.9);}
+.citem .ci-n{font-family:var(--disp);font-weight:800;font-size:15.5px;text-transform:uppercase;}
+.citem .ci-s{font-family:var(--mono);font-size:10.5px;color:var(--muted);max-width:170px;}
+.citem .ci-right{margin-left:auto;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.citem .ci-p{font-family:var(--monob);font-size:13.5px;}
+.qty{display:flex;align-items:center;gap:2px;border:1.5px solid var(--line);border-radius:100px;background:#fff;}
+.qty button{width:34px;height:34px;border:none;background:none;font-size:16px;cursor:pointer;color:var(--ink);border-radius:50%;}
+.qty button:hover{background:var(--cream);}
+.qty .q{font-family:var(--monob);font-size:13px;width:22px;text-align:center;}
+.citem.gift .sw{background:var(--steady);}
+.citem.gift .ci-p{color:var(--steady-deep);}
+.cart-empty{padding:44px 24px;text-align:center;color:var(--muted);}
+.cart-empty .btn{margin-top:18px;}
+.drawer-foot{padding:20px 24px;border-top:1px solid var(--line);background:var(--paper);}
+.gift-line{color:var(--steady-deep);font-family:var(--mono);font-size:12px;margin-bottom:12px;display:none;align-items:center;gap:8px;}
+.drawer-foot .row{display:flex;justify-content:space-between;font-family:var(--monob);font-size:15px;margin-bottom:10px;}
+.drawer-foot .btn{width:100%;}
+.drawer-foot .subnote{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px;}
 
+/* confetti */
+.burst{position:absolute;pointer-events:none;z-index:5;}
+.burst i{position:absolute;width:8px;height:12px;border-radius:2px;opacity:0;animation:conf .9s var(--ease) forwards;}
+@keyframes conf{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(260deg)}}
+
+/* lightbox + modal */
+.lightbox{position:fixed;inset:0;background:rgba(20,15,8,.72);display:none;align-items:center;justify-content:center;z-index:200;padding:24px;}
+.lightbox.open{display:flex;animation:fadeIn .25s ease;}
+.lightbox .lb-in{background:#fff;border-radius:18px;padding:18px;max-width:min(92vw,720px);max-height:88vh;overflow:auto;position:relative;}
+.lightbox img{display:block;width:100%;height:auto;}
+.lightbox .lb-x{position:absolute;top:10px;right:12px;background:var(--ink);color:var(--cream);border:none;border-radius:50%;width:38px;height:38px;font-size:18px;cursor:pointer;z-index:2;}
+.ck-sum{background:var(--cream2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:16px;text-align:left;font-family:var(--mono);font-size:12.5px;}
+.ck-sum .l{display:flex;justify-content:space-between;padding:3px 0;}
+.ck-sum .l.g{color:var(--steady-deep);}
+.ck-sum .l.t{border-top:1px solid var(--line);margin-top:8px;padding-top:8px;font-family:var(--monob);}
+
+/* sticky mobile cta */
+.stickycta{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(30,25,19,.94);backdrop-filter:blur(10px);padding:10px 14px calc(10px + env(safe-area-inset-bottom));display:none;gap:10px;align-items:center;transform:translateY(110%);transition:transform .35s var(--ease);}
+.stickycta.show{transform:none;}
+.stickycta .stot{font-family:var(--monob);font-size:12px;color:var(--cream);line-height:1.3;flex:none;}
+.stickycta .btn{flex:1;padding:14px 10px;font-size:12px;}
+
+/* ---------- motion system ---------- */
+.rv{opacity:0;transform:translateY(30px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.rv.rl{transform:translateX(-40px);} .rv.rr{transform:translateX(40px);} .rv.rp{transform:scale(.92) translateY(14px);}
+.rv.in{opacity:1;transform:none;}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}.rv.d4{transition-delay:.32s}
+
+/* ---------- responsive ---------- */
+@media(max-width:1020px){
+  .pgrid{grid-template-columns:repeat(2,1fr);}
+  .sci-grid{grid-template-columns:repeat(2,1fr);}
+  .ritual .steps{grid-template-columns:repeat(2,1fr);}
+}
 @media(max-width:900px){
-  .hero-grid{grid-template-columns:1fr;} .hero-stage{height:auto;margin-top:26px;}
-  .pgrid,.sci-grid,.rgrid,.ritual .steps{grid-template-columns:1fr;}
-  .offer-card,.foot-grid{grid-template-columns:1fr;}
+  .hero-grid{grid-template-columns:1fr;}
+  .stage{height:430px;margin-top:10px;}
+  .fb.b-rise{height:280px;left:0;top:90px;}
+  .fb.b-calm{height:360px;margin-left:-118px;top:10px;}
+  .fb.b-rest{height:290px;right:0;top:86px;}
+  .chip4{right:2%;bottom:0;padding:10px 12px;}
+  .chip4 .ch-img{height:50px;}
+  .rgrid,.offer-grid,.foot-grid{grid-template-columns:1fr;}
+  .offer-grid{gap:34px;}
   .nav-links{display:none;} .burger{display:flex;}
-  .offer-card{padding:28px;} .offer .big-price .now{font-size:44px;}
-  .foot-grid{gap:34px;}
+  .stickycta{display:flex;}
 }
 @media(max-width:560px){
   .anno{font-size:10.5px;letter-spacing:.8px;}
-  .hero{padding:36px 0 20px;}
+  .hero{padding:40px 0 30px;}
   .hero-cta{flex-direction:column;align-items:stretch;}
-  .hero-cta .btn{justify-content:center;width:100%;}
-  .hero-stage{display:none;}
-  .hero-img{display:block;}
-  section{padding:56px 0;}
+  .hero-cta .btn{width:100%;}
+  section{padding:60px 0;}
   .sec-head{margin-bottom:36px;}
-  .step{padding:28px 24px;}
-  .offer-card{padding:22px;}
-  .badge{font-size:11px;padding:9px 15px;}
+  .pgrid,.sci-grid,.ritual .steps{grid-template-columns:1fr;}
+  .step{padding:26px 22px;}
+  .puzzle{padding:20px;}
+  .slot4 img{height:88px;}
+  .badge{font-size:11px;padding:10px 15px;}
   .foot-bot{font-size:11px;}
+  .stage{height:360px;}
+  .fb.b-rise{height:225px;top:80px;}
+  .fb.b-calm{height:300px;margin-left:-98px;}
+  .fb.b-rest{height:232px;top:78px;}
 }
 
-/* ================= MOTION SYSTEM ================= */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.6,.2,1),transform .7s cubic-bezier(.2,.6,.2,1);}
-.reveal.in{opacity:1;transform:none;}
-.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
-
-/* nav scrolled state */
-header.nav{transition:box-shadow .25s;}
-header.nav.scrolled{box-shadow:0 6px 24px rgba(30,25,19,.10);}
-.nav-links a.active{color:var(--ink);}
-
-/* hero product cards (official mockups) */
-.hero-stage{align-items:center;gap:20px;height:auto;min-height:470px;padding:10px 0;}
-.hcard{border-radius:22px;overflow:hidden;box-shadow:0 18px 40px rgba(50,35,15,.16);background:#F4F4F2;
-  opacity:0;transform:translateY(34px) scale(.97);animation:hIn .8s cubic-bezier(.2,.65,.25,1) forwards;}
-.hcard img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;}
-.hcard.s1{width:31.5%;animation-delay:.15s;}
-.hcard.s2{width:41%;animation-delay:0s;z-index:2;}
-.hcard.s3{width:31.5%;animation-delay:.3s;}
-@keyframes hIn{to{opacity:1;transform:none;}}
-.hcard.float1{animation:hIn .8s .15s cubic-bezier(.2,.65,.25,1) forwards, bob 5.2s 1.2s ease-in-out infinite;}
-.hcard.float2{animation:hIn .8s 0s  cubic-bezier(.2,.65,.25,1) forwards, bob 6s 1.4s ease-in-out infinite;}
-.hcard.float3{animation:hIn .8s .3s cubic-bezier(.2,.65,.25,1) forwards, bob 5.6s 1.6s ease-in-out infinite;}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-
-/* marquee ribbon */
-.marquee{background:var(--ink);color:var(--cream);overflow:hidden;padding:13px 0;border-top:1px solid rgba(255,255,255,.08);}
-.marquee .track{display:flex;gap:0;white-space:nowrap;width:max-content;animation:mq 26s linear infinite;}
-.marquee span{font-family:var(--monob);font-size:13px;letter-spacing:2.5px;text-transform:uppercase;padding:0 26px;}
-.marquee .r{color:var(--rise);} .marquee .c{color:var(--calm);} .marquee .s{color:#8f86e8;}
-@keyframes mq{to{transform:translateX(-50%);}}
-
-/* product card imagery + hover swap */
-.pcard .pimg{position:relative;width:100%;border-radius:16px;overflow:hidden;background:#F4F4F2;margin-bottom:20px;}
-.pcard .pimg img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;transition:opacity .45s ease,transform .6s ease;}
-.pcard .pimg img.alt{position:absolute;inset:0;opacity:0;}
-.pcard:hover .pimg img.alt{opacity:1;}
-.pcard:hover .pimg img.base{transform:scale(1.04);}
-.pcard .seelabel{font-family:var(--monob);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);
-  background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px;margin-bottom:14px;}
-.pcard .seelabel:hover{color:var(--ink);}
-
-/* lightbox */
-.lightbox{position:fixed;inset:0;background:rgba(20,15,8,.72);display:none;align-items:center;justify-content:center;z-index:200;padding:24px;}
-.lightbox.open{display:flex;animation:lbIn .25s ease;}
-@keyframes lbIn{from{opacity:0}to{opacity:1}}
-.lightbox .lb-in{background:#fff;border-radius:18px;padding:18px;max-width:min(92vw,720px);max-height:88vh;overflow:auto;position:relative;}
-.lightbox img{display:block;width:100%;height:auto;}
-.lightbox .lb-x{position:absolute;top:10px;right:14px;background:var(--ink);color:var(--cream);border:none;border-radius:50%;width:34px;height:34px;font-size:18px;cursor:pointer;}
-
-/* offer visual */
-.offer-visual{border-radius:20px;overflow:hidden;box-shadow:0 20px 44px rgba(0,0,0,.25);margin-bottom:18px;}
-.offer-visual img{display:block;width:100%;height:auto;}
-
-/* gift options clickable */
-.gopt{cursor:pointer;transition:opacity .15s;}
-.gopt:hover{opacity:.85;}
-
-/* count-up */
-.sci .k{font-variant-numeric:tabular-nums;}
-
-/* ship-bar celebrate */
-.ship-bar .fill.full{animation:pulseb .9s ease 2;}
-@keyframes pulseb{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25)}}
-
-/* reduced motion: kill it all */
+/* reduced motion: still, instantly visible */
 @media (prefers-reduced-motion: reduce){
-  .reveal{opacity:1;transform:none;transition:none;}
-  .hcard,.hcard.float1,.hcard.float2,.hcard.float3{animation:none;opacity:1;transform:none;}
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+  .rv{opacity:1;transform:none;}
+  .fb{opacity:1;transform:none;animation:none;}
+  .fb .bobber{animation:none;}
+  .blob{animation:none;}
   .marquee .track{animation:none;}
   html{scroll-behavior:auto;}
 }
@@ -324,102 +413,158 @@ header.nav.scrolled{box-shadow:0 6px 24px rgba(30,25,19,.10);}
 </head>
 <body>
 
-<div class="anno">Free U.S. shipping + a free gift on the Trio &nbsp;·&nbsp; <b>Subscribe &amp; save 15%</b> &nbsp;·&nbsp; 30-day “feel it or free” guarantee</div>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="anno" id="anno" aria-live="off">
+  <div class="msg on"><span class="berrytx">N°04 STEADY is never sold — it's earned.</span>&nbsp;Free with the complete ritual.</div>
+  <div class="msg">Free U.S. shipping on the ritual &nbsp;·&nbsp; <b>Subscribe &amp; save 15%</b></div>
+  <div class="msg">30-day “feel it or free” guarantee — even on empty bottles</div>
+</div>
 
 <header class="nav">
   <div class="wrap nav-in">
     <a href="#" class="logo" aria-label="HAVN home" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">HAVN</a>
-    <nav class="nav-links">
-      <a href="#products">Products</a>
+    <nav class="nav-links" aria-label="Primary">
       <a href="#ritual">The Ritual</a>
+      <a href="#products">Formulas</a>
+      <a href="#steady" class="n4">N°04 Steady</a>
       <a href="#science">Why HAVN</a>
-      <a href="#reviews">Reviews</a>
       <a href="#faq">FAQ</a>
     </nav>
     <div class="nav-right">
-      <button class="cart-btn" onclick="openCart()">Cart <span class="cart-count" id="cc">0</span></button>
-      <button class="burger" aria-label="Open menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+      <button class="cart-btn" onclick="openCart()" aria-label="Open cart"><span aria-hidden="true">Cart</span> <span class="cart-count" id="cc">0</span></button>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" onclick="openMenu()"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
 
+<!-- mobile menu -->
+<div class="mmenu" id="mmenu" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="top">
+    <span class="logo">HAVN</span>
+    <button class="x" aria-label="Close menu" onclick="closeMenu()">×</button>
+  </div>
+  <nav aria-label="Mobile">
+    <a href="#ritual" onclick="closeMenu()">The Ritual</a>
+    <a href="#products" onclick="closeMenu()">Formulas</a>
+    <a href="#steady" class="n4" onclick="closeMenu()">N°04 Steady</a>
+    <a href="#science" onclick="closeMenu()">Why HAVN</a>
+    <a href="#faq" onclick="closeMenu()">FAQ</a>
+  </nav>
+  <div class="foot">Rise · Calm · Rest — and the piece you earn.</div>
+</div>
+
+<main id="main">
+
 <!-- HERO -->
 <section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow">The daily supplement ritual</div>
-      <h1>Rise.<br><span class="c">Calm.</span><br><span class="s">Rest.</span></h1>
-      <p class="lead">Three clean formulas for the three parts of your day. Focus in the morning, balance by afternoon, deep sleep at night. One simple ritual.</p>
-      <div class="hero-cta">
-        <button id="trioBtn" class="btn rise" onclick="addTrio()">Shop the Trio — $92/mo</button>
-        <a href="#products" class="btn ghost">Shop singles</a>
+  <div class="nebula" aria-hidden="true">
+    <div class="blob a1" data-px="22" style="--c:rgba(255,106,21,.5);left:-12%;top:-18%;"></div>
+    <div class="blob a2" data-px="30" style="--c:rgba(18,165,148,.45);right:-14%;top:-4%;"></div>
+    <div class="blob a3" data-px="26" style="--c:rgba(78,67,201,.38);right:6%;bottom:-30%;"></div>
+    <div class="blob a2" data-px="18" style="--c:rgba(200,30,120,.30);left:22%;bottom:-36%;animation-delay:-8s;"></div>
+  </div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">The 4-piece daily ritual</div>
+        <h1><span class="r">Rise.</span><br><span class="c">Calm.</span><br><span class="s">Rest.</span></h1>
+        <div class="plus4">+ Steady<small>N°04 — the piece you can't buy</small></div>
+        <p class="lead">Three clean formulas carry your day — focus, balance, deep sleep. Complete all three and the fourth piece ships <b>free, every month</b>.</p>
+        <div class="hero-cta">
+          <button id="trioBtn" class="btn rise mag" onclick="addTrio()">Complete the Ritual — $92/mo</button>
+          <a href="#products" class="btn ghost mag">Meet the formulas</a>
+        </div>
+        <div class="hero-note">◇ Vegan · Non-GMO · Third-party tested · Made in the USA</div>
       </div>
-      <div class="hero-note">◇ Vegan · Non-GMO · Third-party tested · Made in the USA</div>
+      <div class="stage" id="stage">
+        <div class="fb b-rise" data-px="14"><div class="tilt"><div class="bobber"><img src="assets/products/cut_rise.webp" width="624" height="1200" alt="HAVN RISE — Lion's Mane bottle" loading="eager"></div></div></div>
+        <div class="fb b-calm" data-px="8"><div class="bobber"><img src="assets/products/cut_calm.webp" width="666" height="1200" alt="HAVN CALM — Ashwagandha Plus bottle" loading="eager"></div></div>
+        <div class="fb b-rest" data-px="16"><div class="tilt"><div class="bobber"><img src="assets/products/cut_rest.webp" width="600" height="1200" alt="HAVN REST — Magnesium Glycinate bottle" loading="eager"></div></div></div>
+        <div class="chip4" data-px="24" onclick="document.getElementById('steady').scrollIntoView({behavior:'smooth'})" role="link" tabindex="0" aria-label="N°04 Steady — the fourth piece, free inside the complete ritual" onkeydown="if(event.key==='Enter')this.click()">
+          <img class="ch-img" src="assets/products/cut_steady.webp" alt="" aria-hidden="true">
+          <div><div class="t1">N°04 · Never sold</div><div class="t2">Steady</div><div class="t3">free inside the full ritual ↓</div></div>
+        </div>
+      </div>
     </div>
-    <div class="hero-stage">
-      <div class="hcard s1 float1"><img src="assets/products/rise_front.jpg" alt="HAVN RISE — Lion's Mane 1000mg bottle" loading="eager"></div>
-      <div class="hcard s2 float2"><img src="assets/products/calm_front.jpg" alt="HAVN CALM — Ashwagandha Plus bottle" loading="eager"></div>
-      <div class="hcard s3 float3"><img src="assets/products/rest_front.jpg" alt="HAVN REST — Magnesium Glycinate bottle" loading="eager"></div>
-    </div>
-    <img class="hero-img" src="assets/products/trio_official.jpg" alt="HAVN Rise, Calm and Rest supplement trio">
   </div>
 </section>
 
 <!-- MARQUEE -->
 <div class="marquee" aria-hidden="true"><div class="track" id="mqtrack">
-  <span><b class="r">☀ RISE</b></span><span>FOCUS</span><span><b class="c">◐ CALM</b></span><span>BALANCE</span><span><b class="s">☾ REST</b></span><span>SLEEP</span><span>THE HAVN DAILY RITUAL</span>
+  <span><b class="r">☀ RISE</b></span><span>FOCUS</span><span><b class="c">◐ CALM</b></span><span>BALANCE</span><span><b class="s">☾ REST</b></span><span>SLEEP</span><span><b class="y">⊖ STEADY</b></span><span>THE 4TH PIECE — NEVER SOLD, ONLY EARNED</span>
 </div></div>
 
 <!-- RITUAL -->
 <section class="ritual" id="ritual">
-  <div class="wrap">
-    <div class="sec-head reveal"><div class="eyebrow" style="color:#8B8172">Morning to night</div><h2>One ritual, three moments</h2><p style="color:#C9BFB0">HAVN maps to your day. Take each formula when your body needs it — the set is designed to work together.</p></div>
+  <div class="nebula" aria-hidden="true">
+    <div class="blob a3" style="--c:rgba(255,106,21,.14);left:-10%;top:-30%;"></div>
+    <div class="blob a1" style="--c:rgba(78,67,201,.16);right:-12%;bottom:-40%;"></div>
+  </div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <div class="sec-head rv"><div class="eyebrow" style="color:#8B8172">Morning to night — and underneath it all</div><h2>One ritual, four pieces</h2><p style="color:#C9BFB0">Three formulas map to the three moments of your day. The fourth runs quietly beneath all of them — and it can't be bought.</p></div>
     <div class="steps">
-      <div class="step rise reveal"><div class="idx">01</div><div class="when">A.M. · Morning</div><div class="t">Rise</div><p>Organic Lion’s Mane for memory, focus and a clear head to start the day. Two capsules with breakfast.</p></div>
-      <div class="step calm reveal d1"><div class="idx">02</div><div class="when">Midday · Afternoon</div><div class="t">Calm</div><p>KSM-66® Ashwagandha plus adaptogens to take the edge off stress — calm, not drowsy. Two capsules with water.</p></div>
-      <div class="step rest reveal d2"><div class="idx">03</div><div class="when">P.M. · Night</div><div class="t">Rest</div><p>Gentle, highly-absorbable Magnesium Glycinate to wind down and sink into deep, restful sleep. Three capsules before bed.</p></div>
+      <div class="step rise rv rl"><div class="idx">01</div><div class="when">A.M. · Morning</div><div class="t">Rise</div><p>Organic Lion's Mane for memory, focus and a clear head to start the day. Two capsules with breakfast.</p></div>
+      <div class="step calm rv rl d1"><div class="idx">02</div><div class="when">Midday · Afternoon</div><div class="t">Calm</div><p>KSM-66® Ashwagandha plus adaptogens to take the edge off stress — calm, not drowsy.</p></div>
+      <div class="step rest rv rr d2"><div class="idx">03</div><div class="when">P.M. · Night</div><div class="t">Rest</div><p>Gentle, highly-absorbable Magnesium Glycinate to wind down and sink into deep sleep.</p></div>
+      <div class="step steady rv rr d3"><div class="idx">04</div><div class="when">All day · Underneath</div><div class="t">Steady</div><p>Six botanicals in daily drops to keep energy steady while the other three do their work.</p>
+        <span class="lockrow"><svg width="11" height="13" viewBox="0 0 11 13" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="1" y="5.5" width="9" height="6.5" rx="1.5"/><path d="M3 5.5V4a2.5 2.5 0 0 1 5 0v1.5"/></svg> Earned, not sold</span></div>
     </div>
   </div>
 </section>
 
-<!-- PRODUCTS -->
+<!-- FORMULAS -->
 <section class="products" id="products">
   <div class="wrap">
-    <div class="sec-head reveal"><div class="eyebrow">Shop the range</div><h2>Pick your formula</h2><p>Start with one, or take the full ritual. Every bottle is a 30-day supply.</p></div>
+    <div class="sec-head rv"><div class="eyebrow">Shop the range</div><h2>Pick your formulas</h2><p>Start with one, or take the full ritual. Every bottle is a 30-day supply.</p></div>
     <div class="modetoggle" role="group" aria-label="Purchase type">
-      <button id="mSub" class="mt on" onclick="setMode(true)">Subscribe &amp; Save 15%</button>
-      <button id="mOne" class="mt" onclick="setMode(false)">One-time</button>
+      <button id="mSub" class="mt on" onclick="setMode(true)" aria-pressed="true">Subscribe &amp; Save 15%</button>
+      <button id="mOne" class="mt" onclick="setMode(false)" aria-pressed="false">One-time</button>
     </div>
     <div class="pgrid" id="pgrid"></div>
   </div>
 </section>
 
-<!-- TRIO OFFER -->
-<section class="offer" id="trio">
+<!-- COMPLETE THE RITUAL -->
+<section class="offer" id="steady">
+  <div class="nebula" aria-hidden="true">
+    <div class="blob a1" style="--c:rgba(200,30,120,.34);right:-10%;top:-24%;"></div>
+    <div class="blob a2" style="--c:rgba(78,67,201,.3);left:-12%;bottom:-30%;"></div>
+    <div class="blob a3" style="--c:rgba(18,165,148,.18);left:30%;top:-40%;"></div>
+  </div>
   <div class="wrap">
-    <div class="offer-card">
-      <div class="reveal">
-        <div class="eyebrow" style="color:rgba(255,255,255,.85)">Best value · complete ritual</div>
-        <h2>The Trio</h2>
-        <div class="big-price"><span class="now">$92</span><span class="was">$108</span><span class="save">SUBSCRIBE &amp; SAVE 15%</span></div>
-        <p style="max-width:420px;opacity:.95">Rise + Calm + Rest, delivered monthly. Unlocks free shipping and a free gift — every single month.</p>
+    <div class="offer-grid">
+      <div class="rv rl">
+        <div class="eyebrow" style="color:#F08BC0">The completion offer</div>
+        <h2>Complete the ritual.<br><span class="hl">Claim the 4th piece.</span></h2>
+        <div class="big-price"><span class="now" id="offerNow">$92</span><span class="was" id="offerWas">$108</span><span class="save" id="offerSave">SUBSCRIBE &amp; SAVE 15%</span></div>
+        <p style="max-width:440px;color:#E9E1D2">Rise + Calm + Rest, delivered monthly — and STEADY, our Normal Blood Sugar Drops, added free to <b style="color:#F08BC0">every single order</b>. It's the only way to get it.</p>
         <ul>
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Free U.S. shipping (orders $79+)</li>
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> A free bonus product, your choice</li>
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Skip, swap or cancel anytime</li>
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> 30-day “feel it or free” guarantee</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> N°04 STEADY free — never sold separately</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Free U.S. shipping, every month</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Skip, swap or cancel anytime</li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> 30-day “feel it or free” guarantee</li>
         </ul>
-        <button class="btn" onclick="setMode(true);addTrio()">Add the Trio — $92/mo</button>
+        <button class="btn onwhite mag" id="offerBtn" onclick="addTrio()">Complete my ritual — $92/mo</button>
+        <div class="mononote">Cancel and the gift stops. Complete and it returns — every month.</div>
       </div>
-      <div class="gift reveal d1">
-        <div class="offer-visual"><img src="assets/products/rest_duo.jpg" alt="HAVN REST bottle with capsules spilling out" loading="lazy"></div>
-        <div class="eyebrow">Your free gift with the Trio — choose 1</div>
-        <div style="margin-top:12px">
-          <div class="gopt" onclick="pickGift(this,'Gut Health capsules')" role="radio" aria-checked="true"><span class="dot" id="g1">✓</span> Gut Health capsules <span style="margin-left:auto;opacity:.7;font-family:var(--mono);font-size:12px">Recommended</span></div>
-          <div class="gopt" onclick="pickGift(this,'GLP-1 Metabolism Support')" role="radio" aria-checked="false"><span class="dot"></span> GLP-1 Metabolism Support</div>
-          <div class="gopt" onclick="pickGift(this,'Normal Blood Sugar Drops')" role="radio" aria-checked="false"><span class="dot"></span> Normal Blood Sugar Drops</div>
+      <div class="puzzle rv rr d1" id="puzzlePanel">
+        <div class="ptitle">Your ritual — live status</div>
+        <div class="slots" id="offerSlots">
+          <div class="slot" data-sku="rise"><div class="sn">01</div><div class="sname">Rise</div></div>
+          <div class="slot" data-sku="calm"><div class="sn">02</div><div class="sname">Calm</div></div>
+          <div class="slot" data-sku="rest"><div class="sn">03</div><div class="sname">Rest</div></div>
         </div>
-        <p style="font-family:var(--mono);font-size:11.5px;opacity:.8;margin-top:16px">Gift + free shipping repeat on every Trio subscription order. Cancel anytime — but you’ll lose the perks.</p>
+        <div class="slot4" id="slot4">
+          <img src="assets/products/cut_steady.webp" width="411" height="1200" alt="HAVN STEADY — Normal Blood Sugar Drops bottle" loading="lazy">
+          <div class="s4t">
+            <div class="l1">N°04 · The 4th piece</div>
+            <div class="l2">Steady</div>
+            <div class="l3" id="slot4msg">Locked — complete 01–03 to unlock</div>
+          </div>
+          <span class="badge-free">FREE</span>
+        </div>
+        <div class="pfoot">STEADY (Normal Blood Sugar Drops — cinnamon bark, bitter melon, turmeric &amp; three more botanicals) is <b>not for sale</b>. It ships free with every complete ritual, and again every month you stay.</div>
       </div>
     </div>
   </div>
@@ -428,8 +573,8 @@ header.nav.scrolled{box-shadow:0 6px 24px rgba(30,25,19,.10);}
 <!-- TRUST -->
 <section class="trust">
   <div class="wrap">
-    <div class="sec-head reveal"><div class="eyebrow">No fillers. No junk.</div><h2>Clean by default</h2></div>
-    <div class="badgerow reveal">
+    <div class="sec-head rv"><div class="eyebrow">No fillers. No junk.</div><h2>Clean by default</h2></div>
+    <div class="badgerow rv rp">
       <span class="badge">Vegan</span><span class="badge">Non-GMO</span><span class="badge">Gluten-Free</span>
       <span class="badge">Third-Party Tested</span><span class="badge">Made in the USA</span><span class="badge">cGMP Facility</span><span class="badge">No Artificial Fillers</span>
     </div>
@@ -438,24 +583,32 @@ header.nav.scrolled{box-shadow:0 6px 24px rgba(30,25,19,.10);}
 
 <!-- SCIENCE -->
 <section id="science">
+  <div class="nebula" aria-hidden="true">
+    <div class="blob a2" style="--c:rgba(18,165,148,.16);left:-14%;top:-20%;"></div>
+  </div>
   <div class="wrap">
-    <div class="sec-head reveal"><div class="eyebrow">Dosed to matter</div><h2>Real actives, real amounts</h2><p>We use studied ingredients at studied doses — the stuff that actually does something.</p></div>
+    <div class="sec-head rv"><div class="eyebrow">Dosed to matter</div><h2>Real actives, real amounts</h2><p>Studied ingredients at studied doses — the stuff that actually does something.</p></div>
     <div class="sci-grid">
-      <div class="sci rise reveal"><div class="k">1000mg</div><h4>Rise · Lion’s Mane</h4><p>Organic fruiting body &amp; mycelium, standardized to 40% polysaccharides for cognitive support.</p></div>
-      <div class="sci calm reveal d1"><div class="k">600mg</div><h4>Calm · KSM-66® Ashwagandha</h4><p>The most clinically-studied ashwagandha root extract, plus B-vitamins, maca and ginseng.</p></div>
-      <div class="sci rest reveal d2"><div class="k">275mg</div><h4>Rest · Magnesium</h4><p>Chelated magnesium glycinate — the gentle, highly-absorbable form your body actually uses.</p></div>
+      <div class="sci rise rv"><div class="k">1000mg</div><h4>Rise · Lion's Mane</h4><p>Organic fruiting body &amp; mycelium, standardized to 40% polysaccharides for cognitive support.</p></div>
+      <div class="sci calm rv d1"><div class="k">600mg</div><h4>Calm · KSM-66® Ashwagandha</h4><p>The most clinically-studied ashwagandha root extract, plus B-vitamins, maca and ginseng.</p></div>
+      <div class="sci rest rv d2"><div class="k">275mg</div><h4>Rest · Magnesium</h4><p>Chelated magnesium glycinate — the gentle, highly-absorbable form your body actually uses.</p></div>
+      <div class="sci steady rv d3"><div class="k">6</div><h4>Steady · Botanicals</h4><p>Cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander &amp; resveratrol. Gift-only.</p></div>
     </div>
   </div>
 </section>
 
 <!-- REVIEWS -->
 <section class="reviews" id="reviews">
-  <div class="wrap">
-    <div class="sec-head reveal"><div class="eyebrow" style="color:#8B8172">4.8 ★ from early members</div><h2>People feel the difference</h2></div>
+  <div class="nebula" aria-hidden="true">
+    <div class="blob a1" style="--c:rgba(255,106,21,.12);left:-10%;bottom:-36%;"></div>
+    <div class="blob a3" style="--c:rgba(200,30,120,.12);right:-10%;top:-30%;"></div>
+  </div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <div class="sec-head rv"><div class="eyebrow" style="color:#8B8172">4.8 ★ from early members</div><h2>People feel the difference</h2></div>
     <div class="rgrid">
-      <div class="review reveal"><div class="stars">★★★★★</div><p>“Rise is the first nootropic that actually cuts through my morning fog. And the packaging is gorgeous on my desk.”</p><div class="who">— Maya R., verified</div></div>
-      <div class="review reveal d1"><div class="stars">★★★★★</div><p>“Calm does exactly what it says — I’m less wound up by 3pm without feeling sleepy. The trio just works.”</p><div class="who">— Dev P., verified</div></div>
-      <div class="review reveal d2"><div class="stars">★★★★★</div><p>“Rest knocked out my 2am wake-ups. Falling back asleep is easy now. Won’t run out — I subscribed.”</p><div class="who">— Jordan K., verified</div></div>
+      <div class="review rv"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Rise is the first nootropic that actually cuts through my morning fog. And the packaging is gorgeous on my desk.”</p><div class="who">— Maya R., verified</div></div>
+      <div class="review rv d1"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Calm does exactly what it says — I'm less wound up by 3pm without feeling sleepy. The set just works.”</p><div class="who">— Dev P., verified</div></div>
+      <div class="review rv d2"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Completed the ritual for the free drops, honestly. Now it's the whole system I won't drop — and STEADY killed my afternoon crash.”</p><div class="who">— Jordan K., verified</div></div>
     </div>
   </div>
 </section>
@@ -463,153 +616,288 @@ header.nav.scrolled{box-shadow:0 6px 24px rgba(30,25,19,.10);}
 <!-- FAQ -->
 <section class="faq" id="faq">
   <div class="wrap" style="max-width:900px">
-    <div class="sec-head reveal"><div class="eyebrow">Good to know</div><h2>Questions, answered</h2></div>
-    <details open><summary>How does the subscription work?</summary><p>Choose Subscribe &amp; Save at checkout to lock in 15% off and free shipping on the Trio. Your ritual arrives every 30 days. Skip, swap, or cancel anytime from your account — no phone calls, no hassle.</p></details>
-    <details><summary>What’s the free gift with the Trio?</summary><p>Every Trio subscription includes a free bonus product each month — your pick of Gut Health capsules, GLP-1 Metabolism Support, or Normal Blood Sugar Drops. It ships with your order and repeats every cycle you stay subscribed.</p></details>
-    <details><summary>When will I feel a difference?</summary><p>Rest and Calm are often felt within the first few days. Rise (Lion’s Mane) builds over 2–4 weeks of consistent daily use. That’s why we back it with a 30-day “feel it or free” guarantee.</p></details>
-    <details><summary>Can I take all three together?</summary><p>Yes — they’re designed as a set, taken at different times of day. Rise in the morning, Calm midday, Rest before bed. If you’re pregnant, nursing, or on medication, check with your doctor first.</p></details>
-    <details><summary>Shipping &amp; returns?</summary><p>Orders $79+ ship free in the U.S. (the Trio always qualifies). Not feeling it? Reach out within 30 days for a full refund — even on empty bottles.</p></details>
+    <div class="sec-head rv"><div class="eyebrow">Good to know</div><h2>Questions, answered</h2></div>
+    <details open><summary>What is the 4th piece?</summary><div class="fa"><p>STEADY — N°04, our Normal Blood Sugar Drops. Six botanicals (cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander and Japanese knotweed resveratrol) in a daily 2&nbsp;ml dropper to support healthy energy metabolism*. It ships free with every complete ritual order — and repeats every month you stay subscribed.</p></div></details>
+    <details><summary>Can I buy STEADY on its own?</summary><div class="fa"><p>No — and that's the point. STEADY is not listed, priced, or sold anywhere. The only way to get N°04 is to complete the ritual: Rise, Calm and Rest in one order. It's our reward for doing the whole thing, not another upsell.</p></div></details>
+    <details><summary>How does the subscription work?</summary><div class="fa"><p>Choose Subscribe &amp; Save to lock in 15% off, free shipping, and your monthly STEADY. Your ritual arrives every 30 days. Skip, swap, or cancel anytime from your account — no phone calls, no hassle. Cancel and the gift stops; come back and it returns.</p></div></details>
+    <details><summary>When will I feel a difference?</summary><div class="fa"><p>Rest and Calm are often felt within the first few days. Rise (Lion's Mane) builds over 2–4 weeks of consistent use. That's why we back the whole ritual with a 30-day “feel it or free” guarantee.</p></div></details>
+    <details><summary>Can I take all four together?</summary><div class="fa"><p>Yes — they're designed as a system, taken at different times: Rise in the morning, Calm midday, Rest before bed, STEADY drops any morning moment. If you're pregnant, nursing, or on medication, check with your doctor first.</p></div></details>
+    <details><summary>Shipping &amp; returns?</summary><div class="fa"><p>Orders $79+ ship free in the U.S. (the complete ritual always qualifies). Not feeling it? Reach out within 30 days for a full refund — even on empty bottles.</p></div></details>
   </div>
 </section>
+
+</main>
 
 <footer>
   <div class="wrap">
     <div class="foot-grid">
       <div>
         <div class="foot-logo">HAVN</div>
-        <p style="color:#C9BFB0;font-size:14px;max-width:280px;margin-top:14px">A daily ritual for a clearer, calmer, better-rested you. Rise · Calm · Rest.</p>
+        <p style="color:#C9BFB0;font-size:14px;max-width:280px;margin-top:14px">A daily ritual for a clearer, calmer, better-rested you. Three you buy. One you earn.</p>
       </div>
-      <div><h5>Shop</h5><ul><li><a href="#products">Rise</a></li><li><a href="#products">Calm</a></li><li><a href="#products">Rest</a></li><li><a href="#trio">The Trio</a></li></ul></div>
+      <div><h5>Shop</h5><ul><li><a href="#products">Rise</a></li><li><a href="#products">Calm</a></li><li><a href="#products">Rest</a></li><li><a href="#steady">Steady — gift only</a></li></ul></div>
       <div><h5>Company</h5><ul><li><a href="#science">Why HAVN</a></li><li><a href="#reviews">Reviews</a></li><li><a href="#faq">FAQ</a></li><li><a href="mailto:hello@havn.co">Contact</a></li></ul></div>
-      <div><h5>Get 15% off</h5><p style="color:#C9BFB0;font-size:13px;margin-bottom:12px">Join the ritual. First order, first to know.</p><input id="nlemail" type="email" aria-label="Email address" style="width:100%;padding:12px;border-radius:10px;border:none;background:rgba(255,255,255,.1);color:#fff;font-family:var(--mono);font-size:13px" placeholder="you@email.com"><button class="btn rise" style="width:100%;justify-content:center;margin-top:10px" onclick="joinList(this)">Subscribe</button></div>
+      <div><h5>Get 15% off</h5><p style="color:#C9BFB0;font-size:13px;margin-bottom:12px">Join the ritual. First order, first to know.</p>
+        <label for="nlemail" style="position:absolute;left:-9999px">Email address</label>
+        <input id="nlemail" type="email" autocomplete="email" placeholder="you@email.com">
+        <button class="btn rise" style="width:100%;margin-top:10px" onclick="joinList(this)">Subscribe</button></div>
     </div>
     <div class="foot-bot">
-      <span>© 2026 HAVN. These statements have not been evaluated by the FDA. Not intended to diagnose, treat, cure or prevent any disease.</span>
+      <span>© 2026 HAVN. *These statements have not been evaluated by the FDA. Not intended to diagnose, treat, cure or prevent any disease.</span>
       <span><a href="policies.html#privacy">Privacy</a> · <a href="policies.html#terms">Terms</a> · <a href="policies.html#refunds">Refunds</a> · <a href="policies.html#shipping">Shipping</a></span>
       <span>HAVN · 14701 W. 65th Way, Suite 5, Arvada, CO 80004</span>
     </div>
   </div>
 </footer>
 
+<!-- STICKY MOBILE CTA -->
+<div class="stickycta" id="stickycta">
+  <div class="stot" id="stickyTot">The 4-piece ritual<br>$92/mo</div>
+  <button class="btn rise" onclick="addTrio()">Complete the ritual</button>
+</div>
+
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLabel()" role="dialog" aria-label="Supplement Facts">
+<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLabel()" role="dialog" aria-modal="true" aria-label="Supplement Facts">
   <div class="lb-in"><button class="lb-x" aria-label="Close" onclick="closeLabel()">×</button><img id="lbimg" src="" alt=""></div>
 </div>
 
-<!-- CHECKOUT MODAL (pre-launch) -->
-<div class="lightbox" id="ckmodal" onclick="if(event.target===this)this.classList.remove('open')" role="dialog" aria-label="Checkout">
-  <div class="lb-in" style="max-width:440px;padding:34px 32px;text-align:center;">
-    <button class="lb-x" aria-label="Close" onclick="document.getElementById('ckmodal').classList.remove('open')">×</button>
-    <div style="font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:30px;text-transform:uppercase;letter-spacing:-.5px;margin-bottom:10px;">Almost live</div>
-    <p style="color:var(--muted);font-size:15px;line-height:1.55;margin-bottom:20px;">Checkout opens at launch. Drop your email below and you'll be first in line — with <b style="color:var(--ink)">15% off your first ritual</b>.</p>
-    <input id="ckemail" type="email" aria-label="Email address" placeholder="you@email.com" style="width:100%;padding:13px;border-radius:10px;border:1.5px solid var(--line);font-family:var(--mono);font-size:13px;margin-bottom:10px;">
-    <button class="btn rise" style="width:100%;justify-content:center;" onclick="ckJoin(this)">Notify me at launch</button>
+<!-- CHECKOUT MODAL (pre-launch waitlist) -->
+<div class="lightbox" id="ckmodal" onclick="if(event.target===this)closeCk()" role="dialog" aria-modal="true" aria-label="Checkout">
+  <div class="lb-in" style="max-width:460px;padding:32px 30px;text-align:center;">
+    <button class="lb-x" aria-label="Close" onclick="closeCk()">×</button>
+    <div style="font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:29px;text-transform:uppercase;letter-spacing:-.5px;margin-bottom:8px;">Almost live</div>
+    <p style="color:var(--muted);font-size:14.5px;line-height:1.55;margin-bottom:16px;">Checkout opens at launch. Lock your spot now — first in line get <b style="color:var(--ink)">15% off</b> and the STEADY gift from order one.</p>
+    <div class="ck-sum" id="ckSummary"></div>
+    <label for="ckemail" style="position:absolute;left:-9999px">Email address</label>
+    <input id="ckemail" type="email" autocomplete="email" placeholder="you@email.com" style="width:100%;padding:13px;min-height:46px;border-radius:10px;border:1.5px solid var(--line);font-family:var(--mono);font-size:13px;margin-bottom:10px;">
+    <button class="btn rise" style="width:100%" onclick="ckJoin(this)">Notify me at launch</button>
   </div>
 </div>
 
 <!-- CART -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
-<aside class="drawer" id="drawer">
-  <div class="drawer-head"><h3>Your ritual</h3><button class="x" aria-label="Close cart" onclick="closeCart()">×</button></div>
-  <div class="ship-bar"><div class="msg" id="shipMsg">Add $79 for free shipping + a free gift</div><div class="track"><div class="fill" id="shipFill"></div></div></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Cart">
+  <div class="drawer-head"><h3>Your ritual</h3><button class="x" id="drawerX" aria-label="Close cart" onclick="closeCart()">×</button></div>
+  <div class="ship-bar"><div class="msg" id="shipMsg">Add $79 for free U.S. shipping</div><div class="track" role="progressbar" aria-label="Free shipping progress" aria-valuemin="0" aria-valuemax="79" aria-valuenow="0" id="shipTrack"><div class="fill" id="shipFill"></div></div></div>
+  <div class="cslots" id="cartSlots" aria-label="Ritual completion">
+    <div class="cs s1">01</div><div class="cs s2">02</div><div class="cs s3">03</div><div class="cs s4" id="cs4">04</div>
+    <div class="lbl" id="slotLbl">Complete 01–03<br>to unlock N°04</div>
+  </div>
   <div class="cart-items" id="cartItems"></div>
   <div class="drawer-foot">
-    <div class="gift-line" id="giftLine" style="display:none">🎁 Free gift unlocked — added at checkout</div>
+    <div class="gift-line" id="giftLine" role="status">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13M12 8s-4.5.2-4.5-2.6C7.5 3 12 3.6 12 8Zm0 0s4.5.2 4.5-2.6C16.5 3 12 3.6 12 8Z"/></svg>
+      <span>STEADY unlocked — free in this order &amp; every renewal</span>
+    </div>
     <div class="row"><span>Subtotal</span><span id="subtotal">$0</span></div>
-    <button class="btn" onclick="checkout()">Checkout</button>
+    <button class="btn" id="ckBtn" onclick="checkout()" disabled>Checkout</button>
+    <div class="subnote" id="footNote">Subscription renews monthly · skip or cancel anytime</div>
   </div>
 </aside>
 
 <script>
+/* ================= data ================= */
 const PRODUCTS = [
-  {id:'rise',name:'Rise',sub:"Lion's Mane · 1000mg",desc:'Memory, focus & clarity for your mornings.',price:36,subPrice:31,color:'var(--rise)',cls:'rise',ing:"LION'S MANE · 1000MG",ben:'Focus<br>& clarity.',caps:'60 CAPS',n:'N°01',glyph:'<circle cx="12" cy="12" r="5"/><g stroke-linecap="round"><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.7 4.7l1.7 1.7M17.6 17.6l1.7 1.7M19.3 4.7l-1.7 1.7M6.4 17.6l-1.7 1.7"/></g>'},
-  {id:'calm',name:'Calm',sub:'Ashwagandha+ · KSM-66®',desc:'Stress relief & balance, without the drowsiness.',price:36,subPrice:31,color:'var(--calm)',cls:'calm',ing:'ASHWAGANDHA+ · KSM-66®',ben:'Stress<br>relief.',caps:'60 CAPS',n:'N°02',glyph:'<circle cx="12" cy="12" r="6"/><path d="M3 18h18" stroke-linecap="round"/>'},
-  {id:'rest',name:'Rest',sub:'Magnesium · Glycinate',desc:'Deep, restful sleep and easy wind-down.',price:36,subPrice:31,color:'var(--rest)',cls:'rest',ing:'MAGNESIUM · 275MG',ben:'Deep<br>sleep.',caps:'90 CAPS',n:'N°03',glyph:'<path d="M16.5 3.2a9 9 0 1 0 4.8 15.2A7.3 7.3 0 0 1 16.5 3.2Z"/>'}
+  {id:'rise', name:'Rise', sub:"Lion's Mane · 1000mg", n:'N°01', cls:'rise',
+   desc:'Memory, focus & clarity for your mornings. Organic fruiting body & mycelium.', price:36, subPrice:31},
+  {id:'calm', name:'Calm', sub:'Ashwagandha+ · KSM-66®', n:'N°02', cls:'calm',
+   desc:'Stress relief & balance without the drowsiness. Plus B-vitamins, maca & ginseng.', price:36, subPrice:31},
+  {id:'rest', name:'Rest', sub:'Magnesium · Glycinate', n:'N°03', cls:'rest',
+   desc:'Deep, restful sleep and easy wind-down. The gentle, absorbable form.', price:36, subPrice:31},
 ];
-const HEX = {rise:'#FF6A15',calm:'#12A594',rest:'#4E43C9'};
+const STEADY = {id:'steady', name:'Steady', sub:'Blood Sugar Drops · 6 botanicals', n:'N°04', cls:'steady',
+   desc:'Six botanicals to keep energy level all day. The 4th piece — never sold, only earned.'};
+const HEX = {rise:'#FF6A15', calm:'#12A594', rest:'#4E43C9', steady:'#C81E78'};
 const FREE_SHIP = 79;
-let cart = [];          // items: {...product, trio?:true}
-let subscribe = true;   // pricing mode; toggled by setMode()
 
-function bottleHTML(p, bw){
-  return `<div class="bottle ${p.cls}" style="--bw:${bw}px"><div class="cap"></div><div class="neck"></div><div class="body">
-    <div class="b-top"><span class="w">HAVN</span><span class="n">${p.n}</span></div>
-    <div><div class="b-name">${p.name}</div><div class="b-ing">${p.ing}</div></div>
-    <div class="b-ben">${p.ben}</div>
-    <div class="b-bot"><svg viewBox="0 0 24 24" aria-hidden="true">${p.glyph}</svg><span>${p.caps}</span></div></div></div>`;
-}
-// single source of truth for price — depends on current mode
-function unitPrice(i){ return i.trio ? (subscribe?92:108)/3 : (subscribe ? i.subPrice : i.price); }
-function trioPrice(){ return subscribe ? 92 : 108; }
+let subscribe = true;
+let cart = {trio:0, singles:{rise:0, calm:0, rest:0}};
+try{ const c = JSON.parse(localStorage.getItem('havn_cart')||'null'); if(c && c.singles) cart = c; }catch(e){}
 
+const $ = id => document.getElementById(id);
+const fmt = n => Number.isInteger(n) ? '$'+n : '$'+n.toFixed(2);
+const trioPrice = () => subscribe ? 92 : 108;
+const singlePrice = () => subscribe ? 31 : 36;
+const itemCount = () => cart.trio*3 + cart.singles.rise + cart.singles.calm + cart.singles.rest;
+const hasSku = id => cart.trio>0 || cart.singles[id]>0;
+const complete = () => cart.trio>0 || (cart.singles.rise>0 && cart.singles.calm>0 && cart.singles.rest>0);
+const subtotal = () => cart.trio*trioPrice() + (cart.singles.rise+cart.singles.calm+cart.singles.rest)*singlePrice();
+
+/* ================= products grid ================= */
 function renderProducts(){
-  document.getElementById('pgrid').innerHTML = PRODUCTS.map((p,i)=>{
+  const cards = PRODUCTS.map((p,i)=>{
     const main = subscribe ? p.subPrice : p.price;
-    const suf  = subscribe ? ' /mo · sub' : ' one-time';
-    const alt  = subscribe ? `or $${p.price} one-time` : `or $${p.subPrice}/mo subscribe`;
-    return `<div class="pcard ${p.cls} reveal d${i+1}">
+    const suf  = subscribe ? ' /mo' : ' one-time';
+    const alt  = subscribe ? `or $${p.price} one-time` : `or $${p.subPrice}/mo subscribed`;
+    return `<div class="pcard ${p.cls} rv d${i+1}">
       <div class="pimg">
-        <img class="base" src="assets/products/${p.id}_front.jpg" alt="HAVN ${p.name} bottle" loading="lazy">
-        <img class="alt" src="assets/products/${p.id}_duo.jpg" alt="HAVN ${p.name} bottle with capsules" loading="lazy">
+        <img class="base" src="assets/products/${p.id}_front.jpg" width="1200" height="1200" alt="HAVN ${p.name} bottle" loading="lazy">
+        <img class="alt" src="assets/products/${p.id}_duo.jpg" width="1200" height="1200" alt="" aria-hidden="true" loading="lazy">
       </div>
-      <h3>${p.name}</h3><div class="sub">${p.sub}</div>
+      <h3>${p.name}</h3><div class="sub">${p.n} · ${p.sub}</div>
       <div class="desc">${p.desc}</div>
       <button class="seelabel" onclick="openLabel('${p.id}','${p.name}')">See the label ↗</button>
       <div class="price">$${main}<small>${suf}</small></div>
       <div class="subprice">${alt}</div>
       <button class="btn" onclick="addItem('${p.id}')">Add to ritual</button>
     </div>`;
-  }).join('');
-  wireReveals();
-}
-function updateTrioBtn(){
-  const t = document.getElementById('trioBtn');
-  if(t) t.textContent = subscribe ? 'Shop the Trio — $92/mo' : 'Shop the Trio — $108';
+  });
+  cards.push(`<div class="pcard steady rv d4">
+      <span class="lockchip"><svg width="10" height="12" viewBox="0 0 11 13" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="1" y="5.5" width="9" height="6.5" rx="1.5"/><path d="M3 5.5V4a2.5 2.5 0 0 1 5 0v1.5"/></svg> GIFT ONLY</span>
+      <div class="pimg">
+        <img class="base" src="assets/products/steady_front.jpg" width="1200" height="1200" alt="HAVN STEADY — Normal Blood Sugar Drops bottle" loading="lazy">
+        <img class="alt" src="assets/products/steady_duo.jpg" width="1200" height="1200" alt="" aria-hidden="true" loading="lazy">
+      </div>
+      <h3>${STEADY.name}</h3><div class="sub">${STEADY.n} · ${STEADY.sub}</div>
+      <div class="desc">${STEADY.desc}</div>
+      <button class="seelabel" onclick="openLabel('steady','Steady')">See the label ↗</button>
+      <div class="price">Not for sale</div>
+      <div class="subprice">free with the complete ritual</div>
+      <button class="btn" onclick="document.getElementById('steady').scrollIntoView({behavior:'smooth'})">Unlock it ↓</button>
+    </div>`);
+  $('pgrid').innerHTML = cards.join('');
+  motionSweep();
 }
 function setMode(sub){
   subscribe = sub;
-  document.getElementById('mSub').classList.toggle('on', sub);
-  document.getElementById('mOne').classList.toggle('on', !sub);
-  renderProducts(); updateTrioBtn(); update();
+  $('mSub').classList.toggle('on', sub);  $('mSub').setAttribute('aria-pressed', sub);
+  $('mOne').classList.toggle('on', !sub); $('mOne').setAttribute('aria-pressed', !sub);
+  renderProducts(); syncOfferCopy(); update();
 }
-function addItem(id){ cart.push({...PRODUCTS.find(x=>x.id===id)}); update(); openCart(); }
-function addTrio(){
-  cart = cart.filter(i=>!i.trio);
-  PRODUCTS.forEach(p=>cart.push({...p, trio:true}));
-  update(); openCart();
+function syncOfferCopy(){
+  const t = trioPrice();
+  $('trioBtn').textContent = subscribe ? 'Complete the Ritual — $92/mo' : 'Complete the Ritual — $108';
+  $('offerBtn').textContent = subscribe ? 'Complete my ritual — $92/mo' : 'Complete my ritual — $108';
+  $('offerNow').textContent = fmt(t);
+  $('offerWas').textContent = subscribe ? '$108' : '';
+  $('offerSave').textContent = subscribe ? 'SUBSCRIBE & SAVE 15%' : 'ONE-TIME · SWITCH TO SUB FOR 15% OFF';
+  $('stickyTot').innerHTML = subscribe ? 'The 4-piece ritual<br>$92/mo' : 'The 4-piece ritual<br>$108';
 }
-function removeItem(i){ const it=cart[i]; if(it.trio){cart=cart.filter(x=>!x.trio);} else {cart.splice(i,1);} update(); }
-function subtotal(){ return cart.reduce((s,i)=>s+unitPrice(i),0); }
+
+/* ================= cart ops ================= */
+function addItem(id){ cart.singles[id]++; update(); openCart(); }
+function addTrio(){ cart.trio = Math.max(1, cart.trio); update(); openCart(); }
+function bumpTrio(d){ cart.trio = Math.max(0, cart.trio + d); update(); }
+function bumpSingle(id,d){ cart.singles[id] = Math.max(0, cart.singles[id] + d); update(); }
+
+let prevComplete = complete();
 function update(){
-  document.getElementById('cc').textContent = cart.length;
-  const items = document.getElementById('cartItems');
-  if(!cart.length){ items.innerHTML = '<div class="cart-empty">Your ritual is empty.<br>Add a formula to begin.</div>'; }
-  else { items.innerHTML = cart.map((i,idx)=>`
-    <div class="citem"><div class="sw" style="background:${HEX[i.id]}"></div>
-      <div><div class="ci-n">${i.name}${i.trio?' <span style="font-size:10px;opacity:.6">·TRIO</span>':''}</div><div class="ci-s">${i.sub}</div></div>
-      <div class="ci-p">$${unitPrice(i).toFixed(2)}</div><button class="rm" aria-label="Remove ${i.name}" onclick="removeItem(${idx})">×</button></div>`).join(''); }
+  try{ localStorage.setItem('havn_cart', JSON.stringify(cart)); }catch(e){}
+  $('cc').textContent = itemCount() + (complete() ? 1 : 0);
+  document.querySelector('.cart-btn').setAttribute('aria-label', `Open cart, ${itemCount()} items`);
+
+  /* items */
+  const items = [];
+  if(cart.trio>0) items.push(`
+    <div class="citem"><div class="sw" style="background:linear-gradient(135deg,#FF6A15 0 25%,#12A594 0 50%,#4E43C9 0 75%,#C81E78 0)" aria-hidden="true"></div>
+      <div><div class="ci-n">Complete Ritual</div><div class="ci-s">Rise + Calm + Rest ${subscribe?'· monthly':''} · N°04 free</div></div>
+      <div class="ci-right"><span class="ci-p">${fmt(cart.trio*trioPrice())}</span>
+        <div class="qty" aria-label="Complete Ritual quantity"><button onclick="bumpTrio(-1)" aria-label="Decrease">−</button><span class="q">${cart.trio}</span><button onclick="bumpTrio(1)" aria-label="Increase">+</button></div></div></div>`);
+  PRODUCTS.forEach(p=>{
+    const q = cart.singles[p.id];
+    if(q>0) items.push(`
+    <div class="citem"><div class="sw" style="background:${HEX[p.id]}" aria-hidden="true">${p.n.slice(2)}</div>
+      <div><div class="ci-n">${p.name}</div><div class="ci-s">${p.sub} · ${subscribe?'$'+p.subPrice+'/mo':'$'+p.price}</div></div>
+      <div class="ci-right"><span class="ci-p">${fmt(q*singlePrice())}</span>
+        <div class="qty" aria-label="${p.name} quantity"><button onclick="bumpSingle('${p.id}',-1)" aria-label="Decrease ${p.name}">−</button><span class="q">${q}</span><button onclick="bumpSingle('${p.id}',1)" aria-label="Increase ${p.name}">+</button></div></div></div>`);
+  });
+  if(complete()) items.push(`
+    <div class="citem gift"><div class="sw" aria-hidden="true">04</div>
+      <div><div class="ci-n">Steady</div><div class="ci-s">Blood Sugar Drops · your reward${subscribe?' · repeats monthly':''}</div></div>
+      <div class="ci-right"><span class="ci-p">FREE</span></div></div>`);
+  $('cartItems').innerHTML = items.length ? items.join('') :
+    `<div class="cart-empty">Your ritual is empty.<br>Four pieces are waiting.<br><button class="btn rise" onclick="addTrio()">Start with all of it — ${fmt(trioPrice())}${subscribe?'/mo':''}</button></div>`;
+
+  /* ship bar */
   const st = subtotal();
-  document.getElementById('subtotal').textContent = '$'+st.toFixed(2);
-  document.getElementById('shipFill').style.width = Math.min(100, st/FREE_SHIP*100)+'%';
-  const rem = FREE_SHIP - st;
-  document.getElementById('shipMsg').textContent = st>=FREE_SHIP ? '✓ Free shipping + free gift unlocked!' : `Add $${rem.toFixed(0)} for free shipping + a free gift`;
-  document.getElementById('shipFill').classList.toggle('full', st>=FREE_SHIP);
-  const gl = document.getElementById('giftLine');
-  gl.style.display = st>=FREE_SHIP ? 'block':'none';
-  gl.textContent = '🎁 Free gift unlocked — ' + (typeof giftChoice!=='undefined'?giftChoice:'your pick') + ' added at checkout';
+  $('subtotal').textContent = fmt(st);
+  $('shipFill').style.width = Math.min(100, st/FREE_SHIP*100)+'%';
+  $('shipTrack').setAttribute('aria-valuenow', Math.min(FREE_SHIP, Math.round(st)));
+  $('shipMsg').textContent = st>=FREE_SHIP ? '✓ Free U.S. shipping unlocked' : (st>0 ? `Add ${fmt(FREE_SHIP-st)} for free U.S. shipping` : 'Free U.S. shipping at $79');
+  $('shipFill').classList.toggle('full', st>=FREE_SHIP);
+
+  /* slots (cart + offer panel) */
+  ['rise','calm','rest'].forEach((id,i)=>{
+    document.querySelectorAll('.cslots .cs')[i].classList.toggle('f', hasSku(id));
+    const os = document.querySelector(`#offerSlots .slot[data-sku="${id}"]`);
+    if(os){ os.classList.toggle('filled', hasSku(id)); os.classList.toggle(id, true); }
+  });
+  const done = complete();
+  $('cs4').classList.toggle('f', done);
+  $('slotLbl').innerHTML = done ? 'Ritual complete —<br>N°04 is yours, free' : 'Complete 01–03<br>to unlock N°04';
+  $('slot4').classList.toggle('unlocked', done);
+  $('slot4msg').textContent = done ? 'Unlocked — free in your order' : 'Locked — complete 01–03 to unlock';
+  $('giftLine').style.display = done ? 'flex' : 'none';
+  $('ckBtn').disabled = itemCount()===0;
+  $('ckBtn').textContent = itemCount()===0 ? 'Checkout' : `Checkout — ${fmt(st)}${subscribe&&st>0?'/mo':''}`;
+  $('footNote').textContent = subscribe ? 'Subscription renews monthly · skip or cancel anytime' : 'One-time order · switch to Subscribe & Save for 15% off';
+
+  if(done && !prevComplete){ burst($('cs4')); burst($('slot4')); }
+  prevComplete = done;
 }
-function toggleMenu(){ const n=document.querySelector('.nav-links'); n.style.display = (n.style.display==='flex')?'':'flex'; }
-function openCart(){ document.getElementById('drawer').classList.add('open'); document.getElementById('overlay').classList.add('open'); }
-function closeCart(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
-function checkout(){ if(!cart.length){return;} closeCart(); document.getElementById('ckmodal').classList.add('open'); }
+
+/* confetti burst */
+function burst(host){
+  if(!host || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const b = document.createElement('div'); b.className='burst';
+  const r = host.getBoundingClientRect();
+  b.style.left = (r.width/2)+'px'; b.style.top = (r.height/2)+'px';
+  host.style.position = host.style.position || 'relative';
+  const cols = ['#FF6A15','#12A594','#4E43C9','#C81E78','#F6EFE1'];
+  for(let i=0;i<14;i++){
+    const s = document.createElement('i');
+    const a = Math.random()*Math.PI*2, d = 40+Math.random()*70;
+    s.style.setProperty('--dx', Math.cos(a)*d+'px');
+    s.style.setProperty('--dy', Math.sin(a)*d-30+'px');
+    s.style.background = cols[i%cols.length];
+    s.style.animationDelay = (Math.random()*.12)+'s';
+    b.appendChild(s);
+  }
+  host.appendChild(b);
+  setTimeout(()=>b.remove(), 1300);
+}
+
+/* ================= drawer / modals / menu ================= */
+let lastFocus = null;
+function openCart(){ lastFocus=document.activeElement; $('drawer').classList.add('open'); $('overlay').classList.add('open'); document.body.classList.add('lock'); $('drawerX').focus(); }
+function closeCart(){ $('drawer').classList.remove('open'); $('overlay').classList.remove('open'); document.body.classList.remove('lock'); if(lastFocus)lastFocus.focus(); }
+function openMenu(){ lastFocus=document.activeElement; $('mmenu').classList.add('open'); $('burger').setAttribute('aria-expanded','true'); document.body.classList.add('lock'); $('mmenu').querySelector('.x').focus(); }
+function closeMenu(){ $('mmenu').classList.remove('open'); $('burger').setAttribute('aria-expanded','false'); document.body.classList.remove('lock'); if(lastFocus)lastFocus.focus(); }
+function openLabel(id,name){ $('lbimg').src='assets/products/facts_'+id+'.png'; $('lbimg').alt='HAVN '+name+' Supplement Facts'; $('lightbox').classList.add('open'); }
+function closeLabel(){ $('lightbox').classList.remove('open'); }
+function closeCk(){ $('ckmodal').classList.remove('open'); }
+function checkout(){
+  if(itemCount()===0) return;
+  const lines = [];
+  if(cart.trio>0) lines.push(`<div class="l"><span>Complete Ritual ×${cart.trio}</span><span>${fmt(cart.trio*trioPrice())}</span></div>`);
+  PRODUCTS.forEach(p=>{ if(cart.singles[p.id]>0) lines.push(`<div class="l"><span>${p.name} ×${cart.singles[p.id]}</span><span>${fmt(cart.singles[p.id]*singlePrice())}</span></div>`); });
+  if(complete()) lines.push(`<div class="l g"><span>Steady — N°04 gift</span><span>FREE</span></div>`);
+  lines.push(`<div class="l"><span>Shipping</span><span>${subtotal()>=FREE_SHIP?'FREE':'at checkout'}</span></div>`);
+  lines.push(`<div class="l t"><span>Total${subscribe?' / month':''}</span><span>${fmt(subtotal())}</span></div>`);
+  $('ckSummary').innerHTML = lines.join('');
+  closeCart(); $('ckmodal').classList.add('open'); $('ckemail').focus();
+}
 function ckJoin(btn){
-  const input = document.getElementById('ckemail');
+  const input = $('ckemail');
   if(!input.value || !input.value.includes('@')){ input.focus(); return; }
   try{ localStorage.setItem('havn_waitlist', input.value); }catch(e){}
   btn.textContent = "You're on the list ✓"; btn.disabled = true; input.disabled = true;
 }
+function joinList(btn){
+  const input = $('nlemail');
+  if(!input.value || !input.value.includes('@')){ input.focus(); return; }
+  try{ localStorage.setItem('havn_nl', input.value); }catch(e){}
+  btn.textContent = "You're in ✓"; btn.disabled = true; input.disabled = true;
+}
+document.addEventListener('keydown', e=>{
+  if(e.key!=='Escape') return;
+  if($('ckmodal').classList.contains('open')) return closeCk();
+  if($('lightbox').classList.contains('open')) return closeLabel();
+  if($('drawer').classList.contains('open')) return closeCart();
+  if($('mmenu').classList.contains('open')) return closeMenu();
+});
 
-/* ---------- motion & interaction layer (scroll-sweep: works everywhere) ---------- */
+/* ================= motion engine (scroll-sweep — survives throttled tabs) ================= */
 function countUp(el){
   const txt = el.textContent, m = txt.match(/(\d+)/); if(!m) return;
   const target = +m[1], suffix = txt.replace(m[1],'');
@@ -620,55 +908,64 @@ function countUp(el){
     if(k<1) requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
-  setTimeout(()=>{ el.textContent = target + suffix; }, dur + 250); // guarantee final value even in throttled tabs
+  setTimeout(()=>{ el.textContent = target + suffix; }, dur + 250);
 }
 function motionSweep(){
   const vh = innerHeight * 0.92;
-  document.querySelectorAll('.reveal:not(.in)').forEach(el=>{
+  document.querySelectorAll('.rv:not(.in)').forEach(el=>{
     if(el.getBoundingClientRect().top < vh) el.classList.add('in');
   });
   document.querySelectorAll('.sci .k:not(.counted)').forEach(el=>{
     if(el.getBoundingClientRect().top < vh){ el.classList.add('counted'); countUp(el); }
   });
+  document.querySelector('header.nav').classList.toggle('scrolled', scrollY>8);
+  /* sticky cta: past hero, not at footer, cart closed */
+  const past = scrollY > innerHeight*0.7;
+  const nearEnd = scrollY + innerHeight > document.body.scrollHeight - 500;
+  $('stickycta').classList.toggle('show', past && !nearEnd && !document.body.classList.contains('lock'));
 }
 addEventListener('scroll', motionSweep, {passive:true});
 addEventListener('resize', motionSweep, {passive:true});
 addEventListener('load', motionSweep);
 setTimeout(motionSweep, 400); setTimeout(motionSweep, 1500);
-function wireReveals(){ motionSweep(); }
 
-/* facts-label lightbox */
-function openLabel(id,name){
-  document.getElementById('lbimg').src = 'assets/products/facts_'+id+'.png';
-  document.getElementById('lbimg').alt = 'HAVN '+name+' Supplement Facts';
-  document.getElementById('lightbox').classList.add('open');
+/* announcement rotator */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const msgs = document.querySelectorAll('#anno .msg'); let i = 0;
+  setInterval(()=>{ msgs[i].classList.remove('on'); i=(i+1)%msgs.length; msgs[i].classList.add('on'); }, 4600);
+})();
+
+/* marquee duplicate */
+const mq = $('mqtrack'); if(mq){ mq.innerHTML += mq.innerHTML; }
+
+/* pointer parallax + magnetic buttons (fine pointers, motion allowed) */
+if(matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+  let raf = null;
+  addEventListener('mousemove', e=>{
+    if(raf) return;
+    raf = requestAnimationFrame(()=>{
+      const nx = (e.clientX/innerWidth - .5), ny = (e.clientY/innerHeight - .5);
+      document.querySelectorAll('[data-px]').forEach(el=>{
+        const f = +el.dataset.px;
+        el.style.setProperty('translate', `${(-nx*f).toFixed(1)}px ${(-ny*f).toFixed(1)}px`);
+      });
+      raf = null;
+    });
+  }, {passive:true});
+  document.querySelectorAll('.btn.mag').forEach(b=>{
+    b.addEventListener('mousemove', e=>{
+      const r = b.getBoundingClientRect();
+      const x = (e.clientX-r.left-r.width/2)/r.width, y = (e.clientY-r.top-r.height/2)/r.height;
+      b.style.setProperty('translate', `${(x*6).toFixed(1)}px ${(y*5).toFixed(1)}px`);
+    });
+    b.addEventListener('mouseleave', ()=>{ b.style.removeProperty('translate'); });
+  });
 }
-function closeLabel(){ document.getElementById('lightbox').classList.remove('open'); }
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeLabel(); closeCart(); } });
 
-/* gift selector */
-let giftChoice = 'Gut Health capsules';
-function pickGift(el,name){
-  giftChoice = name;
-  document.querySelectorAll('.gopt .dot').forEach(d=>d.textContent='');
-  el.querySelector('.dot').textContent = '✓';
-  update();
-}
-
-/* newsletter */
-function joinList(btn){
-  const input = document.getElementById('nlemail');
-  if(!input.value || !input.value.includes('@')){ input.focus(); return; }
-  try{ localStorage.setItem('havn_nl', input.value); }catch(e){}
-  btn.textContent = "You're in ✓"; btn.disabled = true; input.disabled = true;
-}
-
-/* nav scrolled + marquee loop */
-addEventListener('scroll',()=>{ document.querySelector('header.nav').classList.toggle('scrolled', scrollY>8); },{passive:true});
-const mq = document.getElementById('mqtrack'); if(mq){ mq.innerHTML += mq.innerHTML; }
-
-renderProducts(); updateTrioBtn(); update(); wireReveals();
-if(location.hash==='#cart'){ addTrio(); openCart(); }
+/* boot */
+renderProducts(); syncOfferCopy(); update(); motionSweep();
+if(location.hash==='#cart'){ addTrio(); }
 </script>
 </body>
 </html>
