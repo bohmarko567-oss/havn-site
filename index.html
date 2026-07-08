@@ -115,25 +115,6 @@ img{max-width:100%;}
 .tilt3d{will-change:transform;} /* tilt transform is inline-driven (JS) so it can outrank .rv.in */
 .sec-head h2 .w{display:inline-block;opacity:0;transform:translateY(.55em);transition:opacity .55s var(--ease),transform .55s var(--ease);transition-delay:calc(var(--wi)*60ms + .08s);}
 .in h2 .w{opacity:1;transform:none;}
-/* ============ v3.4 COSMIC — dark shader sections (21st.dev ports) ============ */
-body{background:#14100C;}
-.glfx{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block;
-  background:radial-gradient(90% 120% at 20% 10%,#241a12 0%,#14100C 55%),#14100C;} /* static no-WebGL fallback */
-.cosmic{background:#14100C;color:var(--cream);}
-.cosmic .wrap{position:relative;z-index:2;}
-.cosmic .eyebrow{color:#8B8172;}
-.cosmic .sec-head p{color:#C9BFB0;}
-.cosmic .btn.ghost{color:var(--cream);border-color:var(--cream);}
-.hero.cosmic p.lead{color:#C9BFB0;}
-.hero.cosmic p.lead b{color:var(--cream);}
-.hero.cosmic .hero-note{color:#A79E8C;}
-.cosmic .modetoggle{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.28);}
-.cosmic .mt{color:var(--cream);}
-.cosmic .mt.on{background:var(--cream);color:var(--ink);}
-.cosmic .badge{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.05);color:var(--cream);}
-.faq.cosmic details{border-color:rgba(255,255,255,.14);}
-.faq.cosmic .fa p{color:#C9BFB0;}
-.faq.cosmic summary::after{color:#A79E8C;}
 .pcard.rise{--spot-c:rgba(255,106,21,.13);} .pcard.calm{--spot-c:rgba(18,165,148,.13);}
 .pcard.rest{--spot-c:rgba(78,67,201,.12);} .pcard.steady{--spot-c:rgba(200,30,120,.12);}
 .sci.rise{--spot-c:rgba(255,106,21,.10);} .sci.calm{--spot-c:rgba(18,165,148,.10);}
@@ -528,8 +509,8 @@ footer input:focus{border-color:var(--rise);outline:none;}
 <main id="main">
 
 <!-- HERO -->
-<section class="hero cosmic">
-  <canvas class="glfx" data-shader="nebula" data-pal="rise,rest" aria-hidden="true"></canvas>
+<section class="hero">
+  <canvas class="fx" data-fx="light" data-colors="rise,calm,rest,steady" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="hero-grid">
       <div>
@@ -577,8 +558,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
 </section>
 
 <!-- FORMULAS -->
-<section class="products cosmic" id="products">
-  <canvas class="glfx" data-shader="flow" data-pal="calm,rest" aria-hidden="true"></canvas>
+<section class="products" id="products">
   <div class="wrap">
     <div class="sec-head rv"><div class="eyebrow">Shop the range</div><h2>Pick your formulas</h2><p>Start with one, or take the full ritual. Every bottle is a 30-day supply.</p></div>
     <div class="modetoggle" role="group" aria-label="Purchase type">
@@ -590,8 +570,8 @@ footer input:focus{border-color:var(--rise);outline:none;}
 </section>
 
 <!-- COMPLETE THE RITUAL -->
-<section class="offer cosmic" id="steady">
-  <canvas class="glfx" data-shader="sing" aria-hidden="true"></canvas>
+<section class="offer" id="steady">
+  <canvas class="fx" data-fx="dark" data-colors="steady,rest,calm" data-sparkles="30" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="offer-grid">
       <div class="rv rl">
@@ -632,8 +612,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
 </section>
 
 <!-- TRUST -->
-<section class="trust cosmic">
-  <canvas class="fx" data-fx="dark" data-colors="calm,rest" data-density=".45" data-sparkles="10" aria-hidden="true"></canvas>
+<section class="trust">
   <div class="wrap">
     <div class="sec-head rv"><div class="eyebrow">No fillers. No junk.</div><h2>Clean by default</h2></div>
     <div class="badgerow rv rp">
@@ -644,8 +623,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
 </section>
 
 <!-- SCIENCE -->
-<section id="science" class="cosmic">
-  <canvas class="glfx" data-shader="lissa" aria-hidden="true"></canvas>
+<section id="science">
   <div class="wrap">
     <div class="sec-head rv"><div class="eyebrow">Dosed to matter</div><h2>Real actives, real amounts</h2><p>Studied ingredients at studied doses — the stuff that actually does something.</p></div>
     <div class="sci-grid">
@@ -676,8 +654,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
 </section>
 
 <!-- FAQ -->
-<section class="faq cosmic" id="faq">
-  <canvas class="fx" data-fx="dark" data-colors="rest,steady" data-density=".5" data-sparkles="12" aria-hidden="true"></canvas>
+<section class="faq" id="faq">
   <div class="wrap" style="max-width:900px">
     <div class="sec-head rv"><div class="eyebrow">Good to know</div><h2>Questions, answered</h2></div>
     <details open><summary>What is the 4th piece?</summary><div class="fa"><p>STEADY — N°04, our Normal Blood Sugar Drops. Six botanicals (cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander and Japanese knotweed resveratrol) in a daily 2&nbsp;ml dropper to support healthy energy metabolism*. On its own it's $18 — but it ships free with every complete ritual order, and repeats every month you stay subscribed.</p></div></details>
@@ -1134,128 +1111,6 @@ if(matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion
       let rt; addEventListener('resize', ()=>{ clearTimeout(rt); rt = setTimeout(()=>{ init(); frame(); }, 180); }, {passive:true});
     }
   });
-})();
-
-/* ================= v3.4 WebGL shader engine (21st.dev ports, raw GL — no three.js) ================= */
-(function(){
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const VERT = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
-  const LIB = `precision mediump float;uniform vec2 R;uniform float T;uniform vec2 M;uniform vec3 C1;uniform vec3 C2;
-    float hash(vec2 st){return fract(sin(dot(st,vec2(12.9898,78.233)))*43758.5453123);}
-    float noise(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);
-      return mix(mix(hash(i),hash(i+vec2(1.,0.)),u.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),u.x),u.y);}
-    float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*noise(p);p*=2.;a*=.5;}return v;}
-    float stars(vec2 uv,float t){vec2 c=uv*70.;vec2 g=floor(c);float h=hash(g);
-      vec2 o=vec2(hash(g+7.1),hash(g+3.7))-.5;
-      float m=smoothstep(.3,.02,length(fract(c)-.5-o*.5));
-      return step(.94,h)*m*(.35+.65*sin(t*(1.+h*3.)+h*40.));}
-    const vec3 SPACE=vec3(.055,.047,.039);`;
-  const SHADERS = {
-    /* port: dhiluxui/living-nebula — fbm gas layers + gravitational mouse lens */
-    nebula: LIB+`void main(){
-      vec2 uv=(gl_FragCoord.xy-.5*R)/R.y, m=(M-.5*R)/R.y; float t=T*.1;
-      float md=length(uv-m);
-      uv+=normalize(uv-m+vec2(1e-4))/(md*50.+1.)*smoothstep(.3,0.,md);
-      float a=t*.3; mat2 rot=mat2(cos(a),-sin(a),sin(a),cos(a));
-      vec2 p=rot*uv;
-      float c1=fbm(p*2.+vec2(t,-t)), c2=fbm(p*4.-vec2(-t,t));
-      vec3 col=SPACE;
-      col=mix(col,C1*.8,smoothstep(.42,.72,c1)*.5);
-      col=mix(col,C2*.85,smoothstep(.5,.78,c2)*.38);
-      col=mix(col,SPACE,smoothstep(.05,-.62,uv.x)*.55);  /* legibility: darken text column */
-      col+=stars(uv+vec2(t*.02,0.),T)*vec3(1.,.95,.85);
-      gl_FragColor=vec4(col,1.);}`,
-    /* zenitho/xenon-style domain-warped silk (uvcanvas-inspired, original GLSL) */
-    flow: LIB+`void main(){
-      vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; float t=T*.07;
-      vec2 q=vec2(fbm(uv*1.6+t),fbm(uv*1.6-t*.8));
-      vec2 r=vec2(fbm(uv*2.2+4.*q+vec2(1.7,9.2)+t*.9),fbm(uv*2.2+4.*q+vec2(8.3,2.8)-t*.6));
-      float f=fbm(uv*2.+3.5*r);
-      vec3 col=SPACE;
-      col=mix(col,C1*.85,smoothstep(.32,.95,f)*.42);
-      col=mix(col,C2*.9,smoothstep(.55,1.1,length(r))*.3);
-      col+=f*f*f*.16*vec3(1.,.9,.8);
-      col+=stars(uv,T)*.6;
-      gl_FragColor=vec4(col,1.);}`,
-    /* port: dhiluxui/lissajous-nebula-shader — lissajous warp + radial swirl, HAVN-tinted palette */
-    lissa: LIB+`void main(){
-      vec2 p=(gl_FragCoord.xy/R)*2.-1.; p.x*=R.x/R.y; float t=T*.09;
-      float lx=sin(p.x*3.+t)+cos(p.y*5.-t*1.5);
-      float r=length(p);
-      float sw=sin(6.28318*(r*2.4-t)+lx*2.);
-      float edge=smoothstep(.2,.3,abs(sw));
-      vec3 pal=.5+.5*cos(6.28318*(vec3(.7,.4,1.2)*(r+sw*.5+t)+vec3(0.,.33,.67)));
-      pal*=vec3(1.,.6,.95);             /* suppress greens — keep spectrum in brand range */
-      pal=mix(vec3(dot(pal,vec3(.33))),pal,.75); /* slight desat */
-      gl_FragColor=vec4(mix(SPACE,pal*.55,edge*.13)+stars(p,T)*.5,1.);}`,
-    /* port: dhiluxui/shader-animation — cosmic singularity waves (fbm-modulated) */
-    sing: LIB+`void main(){
-      vec2 uv=(gl_FragCoord.xy-vec2(.74,.42)*R)/R.y; float t=T*.1;   /* well sits behind the 4th-piece panel */
-      float d=length(uv)*.9;
-      float n=fbm(uv*1.5+t);
-      float waves=sin(d*9.-t*5.+n*4.)*.5+.5;
-      float f=pow(waves*(1./(d+.14)),2.);
-      vec3 col=mix(vec3(.1,.07,.3),vec3(.62,.1,.38),smoothstep(0.,1.6,f));
-      col=mix(col,vec3(.95,.6,.16),smoothstep(1.25,1.6,f));
-      col*=(1.-length(uv)*.58)*.55;                                   /* global dim — it's a backdrop */
-      col=max(col,SPACE);
-      gl_FragColor=vec4(col+stars(uv,T)*.4,1.);}`
-  };
-  const PAL = {rise:[1,.42,.08], calm:[.07,.65,.58], rest:[.36,.31,.86], steady:[.83,.12,.49]};
-  function boot(cv){
-    if(cv.dataset.glon) return;
-    const frag = SHADERS[cv.dataset.shader]; if(!frag) return;
-    let gl = null;
-    try{ gl = cv.getContext('webgl',{antialias:false,alpha:false,powerPreference:'low-power'}); }catch(e){}
-    if(!gl) return;                                  /* CSS fallback gradient stays */
-    function sh(t,s){ const o=gl.createShader(t); gl.shaderSource(o,s); gl.compileShader(o);
-      return gl.getShaderParameter(o,gl.COMPILE_STATUS) ? o : null; }
-    const vs=sh(gl.VERTEX_SHADER,VERT), fs=sh(gl.FRAGMENT_SHADER,frag);
-    if(!vs||!fs) return;
-    const P=gl.createProgram(); gl.attachShader(P,vs); gl.attachShader(P,fs); gl.linkProgram(P);
-    if(!gl.getProgramParameter(P,gl.LINK_STATUS)) return;
-    gl.useProgram(P);
-    cv.dataset.glon='1';
-    const b=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b);
-    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
-    const loc=gl.getAttribLocation(P,'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
-    const u={R:gl.getUniformLocation(P,'R'),T:gl.getUniformLocation(P,'T'),M:gl.getUniformLocation(P,'M'),
-             C1:gl.getUniformLocation(P,'C1'),C2:gl.getUniformLocation(P,'C2')};
-    const cols=(cv.dataset.pal||'rise,rest').split(',');
-    function size(){
-      const r=cv.parentElement.getBoundingClientRect();
-      const s=Math.min(devicePixelRatio||1,2)*.5;      /* half-res: free softness + cheap GPU */
-      cv.width=Math.max(2,Math.round(r.width*s)); cv.height=Math.max(2,Math.round(r.height*s));
-      gl.viewport(0,0,cv.width,cv.height);
-    }
-    size();
-    let rt; addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(size,180);},{passive:true});
-    let mx=-9999,my=-9999;
-    if(matchMedia('(pointer: fine)').matches) addEventListener('mousemove',e=>{
-      const r=cv.getBoundingClientRect(); const s=cv.width/Math.max(1,r.width);
-      mx=(e.clientX-r.left)*s; my=(r.height-(e.clientY-r.top))*s;
-    },{passive:true});
-    const t0=performance.now();
-    function draw(){
-      gl.uniform2f(u.R,cv.width,cv.height);
-      gl.uniform1f(u.T,(performance.now()-t0)/1000+9.);
-      gl.uniform2f(u.M,mx,my);
-      if(u.C1)gl.uniform3fv(u.C1,PAL[cols[0]]||PAL.rise);
-      if(u.C2)gl.uniform3fv(u.C2,PAL[cols[1]]||PAL.rest);
-      gl.drawArrays(gl.TRIANGLES,0,3);
-    }
-    if(reduced){ draw(); return; }                    /* static frame only */
-    (function frame(){
-      const r=cv.getBoundingClientRect();
-      if(r.bottom>-60 && r.top<innerHeight+60 && r.width>0 && !document.hidden){
-        if(cv.width<4) size();                        /* heal 0-width boot (hidden tabs) */
-        draw();
-      }
-      requestAnimationFrame(frame);
-    })();
-  }
-  document.querySelectorAll('canvas.glfx').forEach(boot);
-  setTimeout(()=>document.querySelectorAll('canvas.glfx').forEach(boot),1400); /* self-heal re-init */
 })();
 
 /* boot */
