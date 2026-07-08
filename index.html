@@ -1249,9 +1249,9 @@ if(matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion
       float sw=sin(6.28318*(r*2.4-t)+lx*2.);
       float edge=smoothstep(.2,.3,abs(sw));
       vec3 pal=.5+.5*cos(6.28318*(vec3(.7,.4,1.2)*(r+sw*.5+t)+vec3(0.,.33,.67)));
-      pal*=vec3(1.,.6,.95);
-      pal=mix(vec3(dot(pal,vec3(.33))),pal,.78);
-      gl_FragColor=vec4(mix(vec3(.055,.047,.039),pal*.62,edge*.2)+stars(p,T)*.5,1.);}`,
+      pal*=vec3(1.,.62,.95);
+      pal=mix(vec3(dot(pal,vec3(.33))),pal,.9);
+      gl_FragColor=vec4(mix(vec3(.055,.047,.039),pal*.8,edge*.42)+stars(p,T)*.55,1.);}`,
     xenon: LIB+`void main(){
       vec2 uv=(gl_FragCoord.xy-.5*R)/R.y; float t=T*.12;
       float g=0.;
