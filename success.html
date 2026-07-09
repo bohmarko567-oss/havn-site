@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Order confirmed — HAVN</title>
+<link rel="icon" href="assets/favicon.png">
+<style>
+@font-face{font-family:'Archivo';src:url('fonts/Archivo.ttf');font-display:swap;}
+@font-face{font-family:'Hanken';src:url('fonts/HankenGrotesk.ttf');font-display:swap;}
+@font-face{font-family:'Space Mono';src:url('fonts/SpaceMono-Regular.ttf');font-display:swap;}
+@font-face{font-family:'Space Mono';src:url('fonts/SpaceMono-Bold.ttf');font-weight:700;font-display:swap;}
+:root{
+  --cream:#F6EFE1;--ink:#1E1913;--muted:#6E6656;--line:#E2D9C6;
+  --rise:#FF6A15;--calm:#12A594;--rest:#4E43C9;--steady:#C81E78;
+  --disp:'Archivo',sans-serif;--body:'Hanken',sans-serif;--mono:'Space Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);color:var(--ink);font-family:var(--body);min-height:100vh;display:flex;flex-direction:column;}
+a{color:inherit;}
+.band{height:10px;display:flex;}
+.band i{flex:1;}
+.band i:nth-child(1){background:var(--rise);}.band i:nth-child(2){background:var(--calm);}
+.band i:nth-child(3){background:var(--rest);}.band i:nth-child(4){background:var(--steady);}
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px clamp(20px,5vw,48px);}
+.logo{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 122;font-size:22px;letter-spacing:1px;text-decoration:none;}
+nav a.back{font-family:var(--mono);font-size:12.5px;text-decoration:none;border:1.5px solid var(--ink);border-radius:100px;padding:9px 16px;}
+main{flex:1;width:100%;max-width:880px;margin:0 auto;padding:clamp(28px,6vh,64px) 20px 60px;}
+.demo{background:var(--ink);color:var(--cream);font-family:var(--mono);font-size:12.5px;line-height:1.5;padding:12px 16px;border-radius:12px;margin-bottom:28px;}
+.demo b{color:#FFD9A8;}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+h1{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(44px,9vw,84px);line-height:.95;text-transform:uppercase;letter-spacing:-1px;}
+h1 .o{color:var(--rise);}
+.ref{font-family:var(--mono);font-size:13px;color:var(--muted);margin:16px 0 4px;overflow-wrap:anywhere;}
+.total{font-family:var(--mono);font-size:14px;margin-bottom:34px;}
+.total b{font-size:17px;}
+.steps{display:grid;gap:0;margin:0 0 40px;border-left:2.5px solid var(--ink);}
+.step{position:relative;padding:0 0 26px 26px;}
+.step:last-child{padding-bottom:0;}
+.step::before{content:'';position:absolute;left:-8.5px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--cream);border:2.5px solid var(--ink);}
+.step.on::before{background:var(--calm);border-color:var(--calm);}
+.step h3{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 115;font-size:17px;text-transform:uppercase;letter-spacing:.4px;}
+.step p{color:var(--muted);font-size:14.5px;line-height:1.55;max-width:52ch;margin-top:3px;}
+.step .tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;}
+h2{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 118;font-size:24px;text-transform:uppercase;margin:0 0 16px;}
+.ritual{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:38px;}
+.r{border-radius:14px;padding:14px 13px;color:#fff;min-height:118px;display:flex;flex-direction:column;justify-content:space-between;}
+.r .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;opacity:.85;}
+.r b{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 118;font-size:19px;text-transform:uppercase;}
+.r p{font-size:12px;line-height:1.4;opacity:.92;}
+.r1{background:var(--rise);}.r2{background:var(--calm);}.r3{background:var(--rest);}.r4{background:var(--steady);}
+.help{border:1.5px solid var(--line);border-radius:14px;padding:18px 20px;font-size:14.5px;line-height:1.6;color:var(--muted);}
+.help b{color:var(--ink);}
+footer{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center;padding:22px;border-top:1.5px solid var(--line);}
+@media(max-width:640px){.ritual{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="band" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<nav><a class="logo" href="index.html">HAVN</a><a class="back" href="index.html#products">← Back to the store</a></nav>
+<main>
+  <div class="demo" id="demoNote" hidden><b>DEMO CHECKOUT</b> — no payment was taken. This is the test-mode success page; connect Stripe keys (see GO_LIVE.md) and this exact flow goes live.</div>
+  <div class="eyebrow">Order confirmed</div>
+  <h1>Your ritual<br>is <span class="o">on its way.</span></h1>
+  <div class="ref" id="ref"></div>
+  <div class="total" id="total"></div>
+
+  <div class="steps" aria-label="What happens next">
+    <div class="step on"><span class="tag">Now</span><h3>Order confirmed</h3><p>Payment received. A receipt is headed to your inbox.</p></div>
+    <div class="step"><span class="tag">1–2 business days</span><h3>Bottled &amp; labeled in the USA</h3><p>Your bottles are prepared at our U.S. fulfillment facility with fresh HAVN labels.</p></div>
+    <div class="step"><span class="tag">2–5 business days</span><h3>Shipped to your door</h3><p>Tracking lands in your email the moment it leaves the facility.</p></div>
+    <div class="step"><span class="tag">Day 1</span><h3>Start the ritual</h3><p>Open the box, line the bottles up, and start with tomorrow morning.</p></div>
+  </div>
+
+  <h2>How to run it</h2>
+  <div class="ritual">
+    <div class="r r1"><span class="n">N°01 · A.M.</span><b>Rise</b><p>2 capsules with breakfast.</p></div>
+    <div class="r r2"><span class="n">N°02 · Midday</span><b>Calm</b><p>2 capsules with water.</p></div>
+    <div class="r r3"><span class="n">N°03 · Night</span><b>Rest</b><p>3 capsules before bed.</p></div>
+    <div class="r r4"><span class="n">N°04 · Daily</span><b>Steady</b><p>2ml in the morning.</p></div>
+  </div>
+
+  <div class="help" id="subHelp">
+    Questions, changes or a wrong address? Email <b><a href="mailto:hello@havn.co">hello@havn.co</a></b> — we answer fast.
+    <span id="subLine" hidden><br>Your subscription renews monthly. Skip, swap or cancel anytime — the link is in your receipt email, or just write us.</span>
+  </div>
+</main>
+<footer>HAVN · Designed in Denmark · Made in the USA · <a href="policies.html">Policies</a></footer>
+<script>
+(function(){
+  var q = new URLSearchParams(location.search);
+  try{ localStorage.removeItem('havn_cart'); }catch(e){}
+  if(q.get('demo')==='1'){ document.getElementById('demoNote').hidden = false; }
+  var sid = q.get('session_id');
+  var sum = q.get('sum');
+  if(sid){ document.getElementById('ref').textContent = 'Ref: ' + sid.slice(0,28) + '…'; }
+  else if(sum){ document.getElementById('ref').textContent = decodeURIComponent(sum); }
+  var t = parseInt(q.get('total')||'',10);
+  var sub = q.get('sub')==='1';
+  if(Number.isFinite(t)){
+    document.getElementById('total').innerHTML = 'Total: <b>$'+(t/100).toFixed(2)+(sub?'/mo':'')+'</b>' + (sub?' · subscription':'');
+  }
+  if(sub || q.get('demo')!=='1'){ document.getElementById('subLine').hidden = !sub; }
+})();
+</script>
+</body>
+</html>

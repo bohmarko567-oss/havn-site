@@ -1,0 +1,13 @@
+{
+  "name": "havn-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "HAVN storefront — static Spectrum site + Vercel serverless Stripe checkout + Supliful fulfillment pipeline",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev": "node server.local.js"
+  },
+  "dependencies": {
+    "stripe": "^18.0.0"
+  }
+}

@@ -8,3 +8,9 @@ Thumbs.db
 .vercel
 .netlify
 node_modules
+package-lock.json
+
+# secrets — NEVER commit keys
+.env
+.env.*
+!.env.example
