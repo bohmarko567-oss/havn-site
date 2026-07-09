@@ -4,22 +4,25 @@
    All amounts are integer cents. */
 
 const CATALOG = {
-  rise:   { name: "HAVN Rise — Lion's Mane 1000mg",       n: 'N°01', img: 'rise_front.jpg',   one: 3600, sub: 3100 },
-  calm:   { name: 'HAVN Calm — Ashwagandha+ (KSM-66®)',   n: 'N°02', img: 'calm_front.jpg',   one: 3600, sub: 3100 },
-  rest:   { name: 'HAVN Rest — Magnesium Glycinate',      n: 'N°03', img: 'rest_front.jpg',   one: 3600, sub: 3100 },
+  rise:   { name: "HAVN Rise — Lion's Mane 1000mg",       n: 'N°01', img: 'rise_front.jpg',   one: 3800, sub: 3200 },
+  calm:   { name: 'HAVN Calm — Ashwagandha+ (KSM-66®)',   n: 'N°02', img: 'calm_front.jpg',   one: 3800, sub: 3200 },
+  rest:   { name: 'HAVN Rest — Magnesium Glycinate',      n: 'N°03', img: 'rest_front.jpg',   one: 3800, sub: 3200 },
   steady: { name: 'HAVN Steady — Blood Sugar Drops',      n: 'N°04', img: 'steady_front.jpg', one: 1800, sub: 1500 },
 };
 
-/* Trio bundle: Rise+Calm+Rest. Sub price is $92 (NOT 3×$31=$93) — locked offer. */
+/* Trio bundle: Rise+Calm+Rest. Sub $96 = exactly 3×$32 (collapse-neutral) and
+   15%+ off the $114 one-time anchor. Repriced 2026-07-10 on real Supliful
+   costs (wholesale + $1.99/unit fulfillment + weight-based shipping). */
 const TRIO = {
-  one: 10800,
-  sub: 9200,
+  one: 11400,
+  sub: 9600,
   name: 'HAVN Complete Ritual — Rise + Calm + Rest',
   desc: 'The 4-piece daily ritual. Includes N°04 STEADY (Blood Sugar Drops, $18 value) FREE in every shipment.',
 };
 
-const FREE_SHIP_CENTS = intEnv('FREE_SHIP_CENTS', 7500);  /* free U.S. shipping threshold */
-const SHIP_CENTS      = intEnv('SHIP_CENTS', 695);        /* flat U.S. shipping below it  */
+const FREE_SHIP_CENTS     = intEnv('FREE_SHIP_CENTS', 7900);     /* one-time orders: free U.S. shipping threshold */
+const FREE_SUB_SHIP_CENTS = intEnv('FREE_SUB_SHIP_CENTS', 3000); /* subscriptions ship free from $30/mo (any formula qualifies) */
+const SHIP_CENTS          = intEnv('SHIP_CENTS', 695);           /* flat U.S. shipping otherwise */
 
 function intEnv(k, d) {
   const v = parseInt(process.env[k] || '', 10);
@@ -58,7 +61,9 @@ function subtotalCents(cart, subscribe) {
 }
 
 function shippingCents(cart, subscribe) {
-  return subtotalCents(cart, subscribe) >= FREE_SHIP_CENTS ? 0 : SHIP_CENTS;
+  const st = subtotalCents(cart, subscribe);
+  if (subscribe) return st >= FREE_SUB_SHIP_CENTS ? 0 : SHIP_CENTS;
+  return st >= FREE_SHIP_CENTS ? 0 : SHIP_CENTS;
 }
 
 /* Stripe Checkout line items via price_data — no dashboard products required.
@@ -114,7 +119,7 @@ function lineItems(cart, subscribe, imgBase) {
         recurring: { interval: 'month' },
         product_data: {
           name: 'U.S. shipping (monthly)',
-          description: 'Free on ritual orders over $' + (FREE_SHIP_CENTS / 100),
+          description: 'Free on subscriptions from $' + (FREE_SUB_SHIP_CENTS / 100) + '/mo',
           metadata: { havn_sku: 'shipping' },
         },
       },
@@ -145,6 +150,6 @@ function humanSummary(cart, subscribe) {
 }
 
 module.exports = {
-  CATALOG, TRIO, FREE_SHIP_CENTS, SHIP_CENTS,
+  CATALOG, TRIO, FREE_SHIP_CENTS, FREE_SUB_SHIP_CENTS, SHIP_CENTS,
   normalizeCart, subtotalCents, shippingCents, lineItems, fulfillmentUnits, humanSummary,
 };

@@ -98,17 +98,21 @@ Backstop: even if an alert email ever fails, every order sits in **Stripe → Pa
 
 ---
 
-## PART 3 — Unit economics (sanity check, from locked pricing)
+## PART 3 — Unit economics (real numbers, repriced 2026-07-10)
 
-| | Trio sub $92/mo | Single sub $31 | Steady solo $18 |
-|---|---|---|---|
-| Wholesale (Rise 11.65 + Calm 6.99 + Rest 8.89 + Steady 5.35) | ≈ $32.88 | ≈ $6.99–11.65 | $5.35 |
-| Supliful shipping (their charge to you, varies) | ≈ $6–8 | ≈ $5–6 | ≈ $5 |
-| Stripe DK acct, US card + FX (≈3.25% + 2%) | ≈ $5.00 | ≈ $2.10 | ≈ $1.40 |
-| Customer paid shipping | $0 (free ≥$75) | +$6.95 | +$6.95 |
-| **Margin** | **≈ $46–48** | ≈ $17–23 | ≈ $12–13 |
+Costs verified from Supliful's help center: **fulfillment fee $1.99 per product** (first unit; $1.29 repeats) + **weight-based USPS shipping** (≤0.5 lb $4.50 · 1–2 lb $9.00 — a trio box is 1–2 lb). No Alaska/Hawaii. Stripe = Danish account charging US cards incl. ~2% FX to DKK.
 
-Verify real wholesale + shipping in your Supliful dashboard — these come from the July 7 research snapshot. Fees assume a Danish Stripe account charging US cards with DKK payouts (see stripe.com/dk/pricing); a USD payout account claws back ~2%.
+**Price ladder (v2, live):** single **$38 / $32 sub** · trio **$114 / $96 sub** (= 3×$32, "save 15%+" vs $114) · STEADY $18 / $15, **free with the full ritual** · one-time free shipping at **$79** (two bottles = $76 — still misses by $3, the third clears it) · **subscriptions from $30/mo always ship free** (kills the "$32 + $6.95 shipping" bad look; sub is always the better deal).
+
+| Per order | Trio sub $96 | Trio once $114 | Single sub $32 | Single once $38+$6.95 | Steady solo sub $15+$6.95 |
+|---|---|---|---|---|---|
+| Wholesale | 32.88 | 32.88 | 6.99–11.65 | 6.99–11.65 | 5.35 |
+| Fulfillment fees | 7.96 | 7.96 | 1.99 | 1.99 | 1.99 |
+| Supliful shipping | 9.00 | 9.00 | 4.50 | 4.50 | 4.50 |
+| Stripe + FX | ≈5.29 | ≈6.24 | ≈1.93 | ≈2.61 | ≈1.40 |
+| **Your margin** | **≈$40.87 (43%)** | **≈$57.92 (51%)** | ≈$11.90–16.60 | ≈$24.20–28.90 | ≈$8.70 |
+
+What this means: month-1 breakeven customer-acquisition cost on the trio sub is ≈$41; every retained month adds ≈$41. Singles are profitable feeders; STEADY solo is a low-margin entry ramp (by design — its job is pulling people toward the trio). Verify wholesale in your dashboard — Supliful reprices occasionally.
 
 ---
 
@@ -143,9 +147,24 @@ Until then, the 3-minute manual loop in Part 2 does the same job for $0/mo.
 - `Downloads/Havn-Labels/ADS/` — 5 square + 1 story ad, Instagram grid
 - `Downloads/Havn-Labels/COPY/` — launch copy, announcement email, social calendar, SEO pillar article, Amazon listing pack
 - `Downloads/Havn-Labels/LAUNCH_CHECKLIST.md` — the original checklist
-- Soft-launch idea: the waitlist emails collected pre-launch (localStorage + `/api/subscribe` once Resend is on) get the announcement email with a WELCOME15 promo code (create it in Stripe → Products → Coupons; checkout already accepts promo codes).
+- Soft-launch idea: the waitlist emails collected pre-launch get the announcement email — unique 15% codes are minted automatically by `/api/subscribe` (no dashboard work needed), and the site popup hands them out on its own once Stripe is live.
 
 ---
+
+## PART 7 — Honest audit: where you hit, where you're exposed
+
+**Working for you:** a differentiated brand (nothing about the site reads template); an offer with real mechanics (completion → gift → retention lock); subscriptions as the core = recurring revenue; ~43% trio-sub margin with $0/mo fixed costs until sales; the whole ops loop automated except one 3-minute step; compliant labels already validated.
+
+**Exposure, ranked by how much it matters:**
+1. **Traffic is the missing organ.** The store converts; nothing sends people to it yet. Post-launch plan, in order: TikTok/Reels UGC-style content (bottle mockups + ADS/ assets exist), the waitlist email, then a small Meta test ($10–20/day). Kill-metric: trio-sub CAC must stay under ≈$41 (month-1 breakeven); every retained month is +$41.
+2. **The reviews are placeholders.** Under the FTC's fake-review rule (2024), fabricated consumer reviews risk real fines once you market in the US. They're fine as design-preview copy, but **replace with real ones before paid traffic**: the guarantee makes asking easy, seed the first ten via friends/early customers, and a day-21 "how's the ritual?" review-request email is a planned automation.
+3. **Renewal discipline.** Until the Shopify bridge is on, every subscription renewal is an email → 3-minute manual order. Missed renewals = angry subscribers. Make the order inbox a daily 5-minute habit, or flip on Part 5 at ~10 orders/week.
+4. **Supliful is a single point of failure.** Stockouts, wholesale price changes, or SKU discontinuation hit you directly. Check wholesale monthly; keep one backup SKU per formula in mind.
+5. **No customer database** — Stripe is the system of record. Completely fine below ~100 orders/mo; revisit when support queries need history at a glance.
+6. **Deliverability**: customer-facing email (codes, tracking) needs the domain + Resend verification (steps 4/6) — before the launch blast, not after.
+7. **Chargebacks/fraud**: supplements attract some; Stripe Radar handles the bulk. Always forward tracking numbers — they win disputes.
+8. **AK/HI**: Supliful can't ship there. Policy excludes it and your order alerts flag it with a refund instruction (wired in).
+9. **Legal residuals**: policies are strong drafts, not lawyer-reviewed; final label/distributor wording needs your CVR. Both are known, deliberate deferrals.
 
 ## Quick reference — what runs where
 

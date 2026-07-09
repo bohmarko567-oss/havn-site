@@ -43,9 +43,9 @@ havn-site/
 └── vercel.json           # cleanUrls + cache headers (zero-config functions)
 ```
 
-## Pricing model (locked)
+## Pricing model (v2 — repriced 2026-07-10 on real Supliful costs)
 
-Single $36 / $31 sub · Trio $108 / **$92 sub** · Steady $18 / $15 sub, **free with the complete ritual** (repeats monthly on the trio sub) · free U.S. shipping ≥ $75, else $6.95 (subs under $75 carry a recurring $6.95 line). All enforced server-side in `api/_catalog.js`; change prices there + in `index.html`'s `PRODUCTS`.
+Single $38 / $32 sub · Trio $114 / **$96 sub** (= 3×$32; 15%+ off) · Steady $18 / $15 sub, **free with the complete ritual** (repeats monthly on the trio sub) · **subscriptions from $30/mo ship free** · one-time orders free ≥ $79, else $6.95. All enforced server-side in `api/_catalog.js`; change prices there + in `index.html`'s `PRODUCTS` (and the JSON-LD offers). Unit economics: GO_LIVE.md Part 3.
 
 ## Run locally
 ```

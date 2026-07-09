@@ -42,7 +42,11 @@ function ownerOrderEmail(order) {
     .join('');
   const addr = [shipName, a.line1, a.line2, [a.city, a.state, a.postal_code].filter(Boolean).join(', '), a.country]
     .filter(Boolean).join('<br>');
-  return `
+  const akHi = ['AK', 'HI'].includes(String(a.state || '').toUpperCase())
+    ? `<p style="background:#FDE8E8;border:1px solid #E03131;border-radius:8px;padding:10px 12px;color:#8A0E0E">
+       ⚠ <b>Alaska/Hawaii address — Supliful can't ship there.</b> Refund this order in Stripe and email the customer an apology (add AK/HI exclusion is already in the shipping policy).</p>`
+    : '';
+  return `${akHi}
   <div style="font-family:Arial,sans-serif;max-width:620px">
     <h2 style="margin:0 0 4px">${order.kind === 'renewal' ? '🔁 Subscription renewal' : '🟠 New HAVN order'} — ship it</h2>
     <p style="color:#555;margin:4px 0 14px">${order.summary || ''} · paid <b>$${(order.amountTotal / 100).toFixed(2)}</b> · ${order.id}</p>
