@@ -86,6 +86,9 @@ module.exports = async (req, res) => {
       params.subscription_data = { metadata };      /* renewals carry the cart too */
     } else {
       params.customer_creation = 'always';
+      /* abandoned-cart seed: expired sessions keep a 30-day recovery URL that
+         the webhook mails to the owner (payment mode only — Stripe limit) */
+      params.after_expiration = { recovery: { enabled: true } };
       const ship = shippingCents(cart, false);
       params.shipping_options = [{
         shipping_rate_data: {

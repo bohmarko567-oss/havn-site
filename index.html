@@ -450,6 +450,22 @@ footer input:focus{border-color:var(--rise);outline:none;}
 .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}.rv.d4{transition-delay:.32s}
 
 /* ---------- responsive ---------- */
+/* promo slide-in — unique welcome code (sticker-chip styling, ink offset shadow) */
+.promo{position:fixed;left:18px;bottom:18px;z-index:140;width:352px;max-width:calc(100vw - 36px);background:var(--cream);border:2px solid var(--ink);border-radius:16px;box-shadow:0 6px 0 var(--ink);padding:18px 18px 15px;display:flex;gap:14px;transform:translateY(18px);opacity:0;transition:transform .45s cubic-bezier(.2,.9,.25,1),opacity .45s;}
+.promo.show{transform:none;opacity:1;}
+.promo .px{position:absolute;top:6px;right:8px;background:none;border:0;font-size:20px;line-height:1;cursor:pointer;color:var(--muted);padding:6px 8px;}
+.promo .pnum{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 122;font-size:62px;line-height:.9;color:transparent;-webkit-text-stroke:2px var(--rise);flex-shrink:0;margin-top:4px;}
+.promo .peyebrow{font-family:var(--monob);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.promo h4{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 116;font-size:18.5px;line-height:1.05;text-transform:uppercase;margin:5px 0 10px;}
+.promo .pform{display:flex;gap:8px;}
+.promo .pform input{flex:1;min-width:0;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;font-family:var(--mono);font-size:12.5px;background:#fff;}
+.promo .pform input:focus{border-color:var(--rise);outline:none;}
+.promo .pform .btn{padding:11px 14px;font-size:11.5px;white-space:nowrap;}
+.promo .pcode{width:100%;font-family:var(--monob);font-size:21px;letter-spacing:2px;background:var(--ink);color:var(--cream);border:0;border-radius:10px;padding:14px 10px;cursor:pointer;}
+.promo .pnote{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.45;}
+@media(max-width:900px){.promo{left:12px;right:12px;bottom:76px;width:auto;}}
+@media(prefers-reduced-motion:reduce){.promo{transition:none;transform:none;}}
+
 @media(max-width:1020px){
   .pgrid{grid-template-columns:repeat(2,1fr);}
   .sci-grid{grid-template-columns:repeat(2,1fr);}
@@ -527,6 +543,10 @@ footer input:focus{border-color:var(--rise);outline:none;}
   html{scroll-behavior:auto;}
 }
 </style>
+<!-- Analytics (GO_LIVE.md step 8): create a Plausible account, set the domain,
+     then uncomment. Privacy-first + EU-hosted = no cookie banner needed.
+<script defer data-domain="YOUR-DOMAIN" src="https://plausible.io/js/script.pageview-props.revenue.js"></script>
+-->
 </head>
 <body>
 
@@ -790,6 +810,23 @@ footer input:focus{border-color:var(--rise);outline:none;}
   </div>
 </div>
 
+<!-- PROMO SLIDE-IN — unique 15% welcome code -->
+<aside class="promo" id="promo" role="dialog" aria-label="Get 15% off your first order" hidden>
+  <button class="px" aria-label="Close offer" onclick="promoClose()">×</button>
+  <div class="pnum" aria-hidden="true">15</div>
+  <div style="flex:1;min-width:0">
+    <div class="peyebrow">First order · single-use code</div>
+    <h4>15% off your first ritual</h4>
+    <div class="pform" id="promoForm">
+      <label for="promoEmail" style="position:absolute;left:-9999px">Email address</label>
+      <input id="promoEmail" type="email" autocomplete="email" placeholder="you@email.com">
+      <button class="btn rise" onclick="promoClaim(this)">Get my code</button>
+    </div>
+    <button class="pcode" id="promoCode" hidden onclick="promoCopy(this)"></button>
+    <div class="pnote" id="promoNote" aria-live="polite">One code per person — yours instantly, right here.</div>
+  </div>
+</aside>
+
 <!-- CART -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Cart">
@@ -889,8 +926,8 @@ function syncOfferCopy(){
 }
 
 /* ================= cart ops ================= */
-function addItem(id){ cart.singles[id]++; update(); openCart(); }
-function addTrio(){ cart.trio = Math.max(1, cart.trio); update(); openCart(); }
+function addItem(id){ cart.singles[id]++; update(); openCart(); track('add_to_cart',{sku:id}); }
+function addTrio(){ cart.trio = Math.max(1, cart.trio); update(); openCart(); track('add_to_cart',{sku:'trio'}); }
 function bumpTrio(d){ cart.trio = Math.max(0, cart.trio + d); update(); }
 function bumpSingle(id,d){ cart.singles[id] = Math.max(0, cart.singles[id] + d); update(); }
 
@@ -961,7 +998,7 @@ function update(){
 }
 
 /* quiet add from the ring — fills the circle without yanking the drawer open */
-function ringAdd(sku){ if(hasSku(sku)) return; cart.singles[sku]++; update(); }
+function ringAdd(sku){ if(hasSku(sku)) return; cart.singles[sku]++; update(); track('add_to_cart',{sku, via:'ring'}); }
 
 /* balloons — float up from the bottom when the ritual completes.
    Real ones = balloons-js by Artur Bień (MIT, self-hosted in assets/) — the CSS bunch below is only a fallback.
@@ -1035,6 +1072,7 @@ async function checkout(){
   if(itemCount()===0 || ckBusy) return;
   const btn = $('ckBtn'), old = btn.textContent;
   ckBusy = true; btn.disabled = true; btn.textContent = 'Opening secure checkout…';
+  track('begin_checkout', {subtotal: subtotal(), subscription: subscribe});
   try{
     const r = await fetch(HAVN_API_BASE + '/api/checkout', {
       method:'POST', headers:{'Content-Type':'application/json'},
@@ -1053,6 +1091,7 @@ async function checkout(){
 }
 function ckFallback(){
   if(itemCount()===0) return;
+  track('checkout_fallback');
   const lines = [];
   if(cart.trio>0) lines.push(`<div class="l"><span>Complete Ritual ×${cart.trio}</span><span>${fmt(cart.trio*trioPrice())}</span></div>`);
   ALL.forEach(p=>{ if(cart.singles[p.id]>0) lines.push(`<div class="l"><span>${p.name} ×${cart.singles[p.id]}</span><span>${fmt(cart.singles[p.id]*priceOf(p))}</span></div>`); });
@@ -1332,6 +1371,82 @@ if(matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion
   document.querySelectorAll('canvas.glfx').forEach(boot);
   setTimeout(()=>document.querySelectorAll('canvas.glfx').forEach(boot),1400);
 })();
+
+/* ================= analytics events + promo popup ================= */
+/* vendor-agnostic event layer: everything lands in window.havnEvents, and in
+   Plausible when its script is enabled (head comment / GO_LIVE.md step 8).
+   Server-side `purchase` fires from the Stripe webhook — the reliable one. */
+window.havnEvents = window.havnEvents || [];
+function track(name, props){
+  try{
+    window.havnEvents.push({name, props: props||{}, t: Date.now()});
+    if(window.plausible) plausible(name, {props: props||{}});
+  }catch(e){}
+}
+
+const PROMO_KEY = 'havn_promo';
+function promoState(){ try{ return JSON.parse(localStorage.getItem(PROMO_KEY)||'null'); }catch(e){ return null; } }
+function promoSet(v){ try{ localStorage.setItem(PROMO_KEY, JSON.stringify(v)); }catch(e){} }
+function promoOpen(){
+  const p = $('promo'); if(!p || !p.hidden) return;
+  const st = promoState();
+  if(st && st.code) promoShowCode(st.code);          /* returning visitor: remind them of their code */
+  p.hidden = false; requestAnimationFrame(()=>p.classList.add('show'));
+  try{ sessionStorage.setItem('havn_promo_shown','1'); }catch(e){}
+  track('promo_view');
+}
+function promoClose(){
+  const p = $('promo'); p.classList.remove('show'); setTimeout(()=>{ p.hidden = true; }, 460);
+  const st = promoState();
+  if(!st || !st.code) promoSet({dismissed:true, at: Date.now()});   /* snooze 3 days */
+}
+function promoShowCode(code){
+  $('promoForm').style.display = 'none';
+  const b = $('promoCode'); b.hidden = false; b.textContent = code;
+  $('promoNote').textContent = 'Tap the code to copy it — then paste it in the promo field at checkout.';
+}
+async function promoClaim(btn){
+  const input = $('promoEmail');
+  if(!input.value || !input.value.includes('@')){ input.focus(); return; }
+  btn.disabled = true; btn.textContent = '…';
+  let code = null;
+  try{
+    const r = await fetch(HAVN_API_BASE + '/api/subscribe', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({email: input.value, source:'promo-popup', promo:true})
+    });
+    if(r.ok) code = (await r.json()).code;
+  }catch(e){}
+  try{ localStorage.setItem('havn_nl', input.value); }catch(e){}
+  if(code){
+    promoSet({code, at: Date.now()});
+    promoShowCode(code);
+    track('promo_claim');
+  }else{
+    $('promoForm').style.display = 'none';
+    $('promoNote').textContent = "You're on the list — your code is on its way to your inbox.";
+    track('promo_claim_pending');
+  }
+}
+function promoCopy(b){
+  const code = (promoState()||{}).code || b.textContent;
+  try{ navigator.clipboard.writeText(code).then(()=>{ b.textContent = 'Copied ✓'; setTimeout(()=>{ b.textContent = code; }, 1300); }); }catch(e){}
+}
+(function(){ /* trigger: 14s on page OR 40% scroll depth — once per session */
+  const st = promoState();
+  if(st && st.dismissed && Date.now()-st.at < 3*86400e3) return;
+  try{ if(sessionStorage.getItem('havn_promo_shown')) return; }catch(e){}
+  let fired = false;
+  const fire = ()=>{ if(fired) return; fired = true; removeEventListener('scroll', onScroll); promoOpen(); };
+  const onScroll = ()=>{ if(scrollY > (document.body.scrollHeight-innerHeight)*.4) fire(); };
+  addEventListener('scroll', onScroll, {passive:true});
+  setTimeout(fire, 14000);
+})();
+document.addEventListener('keydown', e=>{
+  if(e.key!=='Escape' || $('promo').hidden) return;
+  const otherOpen = ['drawer','ckmodal','lightbox','mmenu'].some(id=>$(id) && $(id).classList.contains('open'));
+  if(!otherOpen) promoClose();
+});
 
 /* boot */
 renderProducts(); syncOfferCopy(); update(); motionSweep();

@@ -33,8 +33,30 @@ function cartFromMetadata(md) {
   } catch { return null; }
 }
 
+/* server-side conversion event → Plausible (set PLAUSIBLE_DOMAIN to enable).
+   This is the reliable purchase signal for the funnel — it fires even when
+   the customer never returns to the success page. */
+async function trackPurchase(order) {
+  const domain = process.env.PLAUSIBLE_DOMAIN;
+  if (!domain) return;
+  try {
+    await fetch('https://plausible.io/api/event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'User-Agent': 'havn-server/1.0' },
+      body: JSON.stringify({
+        name: 'purchase',
+        url: 'https://' + domain + '/success.html',
+        domain,
+        props: { kind: order.kind, summary: (order.summary || '').slice(0, 100), subscription: !!order.subscribe },
+        revenue: { currency: 'USD', amount: (order.amountTotal / 100).toFixed(2) },
+      }),
+    });
+  } catch (e) { console.warn('plausible event failed:', e.message || e); }
+}
+
 async function handleOrder(order) {
   console.log('HAVN ORDER', JSON.stringify(order));
+  await trackPurchase(order);
   const emailRes = await sendEmail({
     to: process.env.OWNER_EMAIL,
     subject: (order.kind === 'renewal' ? '🔁 HAVN renewal — ship it: ' : '🟠 NEW HAVN ORDER — ship it: ') + (order.summary || order.id),
@@ -92,6 +114,24 @@ module.exports = async (req, res) => {
         shipping: ship,
         subscribe: parsed.subscribe,
       });
+    } else if (event.type === 'checkout.session.expired') {
+      /* abandoned checkout — if they typed an email before leaving, the owner
+         gets the recovery link (deciding whether/how to follow up is a human
+         call — see GO_LIVE.md; don't auto-email customers without consent) */
+      const session = event.data.object;
+      const email = session.customer_details && session.customer_details.email;
+      const rec = session.after_expiration && session.after_expiration.recovery && session.after_expiration.recovery.url;
+      console.log('HAVN ABANDONED', JSON.stringify({ id: session.id, email: email || null, recovery: rec || null, summary: session.metadata && session.metadata.havn_summary }));
+      if (email && rec) {
+        await sendEmail({
+          to: process.env.OWNER_EMAIL,
+          subject: '🛒 Abandoned HAVN checkout — ' + email,
+          html: `<p><b>${email}</b> got to checkout but didn’t finish.</p>
+                 <p>Cart: ${(session.metadata && session.metadata.havn_summary) || '—'} · $${((session.amount_total || 0) / 100).toFixed(2)}</p>
+                 <p>Their checkout can be resumed for 30 days: <a href="${rec}">${rec}</a></p>
+                 <p style="color:#777">Manual follow-up only — no marketing consent was collected.</p>`,
+        });
+      }
     } else if (event.type === 'invoice.paid') {
       const invoice = event.data.object;
       if (invoice.billing_reason === 'subscription_cycle') {   /* month 2+ — month 1 is covered above */

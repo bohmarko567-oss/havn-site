@@ -1,6 +1,6 @@
 # HAVN — GO LIVE RUNBOOK
 
-**Where things stand:** the store is built, live, and fully wired end-to-end — website → cart → Stripe checkout → order alert → Supliful shipment → customer's door. The code side is DONE and runs in demo mode today. What remains are the account/identity/money steps that only you can do. Follow this top-to-bottom; **total active time ≈ 90 minutes**, spread over 2–3 days (waiting on label review + Stripe activation).
+**Where things stand:** the store is built, live, and fully wired end-to-end — website → cart → Stripe checkout → order alert → Supliful shipment → customer's door. The code side is DONE and runs in demo mode today. What remains are the account/identity/money steps that only you can do. Follow this top-to-bottom; **total active time ≈ 2 hours**, spread over 2–3 days (waiting on label review + Stripe activation). Steps 0 and 2 are Denmark-specific — you register a CVR first because Stripe DK requires a business (sole trader is enough).
 
 - Live site (static mirror): https://bohmarko567-oss.github.io/havn-site/
 - Repo: https://github.com/bohmarko567-oss/havn-site
@@ -10,6 +10,13 @@
 ---
 
 ## PART 1 — The unavoidable steps (in this order)
+
+### 0 · CVR — register the business FIRST (Denmark · free · ~15 min online)
+You're in Denmark, so this moved from "later" to "first": **Stripe Denmark only accepts businesses — including sole proprietors (enkeltmandsvirksomhed) — not private persons** (their own [Denmark services agreement](https://stripe.com/legal/ssa/dk)). The good news: an enkeltmandsvirksomhed is the lightest form there is.
+1. Go to https://virk.dk → "Start virksomhed" → log in with MitID → register **enkeltmandsvirksomhed**. Free, ~15 minutes, CVR number usually issued immediately.
+2. Branch/industry code: e.g. 479112 (internet retail) works; describe it as online sale of dietary supplements.
+3. **Moms (VAT):** registration is only mandatory above 50.000 kr revenue per 12 months — and your US sales are exports (0% moms) anyway. Ask Skattestyrelsen or a revisor when you get traction; keep every invoice (bogføringsloven).
+4. This CVR is what you'll type into Stripe (step 2) and can later put on labels + policies.
 
 ### 1 · Supliful account + labels (~25 min + 1–2 business days review)
 1. Sign up at https://supliful.com (free plan is enough for manual fulfillment).
@@ -25,12 +32,15 @@
 5. Products can stay as drafts — drafts are orderable via manual orders.
 
 ### 2 · Stripe account (~20 min + activation wait, sometimes instant)
-1. Sign up at https://dashboard.stripe.com/register → **Activate payments** (identity + your bank account for payouts).
-   - You can start as an *individual/sole proprietor* — no LLC required to begin (see Part 4).
+Stripe is the right rails for this build even though it's invisible in Denmark: it's the payment *infrastructure* behind the checkouts you know, it does subscriptions natively (your $92/mo trio), and every event is automatable by code — which is exactly how the order pipeline works.
+1. Sign up at https://dashboard.stripe.com/register → **Activate payments**: business type *Enkeltmandsvirksomhed*, your CVR from step 0, MitID-verified identity, and your bank for payouts.
 2. Grab keys (Developers → API keys): `sk_live_…` — and the `sk_test_…` pair for rehearsal.
-3. Settings → **Emails**: turn ON "Successful payments" receipts (that's the customer's confirmation email — no extra code needed).
-4. Settings → Public details: statement descriptor **HAVN** + your support email.
-5. Settings → **Customer portal**: enable it, so subscribers can cancel/skip themselves via the link in their receipts.
+3. Settings → **Payment methods**: switch ON **Apple Pay, Google Pay, Link, Klarna, Cash App Pay**. Zero code changes — the checkout auto-shows what fits each customer, so your US buyers get Apple Pay/Link/Klarna. (Shop Pay specifically is Shopify-only; **Link is Stripe's equivalent** — one-click checkout for the millions of shoppers already saved with Stripe.)
+4. Settings → **Emails**: turn ON "Successful payments" receipts (that's the customer's confirmation email — no extra code needed).
+5. Settings → Public details: statement descriptor **HAVN** + your support email.
+6. Settings → **Customer portal**: enable it, so subscribers can cancel/skip themselves via the link in their receipts.
+7. Payouts land in DKK by default (~2% currency conversion on USD sales). Once volume is real: add a USD account (e.g. Wise Business) as a USD payout destination and skip the FX cut.
+8. Bonus already wired: the site's **15%-popup starts minting real unique codes** (single-use, first order only, 30-day expiry) the moment your key is in Vercel — nothing to configure.
 
 ### 3 · Vercel deploy — this flips checkout from demo to REAL (~15 min)
 1. Sign up at https://vercel.com with your GitHub (bohmarko567-oss).
@@ -65,6 +75,13 @@
 ### 7 · Tell Stripe & the site the truth (~10 min, with me)
 Once 1–6 are done, come back and say "go" — I'll: flip the GitHub Pages mirror to point at the live API (or retire it), update metas to the real domain, and re-run the full E2E against production.
 
+### 8 · Analytics — see the funnel & the drop-offs (~10 min, ~$9/mo)
+The site already fires a full event stream (`page_view → add_to_cart → begin_checkout → purchase`, plus promo claims, fallbacks, and a server-side purchase event with revenue). It just needs a dashboard:
+1. Create a site at https://plausible.io (EU-hosted, GDPR-clean, **no cookie banner needed** — a real conversion advantage vs GA4, which would force a consent popup). 30-day trial, then ~$9/mo.
+2. Uncomment the one `<script … plausible.io …>` line in the `<head>` of `index.html` and `success.html`, set your domain in it.
+3. Add `PLAUSIBLE_DOMAIN=your-domain` in Vercel env → redeploy.
+4. In Plausible: mark `add_to_cart`, `begin_checkout`, `purchase` as Goals → build the funnel → you now see exactly where people drop off, with revenue attached. Abandoned checkouts additionally land in your inbox with a 30-day resume link.
+
 ---
 
 ## PART 2 — Per-order fulfillment loop (~3 min/order, until you automate)
@@ -87,19 +104,20 @@ Backstop: even if an alert email ever fails, every order sits in **Stripe → Pa
 |---|---|---|---|
 | Wholesale (Rise 11.65 + Calm 6.99 + Rest 8.89 + Steady 5.35) | ≈ $32.88 | ≈ $6.99–11.65 | $5.35 |
 | Supliful shipping (their charge to you, varies) | ≈ $6–8 | ≈ $5–6 | ≈ $5 |
-| Stripe (2.9% + 30¢) | ≈ $2.97 | ≈ $1.20 | ≈ $0.82 |
+| Stripe DK acct, US card + FX (≈3.25% + 2%) | ≈ $5.00 | ≈ $2.10 | ≈ $1.40 |
 | Customer paid shipping | $0 (free ≥$75) | +$6.95 | +$6.95 |
-| **Margin** | **≈ $48–50** | ≈ $18–24 | ≈ $13 |
+| **Margin** | **≈ $46–48** | ≈ $17–23 | ≈ $12–13 |
 
-Verify real wholesale + shipping in your Supliful dashboard — these come from the July 7 research snapshot.
+Verify real wholesale + shipping in your Supliful dashboard — these come from the July 7 research snapshot. Fees assume a Danish Stripe account charging US cards with DKK payouts (see stripe.com/dk/pricing); a USD payout account claws back ~2%.
 
 ---
 
 ## PART 4 — Legal & compliance (owner's list — not legal advice)
 
-- **Business form:** you can launch as a sole proprietor (Stripe supports individuals). An LLC (~$50–$500 by state, or Stripe Atlas $500) adds liability separation — worth doing once revenue is real. Supplements are a litigious category; don't stay unincorporated forever.
-- **Label address:** labels currently carry Supliful's Arvada, CO address — their explicitly *temporary* option. When you register the business, tell me the address and I'll regenerate the 4 label PDFs same-day.
-- **Sales tax:** you have nexus in your home state at minimum. When sales start, flip on **Stripe Tax** (Settings → Tax → add registration), then set `STRIPE_TAX=1` in Vercel and checkout collects it automatically — the code path is already in.
+- **Business form (DK):** start as **enkeltmandsvirksomhed** (step 0 — free, you're personally liable). Upgrade to an **ApS** (40.000 kr capital) for liability separation once revenue is real — supplements are a litigious category, don't stay personally liable forever. A revisor is worth the ~few hundred kr/month once money flows.
+- **Danish tax:** business profit is taxed as personal income (B-skat — file a forskudsopgørelse update). Moms: only register above 50.000 kr/12mo, and US sales are exports (0-rated) — but registration lets you deduct Danish VAT on expenses. Keep records per bogføringsloven (5 years).
+- **US sales tax:** as a foreign (Danish) seller you only owe US sales tax after crossing per-state *economic nexus* thresholds (typically $100k sales or 200 transactions **per state, per year**) — far away for now. When it matters, flip on **Stripe Tax** (Settings → Tax), set `STRIPE_TAX=1` in Vercel, and checkout collects it automatically — the code path is already in.
+- **Label address:** labels currently carry Supliful's Arvada, CO address — their explicitly *temporary* option. Once you have the CVR (or a US virtual address), tell me and I'll regenerate the 4 label PDFs same-day. (US FDA labeling wants a name + place of business of the distributor; run the final wording past counsel.)
 - **Claims discipline:** the site/labels use only structure-function claims + FDA disclaimer (DSHEA). Never say a product *treats/cures/prevents* anything — including in ads and social. FTC applies to marketing too.
 - **Policies:** `policies.html` (privacy/terms/refunds/shipping) is a solid draft — have a lawyer review before serious ad spend.
 - **Records:** download Certificates of Analysis from Supliful per batch and keep them.
@@ -139,4 +157,7 @@ Until then, the 3-minute manual loop in Part 2 does the same job for $0/mo.
 | `/api/subscribe` | Vercel function | built · needs Resend key |
 | Order fulfillment | You + Supliful manual orders | needs account + labels approved |
 | Auto-fulfillment | `api/_shopify.js` bridge | pre-built · Part 5 |
+| 15%-popup + unique codes | site + `/api/subscribe` | LIVE · demo codes until Stripe key |
+| Funnel events + revenue | site `track()` + webhook → Plausible | built · needs step 8 account |
+| Abandoned-cart alerts | `/api/stripe-webhook` (session.expired) | built · works when Stripe is live |
 | Local dev | `npm run dev` → http://localhost:8123 | works (demo mode) |
