@@ -2,7 +2,7 @@
 
 Marketing / commerce landing page for **HAVN**, a three-part daily supplement ritual: **Rise** (focus) · **Calm** (balance) · **Rest** (sleep).
 
-Static, dependency-free. Bold "Spectrum" design system (Archivo Expanded + Space Mono, per-SKU color coding), official Supliful product photography, and a vanilla-JS motion system: staggered hero cards, marquee ribbon, scroll reveals, count-up stats, facts lightbox, hover image swaps. Working cart drawer with the free-shipping ($79) + free-gift progress mechanic and a Subscribe/One-time price toggle.
+Static, dependency-free. Bold "Spectrum" design system (Archivo Expanded + Space Mono, per-SKU color coding), official Supliful product photography, and a vanilla-JS motion system: staggered hero cards, marquee ribbon, scroll reveals, count-up stats, facts lightbox, hover image swaps. Working cart drawer with the free-shipping ($75) + free-gift progress mechanic and a Subscribe/One-time price toggle.
 
 ## Structure
 ```
@@ -28,16 +28,16 @@ npx serve havn-site      # or: python -m http.server 8080
 - **Netlify:** drag the folder into the Netlify dashboard, or `netlify deploy --prod` (config in `netlify.toml`).
 - **Cloudflare Pages / GitHub Pages:** point at this folder as the publish/root directory.
 
-Set the real domain in the OG/`og:url` meta and the JSON-LD `url` fields once you have it.
+Production domain: **havnritual.store** (set in canonical/OG/JSON-LD meta, `sitemap.xml`, `robots.txt`).
 
 ## Wire up checkout (go live)
-The cart is a front-end demo. To take payments, pick one:
+Checkout is **Shopify headless**: this static site stays the storefront, Shopify provides checkout/payments/subscriptions, and the **Supliful app** on the Shopify store auto-fulfills every order.
 
-1. **Stripe Payment Links (fastest, no backend).** Create a Payment Link per product + the Trio in the Stripe dashboard, then point the buy buttons at them. In `index.html`, replace the body of `checkout()` (and/or the `addItem`/`addTrio` buttons) with `window.location = '<payment-link-url>'`. Add product/price IDs to the `PRODUCTS` array.
-2. **Stripe Checkout Session (recommended for a real cart).** Add a tiny serverless function (Vercel/Netlify Functions) that creates a Checkout Session from the cart and returns its URL; `checkout()` redirects there. Enables subscriptions (Subscribe & Save 15%) and the trio bundle.
-3. **Supliful native storefront / Shopify.** If selling through Supliful's connected store, link buttons to those product URLs instead.
+- `index.html` has a `SHOPIFY` config block (near the top of the script, after `FREE_SHIP`). While its values are empty, the Buy button falls back to the pre-launch waitlist modal — the site is safe to deploy at any time.
+- When the Shopify store is set up, paste in the store domain, the public Storefront API token, 4 variant GIDs, and 4 selling-plan GIDs. `checkout()` then creates a Shopify cart via the Storefront API (`cartCreate`) and redirects to the returned `checkoutUrl`.
+- The **complete step-by-step go-live runbook is in [`LAUNCH.md`](LAUNCH.md)** — Shopify plan, Supliful connect, subscriptions, discounts, shipping, domain, email, deploy, and smoke tests.
 
-Subscriptions map to the offer architecture: single $36 / $31 sub · Trio $108 / $92 sub · free shipping $79 · free gift with Trio.
+Offer architecture: single $36 / $31 sub · Trio $108 / $93 sub (3 × the single price) · free U.S. shipping at $75 · Steady (N°04) free with the complete ritual, via a Shopify automatic Buy-X-Get-Y discount.
 
 ## Notes
 - Fonts are self-hosted in `/fonts` (SIL OFL / Fontshare) — no external requests, works offline.
