@@ -1,45 +1,62 @@
-# HAVN — landing site
+# HAVN — storefront
 
-Marketing / commerce landing page for **HAVN**, a three-part daily supplement ritual: **Rise** (focus) · **Calm** (balance) · **Rest** (sleep).
+E-commerce site for **HAVN**, a four-piece daily supplement ritual: **Rise** (focus) · **Calm** (balance) · **Rest** (sleep) · **Steady** (the earned N°04, free with the full ritual).
 
-Static, dependency-free. Bold "Spectrum" design system (Archivo Expanded + Space Mono, per-SKU color coding), official Supliful product photography, and a vanilla-JS motion system: staggered hero cards, marquee ribbon, scroll reveals, count-up stats, facts lightbox, hover image swaps. Working cart drawer with the free-shipping ($79) + free-gift progress mechanic and a Subscribe/One-time price toggle.
+Static "Spectrum"-design front end (Archivo Expanded + Space Mono, per-SKU color coding, vanilla-JS motion system, working cart drawer with the $75 free-shipping + free-gift mechanic) **plus a real commerce backend**: Stripe Checkout, order webhooks, and a Supliful fulfillment pipeline. Fulfillment is white-label dropship via [Supliful](https://supliful.com) — print-ready label PDFs live in `Downloads/Havn-Labels/PRINT/`.
+
+**▶ To take this live, follow [GO_LIVE.md](GO_LIVE.md) — the ordered runbook of owner-only steps.**
+
+## How an order flows (A → Z)
+
+```
+customer on index.html → cart drawer → POST /api/checkout
+  → server re-prices the cart from api/_catalog.js   (client is never trusted)
+  → Stripe Checkout (collects address + phone, pays)
+  → success.html (cart cleared, timeline)
+  → Stripe fires /api/stripe-webhook (checkout.session.completed / invoice.paid renewals)
+      → order logged + "🟠 ship it" picklist email to OWNER_EMAIL (Resend)
+      → [optional] auto-created in headless Shopify → Supliful auto-fulfills (api/_shopify.js)
+  → you (or the bridge) place the Supliful order → they bottle, label, ship
+  → tracking → customer's door
+```
+
+With **no env vars set, `/api/checkout` runs in demo mode** (simulated success page) — the whole flow stays clickable without a Stripe account.
 
 ## Structure
 ```
 havn-site/
-├── index.html              # the whole site (inline CSS + JS)
-├── policies.html · 404.html · sitemap.xml · robots.txt
-├── assets/
-│   ├── og_official.jpg     # social share image (1200×630, official render)
-│   ├── favicon.png / apple-touch-icon.png
-│   └── products/           # official Supliful renders: {sku}_front/duo/stack.jpg,
-│                           # facts_{sku}.png, trio_official.jpg, capsules.jpg
-└── fonts/                  # Archivo, Hanken Grotesk, Space Grotesk/Mono (self-hosted)
+├── index.html            # the storefront (inline CSS + JS)
+├── success.html          # order confirmation (clears cart, demo banner)
+├── policies.html · 404.html · sitemap.xml · robots.txt · b.html (parked prototype)
+├── api/
+│   ├── checkout.js       # cart → Stripe Checkout Session (or demo URL)
+│   ├── stripe-webhook.js # payments → fulfillment records + owner emails
+│   ├── subscribe.js      # waitlist/newsletter capture
+│   ├── _catalog.js       # THE price authority + cart rules (shared, not routed)
+│   ├── _email.js         # Resend helper + owner picklist template
+│   └── _shopify.js       # optional headless-Shopify auto-fulfillment bridge
+├── server.local.js       # local dev: static + /api on :8123 (no deps)
+├── package.json          # stripe SDK (functions only — site itself is dependency-free)
+├── .env.example          # every env var, documented
+├── GO_LIVE.md            # ← the runbook
+├── assets/ · fonts/      # official renders, OG images, self-hosted fonts
+└── vercel.json           # cleanUrls + cache headers (zero-config functions)
 ```
+
+## Pricing model (locked)
+
+Single $36 / $31 sub · Trio $108 / **$92 sub** · Steady $18 / $15 sub, **free with the complete ritual** (repeats monthly on the trio sub) · free U.S. shipping ≥ $75, else $6.95 (subs under $75 carry a recurring $6.95 line). All enforced server-side in `api/_catalog.js`; change prices there + in `index.html`'s `PRODUCTS`.
 
 ## Run locally
-Just open `index.html` in a browser, or serve the folder:
 ```
-npx serve havn-site      # or: python -m http.server 8080
+npm run dev           # → http://localhost:8123  (demo checkout, no keys needed)
 ```
+Add a `.env` (copy `.env.example`) with Stripe **test** keys to exercise real Checkout locally. Test the webhook with the Stripe CLI: `stripe listen --forward-to localhost:8123/api/stripe-webhook`.
 
-## Deploy (static — no build step)
-- **Vercel:** `vercel --prod` from this folder (config in `vercel.json`), or drag-drop in the dashboard.
-- **Netlify:** drag the folder into the Netlify dashboard, or `netlify deploy --prod` (config in `netlify.toml`).
-- **Cloudflare Pages / GitHub Pages:** point at this folder as the publish/root directory.
-
-Set the real domain in the OG/`og:url` meta and the JSON-LD `url` fields once you have it.
-
-## Wire up checkout (go live)
-The cart is a front-end demo. To take payments, pick one:
-
-1. **Stripe Payment Links (fastest, no backend).** Create a Payment Link per product + the Trio in the Stripe dashboard, then point the buy buttons at them. In `index.html`, replace the body of `checkout()` (and/or the `addItem`/`addTrio` buttons) with `window.location = '<payment-link-url>'`. Add product/price IDs to the `PRODUCTS` array.
-2. **Stripe Checkout Session (recommended for a real cart).** Add a tiny serverless function (Vercel/Netlify Functions) that creates a Checkout Session from the cart and returns its URL; `checkout()` redirects there. Enables subscriptions (Subscribe & Save 15%) and the trio bundle.
-3. **Supliful native storefront / Shopify.** If selling through Supliful's connected store, link buttons to those product URLs instead.
-
-Subscriptions map to the offer architecture: single $36 / $31 sub · Trio $108 / $92 sub · free shipping $79 · free gift with Trio.
+## Deploy
+**Vercel (the real store):** import the repo, add env vars from `.env.example`, deploy — static + `/api` just work. **GitHub Pages** (current mirror at bohmarko567-oss.github.io/havn-site) serves the static site only; its checkout button gracefully falls back to the waitlist modal, or set `HAVN_API_BASE` in `index.html` to the Vercel URL to give the mirror a live checkout.
 
 ## Notes
-- Fonts are self-hosted in `/fonts` (SIL OFL / Fontshare) — no external requests, works offline.
-- Barcodes on the print labels are placeholders; add the real UPC/EAN before printing.
-- Product labels (print-ready PDFs) live in `Downloads/Havn-Labels/PRINT/`.
+- Customer receipts = enable in Stripe → Settings → Emails. Subscriber self-service = enable the Stripe customer portal.
+- Renewal shipments arrive as `invoice.paid` webhook emails — each one is a shipment to place (or the bridge places it).
+- Supplement compliance: structure-function claims + FDA disclaimer only; policies.html is a draft — counsel review before scale.
