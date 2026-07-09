@@ -473,7 +473,11 @@ footer input:focus{border-color:var(--rise);outline:none;}
   .stickycta{display:flex;}
 }
 @media(max-width:560px){
-  .m-hide{display:none!important;}
+  /* phones: keep ALL the copy, shrink + air it out instead (14 Pro felt crowded) */
+  .hero p.lead{font-size:15px;line-height:1.6;margin:16px 0 24px;max-width:32ch;}
+  .hero .plus4 small{font-size:11px;letter-spacing:1.4px;}
+  .sec-head p{font-size:14.5px;line-height:1.6;max-width:40ch;}
+  .eyebrow{font-size:10.5px;letter-spacing:2.2px;}
   .anno{font-size:10.5px;letter-spacing:.8px;}
   .hero{padding:40px 0 30px;}
   .hero-cta{flex-direction:column;align-items:stretch;}
@@ -578,7 +582,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
         <div class="eyebrow">The 4-piece daily ritual</div>
         <h1><span class="r">Rise.</span><br><span class="c">Calm.</span><br><span class="s">Rest.</span></h1>
         <div class="plus4">+ Steady<small>N°04 — <s>$18</s> free with the full ritual</small></div>
-        <p class="lead m-hide">Three clean formulas carry your day — focus, balance, deep sleep. Complete all three and the $18 fourth piece comes <b>free, every month</b>.</p>
+        <p class="lead">Three clean formulas carry your day — focus, balance, deep sleep. Complete all three and the $18 fourth piece comes <b>free, every month</b>.</p>
         <div class="hero-cta">
           <button id="trioBtn" class="btn rise mag shine" onclick="addTrio()">Complete the Ritual — $92/mo</button>
           <a href="#products" class="btn ghost mag">Meet the formulas</a>
@@ -607,7 +611,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
 <section class="ritual" id="ritual">
   <canvas class="fx" data-fx="dark" data-colors="rise,rest" data-density=".7" data-sparkles="16" aria-hidden="true"></canvas>
   <div class="wrap" style="position:relative;z-index:2">
-    <div class="sec-head rv"><div class="eyebrow" style="color:#8B8172">Morning to night — and underneath it all</div><h2>One ritual, four pieces</h2><p class="m-hide" style="color:#C9BFB0">Three formulas map to the three moments of your day. The fourth runs quietly beneath all of them — and comes free when you take all three.</p></div>
+    <div class="sec-head rv"><div class="eyebrow" style="color:#8B8172">Morning to night — and underneath it all</div><h2>One ritual, four pieces</h2><p style="color:#C9BFB0">Three formulas map to the three moments of your day. The fourth runs quietly beneath all of them — and comes free when you take all three.</p></div>
     <div class="steps">
       <div class="step rise rv rl"><div class="idx">01</div><div class="when">A.M. · Morning</div><div class="t">Rise</div><p>Organic Lion's Mane for memory, focus and a clear head to start the day. Two capsules with breakfast.</p></div>
       <div class="step calm rv rl d1"><div class="idx">02</div><div class="when">Midday · Afternoon</div><div class="t">Calm</div><p>KSM-66® Ashwagandha plus adaptogens to take the edge off stress — calm, not drowsy.</p></div>
@@ -621,7 +625,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
 <!-- SCIENCE — what's in it, before the sell -->
 <section id="science">
   <div class="wrap">
-    <div class="sec-head rv"><div class="eyebrow m-hide">Dosed to matter</div><h2>Real actives, real amounts</h2><p>Studied ingredients at studied doses — the stuff that actually does something.</p></div>
+    <div class="sec-head rv"><div class="eyebrow">Dosed to matter</div><h2>Real actives, real amounts</h2><p>Studied ingredients at studied doses — the stuff that actually does something.</p></div>
     <div class="sci-grid">
       <div class="sci rise spot tilt3d rv"><div class="k">1000mg</div><h4>Rise · Lion's Mane</h4><p>Organic fruiting body &amp; mycelium, standardized to 40% polysaccharides for cognitive support.</p></div>
       <div class="sci calm spot tilt3d rv d1"><div class="k">600mg</div><h4>Calm · KSM-66® Ashwagandha</h4><p>The most clinically-studied ashwagandha root extract, plus B-vitamins, maca and ginseng.</p></div>
@@ -652,7 +656,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
 <!-- FORMULAS -->
 <section class="products" id="products">
   <div class="wrap">
-    <div class="sec-head rv"><div class="eyebrow m-hide">Shop the range</div><h2>Pick your formulas</h2><p>Start with one, or take the full ritual. Every bottle is a 30-day supply.</p></div>
+    <div class="sec-head rv"><div class="eyebrow">Shop the range</div><h2>Pick your formulas</h2><p>Start with one, or take the full ritual. Every bottle is a 30-day supply.</p></div>
     <div class="modetoggle" role="group" aria-label="Purchase type">
       <button id="mSub" class="mt on" onclick="setMode(true)" aria-pressed="true">Subscribe &amp; Save 15%</button>
       <button id="mOne" class="mt" onclick="setMode(false)" aria-pressed="false">One-time</button>
@@ -672,7 +676,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
         <div class="big-price"><span class="now" id="offerNow">$92</span><s class="was" id="offerWas">$108</s><span class="save" id="offerSave">SUBSCRIBE &amp; SAVE 15%</span></div>
         <p style="max-width:440px;color:#E9E1D2">Rise + Calm + Rest, delivered monthly — and STEADY, our Normal Blood Sugar Drops, added free to <b style="color:#F08BC0">every single order</b>. On its own it's $18. With the full ritual it's always $0.</p>
         <ul>
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> N°04 STEADY — <s>$18</s>&nbsp;<b style="color:#F08BC0">FREE</b><span class="m-hide">, every order</span></li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> N°04 STEADY — <s>$18</s>&nbsp;<b style="color:#F08BC0">FREE</b>, every order</li>
           <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Free U.S. shipping, every month</li>
           <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Skip, swap or cancel anytime</li>
           <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> 30-day “feel it or free” guarantee</li>
@@ -681,7 +685,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
         <div class="mononote">Cancel and the gift stops. Complete and it returns — every month.</div>
       </div>
       <div class="puzzle beam rv rr d1" id="puzzlePanel">
-        <div class="ptitle">Your ritual — tap to build<span class="m-hide"> it</span></div>
+        <div class="ptitle">Your ritual — tap to build it</div>
         <div class="ring" id="ring">
           <svg id="ringsvg" viewBox="0 0 340 340" aria-hidden="true">
             <path id="arc-rise" class="rseg"/>
