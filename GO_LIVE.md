@@ -56,8 +56,8 @@
 3. Swap env to `sk_live_…` + live webhook secret → redeploy → **place one real order to yourself** (~$36 + you'll pay its wholesale in Supliful). This tests money, fulfillment, and the physical product in one shot — you'll hold your own bottle in a week.
 4. When Supliful's tracking email arrives, forward it to the customer (you). That's the loop.
 
-### 6 · Domain (~$12/yr, ~20 min — recommended before ads, optional before that)
-1. The site references **hello@havn.co — you don't own havn.co yet.** Either buy it (check price — .co can be spendy) or pick what's available: `havnritual.com`, `takehavn.com`, `havnsupply.com`, `gethavn.com`… (any registrar: Cloudflare/Namecheap/Porkbun).
+### 6 · Domain (~$25–35/yr for .co, ~20 min — recommended before ads)
+1. **`havn.co` is AVAILABLE right now** (registry-checked 2026-07-09) — and it's the domain already printed on the site (`hello@havn.co`). **Buy it first, before anything else in this step** (Cloudflare/Namecheap/Porkbun). Checked backups, also available: `havnritual.com`, `takehavn.com`, `havnsupply.com`, `havndaily.com`. Taken: havn.com, gethavn.com, havn.shop, havn.health.
 2. Vercel → Project → Settings → Domains → add it (they hand you the 2 DNS records).
 3. Free email forwarding for `hello@your-domain` → your Gmail: Cloudflare Email Routing or ImprovMX.
 4. Tell me when you have it — I'll sweep the repo (mailto links, og:url, canonical, JSON-LD, sitemap, this file), verify Resend domain records so alerts/customer emails send from `orders@your-domain`, and redeploy.
