@@ -39,7 +39,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 
 /* cinema runway + sticky stage */
 .cinema{height:820vh;position:relative;}
-.stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:clip;}
+/* lvh = LARGE viewport: constant through iOS bar show/hide — the film keeps
+   one coordinate system in both scroll directions AND always fills the screen
+   (dvh left a cream gap when bars hid; px-freeze froze the gap in) */
+.stage{position:sticky;top:0;height:100vh;height:100lvh;overflow:clip;}
 .field{position:absolute;inset:0;background:var(--cream);}
 .field::after{content:'';position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 110%, rgba(0,0,0,.16), transparent 55%);pointer-events:none;}
 .ghost{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 125;font-size:min(44vh,52vw);line-height:1;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.35);opacity:0;white-space:nowrap;pointer-events:none;}
@@ -89,8 +92,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
    viewports (iPhone with browser chrome), identical on tall screens */
 .offmenu{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(max(12vh,114px));width:min(92vw,560px);opacity:0;pointer-events:none;color:#F3E6ED;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;}
 .offmenu .modetoggle{display:flex;gap:6px;width:min(78vw,300px);margin:0;}
-.offmenu .mt{flex:1;min-height:36px;border:1.5px solid #5A2B45;background:transparent;color:#C99BB5;border-radius:100px;font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.4px;cursor:pointer;}
-.offmenu .mt.on{background:var(--cream);border-color:var(--cream);color:var(--ink);}
+/* .offmenu .modetoggle .mt — higher specificity than the drawer's later .modetoggle
+   rules (equal-specificity source order was INVERTING selected/unselected here) */
+.offmenu .modetoggle .mt{flex:1;min-height:36px;border:1.5px solid #5A2B45;background:transparent;color:#C99BB5;border-radius:100px;font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.4px;cursor:pointer;}
+.offmenu .modetoggle .mt.on{background:var(--cream);border-color:var(--cream);color:var(--ink);}
+.modetoggle .mt.on::before{content:'✓ ';}   /* the selected pill is never ambiguous */
 .om-big{font-family:var(--mono);font-weight:700;font-size:clamp(22px,5vw,32px);color:#fff;}
 .om-big s{color:#FF7B7B;font-size:.6em;margin-left:8px;}
 .om-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:5px 16px;font-size:12px;color:#E8CBDD;text-align:left;max-width:440px;margin:0;}
@@ -300,7 +306,7 @@ footer a{color:inherit;}
   .beat.solo p{font-size:13.5px;max-width:32ch;margin-top:10px;}
   .beat .spec{font-size:10.5px;margin-top:8px;}
   .beat.hero{top:11%;}
-  .beat.steady{top:5%;}
+  .beat.steady{top:9%;}
   .flip{font-size:clamp(36px,8vw,64px);}
 }
 
@@ -308,8 +314,13 @@ footer a{color:inherit;}
    PURELY ADDITIVE: nothing below this block touches phone/tablet rules ————— */
 @media(min-width:1024px){
   .bottle{height:min(52vh,470px);}
+  /* split scenes: text LEFT, mockup RIGHT (hero + all three solos) */
+  .beat.hero{left:27%;top:26%;width:min(42vw,560px);text-align:left;}
+  .beat.hero p{margin-left:0;}
+  .beat.solo{left:26%;top:30%;width:min(38vw,520px);text-align:left;}
+  .beat.solo p{margin-left:0;}
   .beat.solo h2{font-size:clamp(64px,8vw,120px);}
-  .beat.solo p{max-width:40ch;font-size:17.5px;}
+  .beat.solo p{max-width:36ch;font-size:17.5px;}
   .beat .spec{font-size:13.5px;}
   .beat.hero h2{font-size:clamp(64px,7.5vw,110px);}
   .chip{width:220px;padding:16px 14px 14px;}
@@ -850,27 +861,31 @@ const SLOTS = () => ({
 const STACK = () => ({   /* spread in all directions — every bottle clearly visible */
   m: { rise:{x:9,y:8,r:12,s:.66},   calm:{x:-16,y:19,r:-11,s:.60}, rest:{x:17,y:29,r:8,s:.52} },
   t: { rise:{x:10,y:9,r:12,s:.74},  calm:{x:-17,y:20,r:-11,s:.68}, rest:{x:19,y:29,r:8,s:.58} },
-  d: { rise:{x:9,y:7,r:12,s:.86},   calm:{x:-15,y:17,r:-11,s:.8},  rest:{x:16,y:26,r:8,s:.7} },
+  d: { rise:{x:21,y:5,r:12,s:.86},  calm:{x:8,y:16,r:-11,s:.8},   rest:{x:23,y:26,r:8,s:.7} },   /* desktop: stack lives RIGHT, hero text LEFT */
 })[BP()];
 /* the finale row: 1-2-3 on the table, plus, and the (smaller) drops.
    Each has a MID pose (straightening LOW, under the flip text) and the final
    row height — the two-stage rise is what keeps mockups off the text forever */
 const ROW = () => ({
-  m: { rise:{x:-32,s:.46}, calm:{x:-11,s:.46}, rest:{x:10,s:.46}, plus:{x:20.5}, steady:{x:32,s:.38}, midY:8,  y:-20, plusY:-16 },
-  t: { rise:{x:-16,s:.5},  calm:{x:-7,s:.5},   rest:{x:2,s:.5},   plus:{x:8.5},  steady:{x:15.5,s:.42}, midY:7, y:-18, plusY:-14 },
-  d: { rise:{x:-17,s:.52}, calm:{x:-8,s:.52},  rest:{x:1,s:.52},  plus:{x:8},    steady:{x:15,s:.44},  midY:14, y:-22, plusY:-18 },
+  m: { rise:{x:-32,s:.46}, calm:{x:-11,s:.46}, rest:{x:10,s:.46}, plus:{x:20.5}, steady:{x:32,s:.38}, y:-20, plusY:-16 },
+  t: { rise:{x:-16,s:.5},  calm:{x:-7,s:.5},   rest:{x:2,s:.5},   plus:{x:8.5},  steady:{x:15.5,s:.42}, y:-18, plusY:-14 },
+  d: { rise:{x:-17,s:.52}, calm:{x:-8,s:.52},  rest:{x:1,s:.52},  plus:{x:8},    steady:{x:15,s:.44},  y:-22, plusY:-18 },
 })[BP()];
+/* the APEX: the drops' hero moment — big, center stage, held */
+const APEX = () => ({ m:{y:7,s:.78}, t:{y:8,s:.72}, d:{y:18,s:.72} })[BP()];
+/* desktop solos put text left, bottle right */
+const HOLDX = () => BP()==='d' ? 17 : 0;
 
 /* RISE: from the hero stack — one continuous zoom-up, ONE rotation sweep,
    hold floating, then ONE toss that lands it AT its slot — and it FREEZES
    there (no residual drifting; the price scene only brightens it). */
 function riseKF(p){
-  const st = STACK().rise, sl = SLOTS().rise, R = ROW(), rw = R.rise, H = HOLD();
+  const st = STACK().rise, sl = SLOTS().rise, R = ROW(), rw = R.rise, H = HOLD(), HX = HOLDX();
   return {
-    x: kf(p, [[.085,st.x],[.15,0],[.215,0],[.245,sl.x],[.72,sl.x],[.80,rw.x]], eio),
-    y: kf(p, [[.085,st.y],[.15,H.y],[.215,H.y*.9],[.245,sl.y],[.72,sl.y],[.80,R.midY],[.815,R.midY],[.855,R.y]], eio),
-    r: kf(p, [[.085,st.r],[.17,-4],[.215,-6],[.245,sl.r],[.72,sl.r],[.80,0]]),
-    s: kf(p, [[.085,st.s],[.155,H.s+.02],[.215,H.s+.02],[.245,sl.s],[.72,sl.s],[.80,rw.s]], eio),
+    x: kf(p, [[.085,st.x],[.15,HX],[.215,HX],[.245,sl.x],[.87,sl.x],[.91,rw.x]], eio),
+    y: kf(p, [[.085,st.y],[.15,H.y],[.215,H.y*.9],[.245,sl.y],[.87,sl.y],[.91,R.y]], eio),
+    r: kf(p, [[.085,st.r],[.17,-4],[.215,-6],[.245,sl.r],[.87,sl.r],[.91,0]]),
+    s: kf(p, [[.085,st.s],[.155,H.s+.02],[.215,H.s+.02],[.245,sl.s],[.87,sl.s],[.91,rw.s]], eio),
     o: kf(p, [[-1,1],[.245,1],[.255,.38],[.48,.38],[.51,1]])
   };
 }
@@ -889,25 +904,25 @@ function soloKF(p, cfg){
       o: kf(p, [[.085,1],[.13,0],[IN-.001,0]])
     };
   }
-  const row = cfg.row, R = ROW(), H = HOLD();
+  const row = cfg.row, R = ROW(), H = HOLD(), HX = HOLDX();
   return {
-    x: kf(p, [[IN,fromX],[ARR,0],[H1,0],[TOSS,slot.x],[.72,slot.x],[.80,row.x]], eio),
-    y: kf(p, [[IN,42],[ARR,H.y],[H1,H.y*.85],[TOSS,slot.y],[.72,slot.y],[.80,R.midY],[.815,R.midY],[.855,R.y]], eio),
-    r: kf(p, [[IN,enterR],[ARR,holdR],[H1,holdR*.8],[TOSS,slot.r],[.72,slot.r],[.80,0]]),
-    s: kf(p, [[IN,.86],[ARR,H.s],[H1,H.s],[TOSS,slot.s],[.72,slot.s],[.80,row.s]], eio),
+    x: kf(p, [[IN,fromX],[ARR,HX],[H1,HX],[TOSS,slot.x],[.87,slot.x],[.91,row.x]], eio),
+    y: kf(p, [[IN,42],[ARR,H.y],[H1,H.y*.85],[TOSS,slot.y],[.87,slot.y],[.91,R.y]], eio),
+    r: kf(p, [[IN,enterR],[ARR,holdR],[H1,holdR*.8],[TOSS,slot.r],[.87,slot.r],[.91,0]]),
+    s: kf(p, [[IN,.86],[ARR,H.s],[H1,H.s],[TOSS,slot.s],[.87,slot.s],[.91,row.s]], eio),
     o: kf(p, [[IN-.006,0],[IN+.02,1],[TOSS-.002,1],[TOSS+.01,.38],[.48,.38],[.51,1]])
   };
 }
 function steadyKF(p){
-  /* joins the LOW row while the flip text plays (fast, then a soft eased
-     landing), and rises to the final row height together with the trio */
-  const R = ROW(), rw = R.steady;
+  /* the drops' own act: rolls up BIG to center stage (fast in, soft landing),
+     HOLDS through the $18→FREE apex, then glides into its row spot */
+  const R = ROW(), rw = R.steady, A = APEX();
   return {
-    x: rw.x,
-    y: kf(p, [[.75,60],[.815,R.midY+1],[.855,R.y+1]], eout),
-    r: kf(p, [[.75,-210],[.815,0]], eout),
-    s: rw.s,
-    o: kf(p, [[.745,0],[.765,1]])
+    x: kf(p, [[.745,0],[.87,0],[.91,rw.x]], eio),
+    y: kf(p, [[.745,60],[.80,A.y],[.87,A.y],[.91,R.y+1]], eout),
+    r: kf(p, [[.745,-210],[.80,0]], eout),
+    s: kf(p, [[.745,A.s],[.87,A.s],[.91,rw.s]], eio),
+    o: kf(p, [[.74,0],[.76,1]])
   };
 }
 let bobT = 0;   /* idle-life clock — a gentle constant float on every mockup */
@@ -936,26 +951,27 @@ function apply(p){
   beat(els.bCalm, .25,.28,.325,.355);
   beat(els.bRest, .36,.39,.435,.465);
   beat(els.bPrice, .49,.52,.70,.73);    /* wider exit — a flick shouldn't vaporize the scene */
-  beat(els.bSteady, .73,.765,.80,.835); /* plays while the row straightens LOW, then hands off */
+  beat(els.bSteady, .75,.785,.865,.90); /* the drops' APEX — held, then hands off to the row */
   $('bands').style.opacity = win(p,.465,.505,.70,.73).toFixed(3);
   const co = win(p,.50,.535,.70,.73);
   els.chips.style.opacity = co.toFixed(3);
   /* center-anchored (same coordinate system as the bottles → no iOS URL-bar drift) */
   els.chips.style.transform = 'translate(-50%,-50%) translateY('+({m:30.5,t:31,d:30})[BP()]+'vh) translateY('+((1-co)*22).toFixed(1)+'px)';
   els.chips.style.pointerEvents = co>.55 ? 'auto' : 'none';
-  els.pbadge.style.visibility = (p>.48 && p<.97) ? 'hidden' : '';   /* keep the badge off the film's buttons */
-  const so = win(p,.85,.89,2,3);   /* the order menu — in after the row rises, never leaves */
+  /* badge stays visible through the whole experience — it's draggable, the
+     user decides where it lives */
+  const so = win(p,.91,.95,2,3);   /* the order menu — in after the row forms, never leaves */
   els.steadyCta.style.opacity = so.toFixed(3);
   els.steadyCta.style.pointerEvents = so>.55 ? 'auto' : 'none';
   const RW = ROW();
-  els.splus.style.opacity = win(p,.85,.88,2,3).toFixed(3);
+  els.splus.style.opacity = win(p,.905,.93,2,3).toFixed(3);
   els.splus.style.transform = 'translate(-50%,-50%) translate('+RW.plus.x+'vw,'+RW.plusY+'vh)';
-  const flip = clamp01((p-.77)/.035);
+  const flip = clamp01((p-.775)/.03);
   $('flipPrice').style.opacity = (1-flip*.55).toFixed(2);
   $('flipFree').style.opacity = flip.toFixed(2);
-  const g = p>=.13 && p<.245 ? 'N°01' : p>=.25 && p<.355 ? 'N°02' : p>=.36 && p<.465 ? 'N°03' : p>=.73 ? 'N°04' : '';
+  const g = p>=.13 && p<.245 ? 'N°01' : p>=.25 && p<.355 ? 'N°02' : p>=.36 && p<.465 ? 'N°03' : p>=.74 ? 'N°04' : '';
   if(g && g !== els.ghost.textContent) els.ghost.textContent = g;
-  els.ghost.style.opacity = (g ? (p<.465 ? win(p,.14,.18,.42,.46) : win(p,.74,.79,.83,.87))*.35 : 0).toFixed(3);
+  els.ghost.style.opacity = (g ? (p<.465 ? win(p,.14,.18,.42,.46) : win(p,.76,.81,.86,.90))*.35 : 0).toFixed(3);
   const S = SLOTS(), ST = STACK(), RWx = ROW();
   place(els.btRise, riseKF(p), 0);
   place(els.btCalm, soloKF(p, {t0:.25, fromX:-16, enterR:-14, holdR:7,  slot:S.calm, stack:ST.calm, exitX:-95, exitR:-48, row:RWx.calm}), 2.1);
@@ -974,15 +990,12 @@ if(reduced){
   /* ?p=0.87 — deterministic tuning/screenshot hook: pins the film at a progress */
   apply(clamp01(parseFloat(new URLSearchParams(location.search).get('p'))));
 }else{
-  /* FREEZE the stage height in px: iOS re-shows its bars on scroll-UP, which
-     shrinks dvh and re-lays the whole film mid-gesture (mockups over text on
-     the way up, fine on the way down). A frozen stage = one constant
-     coordinate system both directions. Re-freeze only on REAL resizes. */
+  /* the stage is 100lvh (constant through the iOS bar dance) — read its real
+     height for the math; it only changes on rotation/actual resize */
   const stageEl = $('stage');
-  let frozenH = innerHeight;
-  function freezeStage(){ frozenH = innerHeight; stageH = frozenH; stageEl.style.height = frozenH + 'px'; }
-  freezeStage();
-  addEventListener('resize', ()=>{ if(Math.abs(innerHeight - frozenH) > 130) freezeStage(); });
+  let frozenH = stageEl.offsetHeight || innerHeight;
+  stageH = frozenH;
+  addEventListener('resize', ()=>{ frozenH = stageEl.offsetHeight || innerHeight; stageH = frozenH; });
 
   let target = 0, cur = -1;
   function measure(){
