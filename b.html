@@ -37,8 +37,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .cartchip{font-family:var(--mono);font-weight:700;font-size:12px;background:var(--cream);border:2px solid var(--ink);border-radius:100px;padding:10px 16px;color:var(--ink);min-height:44px;}
 .cartchip b{color:var(--rise);}
 
-/* cinema runway + sticky stage */
-.cinema{height:820vh;position:relative;}
+/* cinema runway + sticky stage — 1050vh: the extra runway is spent ONLY on
+   the held pauses (see WARP in the script); transit speeds are unchanged */
+.cinema{height:1050vh;position:relative;}
 /* lvh = LARGE viewport: constant through iOS bar show/hide — the film keeps
    one coordinate system in both scroll directions AND always fills the screen
    (dvh left a cream gap when bars hid; px-freeze froze the gap in) */
@@ -49,6 +50,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 
 /* bottles — soft glow sheen keeps them "alive and a touch glossy" */
 .bottle{position:absolute;left:50%;top:50%;height:min(46vh,360px);will-change:transform;filter:drop-shadow(0 26px 30px rgba(20,10,0,.28)) drop-shadow(0 0 16px rgba(255,255,255,.16));opacity:0;pointer-events:none;}
+/* the drops: NO gloss halo — the dark glass reads richer matte (boss call);
+   depth shadow only */
+#btSteady{filter:drop-shadow(0 26px 30px rgba(20,10,0,.28));}
 .splus{position:absolute;left:50%;top:50%;font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(26px,4vw,40px);color:#F08BC0;opacity:0;pointer-events:none;line-height:1;}
 
 /* text beats */
@@ -67,6 +71,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .beat.solo{top:9%;}
 .beat.price{top:8%;}
 .beat.steady{top:7%;}
+.beat.close{top:8%;}
+.beat.close h2{font-size:clamp(30px,7.5vw,54px);}
+/* copy over the vivid fields: soft ink shadows lift legibility — teal and
+   indigo sit much closer to white than the orange does (boss note: calm/rest
+   copy was hard to read while rise was fine) */
+.beat.on-color h2{text-shadow:0 3px 28px rgba(0,0,0,.30);}
+.beat.on-color p,.beat.on-color .spec,.beat.on-color .eyebrow{text-shadow:0 1px 2px rgba(0,0,0,.28),0 2px 16px rgba(0,0,0,.26);}
+.beat.on-color p{font-weight:500;}
 
 /* per-bottle color bands behind the price scene (the "flag" backdrop) */
 .bands{position:absolute;inset:0;opacity:0;background:linear-gradient(90deg,#F9C9A3 0 33.4%,#A8E0D2 33.4% 66.7%,#C6BEF2 66.7% 100%);pointer-events:none;}
@@ -308,6 +320,8 @@ footer a{color:inherit;}
   .beat.hero{top:11%;}
   .beat.steady{top:9%;}
   .flip{font-size:clamp(36px,8vw,64px);}
+  .beat.close{top:6%;}
+  .beat.close h2{font-size:24px;}
 }
 
 /* ————— desktop layer (≥1024): bigger mockups, wider everything —
@@ -336,6 +350,10 @@ footer a{color:inherit;}
   .om-mini{font-size:11px;}
   .splus{font-size:48px;}
   .ghost{font-size:min(52vh,44vw);}
+  /* desktop close header: compact — the row sits high (top ~14.5%), so the
+     headline tucks between the nav pills and the bottle caps */
+  .beat.close{top:4.5%;}
+  .beat.close h2{font-size:40px;}
 }
 
 /* reduced motion / no JS: static everything-visible page */
@@ -410,6 +428,10 @@ footer a{color:inherit;}
       <div class="eyebrow" style="color:#F08BC0">N°04 · The fourth piece</div>
       <div class="flip"><s id="flipPrice">$18</s><span class="free" id="flipFree" style="opacity:0">FREE</span></div>
       <p style="color:#E8B8D2">STEADY — blood-sugar botanicals, level energy all day. Free in every complete-ritual order, every month.</p>
+    </div>
+    <div class="beat close on-color" id="bClose">
+      <div class="eyebrow" style="color:#F08BC0">One ritual · four pieces</div>
+      <h2>Complete the ritual.</h2>
     </div>
     <div class="splus" id="splus" aria-hidden="true">+</div>
     <div class="offmenu" id="steadyCta">
@@ -873,9 +895,9 @@ const ROW = () => ({
   t: { rise:{x:-16,s:.5},  calm:{x:-7,s:.5},   rest:{x:2,s:.5},   plus:{x:9.1}, steady:{x:15.5,s:.42}, y:-18, plusY:-15.5 },
   d: { rise:{x:-17,s:.52}, calm:{x:-8,s:.52},  rest:{x:1,s:.52},  plus:{x:8.9}, steady:{x:15,s:.44},  y:-22, plusY:-19.5 },
 })[BP()];
-/* the APEX: the drops' hero moment — big, center stage, held, spotlit
-   (the trio stays on stage but dims into the shadows behind it) */
-const APEX = () => ({ m:{y:7,s:.86}, t:{y:8,s:.78}, d:{y:18,s:.76} })[BP()];
+/* the APEX: the drops' hero moment — BIG, in your face, center stage, held,
+   spotlit (the trio stays on stage but dims into the shadows behind it) */
+const APEX = () => ({ m:{y:7,s:.94}, t:{y:8,s:.86}, d:{y:18,s:.84} })[BP()];
 /* desktop solos put text left, bottle right */
 const HOLDX = () => BP()==='d' ? 17 : 0;
 
@@ -957,7 +979,7 @@ function place(el, b, ph){
 const els = {
   field: $('field'), ghost: $('ghost'), rail: $('rail'), railfill: $('railfill'), cue: $('cue'),
   bHero: $('bHero'), bRise: $('bRise'), bCalm: $('bCalm'), bRest: $('bRest'),
-  bPrice: $('bPrice'), chips: $('chips'), bSteady: $('bSteady'), steadyCta: $('steadyCta'),
+  bPrice: $('bPrice'), chips: $('chips'), bSteady: $('bSteady'), bClose: $('bClose'), steadyCta: $('steadyCta'),
   btRise: $('btRise'), btCalm: $('btCalm'), btRest: $('btRest'), btSteady: $('btSteady'),
   pbadge: $('pbadge'), splus: $('splus'),
 };
@@ -973,6 +995,7 @@ function apply(p){
   beat(els.bRest, .36,.39,.435,.465);
   beat(els.bPrice, .49,.52,.70,.73);    /* wider exit — a flick shouldn't vaporize the scene */
   beat(els.bSteady, .75,.785,.855,.882); /* the drops' APEX — held; fully out before the seat move */
+  beat(els.bClose, .885,.92,2,3); /* the closing header MIGRATES in as the flip leaves — the top is never empty */
   $('bands').style.opacity = win(p,.465,.505,.70,.73).toFixed(3);
   const co = win(p,.50,.535,.70,.73);
   els.chips.style.opacity = co.toFixed(3);
@@ -1005,6 +1028,16 @@ function apply(p){
   els.rail.classList.toggle('lite', (p>.10 && p<.505) || p>.715);
   els.rail.style.opacity = (1 - clamp01((p-.965)/.035)).toFixed(2);
 }
+
+/* ————— PACING: scroll-P → film-P ————— boss note: "30 days" was the one
+   scene that really STUCK; every scene should. This map spends the extra
+   runway (820→1050vh) inside the holds — flat-ish stretches where a lot of
+   scroll moves the film barely at all — while every transit keeps the same
+   absolute scroll length it had before (same feel, already approved).
+   Keyframes/?p pins stay in FILM-P: tuning numbers never change meaning. */
+const WARP = [[0,0],[.118,.155],[.217,.21],[.274,.285],[.373,.335],[.422,.40],
+  [.521,.445],[.586,.53],[.725,.69],[.813,.805],[.875,.85],[.970,.975],[1,1]];
+const warp = s => kf(s, WARP);   /* piecewise-linear, monotonic */
 
 if(reduced){
   ['chips','steadyCta'].forEach(k=>{ els[k].style.pointerEvents='auto'; els[k].style.opacity=1; });
@@ -1043,11 +1076,11 @@ if(reduced){
       if(Math.abs(target-cur) < .006) cur = target;
     }
     const onStage = !document.hidden && scrollY < cinH - 8;   /* cinema starts at page top */
-    if(scrolling || onStage){ bobT = now || 0; apply(clamp01(cur<0 ? target : cur)); }
+    if(scrolling || onStage){ bobT = now || 0; apply(warp(clamp01(cur<0 ? target : cur))); }
     requestAnimationFrame(loop);
   })(0);
   apply(0);
-  addEventListener('scroll', ()=>{ if(document.hidden) apply(target); }, {passive:true});
+  addEventListener('scroll', ()=>{ if(document.hidden) apply(warp(target)); }, {passive:true});
 }
 
 const rmq = $('rmtrack'); if(rmq && !reduced){ rmq.innerHTML += rmq.innerHTML; }
