@@ -44,8 +44,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .field::after{content:'';position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 110%, rgba(0,0,0,.16), transparent 55%);pointer-events:none;}
 .ghost{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 125;font-size:min(44vh,52vw);line-height:1;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.35);opacity:0;white-space:nowrap;pointer-events:none;}
 
-/* bottles */
-.bottle{position:absolute;left:50%;top:50%;height:min(46vh,360px);will-change:transform;filter:drop-shadow(0 26px 30px rgba(20,10,0,.28));opacity:0;pointer-events:none;}
+/* bottles — soft glow sheen keeps them "alive and a touch glossy" */
+.bottle{position:absolute;left:50%;top:50%;height:min(46vh,360px);will-change:transform;filter:drop-shadow(0 26px 30px rgba(20,10,0,.28)) drop-shadow(0 0 16px rgba(255,255,255,.16));opacity:0;pointer-events:none;}
+.splus{position:absolute;left:50%;top:50%;font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(26px,4vw,40px);color:#F08BC0;opacity:0;pointer-events:none;line-height:1;}
 
 /* text beats */
 .beat{position:absolute;left:50%;transform:translateX(-50%);text-align:center;width:min(92vw,760px);opacity:0;pointer-events:none;}
@@ -83,10 +84,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .flip{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 122;font-size:clamp(40px,9vw,84px);text-transform:uppercase;line-height:1;}
 .flip s{color:#FF7B7B;text-decoration-thickness:6px;}
 .flip .free{color:#F08BC0;margin-left:14px;}
-.steadycta{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(34vh);width:min(92vw,480px);text-align:center;opacity:0;pointer-events:none;}
-.steadycta .btn{width:100%;min-height:56px;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:14.5px;letter-spacing:.6px;box-shadow:0 6px 0 rgba(0,0,0,.35);}
-.steadycta .alt{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;color:#E8B8D2;line-height:1.6;}
-.steadycta .alt button{background:none;border:0;color:inherit;text-decoration:underline;font:inherit;padding:0;}
+/* the in-film offer menu — the film's last act IS the order screen */
+.offmenu{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(12vh);width:min(92vw,560px);opacity:0;pointer-events:none;color:#F3E6ED;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;}
+.offmenu .modetoggle{display:flex;gap:6px;width:min(78vw,300px);margin:0;}
+.offmenu .mt{flex:1;min-height:36px;border:1.5px solid #5A2B45;background:transparent;color:#C99BB5;border-radius:100px;font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.4px;cursor:pointer;}
+.offmenu .mt.on{background:var(--cream);border-color:var(--cream);color:var(--ink);}
+.om-big{font-family:var(--mono);font-weight:700;font-size:clamp(22px,5vw,32px);color:#fff;}
+.om-big s{color:#FF7B7B;font-size:.6em;margin-left:8px;}
+.om-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:5px 16px;font-size:12px;color:#E8CBDD;text-align:left;max-width:440px;margin:0;}
+.om-list li::before{content:'✓ ';color:#F08BC0;}
+.om-list b{color:#F08BC0;}
+.om-list s{color:#FF7B7B;}
+.om-cta{width:min(84vw,420px);min-height:52px;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:13.5px;box-shadow:0 5px 0 rgba(0,0,0,.35);cursor:pointer;}
+.offmenu .minirow{width:min(84vw,420px);margin-top:0;}
+.om-mini{font-family:var(--mono);font-size:10px;color:#C99BB5;line-height:1.6;}
+.om-mini a{color:inherit;}
 
 /* progress rail */
 .rail{position:absolute;right:14px;top:50%;transform:translateY(-50%);height:34vh;width:3px;background:rgba(120,110,95,.25);border-radius:3px;z-index:5;}
@@ -111,21 +123,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .offer .btn{width:100%;min-height:56px;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:14.5px;box-shadow:0 6px 0 rgba(0,0,0,.4);}
 .offer .mini{font-family:var(--mono);font-size:11px;color:#C99BB5;margin-top:10px;text-align:center;}
 .offer .mini a{color:inherit;}
-/* classic lineup: three bottles standing in a row + a plus + the drops */
-.lineup{display:flex;align-items:flex-end;justify-content:center;gap:clamp(6px,1.6vw,14px);padding:10px 0 6px;}
-.lineup img{filter:drop-shadow(0 16px 18px rgba(0,0,0,.5));}
-.lineup .main{height:clamp(96px,11vw,132px);}
-.lineup .plus{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(30px,4vw,44px);color:#F08BC0;line-height:1;padding:0 2px 30px;}
-.lineup .drops{height:clamp(128px,14.5vw,172px);}
-.offer .modetoggle{margin:10px 0 12px;max-width:300px;}
 .offer .modetoggle .mt{background:transparent;border-color:#5A2B45;color:#C99BB5;}
 .offer .modetoggle .mt.on{background:var(--cream);border-color:var(--cream);color:var(--ink);}
 .minirow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
 .minirow button{min-height:44px;border:1.5px solid #5A2B45;background:transparent;color:#F3E6ED;border-radius:100px;font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.4px;}
 .minirow button.has{border-color:var(--berry);color:#F08BC0;}
 
-.rmarq{overflow:clip;position:relative;}
-.rmtrack{display:flex;gap:18px;width:max-content;animation:rmq 52s linear infinite;}
+.rmarq{overflow:hidden;position:relative;}   /* hidden not clip — iOS skips painting animated clip content */
+.rmtrack{display:flex;gap:18px;width:max-content;animation:rmq 52s linear infinite;will-change:transform;transform:translateZ(0);}
 .rmarq:hover .rmtrack{animation-play-state:paused;}
 .review{width:300px;flex:none;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:20px;}
 .review .stars{color:var(--rise);letter-spacing:2px;margin-bottom:8px;}
@@ -141,21 +146,13 @@ details[open] summary::after{content:'–';}
 details p{color:#4a4438;font-size:14.5px;line-height:1.6;margin-top:10px;}
 footer{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:center;padding:26px 16px 34px;line-height:1.8;}
 footer a{color:inherit;}
-body.hasbar footer{padding-bottom:112px;}   /* only reserve space when the cart bar is actually shown */
 
 /* ritual ribbon — the running line between FAQ and the credits */
-.ribbon{overflow:clip;background:var(--ink);color:var(--cream);padding:13px 0;}
-.rtrack{display:flex;gap:44px;width:max-content;animation:rmq 32s linear infinite;font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:2px;white-space:nowrap;align-items:center;}
+.ribbon{overflow:hidden;background:var(--ink);color:var(--cream);padding:13px 0;}
+.rtrack{display:flex;gap:44px;width:max-content;animation:rmq 32s linear infinite;font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:2px;white-space:nowrap;align-items:center;will-change:transform;transform:translateZ(0);}
 .rtrack b{font-weight:700;}
 @media(prefers-reduced-motion:reduce){.rtrack{animation:none;}}
 
-/* thin cart bar (mirror of the drawer) */
-.cartbar{position:fixed;left:12px;right:12px;bottom:12px;z-index:70;background:var(--ink);color:var(--cream);border-radius:16px;padding:12px 14px;display:none;align-items:center;gap:12px;box-shadow:0 12px 30px rgba(0,0,0,.35);}
-.cartbar.on{display:flex;}
-.cartbar .sum{flex:1;font-family:var(--mono);font-weight:700;font-size:12.5px;line-height:1.45;}
-.cartbar .sum small{display:block;font-weight:400;font-size:10.5px;color:#C9BFB0;}
-.cartbar .open{background:none;border:1.5px solid #6E6656;border-radius:100px;color:var(--cream);font-family:var(--mono);font-size:11px;padding:11px 14px;white-space:nowrap;}
-.cartbar .go{min-height:46px;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:12.5px;padding:0 20px;white-space:nowrap;}
 
 /* ————— ported from Plan A: cart drawer ————— */
 .overlay{position:fixed;inset:0;background:rgba(20,15,8,.55);opacity:0;pointer-events:none;transition:.25s;z-index:90;}
@@ -217,7 +214,8 @@ body.hasbar footer{padding-bottom:112px;}   /* only reserve space when the cart 
 
 /* 15% — a live little circle badge (bottom-right) that blooms into a big
    circle window: email in the middle, the code appears inside the circle */
-.pbadge{position:fixed;right:16px;bottom:18px;z-index:139;width:66px;height:66px;border-radius:50%;background:var(--ink);color:var(--cream);border:0;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 5px 0 rgba(30,25,19,.35);animation:badgepulse 2.6s ease-in-out infinite;padding:0;}
+.pbadge{position:fixed;right:16px;bottom:18px;z-index:139;width:66px;height:66px;border-radius:50%;background:var(--ink);color:var(--cream);border:0;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 5px 0 rgba(30,25,19,.35);animation:badgepulse 2.6s ease-in-out infinite;padding:0;touch-action:none;cursor:grab;}
+.pbadge.dragging{animation:none;cursor:grabbing;}
 .pbadge[hidden]{display:none!important;}
 .pbadge b{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 118;font-size:17px;line-height:1;}
 .pbadge small{font-family:var(--mono);font-weight:700;font-size:8px;letter-spacing:1.5px;margin-top:1px;}
@@ -296,7 +294,9 @@ body.hasbar footer{padding-bottom:112px;}   /* only reserve space when the cart 
 @media(prefers-reduced-motion:reduce){
   .cinema{height:auto;}
   .stage{position:relative;height:auto;padding:110px 0 60px;overflow:visible;}
-  .bottle,.beat,.chips,.steadycta{position:relative;opacity:1!important;transform:none!important;left:auto;top:auto;bottom:auto;pointer-events:auto;margin:24px auto;display:block;}
+  .bottle,.beat,.chips,.offmenu{position:relative;opacity:1!important;transform:none!important;left:auto;top:auto;bottom:auto;pointer-events:auto;margin:24px auto;display:block;}
+  .offmenu{display:flex;}
+  .splus{display:none;}
   .bottle{height:260px;}
   .ghost,.scrollcue,.rail{display:none;}
   .chips{display:flex;justify-content:center;}
@@ -363,9 +363,22 @@ body.hasbar footer{padding-bottom:112px;}   /* only reserve space when the cart 
       <div class="flip"><s id="flipPrice">$18</s><span class="free" id="flipFree" style="opacity:0">FREE</span></div>
       <p style="color:#E8B8D2">STEADY — blood-sugar botanicals, level energy all day. Free in every complete-ritual order, every month.</p>
     </div>
-    <div class="steadycta" id="steadyCta">
-      <button class="btn" id="ctaBtn" onclick="addTrio()">Complete the Ritual — $96/mo</button>
-      <span class="alt">Rise + Calm + Rest + free STEADY · free shipping · skip or cancel anytime<br>or <button onclick="addSku('steady')">add STEADY alone — $15/mo</button></span>
+    <div class="splus" id="splus" aria-hidden="true">+</div>
+    <div class="offmenu" id="steadyCta">
+      <div class="modetoggle" role="group" aria-label="Purchase type">
+        <button id="mSub2" class="mt on" onclick="setMode(true)" aria-pressed="true">SUBSCRIBE · SAVE 15%</button>
+        <button id="mOne2" class="mt" onclick="setMode(false)" aria-pressed="false">ONE-TIME</button>
+      </div>
+      <div class="om-big" id="offerBig">$96/mo <s>$114</s></div>
+      <ul class="om-list">
+        <li>N°04 STEADY — <s>$18</s>&nbsp;<b>FREE</b>, every order</li>
+        <li>Free U.S. shipping</li>
+        <li>Skip, swap or cancel anytime</li>
+        <li>30-day guarantee — first order</li>
+      </ul>
+      <button class="om-cta" id="offerBtn" onclick="addTrio()">Complete my ritual — $96/mo</button>
+      <div class="minirow" id="miniRow" aria-label="Build your own stack"></div>
+      <div class="om-mini" id="offerMini">Subscription · <a href="policies.html">guarantee &amp; terms</a></div>
     </div>
 
     <img class="bottle" id="btRise"  src="assets/products/cut_rise.webp"  alt="HAVN Rise bottle">
@@ -392,38 +405,6 @@ body.hasbar footer{padding-bottom:112px;}   /* only reserve space when the cart 
     </div></div>
   </div>
 
-  <div class="wrap sec" style="padding-top:14px">
-    <div class="sec-head"><div class="eyebrow">The next step</div><h2>Complete your order</h2></div>
-    <div class="offer">
-      <div>
-        <h2>Complete the ritual.<br>Claim the 4th piece.</h2>
-        <div class="modetoggle" role="group" aria-label="Purchase type">
-          <button id="mSub2" class="mt on" onclick="setMode(true)" aria-pressed="true">SUBSCRIBE · SAVE 15%</button>
-          <button id="mOne2" class="mt" onclick="setMode(false)" aria-pressed="false">ONE-TIME</button>
-        </div>
-        <div class="big" id="offerBig">$96/mo <s>$114</s></div>
-        <ul>
-          <li>N°04 STEADY — <s style="color:#FF7B7B">$18</s>&nbsp;<b style="color:#F08BC0">FREE</b>, every order</li>
-          <li>Free U.S. shipping, every month</li>
-          <li>Skip, swap or cancel anytime</li>
-          <li>30-day “feel it or free” guarantee — first order</li>
-        </ul>
-      </div>
-      <div>
-        <div class="lineup">
-          <img class="main" src="assets/products/cut_rise.webp" alt="HAVN Rise" loading="lazy">
-          <img class="main" src="assets/products/cut_calm.webp" alt="HAVN Calm" loading="lazy">
-          <img class="main" src="assets/products/cut_rest.webp" alt="HAVN Rest" loading="lazy">
-          <span class="plus" aria-hidden="true">+</span>
-          <img class="drops" src="assets/products/cut_steady.webp" alt="STEADY drops — the free 4th piece" loading="lazy">
-        </div>
-        <button class="btn" id="offerBtn" onclick="addTrio()" style="margin-top:18px">Complete my ritual — $96/mo</button>
-        <div class="minirow" id="miniRow" aria-label="Build your own stack"></div>
-        <div class="mini" id="offerMini">Subscription · <a href="policies.html">guarantee &amp; terms</a></div>
-      </div>
-    </div>
-  </div>
-
   <div class="wrap sec" style="padding-top:14px;padding-bottom:26px">
     <div class="sec-head"><div class="eyebrow">Questions</div><h2>FAQ</h2></div>
     <div class="faq">
@@ -440,12 +421,6 @@ body.hasbar footer{padding-bottom:112px;}   /* only reserve space when the cart 
   <footer>HAVN · Designed in Denmark · Made in the USA · <a href="policies.html">Policies</a> · <a href="mailto:hello@havn.co">hello@havn.co</a><br>*These statements have not been evaluated by the FDA. Not intended to diagnose, treat, cure, or prevent any disease.</footer>
 </div>
 
-<!-- thin cart bar -->
-<div class="cartbar" id="cartbar">
-  <div class="sum" id="cartsum">—</div>
-  <button class="open" onclick="openCart()">Cart</button>
-  <button class="go" id="goBtn" onclick="checkout()">Checkout</button>
-</div>
 
 <!-- ————— cart drawer (ported from Plan A) ————— -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
@@ -587,30 +562,16 @@ function update(){
   $('ckBtn').textContent = itemCount()===0 ? 'Checkout' : `Checkout — ${fmt(st)}${subscribe&&st>0?'/mo':''}`;
   $('footNote').textContent = subscribe ? 'Subscription renews monthly · skip or cancel anytime' : 'One-time order · switch to Subscribe & Save for 15% off';
 
-  /* thin bar + chips + film CTAs — the bar stays out of the film's way
-     (it was covering the ADD chips when something got added mid-scene) */
-  const bar = $('cartbar');
-  if(itemCount()===0 || lastP < .965){ bar.classList.remove('on'); }
-  else{
-    bar.classList.add('on');
-    const bits = [];
-    if(cart.trio>0) bits.push(cart.trio+'× ritual');
-    for(const id of ['rise','calm','rest','steady']) if(cart.singles[id]>0) bits.push(cart.singles[id]+'× '+id);
-    $('cartsum').innerHTML = fmt(st) + (subscribe?'/mo':'') + ' — ' + bits.join(' · ') +
-      (done ? '<small>+ N°04 STEADY free · free shipping</small>' : `<small>${subscribe?'subscription · free ship from $30/mo':'one-time · free ship at $79'}</small>`);
-  }
   document.querySelectorAll('.chip button').forEach(b=>{
     const has = hasSku(b.dataset.add);
     b.classList.toggle('added', has); b.textContent = has ? '✓ IN' : 'ADD';
   });
-  $('ctaBtn').textContent = subscribe ? 'Complete the Ritual — $96/mo' : 'Complete the Ritual — $114';
   $('offerBtn').textContent = subscribe ? 'Complete my ritual — $96/mo' : 'Complete my ritual — $114';
   $('offerBig').innerHTML = subscribe ? '$96/mo <s>$114</s>' : '$114 one-time';
   $('offerMini').innerHTML = (subscribe ? 'Subscription · skip or cancel anytime' : 'One-time order') + ' · <a href="policies.html">guarantee &amp; terms</a>';
   /* build-your-own-stack pills (mixed bundles: e.g. two formulas + the drops) */
   $('miniRow').innerHTML = ['rise','calm','rest','steady'].map(id =>
     `<button class="${hasSku(id)?'has':''}" onclick="addSku('${id}')">${hasSku(id)?'✓':'+'} ${NAMES[id].toUpperCase()} · ${fmt(priceSingle(id))}${subscribe?'/mo':''}</button>`).join('');
-  document.body.classList.toggle('hasbar', itemCount()>0);
 
   if(done && !prevComplete){ balloons(); }
   prevComplete = done;
@@ -725,6 +686,51 @@ function promoCopy(b){
   const code = (promoState()||{}).code || b.textContent;
   try{ navigator.clipboard.writeText(code).then(()=>{ b.textContent = 'Copied ✓'; setTimeout(()=>{ b.textContent = code; }, 1300); }); }catch(e){}
 }
+/* the badge is draggable: pull it anywhere, it snaps to the nearest edge and
+   remembers its spot; a clean tap (no drag) still opens the circle */
+(function(){
+  const b = $('pbadge');
+  let dragging = false, moved = false, sx=0, sy=0, bx=0, by=0;
+  function setPos(side, y){
+    y = Math.max(80, Math.min(innerHeight - 150, y));
+    b.style.top = y + 'px'; b.style.bottom = 'auto';
+    if(side === 'left'){ b.style.left = '12px'; b.style.right = 'auto'; }
+    else { b.style.right = '12px'; b.style.left = 'auto'; }
+  }
+  try{
+    const saved = JSON.parse(localStorage.getItem('havn_badge')||'null');
+    if(saved) setPos(saved.side, saved.y * innerHeight);
+  }catch(e){}
+  b.addEventListener('pointerdown', e=>{
+    dragging = true; moved = false; sx = e.clientX; sy = e.clientY;
+    const r = b.getBoundingClientRect(); bx = r.left; by = r.top;
+    b.setPointerCapture(e.pointerId);
+  });
+  b.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    const dx = e.clientX - sx, dy = e.clientY - sy;
+    if(Math.abs(dx) + Math.abs(dy) > 8){ moved = true; b.classList.add('dragging'); }
+    if(moved){
+      b.style.left = (bx + dx) + 'px'; b.style.top = (by + dy) + 'px';
+      b.style.right = 'auto'; b.style.bottom = 'auto';
+    }
+  });
+  b.addEventListener('pointerup', ()=>{
+    if(!dragging) return;
+    dragging = false; b.classList.remove('dragging');
+    if(moved){
+      const r = b.getBoundingClientRect();
+      const side = (r.left + r.width/2) < innerWidth/2 ? 'left' : 'right';
+      const y = Math.max(80, Math.min(innerHeight - 150, r.top));
+      setPos(side, y);
+      try{ localStorage.setItem('havn_badge', JSON.stringify({side, y: y/innerHeight})); }catch(e){}
+    }
+  });
+  b.addEventListener('click', e=>{
+    if(moved){ e.stopImmediatePropagation(); e.preventDefault(); moved = false; }
+  }, true);
+})();
+
 (function(){
   const st = promoState();
   const snoozed = st && st.dismissed && Date.now()-st.at < 3*86400e3;
@@ -770,11 +776,11 @@ function balloons(){
 }
 
 /* ================= the film ================= */
-let lastP = 0;   /* current film progress — gates the cart bar + the 15% badge */
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const lerp = (a,b,t)=>a+(b-a)*t;
 const clamp01 = v=>Math.min(1,Math.max(0,v));
 const eio = t=>t<.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
+const eout = t=>1-Math.pow(1-t,3);
 function kf(p, stops, e){
   if(p<=stops[0][0]) return stops[0][1];
   for(let i=1;i<stops.length;i++){
@@ -808,20 +814,24 @@ const MOB = () => innerWidth <= 700;
 const SLOTS = () => MOB()
   ? { rise:{x:-31,y:12,r:-8,s:.55}, calm:{x:-3,y:3,r:5,s:.62}, rest:{x:29,y:9,r:-4,s:.52}, steady:{x:10,y:15,r:6,s:.58} }
   : { rise:{x:-30,y:11,r:-8,s:.66}, calm:{x:-4,y:2,r:5,s:.72}, rest:{x:26,y:8,r:-4,s:.62}, steady:{x:9,y:13,r:6,s:.66} };
-const STACK = () => MOB()
-  ? { rise:{x:6,y:13,r:12,s:.66},  calm:{x:-13,y:19,r:-11,s:.60}, rest:{x:14,y:25,r:8,s:.52} }
-  : { rise:{x:7,y:14,r:12,s:.74},  calm:{x:-14,y:20,r:-11,s:.68}, rest:{x:16,y:26,r:8,s:.58} };
+const STACK = () => MOB()   /* spread in all directions — every bottle clearly visible */
+  ? { rise:{x:9,y:8,r:12,s:.66},   calm:{x:-16,y:19,r:-11,s:.60}, rest:{x:17,y:29,r:8,s:.52} }
+  : { rise:{x:10,y:9,r:12,s:.74},  calm:{x:-17,y:20,r:-11,s:.68}, rest:{x:19,y:29,r:8,s:.58} };
+/* the finale row: 1-2-3 on the table, plus, and the (smaller) drops */
+const ROW = () => MOB()
+  ? { rise:{x:-32,y:-21,s:.46}, calm:{x:-11,y:-21,s:.46}, rest:{x:10,y:-21,s:.46}, plus:{x:20.5,y:-17}, steady:{x:32,y:-19.5,s:.38} }
+  : { rise:{x:-16,y:-18,s:.5},  calm:{x:-7,y:-18,s:.5},   rest:{x:2,y:-18,s:.5},   plus:{x:8.5,y:-14},  steady:{x:15.5,y:-16,s:.42} };
 
 /* RISE: from the hero stack — one continuous zoom-up, ONE rotation sweep,
    hold floating, then ONE toss that lands it AT its slot — and it FREEZES
    there (no residual drifting; the price scene only brightens it). */
 function riseKF(p){
-  const st = STACK().rise, sl = SLOTS().rise;
+  const st = STACK().rise, sl = SLOTS().rise, rw = ROW().rise;
   return {
-    x: kf(p, [[.085,st.x],[.15,0],[.215,0],[.245,sl.x]], eio),
-    y: kf(p, [[.085,st.y],[.15,2],[.215,1.3],[.245,sl.y]], eio),
-    r: kf(p, [[.085,st.r],[.17,-4],[.215,-6],[.245,sl.r]]),
-    s: kf(p, [[.085,st.s],[.155,1.10],[.215,1.10],[.245,sl.s]], eio),
+    x: kf(p, [[.085,st.x],[.15,0],[.215,0],[.245,sl.x],[.72,sl.x],[.80,rw.x]], eio),
+    y: kf(p, [[.085,st.y],[.15,2],[.215,1.3],[.245,sl.y],[.72,sl.y],[.80,rw.y]], eio),
+    r: kf(p, [[.085,st.r],[.17,-4],[.215,-6],[.245,sl.r],[.72,sl.r],[.80,0]]),
+    s: kf(p, [[.085,st.s],[.155,1.10],[.215,1.10],[.245,sl.s],[.72,sl.s],[.80,rw.s]], eio),
     o: kf(p, [[-1,1],[.245,1],[.255,.38],[.48,.38],[.51,1]])
   };
 }
@@ -840,27 +850,33 @@ function soloKF(p, cfg){
       o: kf(p, [[.085,1],[.13,0],[IN-.001,0]])
     };
   }
+  const row = cfg.row;
   return {
-    x: kf(p, [[IN,fromX],[ARR,0],[H1,0],[TOSS,slot.x]], eio),
-    y: kf(p, [[IN,42],[ARR,2],[H1,1.2],[TOSS,slot.y]], eio),
-    r: kf(p, [[IN,enterR],[ARR,holdR],[H1,holdR*.8],[TOSS,slot.r]]),
-    s: kf(p, [[IN,.86],[ARR,1.06],[H1,1.06],[TOSS,slot.s]], eio),
+    x: kf(p, [[IN,fromX],[ARR,0],[H1,0],[TOSS,slot.x],[.72,slot.x],[.80,row.x]], eio),
+    y: kf(p, [[IN,42],[ARR,2],[H1,1.2],[TOSS,slot.y],[.72,slot.y],[.80,row.y]], eio),
+    r: kf(p, [[IN,enterR],[ARR,holdR],[H1,holdR*.8],[TOSS,slot.r],[.72,slot.r],[.80,0]]),
+    s: kf(p, [[IN,.86],[ARR,1.06],[H1,1.06],[TOSS,slot.s],[.72,slot.s],[.80,row.s]], eio),
     o: kf(p, [[IN-.006,0],[IN+.02,1],[TOSS-.002,1],[TOSS+.01,.38],[.48,.38],[.51,1]])
   };
 }
 function steadyKF(p){
-  const sl = SLOTS().steady;
+  /* enters after the trio has settled into the row: fast at first, then a
+     soft eased landing (his "steady by the end") into its row spot */
+  const rw = ROW().steady;
   return {
-    x: kf(p, [[.72,4],[.80,sl.x]], eio),
-    y: kf(p, [[.72,62],[.80,sl.y]], eio),
-    r: kf(p, [[.72,-230],[.80,sl.r]]),
-    s: sl.s,
-    o: kf(p, [[.715,0],[.735,1]])
+    x: rw.x,
+    y: kf(p, [[.74,60],[.82,rw.y]], eout),
+    r: kf(p, [[.74,-210],[.82,0]], eout),
+    s: rw.s,
+    o: kf(p, [[.735,0],[.755,1]])
   };
 }
-function place(el, b){
+let bobT = 0;   /* idle-life clock — a gentle constant float on every mockup */
+function place(el, b, ph){
+  const dy = bobT ? Math.sin(bobT/1500 + (ph||0))*0.5 : 0;
+  const dr = bobT ? Math.sin(bobT/2300 + (ph||0)*1.7)*0.5 : 0;
   el.style.opacity = b.o.toFixed(3);
-  el.style.transform = 'translate(-50%,-50%) translate('+b.x.toFixed(2)+'vw,'+b.y.toFixed(2)+'vh) rotate('+b.r.toFixed(1)+'deg) scale('+b.s.toFixed(3)+')';
+  el.style.transform = 'translate(-50%,-50%) translate('+b.x.toFixed(2)+'vw,'+(b.y+dy).toFixed(2)+'vh) rotate('+(b.r+dr).toFixed(1)+'deg) scale('+b.s.toFixed(3)+')';
 }
 
 const els = {
@@ -868,11 +884,10 @@ const els = {
   bHero: $('bHero'), bRise: $('bRise'), bCalm: $('bCalm'), bRest: $('bRest'),
   bPrice: $('bPrice'), chips: $('chips'), bSteady: $('bSteady'), steadyCta: $('steadyCta'),
   btRise: $('btRise'), btCalm: $('btCalm'), btRest: $('btRest'), btSteady: $('btSteady'),
-  pbadge: $('pbadge'),
+  pbadge: $('pbadge'), splus: $('splus'),
 };
 
 function apply(p){
-  lastP = p;
   els.field.style.background = fieldColor(p);
   const beat = (el, a,b,c,d, ty)=>{ const o = win(p,a,b,c,d); el.style.opacity = o.toFixed(3); el.style.transform = 'translateX(-50%) translateY('+((1-o)*(ty===undefined?14:ty)).toFixed(1)+'px)'; };
   beat(els.bHero, -1,-.9,.06,.10, 0);
@@ -882,7 +897,7 @@ function apply(p){
   beat(els.bCalm, .25,.28,.325,.355);
   beat(els.bRest, .36,.39,.435,.465);
   beat(els.bPrice, .49,.52,.685,.715);
-  beat(els.bSteady, .72,.755,2,3);      /* the final frame holds COMPLETE: text + bottles + CTA */
+  beat(els.bSteady, .72,.755,.79,.83);  /* the flip beat hands off to the in-film order menu */
   $('bands').style.opacity = win(p,.50,.55,.685,.715).toFixed(3);
   const co = win(p,.50,.535,.685,.715);
   els.chips.style.opacity = co.toFixed(3);
@@ -890,27 +905,29 @@ function apply(p){
   els.chips.style.transform = 'translate(-50%,-50%) translateY('+(MOB()?30.5:31)+'vh) translateY('+((1-co)*22).toFixed(1)+'px)';
   els.chips.style.pointerEvents = co>.55 ? 'auto' : 'none';
   els.pbadge.style.visibility = (p>.48 && p<.97) ? 'hidden' : '';   /* keep the badge off the film's buttons */
-  const so = win(p,.80,.84,2,3);
+  const so = win(p,.83,.87,2,3);   /* the order menu — in after the row settles, never leaves */
   els.steadyCta.style.opacity = so.toFixed(3);
   els.steadyCta.style.pointerEvents = so>.55 ? 'auto' : 'none';
-  const flip = clamp01((p-.78)/.035);
+  const RW = ROW();
+  els.splus.style.opacity = win(p,.79,.825,2,3).toFixed(3);
+  els.splus.style.transform = 'translate(-50%,-50%) translate('+RW.plus.x+'vw,'+RW.plus.y+'vh)';
+  const flip = clamp01((p-.76)/.035);
   $('flipPrice').style.opacity = (1-flip*.55).toFixed(2);
   $('flipFree').style.opacity = flip.toFixed(2);
   const g = p>=.13 && p<.245 ? 'N°01' : p>=.25 && p<.355 ? 'N°02' : p>=.36 && p<.465 ? 'N°03' : p>=.72 ? 'N°04' : '';
   if(g && g !== els.ghost.textContent) els.ghost.textContent = g;
-  els.ghost.style.opacity = (g ? (p<.465 ? win(p,.14,.18,.42,.46) : win(p,.73,.78,2,3))*.35 : 0).toFixed(3);
-  const S = SLOTS(), ST = STACK();
-  place(els.btRise, riseKF(p));
-  place(els.btCalm, soloKF(p, {t0:.25, fromX:-16, enterR:-14, holdR:7,  slot:S.calm, stack:ST.calm, exitX:-95, exitR:-48}));
-  place(els.btRest, soloKF(p, {t0:.36, fromX:16,  enterR:14,  holdR:-5, slot:S.rest, stack:ST.rest, exitX:95,  exitR:42}));
-  place(els.btSteady, steadyKF(p));
+  els.ghost.style.opacity = (g ? (p<.465 ? win(p,.14,.18,.42,.46) : win(p,.73,.78,.84,.88))*.35 : 0).toFixed(3);
+  const S = SLOTS(), ST = STACK(), RWx = ROW();
+  place(els.btRise, riseKF(p), 0);
+  place(els.btCalm, soloKF(p, {t0:.25, fromX:-16, enterR:-14, holdR:7,  slot:S.calm, stack:ST.calm, exitX:-95, exitR:-48, row:RWx.calm}), 2.1);
+  place(els.btRest, soloKF(p, {t0:.36, fromX:16,  enterR:14,  holdR:-5, slot:S.rest, stack:ST.rest, exitX:95,  exitR:42,  row:RWx.rest}), 4.2);
+  place(els.btSteady, steadyKF(p), 1.1);
   els.railfill.style.height = (p*100).toFixed(1)+'%';
   els.rail.classList.toggle('lite', (p>.10 && p<.505) || p>.715);
   els.rail.style.opacity = (1 - clamp01((p-.965)/.035)).toFixed(2);
 }
 
 if(reduced){
-  lastP = 1;
   ['chips','steadyCta'].forEach(k=>{ els[k].style.pointerEvents='auto'; els[k].style.opacity=1; });
   $('flipFree').style.opacity = 1;
   document.querySelectorAll('.bottle').forEach(b=>{ b.style.opacity=1; });
@@ -924,10 +941,15 @@ if(reduced){
   addEventListener('scroll', measure, {passive:true});
   addEventListener('resize', measure);
   measure();
-  (function loop(){
-    if(Math.abs(target-cur) > 0.0004){ cur = cur<0 ? target : cur + (target-cur)*0.16; apply(clamp01(cur)); }
+  const cinEl = $('cinema');
+  (function loop(now){
+    const scrolling = Math.abs(target-cur) > 0.0004;
+    if(scrolling){ cur = cur<0 ? target : cur + (target-cur)*0.16; }
+    /* idle-life: keep breathing while the stage is on screen */
+    const onStage = !document.hidden && cinEl.getBoundingClientRect().bottom > 0;
+    if(scrolling || onStage){ bobT = now || 0; apply(clamp01(cur<0 ? target : cur)); }
     requestAnimationFrame(loop);
-  })();
+  })(0);
   apply(0);
   addEventListener('scroll', ()=>{ if(document.hidden) apply(target); }, {passive:true});
 }
