@@ -3,1237 +3,482 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HAVN — Plan B · One Sky</title>
-<meta name="description" content="Design prototype — one scroll-evolving sky. Not the live storefront.">
 <meta name="robots" content="noindex,nofollow">
-<link rel="canonical" href="https://bohmarko567-oss.github.io/havn-site/b.html">
-<link rel="preload" as="font" type="font/ttf" href="fonts/Archivo.ttf" crossorigin>
-<link rel="preload" as="font" type="font/ttf" href="fonts/HankenGrotesk.ttf" crossorigin>
-<link rel="preload" as="image" href="assets/products/cut_calm.webp">
+<title>HAVN — Plan B · Product Cinema</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<meta name="theme-color" content="#1E1913">
-<meta property="og:type" content="website">
-<meta property="og:title" content="HAVN — The 4-piece daily ritual.">
-<meta property="og:description" content="Rise, Calm, Rest — and STEADY, the $18 4th piece that ships free with the complete ritual, every month.">
-<meta property="og:image" content="https://bohmarko567-oss.github.io/havn-site/assets/products/og_v3.jpg">
-<meta property="og:url" content="https://bohmarko567-oss.github.io/havn-site/">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="HAVN — The 4-piece daily ritual.">
-<meta name="twitter:description" content="Three formulas carry your day. The $18 fourth piece comes free with the complete ritual.">
-<meta name="twitter:image" content="https://bohmarko567-oss.github.io/havn-site/assets/products/og_v2.jpg">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Brand","name":"HAVN","slogan":"Rise. Calm. Rest. And the piece you earn.","url":"https://bohmarko567-oss.github.io/havn-site/","logo":"https://bohmarko567-oss.github.io/havn-site/assets/favicon.png","makesOffer":[
-{"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Rise — Lion's Mane 1000mg","category":"Dietary Supplement","description":"Organic Lion's Mane for memory, focus and clarity.","image":"https://bohmarko567-oss.github.io/havn-site/assets/products/rise_front.jpg"},"price":"31.00","priceCurrency":"USD"},
-{"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Calm — Ashwagandha Plus","category":"Dietary Supplement","description":"KSM-66 Ashwagandha and adaptogens for stress relief and balance.","image":"https://bohmarko567-oss.github.io/havn-site/assets/products/calm_front.jpg"},"price":"31.00","priceCurrency":"USD"},
-{"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Rest — Magnesium Glycinate","category":"Dietary Supplement","description":"Chelated magnesium glycinate for deep, restful sleep.","image":"https://bohmarko567-oss.github.io/havn-site/assets/products/rest_front.jpg"},"price":"31.00","priceCurrency":"USD"},
-{"@type":"Offer","itemOffered":{"@type":"Product","name":"HAVN Steady — Normal Blood Sugar Drops","category":"Dietary Supplement","description":"Six botanicals in daily drops to support healthy energy metabolism. Free with the complete ritual.","image":"https://bohmarko567-oss.github.io/havn-site/assets/products/steady_front.jpg"},"price":"15.00","priceCurrency":"USD"},
-{"@type":"Offer","name":"The Complete Ritual","price":"92.00","priceCurrency":"USD","description":"Rise + Calm + Rest, monthly. Includes N°04 Steady (Normal Blood Sugar Drops, $18 value) free with every order."}]}
-</script>
 <style>
-@font-face{font-family:'Archivo';src:url('fonts/Archivo.ttf');font-weight:100 900;font-display:swap;}
-@font-face{font-family:'Hanken';src:url('fonts/HankenGrotesk.ttf');font-weight:100 900;font-display:swap;}
-@font-face{font-family:'Mono';src:url('fonts/SpaceMono-Regular.ttf');font-display:swap;}
-@font-face{font-family:'MonoB';src:url('fonts/SpaceMono-Bold.ttf');font-display:swap;}
-
+/* ————— PLAN B · PRODUCT CINEMA —————
+   Scroll-driven: a sticky stage inside a 780vh runway. Native scroll only —
+   no scroll-jacking. Bottles are the existing transparent cutouts, animated
+   with compositor-only transforms (translate/rotate/scale). */
+@font-face{font-family:'Archivo';src:url('fonts/Archivo.ttf');font-display:swap;}
+@font-face{font-family:'Hanken';src:url('fonts/HankenGrotesk.ttf');font-display:swap;}
+@font-face{font-family:'Space Mono';src:url('fonts/SpaceMono-Regular.ttf');font-display:swap;}
+@font-face{font-family:'Space Mono';src:url('fonts/SpaceMono-Bold.ttf');font-weight:700;font-display:swap;}
 :root{
-  --cream:#F6EFE1; --cream2:#FBF6EC; --paper:#FFFFFF;
-  --ink:#1E1913; --ink2:#2A241C; --muted:#6E6456; --muted2:#A79E8C; --line:#E3D9C6;
-  --rise:#FF6A15; --rise-deep:#C4440A; --rise-tint:#FBE6D2;
-  --calm:#12A594; --calm-deep:#0A6E60; --calm-tint:#D6EEE8;
-  --rest:#4E43C9; --rest-deep:#2E259B; --rest-tint:#E2E0F7;
-  --steady:#C81E78; --steady-deep:#8A0E52; --steady-tint:#F7DBEA;
-  --disp:'Archivo',sans-serif; --body:'Hanken',sans-serif; --mono:'Mono',monospace; --monob:'MonoB',monospace;
-  --maxw:1240px;
-  --ease:cubic-bezier(.22,.61,.21,1);
-  --sale:#E03131; --sale-dark:#FF7B7B;
+  --cream:#F6EFE1;--ink:#1E1913;--muted:#6E6656;--line:#E2D9C6;
+  --rise:#FF6A15;--rise2:#C4440A;--calm:#12A594;--calm2:#0A6E60;--rest:#4E43C9;--rest2:#2E259B;
+  --berry:#C81E78;--berry2:#8A0E52;--berrydark:#2B0A1E;
+  --disp:'Archivo',sans-serif;--body:'Hanken',sans-serif;--mono:'Space Mono',monospace;
 }
-/* sale strikethrough: old price + cross in red, new price keeps its color */
-s{color:var(--sale);text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--sale);}
-.ritual s,.offer s,.reviews s,.anno s,.mmenu s,footer s{color:var(--sale-dark);text-decoration-color:var(--sale-dark);}
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{background:var(--cream);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden;}
-body.lock{overflow:hidden;}
-a{color:inherit;text-decoration:none;}
+html{scroll-behavior:auto;}
+body{background:var(--cream);color:var(--ink);font-family:var(--body);overflow-x:clip;}
 img{max-width:100%;}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
-.disp{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 120;letter-spacing:-1.5px;line-height:.92;text-transform:uppercase;}
-.eyebrow{font-family:var(--monob);font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);}
-.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--cream);padding:12px 18px;z-index:300;font-family:var(--monob);}
-.skip:focus{left:12px;top:12px;}
+button{font-family:inherit;cursor:pointer;}
 
-:focus-visible{outline:3px solid var(--rise);outline-offset:3px;border-radius:4px;}
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;align-items:center;padding:14px clamp(16px,4vw,40px);}
+.logo{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 122;font-size:22px;letter-spacing:1px;text-decoration:none;color:var(--ink);background:var(--cream);border:2px solid var(--ink);border-radius:100px;padding:7px 16px;}
+.nav-right{display:flex;gap:8px;align-items:center;}
+.planb{font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:1.6px;background:var(--ink);color:var(--cream);border-radius:100px;padding:9px 13px;text-decoration:none;}
+.cartchip{font-family:var(--mono);font-weight:700;font-size:12px;background:var(--cream);border:2px solid var(--ink);border-radius:100px;padding:8px 14px;color:var(--ink);}
+.cartchip b{color:var(--rise);}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--monob);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;padding:16px 28px;min-height:48px;border-radius:100px;background:var(--ink);color:var(--cream);border:2px solid var(--ink);cursor:pointer;transition:transform .18s var(--ease),box-shadow .18s var(--ease);will-change:transform;}
-.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(30,25,19,.18);}
-.btn:active{transform:translateY(0) scale(.97);box-shadow:none;}
-.btn.ghost{background:transparent;color:var(--ink);box-shadow:none;}
-.btn.rise{background:var(--rise);border-color:var(--rise);color:var(--ink);}
-.btn.berry{background:var(--steady);border-color:var(--steady);color:#fff;}
-.btn.onwhite{background:#fff;color:var(--ink);border-color:#fff;}
+/* cinema runway + sticky stage */
+.cinema{height:780vh;position:relative;}
+.stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:clip;}
+.field{position:absolute;inset:0;background:var(--cream);}
+.field::after{content:'';position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 110%, rgba(0,0,0,.16), transparent 55%);pointer-events:none;}
+.ghost{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 125;font-size:min(44vh,52vw);line-height:1;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.35);opacity:0;white-space:nowrap;pointer-events:none;}
 
-/* ---------- living nebula + sparkles (canvas, 21st.dev-style) ---------- */
-.fx{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+/* bottles */
+.bottle{position:absolute;left:50%;top:50%;height:min(46vh,360px);will-change:transform;filter:drop-shadow(0 26px 30px rgba(20,10,0,.28));opacity:0;pointer-events:none;}
 
-/* ---------- border beam (traveling light around a panel edge) ---------- */
-@property --bb-angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
-@keyframes bbspin{to{--bb-angle:360deg;}}
-.beam{position:relative;}
-.beam::before{content:'';position:absolute;inset:-1.5px;border-radius:inherit;padding:1.5px;
-  background:conic-gradient(from var(--bb-angle),transparent 0 78%,var(--bb-c,#F08BC0) 87%,#FFFFFF 92%,var(--bb-c,#F08BC0) 97%,transparent 100%);
-  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
-  animation:bbspin 6s linear infinite;pointer-events:none;}
-.pcard.steady.beam::before{--bb-c:var(--steady);animation-duration:7.5s;}
+/* text beats */
+.beat{position:absolute;left:50%;transform:translateX(-50%);text-align:center;width:min(92vw,760px);opacity:0;pointer-events:none;}
+.beat .eyebrow{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:2.6px;text-transform:uppercase;margin-bottom:10px;}
+.beat h2{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 121;font-size:clamp(38px,9.5vw,96px);line-height:.92;text-transform:uppercase;letter-spacing:-1.5px;}
+.beat p{font-size:clamp(14.5px,2.2vw,17px);max-width:34ch;margin:14px auto 0;line-height:1.55;}
+.beat .spec{font-family:var(--mono);font-weight:700;font-size:clamp(11px,1.7vw,13px);letter-spacing:1.6px;margin-top:12px;text-transform:uppercase;}
+.beat.on-color{color:#fff;}
+.beat.hero{top:16%;}
+.beat.hero h2 .l1{color:var(--rise);} .beat.hero h2 .l2{color:var(--calm);} .beat.hero h2 .l3{color:var(--rest);}
+.beat.hero .plus{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 118;font-size:clamp(19px,3.4vw,30px);color:transparent;-webkit-text-stroke:1.4px var(--berry);text-transform:uppercase;margin-top:10px;}
+.scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10.5px;letter-spacing:2.4px;color:var(--muted);text-transform:uppercase;opacity:0;}
+.scrollcue::after{content:'↓';display:block;margin-top:5px;font-size:15px;animation:cue 1.4s ease-in-out infinite;}
+@keyframes cue{50%{transform:translateY(5px);}}
+.beat.solo{top:9%;}
+.beat.align{top:12%;}
+.beat.price{top:8%;}
+.beat.steady{top:7%;}
 
-/* ---------- shine sweep for primary CTAs ---------- */
-.btn.shine{position:relative;overflow:hidden;}
-.btn.shine::after{content:'';position:absolute;top:-2px;bottom:-2px;left:-70%;width:34%;
-  background:linear-gradient(105deg,transparent,rgba(255,255,255,.5),transparent);
-  transform:skewX(-18deg);animation:shinesweep 4.4s ease-in-out infinite;pointer-events:none;}
-@keyframes shinesweep{0%,62%{left:-70%}88%,100%{left:135%}}
+/* lineup price chips (real buttons, active only in their scene) */
+.chips{position:absolute;left:50%;bottom:7%;transform:translateX(-50%);display:flex;gap:min(3vw,26px);opacity:0;pointer-events:none;}
+.chip{width:min(27vw,190px);background:#fff;border:2px solid var(--ink);border-radius:16px;padding:13px 12px 12px;text-align:center;box-shadow:0 5px 0 var(--ink);}
+.chip .n{font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:1.6px;color:var(--muted);text-transform:uppercase;}
+.chip h4{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 118;font-size:19px;text-transform:uppercase;margin:2px 0 1px;}
+.chip .pr{font-family:var(--mono);font-weight:700;font-size:13px;margin-bottom:9px;}
+.chip .pr s{color:#E03131;margin-right:5px;}
+.chip button{width:100%;min-height:40px;border:2px solid var(--ink);border-radius:100px;background:var(--ink);color:var(--cream);font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:1px;}
+.chip button.added{background:var(--calm);border-color:var(--calm);}
+.chip.c-rise h4{color:var(--rise);} .chip.c-calm h4{color:var(--calm);} .chip.c-rest h4{color:var(--rest);}
 
-/* ---------- shimmer text ---------- */
-.shimtxt{background:linear-gradient(100deg,#F08BC0 22%,#FFFFFF 40%,#F08BC0 56%);background-size:230% 100%;
-  -webkit-background-clip:text;background-clip:text;color:transparent;animation:shimtxt 3.4s linear infinite;}
-@keyframes shimtxt{to{background-position:-230% 0;}}
+/* steady reveal */
+.flip{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 122;font-size:clamp(40px,9vw,84px);text-transform:uppercase;line-height:1;}
+.flip s{color:#FF7B7B;text-decoration-thickness:6px;}
+.flip .free{color:#F08BC0;margin-left:14px;}
+.steadycta{position:absolute;left:50%;bottom:8%;transform:translateX(-50%);width:min(92vw,480px);text-align:center;opacity:0;pointer-events:none;}
+.steadycta .btn{width:100%;min-height:56px;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:14.5px;letter-spacing:.6px;box-shadow:0 6px 0 rgba(0,0,0,.35);}
+.steadycta .alt{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;color:#E8B8D2;line-height:1.6;}
+.steadycta .alt a{color:inherit;}
 
-/* ---------- cursor spotlight on cards ---------- */
-.spot{position:relative;}
-.spot::after{content:'';position:absolute;inset:0;border-radius:inherit;opacity:0;transition:opacity .35s;pointer-events:none;
-  background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),var(--spot-c,rgba(30,25,19,.07)),transparent 68%);}
-.spot:hover::after{opacity:1;}
-/* 21st.dev ports (v3.3): reviews marquee, 3D tilt, staggered word reveal */
-.rmarq{position:relative;overflow:hidden;padding:8px 0;}
-.rmtrack{display:flex;gap:22px;width:max-content;animation:rmq 48s linear infinite;}
+/* progress rail */
+.rail{position:absolute;right:14px;top:50%;transform:translateY(-50%);height:34vh;width:3px;background:rgba(120,110,95,.25);border-radius:3px;z-index:5;}
+.rail i{position:absolute;left:0;top:0;width:100%;background:var(--ink);border-radius:3px;height:0%;}
+.rail.lite{background:rgba(255,255,255,.3);} .rail.lite i{background:#fff;}
+
+/* ————— after the cinema: the kept structure ————— */
+.after{position:relative;background:var(--cream);}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
+.sec{padding:76px 0;}
+.sec-head{text-align:center;margin-bottom:34px;}
+.sec-head .eyebrow{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:2.6px;text-transform:uppercase;color:var(--muted);}
+.sec-head h2{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(30px,6vw,52px);text-transform:uppercase;letter-spacing:-1px;margin-top:6px;}
+
+/* offer recap */
+.offer{background:var(--berrydark);color:#F3E6ED;border-radius:26px;padding:clamp(28px,5vw,54px);display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center;}
+.offer h2{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(30px,5vw,50px);text-transform:uppercase;line-height:.95;letter-spacing:-1px;color:#fff;}
+.offer .big{font-family:var(--mono);font-weight:700;font-size:clamp(24px,4vw,36px);margin:14px 0 6px;}
+.offer .big s{color:#FF7B7B;font-size:.62em;margin-left:10px;}
+.offer ul{list-style:none;margin-top:14px;}
+.offer li{display:flex;gap:9px;align-items:center;font-size:14.5px;margin-bottom:8px;}
+.offer li::before{content:'✓';color:#F08BC0;font-weight:700;}
+.offer .btn{width:100%;min-height:56px;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:14.5px;box-shadow:0 6px 0 rgba(0,0,0,.4);}
+.offer .mini{font-family:var(--mono);font-size:11px;color:#C99BB5;margin-top:10px;text-align:center;}
+.offer .mini a{color:inherit;}
+.offer img{width:100%;max-width:340px;margin:0 auto;display:block;filter:drop-shadow(0 24px 28px rgba(0,0,0,.45));}
+
+/* reviews marquee (ported from A) */
+.rmarq{overflow:clip;position:relative;}
+.rmtrack{display:flex;gap:18px;width:max-content;animation:rmq 52s linear infinite;}
 .rmarq:hover .rmtrack{animation-play-state:paused;}
-.rmtrack .review{width:340px;flex:none;}
+.review{width:300px;flex:none;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:20px;}
+.review .stars{color:var(--rise);letter-spacing:2px;margin-bottom:8px;}
+.review p{font-size:13.8px;line-height:1.55;color:#3f3930;}
+.review .who{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:10px;}
 @keyframes rmq{to{transform:translateX(-50%);}}
-.rmarq::before,.rmarq::after{content:'';position:absolute;top:0;bottom:0;width:110px;z-index:2;pointer-events:none;}
-.rmarq::before{left:0;background:linear-gradient(90deg,var(--ink),transparent);}
-.rmarq::after{right:0;background:linear-gradient(270deg,var(--ink),transparent);}
-@media(max-width:640px){.rmtrack .review{width:280px;padding:24px;} .rmarq::before,.rmarq::after{width:36px;}}
-.tilt3d{will-change:transform;} /* tilt transform is inline-driven (JS) so it can outrank .rv.in */
-.sec-head h2 .w{display:inline-block;opacity:0;transform:translateY(.55em);transition:opacity .55s var(--ease),transform .55s var(--ease);transition-delay:calc(var(--wi)*60ms + .08s);}
-.in h2 .w{opacity:1;transform:none;}
-.pcard.rise{--spot-c:rgba(255,106,21,.13);} .pcard.calm{--spot-c:rgba(18,165,148,.13);}
-.pcard.rest{--spot-c:rgba(78,67,201,.12);} .pcard.steady{--spot-c:rgba(200,30,120,.12);}
-.sci.rise{--spot-c:rgba(255,106,21,.10);} .sci.calm{--spot-c:rgba(18,165,148,.10);}
-.sci.rest{--spot-c:rgba(78,67,201,.09);} .sci.steady{--spot-c:rgba(200,30,120,.09);}
-
-/* marquee: pause on hover */
-.marquee:hover .track{animation-play-state:paused;}
-
-/* ---------- announcement ---------- */
-.anno{background:var(--ink);color:var(--cream);font-family:var(--monob);font-size:12px;letter-spacing:1.5px;text-align:center;padding:10px 14px;text-transform:uppercase;position:relative;min-height:38px;}
-.anno .msg{position:absolute;inset:0;padding:10px 14px;opacity:0;transition:opacity .5s;display:flex;align-items:center;justify-content:center;gap:6px;}
-.anno .msg.on{opacity:1;}
-.anno b{color:var(--rise);} .anno .berrytx{color:#F08BC0;}
-
-/* ---------- nav ---------- */
-header.nav{position:sticky;top:0;z-index:50;background:rgba(246,239,225,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);transition:box-shadow .25s;}
-header.nav.scrolled{box-shadow:0 6px 24px rgba(30,25,19,.10);}
-.nav-in{display:flex;align-items:center;justify-content:space-between;height:70px;}
-.logo{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:28px;letter-spacing:1px;}
-.nav-links{display:flex;gap:28px;font-family:var(--monob);font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;}
-.nav-links a{color:var(--muted);transition:color .15s;padding:6px 2px;}
-.nav-links a:hover{color:var(--ink);}
-.nav-links a.n4{color:var(--steady);}
-.nav-right{display:flex;align-items:center;gap:14px;}
-.cart-btn{display:flex;align-items:center;gap:8px;font-family:var(--monob);font-size:12.5px;letter-spacing:1px;cursor:pointer;background:none;border:none;color:var(--ink);text-transform:uppercase;padding:10px;min-height:44px;}
-.cart-count{background:var(--rise);color:var(--ink);border-radius:50%;width:22px;height:22px;display:grid;place-items:center;font-size:11px;font-family:var(--monob);}
-.burger{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:12px;min-height:44px;}
-.burger span{width:24px;height:2px;background:var(--ink);transition:.2s;}
-
-/* mobile menu */
-.mmenu{position:fixed;inset:0;background:var(--ink);color:var(--cream);z-index:150;display:none;flex-direction:column;padding:26px 28px;}
-.mmenu.open{display:flex;animation:fadeIn .25s var(--ease);}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.mmenu .top{display:flex;justify-content:space-between;align-items:center;}
-.mmenu .x{background:none;border:none;color:var(--cream);font-size:30px;cursor:pointer;padding:8px 14px;min-height:44px;}
-.mmenu nav{display:flex;flex-direction:column;gap:6px;margin-top:40px;}
-.mmenu nav a{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 116;font-size:clamp(34px,9vw,52px);text-transform:uppercase;letter-spacing:-1px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.1);}
-.mmenu nav a.n4{color:#F08BC0;}
-.mmenu .foot{margin-top:auto;font-family:var(--mono);font-size:12px;color:var(--muted2);}
-
-/* ---------- hero ---------- */
-.hero{position:relative;padding:64px 0 60px;overflow:hidden;}
-.hero .wrap{position:relative;z-index:2;}
-.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:20px;align-items:center;}
-.hero h1{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 125;font-size:clamp(56px,7.6vw,112px);line-height:.86;letter-spacing:-3px;text-transform:uppercase;}
-.hero h1 .r{color:var(--rise);} .hero h1 .c{color:var(--calm);} .hero h1 .s{color:var(--rest);}
-.hero .plus4{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 122;font-size:clamp(26px,3.4vw,44px);text-transform:uppercase;letter-spacing:-1px;margin-top:14px;color:transparent;-webkit-text-stroke:1.6px var(--steady);}
-.hero .plus4 small{font-family:var(--monob);font-size:12px;letter-spacing:2px;color:var(--steady);-webkit-text-stroke:0;display:block;margin-top:4px;}
-.hero p.lead{font-size:18.5px;color:var(--muted);max-width:460px;margin:20px 0 28px;}
-.hero p.lead b{color:var(--ink);}
-.hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
-.hero-note{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:18px;}
-
-/* hero stage: floating cut bottles over nebula */
-.stage{position:relative;height:600px;z-index:1;}
-.fb{position:absolute;will-change:transform;}
-.fb img{height:100%;width:auto;filter:drop-shadow(0 34px 34px rgba(40,24,8,.28));}
-.fb.b-rise{height:390px;left:1%;top:130px;}
-.fb.b-calm{height:490px;left:50%;margin-left:-160px;top:22px;z-index:2;}
-.fb.b-rest{height:400px;right:0;top:120px;}
-.fb .tilt{height:100%;}
-.b-rise .tilt{transform:rotate(-11deg);}
-.b-rest .tilt{transform:rotate(9deg);}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.fb .bobber{height:100%;animation:bob 5.4s ease-in-out infinite;}
-.b-calm .bobber{animation-duration:6.4s;animation-delay:.5s;}
-.b-rest .bobber{animation-duration:5.9s;animation-delay:.9s;}
-.fb{opacity:0;transform:translateY(40px);animation:fbIn .9s var(--ease) forwards;}
-.fb.b-calm{animation-delay:.05s;} .fb.b-rise{animation-delay:.22s;} .fb.b-rest{animation-delay:.38s;}
-@keyframes fbIn{to{opacity:1;transform:none;}}
-/* guarantee visibility even if entrance animations get throttled (bg tabs, embeds) */
-.stage.settle .fb,.stage.settle .chip4{animation:none;opacity:1;transform:none;}
-/* steady teaser chip */
-.chip4{position:absolute;right:4%;bottom:8px;z-index:3;display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border:1.5px solid var(--steady);border-radius:18px;padding:12px 16px 12px 12px;box-shadow:0 18px 40px rgba(138,14,82,.18);cursor:pointer;opacity:0;transform:translateY(30px);animation:fbIn .8s .7s var(--ease) forwards;}
-.chip4:hover .ch-img{transform:rotate(6deg) scale(1.06);}
-.chip4 .ch-img{height:64px;transition:transform .3s var(--ease);}
-.chip4 .t1{font-family:var(--monob);font-size:10.5px;letter-spacing:1.5px;color:var(--steady-deep);text-transform:uppercase;}
-.chip4 .t2{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 116;font-size:19px;text-transform:uppercase;letter-spacing:-.3px;}
-.chip4 .t3{font-family:var(--mono);font-size:11px;color:var(--muted);}
-
-/* ---------- marquee ---------- */
-.marquee{background:var(--ink);color:var(--cream);overflow:hidden;padding:13px 0;border-top:1px solid rgba(255,255,255,.08);}
-.marquee .track{display:flex;white-space:nowrap;width:max-content;animation:mq 30s linear infinite;}
-.marquee span{font-family:var(--monob);font-size:13px;letter-spacing:2.5px;text-transform:uppercase;padding:0 26px;}
-.marquee .r{color:var(--rise);} .marquee .c{color:var(--calm);} .marquee .s{color:#8F86E8;} .marquee .y{color:#F08BC0;}
-@keyframes mq{to{transform:translateX(-50%);}}
-
-/* ---------- sections ---------- */
-section{padding:84px 0;position:relative;}
-.sec-head{text-align:center;margin-bottom:52px;position:relative;z-index:2;}
-.sec-head h2{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:clamp(34px,5vw,58px);line-height:.95;letter-spacing:-1.5px;text-transform:uppercase;margin:10px 0 12px;}
-.sec-head p{color:var(--muted);font-size:17px;max-width:600px;margin:0 auto;}
-
-/* ritual */
-.ritual{background:var(--ink);color:var(--cream);overflow:hidden;}
-.ritual .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);border-radius:20px;overflow:hidden;position:relative;z-index:2;}
-.step{background:var(--ink);padding:34px 28px;position:relative;transition:background .3s;}
-.step:hover{background:var(--ink2);}
-.step .idx{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 70;font-size:58px;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.3);line-height:.8;}
-.step .t{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:28px;margin:14px 0 4px;text-transform:uppercase;}
-.step.rise .t{color:var(--rise);} .step.calm .t{color:var(--calm);} .step.rest .t{color:#8F86E8;} .step.steady .t{color:#F08BC0;}
-.step .when{font-family:var(--monob);font-size:11px;letter-spacing:2px;color:var(--muted2);text-transform:uppercase;}
-.step p{color:#C9BFB0;margin-top:12px;font-size:14.5px;}
-.step.steady{background:linear-gradient(160deg,#2A1020,#1E1913 70%);}
-.step.steady .idx{-webkit-text-stroke-color:rgba(240,139,192,.45);}
-.step .lockrow{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font-family:var(--monob);font-size:10.5px;letter-spacing:1.5px;color:#F08BC0;text-transform:uppercase;border:1px solid rgba(240,139,192,.4);border-radius:100px;padding:6px 12px;white-space:nowrap;}
-
-/* formulas */
-.products{background:var(--cream2);}
-.modetoggle{display:flex;margin:-28px auto 44px;background:var(--paper);border:1.5px solid var(--ink);border-radius:100px;padding:5px;width:max-content;max-width:100%;position:relative;z-index:2;}
-.mt{font-family:var(--monob);font-size:12px;letter-spacing:.5px;text-transform:uppercase;padding:13px 22px;min-height:44px;border-radius:100px;border:none;background:transparent;color:var(--ink);cursor:pointer;white-space:nowrap;transition:background .2s,color .2s;}
-.mt.on{background:var(--ink);color:var(--cream);}
-.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative;z-index:2;}
-.pcard{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:26px 22px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .25s var(--ease),box-shadow .25s var(--ease);}
-.pcard:hover{transform:translateY(-6px);box-shadow:0 26px 48px rgba(50,30,10,.13);}
-.pcard .pimg{position:relative;width:100%;border-radius:16px;overflow:hidden;background:#F2F1F5;margin-bottom:18px;}
-.pcard .pimg img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;transition:opacity .45s ease,transform .6s ease;}
-.pcard .pimg img.alt{position:absolute;inset:0;opacity:0;}
-.pcard:hover .pimg img.alt{opacity:1;}
-.pcard:hover .pimg img.base{transform:scale(1.05);}
-.pcard h3{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 116;font-size:27px;text-transform:uppercase;letter-spacing:-.5px;}
-.pcard .sub{font-family:var(--monob);font-size:10.5px;letter-spacing:1.8px;color:var(--muted);text-transform:uppercase;margin:6px 0 10px;}
-.pcard .desc{color:var(--muted);font-size:14px;min-height:64px;}
-.pcard .seelabel{font-family:var(--monob);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px;margin:10px 0 12px;padding:6px;}
-.pcard .seelabel:hover{color:var(--ink);}
-.pcard .price{font-family:var(--disp);font-weight:900;font-size:28px;margin:2px 0 2px;display:flex;align-items:baseline;justify-content:center;gap:8px;}
-.pcard .price small{font-family:var(--body);font-weight:600;font-size:13.5px;color:var(--muted);}
-.pcard .price s{font-size:18px;font-weight:800;}
-.pcard .subprice{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:14px;}
-.pcard .btn{width:100%;padding:14px 18px;}
-.pcard.rise .btn{background:var(--rise);border-color:var(--rise);color:var(--ink);}
-.pcard.calm .btn{background:var(--calm);border-color:var(--calm);color:var(--ink);}
-.pcard.rest .btn{background:var(--rest);border-color:var(--rest);color:#fff;}
-/* locked steady card */
-.pcard.steady{background:linear-gradient(170deg,var(--steady-tint),#fff 60%);border-color:#EFC3DC;position:relative;}
-.pcard.steady .lockchip{position:absolute;top:16px;right:16px;background:var(--steady);color:#fff;font-family:var(--monob);font-size:10px;letter-spacing:1.5px;border-radius:100px;padding:7px 12px;display:flex;gap:6px;align-items:center;z-index:3;}
-.pcard.steady .price{color:var(--steady-deep);}
-.pcard.steady .btn{background:var(--steady);border-color:var(--steady);color:#fff;}
-
-/* ---------- offer / complete the ritual ---------- */
-.offer{background:var(--ink);color:var(--cream);overflow:hidden;}
-.offer .wrap{position:relative;z-index:2;}
-.offer-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:52px;align-items:center;}
-.offer h2{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(38px,4.6vw,62px);line-height:.9;text-transform:uppercase;letter-spacing:-2px;}
-.offer h2 .hl{color:#F08BC0;}
-.offer .big-price{display:flex;align-items:baseline;gap:14px;margin:22px 0 6px;flex-wrap:wrap;}
-.offer .big-price .now{font-family:var(--disp);font-weight:900;font-size:54px;}
-.offer .big-price .was{font-size:22px;}
-.offer .big-price .save{font-family:var(--monob);font-size:11.5px;letter-spacing:1px;background:var(--cream);color:var(--ink);padding:6px 12px;border-radius:100px;}
-.offer ul{list-style:none;margin:22px 0 26px;display:flex;flex-direction:column;gap:12px;}
-.offer li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;color:#E9E1D2;}
-.offer li svg{flex:none;margin-top:3px;}
-.offer .mononote{font-family:var(--mono);font-size:12px;color:var(--muted2);margin-top:14px;}
-/* puzzle panel */
-.puzzle{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:26px;padding:30px;backdrop-filter:blur(8px);}
-.puzzle .ptitle{font-family:var(--monob);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:18px;}
-.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-.slot{border:1.5px dashed rgba(255,255,255,.25);border-radius:16px;padding:14px 10px;text-align:center;transition:border-color .3s,background .3s;}
-.slot .sn{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 80;font-size:22px;color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.4);}
-.slot .sname{font-family:var(--monob);font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;color:#E9E1D2;}
-.slot.filled{border-style:solid;background:rgba(255,255,255,.07);}
-.slot.filled.rise{border-color:var(--rise);} .slot.filled.rise .sn{-webkit-text-stroke-color:var(--rise);color:var(--rise);}
-.slot.filled.calm{border-color:var(--calm);} .slot.filled.calm .sn{-webkit-text-stroke-color:var(--calm);color:var(--calm);}
-.slot.filled.rest{border-color:#8F86E8;} .slot.filled.rest .sn{-webkit-text-stroke-color:#8F86E8;color:#8F86E8;}
-.slot4{margin-top:12px;border:1.5px dashed rgba(240,139,192,.4);border-radius:20px;padding:20px;display:flex;gap:18px;align-items:center;position:relative;overflow:hidden;transition:border-color .4s,background .4s;}
-.slot4 img{height:152px;width:auto;filter:grayscale(.9) opacity(.55) drop-shadow(0 14px 18px rgba(0,0,0,.4));transition:filter .6s var(--ease),transform .6s var(--ease);}
-.slot4 .s4t .l1{font-family:var(--monob);font-size:10.5px;letter-spacing:2px;color:#F08BC0;text-transform:uppercase;}
-.slot4 .s4t .l2{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:30px;text-transform:uppercase;letter-spacing:-.5px;margin:3px 0;}
-.slot4 .s4t .l3{font-family:var(--mono);font-size:12px;color:var(--muted2);}
-.slot4 .s4price{display:flex;align-items:baseline;gap:10px;margin:4px 0 6px;}
-.slot4 .s4price s{font-family:var(--disp);font-weight:900;font-size:24px;}
-.slot4 .s4price .free{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:28px;letter-spacing:-.5px;color:#F08BC0;text-transform:uppercase;}
-.slot4.unlocked{border-style:solid;border-color:var(--steady);background:linear-gradient(140deg,rgba(200,30,120,.22),rgba(200,30,120,.05));}
-.slot4.unlocked img{filter:grayscale(0) opacity(1) drop-shadow(0 16px 22px rgba(200,30,120,.35));transform:rotate(-5deg) scale(1.05);}
-.slot4 .badge-free{position:absolute;top:14px;right:14px;background:var(--steady);color:#fff;font-family:var(--monob);font-size:10.5px;letter-spacing:1.5px;padding:6px 12px;border-radius:100px;opacity:0;transform:scale(.6);transition:opacity .35s,transform .35s var(--ease);}
-.slot4.unlocked .badge-free{opacity:1;transform:none;}
-.puzzle .pfoot{font-family:var(--mono);font-size:12px;color:var(--muted2);margin-top:16px;line-height:1.55;}
-.puzzle .pfoot b{color:#F08BC0;font-weight:400;}
-
-/* trust */
-.badgerow{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;position:relative;z-index:2;}
-.badge{font-family:var(--monob);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;border:1.5px solid var(--ink);border-radius:100px;padding:12px 20px;background:var(--cream);}
-
-/* science */
-.sci-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative;z-index:2;}
-.sci{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:28px;transition:transform .25s var(--ease);}
-.sci:hover{transform:translateY(-4px);}
-.sci .k{font-family:var(--disp);font-weight:900;font-size:38px;line-height:1;font-variant-numeric:tabular-nums;}
-.sci.rise .k{color:var(--rise);} .sci.calm .k{color:var(--calm);} .sci.rest .k{color:var(--rest);} .sci.steady .k{color:var(--steady);}
-.sci h4{font-family:var(--monob);font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;margin:12px 0 8px;}
-.sci p{color:var(--muted);font-size:14px;}
-.sci.steady{background:linear-gradient(170deg,var(--steady-tint),#fff 65%);border-color:#EFC3DC;}
-
-/* reviews */
-.reviews{background:var(--ink);color:var(--cream);overflow:hidden;}
-.review{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:30px;position:relative;}
-.review::before{content:'“';font-family:var(--disp);font-weight:900;font-size:70px;line-height:.6;position:absolute;top:24px;right:24px;color:rgba(255,255,255,.08);}
-.stars{color:var(--rise);letter-spacing:3px;font-size:16px;}
-.review p{margin:14px 0;font-size:15.5px;line-height:1.55;}
-.review .who{font-family:var(--monob);font-size:11px;letter-spacing:1.5px;color:var(--muted2);text-transform:uppercase;}
 
 /* faq */
-.faq details{border-bottom:1px solid var(--line);padding:22px 0;}
-.faq summary{font-family:var(--disp);font-weight:800;font-variation-settings:'wght' 800,'wdth' 108;font-size:21px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;text-transform:uppercase;letter-spacing:-.3px;min-height:44px;}
-.faq summary::-webkit-details-marker{display:none;}
-.faq summary::after{content:'+';font-family:var(--mono);font-size:26px;color:var(--muted);flex:none;transition:transform .25s var(--ease);}
-.faq details[open] summary::after{transform:rotate(45deg);}
-.faq .fa{color:var(--muted);font-size:15.5px;max-width:800px;overflow:hidden;}
-.faq .fa p{margin-top:14px;}
+.faq{max-width:720px;margin:0 auto;}
+details{border-bottom:1.5px solid var(--line);padding:16px 4px;}
+summary{font-weight:700;font-size:15.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px;}
+summary::after{content:'+';font-family:var(--mono);color:var(--muted);}
+details[open] summary::after{content:'–';}
+details p{color:#4a4438;font-size:14.5px;line-height:1.6;margin-top:10px;}
+footer{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:center;padding:28px 16px 120px;border-top:1.5px solid var(--line);line-height:1.7;}
+footer a{color:inherit;}
 
-/* footer */
-footer{background:var(--ink);color:var(--cream);padding:64px 0 110px;}
-.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:30px;margin-bottom:44px;}
-.foot-logo{font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 120;font-size:44px;letter-spacing:1px;}
-footer h5{font-family:var(--monob);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:16px;}
-footer ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
-footer a{color:#C9BFB0;font-size:14px;}
-footer a:hover{color:#fff;}
-footer input{width:100%;padding:13px;min-height:46px;border-radius:10px;border:1.5px solid transparent;background:rgba(255,255,255,.1);color:#fff;font-family:var(--mono);font-size:13px;transition:border-color .2s;}
-footer input:focus{border-color:var(--rise);outline:none;}
-.foot-bot{border-top:1px solid rgba(255,255,255,.14);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:var(--mono);font-size:11.5px;color:var(--muted2);}
+/* cart bar */
+.cartbar{position:fixed;left:12px;right:12px;bottom:12px;z-index:70;background:var(--ink);color:var(--cream);border-radius:16px;padding:12px 14px;display:none;align-items:center;gap:12px;box-shadow:0 12px 30px rgba(0,0,0,.35);}
+.cartbar.on{display:flex;}
+.cartbar .sum{flex:1;font-family:var(--mono);font-weight:700;font-size:12.5px;line-height:1.45;}
+.cartbar .sum small{display:block;font-weight:400;font-size:10.5px;color:#C9BFB0;}
+.cartbar .go{min-height:46px;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:12.5px;padding:0 20px;white-space:nowrap;}
+.cartbar .full{font-family:var(--mono);font-size:10.5px;color:#C9BFB0;text-decoration:none;white-space:nowrap;}
 
-/* ---------- cart drawer ---------- */
-.overlay{position:fixed;inset:0;background:rgba(20,15,8,.55);opacity:0;pointer-events:none;transition:.25s;z-index:90;}
-.overlay.open{opacity:1;pointer-events:auto;}
-.drawer{position:fixed;top:0;right:0;height:100%;width:440px;max-width:94vw;background:var(--cream2);z-index:100;display:none;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.2);}
-.drawer.open{display:flex;animation:slideIn .32s var(--ease);}
-@keyframes slideIn{from{transform:translateX(100%)}to{transform:none}}
-.drawer-head{padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);}
-.drawer-head h3{font-family:var(--disp);font-weight:900;font-size:22px;text-transform:uppercase;}
-.drawer-head .x{background:none;border:none;font-size:26px;cursor:pointer;color:var(--ink);padding:8px 14px;min-height:44px;}
-.ship-bar{padding:16px 24px 14px;background:var(--paper);border-bottom:1px solid var(--line);}
-.ship-bar .msg{font-family:var(--monob);font-size:12px;letter-spacing:.5px;margin-bottom:10px;}
-.ship-bar .track{height:8px;background:var(--line);border-radius:100px;overflow:hidden;}
-.ship-bar .fill{height:100%;width:0;background:linear-gradient(90deg,var(--rise),var(--calm));border-radius:100px;transition:width .4s var(--ease);}
-.ship-bar .fill.full{animation:pulseb .9s ease 2;}
-@keyframes pulseb{0%,100%{filter:brightness(1)}50%{filter:brightness(1.3)}}
-/* mini slots in cart */
-.cslots{display:flex;gap:8px;padding:14px 24px;border-bottom:1px solid var(--line);background:var(--paper);align-items:center;}
-.cslots .cs{width:40px;height:40px;border-radius:50%;border:1.6px dashed var(--muted2);display:grid;place-items:center;font-family:var(--monob);font-size:11px;color:var(--muted);transition:.3s;position:relative;}
-.cslots .cs.f{border-style:solid;color:#fff;}
-.cslots .cs.f.s1{background:var(--rise);border-color:var(--rise);color:var(--ink);}
-.cslots .cs.f.s2{background:var(--calm);border-color:var(--calm);color:var(--ink);}
-.cslots .cs.f.s3{background:var(--rest);border-color:var(--rest);}
-.cslots .cs.f.s4{background:var(--steady);border-color:var(--steady);animation:pop .5s var(--ease);}
-@keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.18)}100%{transform:scale(1)}}
-.cslots .lbl{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:auto;text-align:right;line-height:1.4;}
-.cart-items{flex:1;overflow-y:auto;padding:8px 24px;}
-.citem{display:flex;gap:13px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);}
-.citem .sw{width:46px;height:46px;border-radius:12px;flex:none;display:grid;place-items:center;font-family:var(--monob);font-size:10px;color:rgba(255,255,255,.9);}
-.citem .ci-n{font-family:var(--disp);font-weight:800;font-size:15.5px;text-transform:uppercase;}
-.citem .ci-s{font-family:var(--mono);font-size:10.5px;color:var(--muted);max-width:170px;}
-.citem .ci-right{margin-left:auto;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
-.citem .ci-p{font-family:var(--monob);font-size:13.5px;}
-.qty{display:flex;align-items:center;gap:2px;border:1.5px solid var(--line);border-radius:100px;background:#fff;}
-.qty button{width:34px;height:34px;border:none;background:none;font-size:16px;cursor:pointer;color:var(--ink);border-radius:50%;}
-.qty button:hover{background:var(--cream);}
-.qty .q{font-family:var(--monob);font-size:13px;width:22px;text-align:center;}
-.citem.gift .sw{background:var(--steady);}
-.citem.gift .ci-p{color:var(--steady-deep);}
-.cart-empty{padding:44px 24px;text-align:center;color:var(--muted);}
-.cart-empty .btn{margin-top:18px;}
-.drawer-foot{padding:20px 24px;border-top:1px solid var(--line);background:var(--paper);}
-.gift-line{color:var(--steady-deep);font-family:var(--mono);font-size:12px;margin-bottom:12px;display:none;align-items:center;gap:8px;}
-.drawer-foot .row{display:flex;justify-content:space-between;font-family:var(--monob);font-size:15px;margin-bottom:10px;}
-.drawer-foot .btn{width:100%;}
-.drawer-foot .subnote{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px;}
-
-/* confetti */
-.burst{position:absolute;pointer-events:none;z-index:5;}
-.burst i{position:absolute;width:8px;height:12px;border-radius:2px;opacity:0;animation:conf .9s var(--ease) forwards;}
-@keyframes conf{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(260deg)}}
-
-/* lightbox + modal */
-.lightbox{position:fixed;inset:0;background:rgba(20,15,8,.72);display:none;align-items:center;justify-content:center;z-index:200;padding:24px;}
-.lightbox.open{display:flex;animation:fadeIn .25s ease;}
-.lightbox .lb-in{background:#fff;border-radius:18px;padding:18px;max-width:min(92vw,720px);max-height:88vh;overflow:auto;position:relative;}
-.lightbox img{display:block;width:100%;height:auto;}
-.lightbox .lb-x{position:absolute;top:10px;right:12px;background:var(--ink);color:var(--cream);border:none;border-radius:50%;width:38px;height:38px;font-size:18px;cursor:pointer;z-index:2;}
-.ck-sum{background:var(--cream2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:16px;text-align:left;font-family:var(--mono);font-size:12.5px;}
-.ck-sum .l{display:flex;justify-content:space-between;padding:3px 0;}
-.ck-sum .l.g{color:var(--steady-deep);}
-.ck-sum .l.t{border-top:1px solid var(--line);margin-top:8px;padding-top:8px;font-family:var(--monob);}
-
-/* sticky mobile cta */
-.stickycta{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(30,25,19,.94);backdrop-filter:blur(10px);padding:10px 14px calc(10px + env(safe-area-inset-bottom));display:none;gap:10px;align-items:center;transform:translateY(110%);transition:transform .35s var(--ease);}
-.stickycta.show{transform:none;}
-.stickycta .stot{font-family:var(--monob);font-size:12px;color:var(--cream);line-height:1.3;flex:none;}
-.stickycta .btn{flex:1;padding:14px 10px;font-size:12px;}
-
-/* ---------- motion system ---------- */
-.rv{opacity:0;transform:translateY(30px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
-.rv.rl{transform:translateX(-40px);} .rv.rr{transform:translateX(40px);} .rv.rp{transform:scale(.92) translateY(14px);}
-.rv.in{opacity:1;transform:none;}
-.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}.rv.d4{transition-delay:.32s}
-
-/* ---------- responsive ---------- */
-@media(max-width:1020px){
-  .pgrid{grid-template-columns:repeat(2,1fr);}
-  .sci-grid{grid-template-columns:repeat(2,1fr);}
-  .ritual .steps{grid-template-columns:repeat(2,1fr);}
-}
-@media(max-width:900px){
-  .hero-grid{grid-template-columns:1fr;}
-  .stage{height:430px;margin-top:10px;}
-  .fb.b-rise{height:280px;left:0;top:90px;}
-  .fb.b-calm{height:360px;margin-left:-118px;top:10px;}
-  .fb.b-rest{height:290px;right:0;top:86px;}
-  .chip4{right:2%;bottom:0;padding:10px 12px;}
-  .chip4 .ch-img{height:50px;}
-  .offer-grid,.foot-grid{grid-template-columns:1fr;}
-  .offer-grid{gap:34px;}
-  .nav-links{display:none;} .burger{display:flex;}
-  .stickycta{display:flex;}
-}
-@media(max-width:560px){
-  .anno{font-size:10.5px;letter-spacing:.8px;}
-  .hero{padding:40px 0 30px;}
-  .hero-cta{flex-direction:column;align-items:stretch;}
-  .hero-cta .btn{width:100%;}
-  section{padding:60px 0;}
-  .sec-head{margin-bottom:36px;}
-  .pgrid,.sci-grid,.ritual .steps{grid-template-columns:1fr;}
-  .step{padding:26px 22px;}
-  .puzzle{padding:20px;}
-  .slot4 img{height:88px;}
-  .badge{font-size:11px;padding:10px 15px;}
-  .foot-bot{font-size:11px;}
-  .stage{height:360px;}
-  .fb.b-rise{height:225px;top:80px;}
-  .fb.b-calm{height:300px;margin-left:-98px;}
-  .fb.b-rest{height:232px;top:78px;}
+@media(max-width:700px){
+  .offer{grid-template-columns:1fr;}
+  .offer img{max-width:230px;}
+  .bottle{height:min(38vh,300px);}
+  .chips{gap:8px;bottom:9%;}
+  .chip{width:30vw;padding:10px 8px 9px;}
+  .chip h4{font-size:15px;}
+  .chip .pr{font-size:11px;}
+  .chip button{font-size:10px;min-height:38px;}
+  .rail{right:8px;}
+  .planb{font-size:8.5px;padding:8px 10px;}
 }
 
-/* ============ PLAN B — ONE SKY: a single shader world, dawn→night on scroll ============ */
-body{background:#120E0B;color:var(--cream);}
-#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;
-  background:radial-gradient(90% 130% at 28% 0%,#2A1A10 0%,#120E0B 58%);} /* no-WebGL fallback */
-.anno,header.nav,main,.marquee,footer{position:relative;z-index:1;}
-.hero,.products,.trust,#science,.faq{background:transparent;}
-.hero{background:linear-gradient(92deg,rgba(18,14,11,.62) 0%,rgba(18,14,11,.25) 44%,transparent 64%);}
-.ritual,.offer,.reviews{background:rgba(13,10,8,.52);}
-.pcard,.sci,.chip4,.drawer,.lightbox .lb-in{color:var(--ink);} /* light panels keep ink text */
-.eyebrow{color:#8B8172;}
-.sec-head p{color:#C9BFB0;}
-.btn.ghost{color:var(--cream);border-color:var(--cream);}
-.hero p.lead{color:#C9BFB0;} .hero p.lead b{color:var(--cream);}
-.hero-note{color:#A79E8C;}
-.modetoggle{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.28);}
-.mt{color:var(--cream);}
-.mt.on{background:var(--cream);color:var(--ink);}
-.badge{border-color:rgba(255,255,255,.25);background:rgba(20,16,12,.4);color:var(--cream);}
-.faq details{border-color:rgba(255,255,255,.14);}
-.faq .fa p{color:#C9BFB0;}
-.faq summary::after{color:#A79E8C;}
-.rmarq::before{background:linear-gradient(90deg,rgba(18,14,11,.92),transparent);}
-.rmarq::after{background:linear-gradient(270deg,rgba(18,14,11,.92),transparent);}
-.planb-tag{position:fixed;bottom:14px;left:14px;z-index:70;font-family:var(--monob);font-size:10px;letter-spacing:2px;color:var(--cream);background:rgba(20,16,12,.72);border:1px solid rgba(255,255,255,.25);border-radius:100px;padding:7px 12px;pointer-events:none;}
-
-/* reduced motion: still, instantly visible */
-@media (prefers-reduced-motion: reduce){
-  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
-  .rv{opacity:1;transform:none;}
-  .fb{opacity:1;transform:none;animation:none;}
-  .fb .bobber{animation:none;}
-  .blob{animation:none;}
-  .marquee .track{animation:none;}
-  .rmtrack{animation:none;flex-wrap:wrap;width:auto;}
-  .sec-head h2 .w{opacity:1;transform:none;}
-  html{scroll-behavior:auto;}
+/* reduced motion / no JS: cinema collapses to a static, everything-visible page */
+@media(prefers-reduced-motion:reduce){
+  .cinema{height:auto;}
+  .stage{position:relative;height:auto;padding:110px 0 60px;overflow:visible;}
+  .bottle,.beat,.chips,.steadycta{position:relative;opacity:1!important;transform:none!important;left:auto;top:auto;bottom:auto;pointer-events:auto;margin:24px auto;display:block;}
+  .bottle{height:260px;}
+  .ghost,.scrollcue,.rail{display:none;}
+  .chips{display:flex;justify-content:center;}
 }
 </style>
 </head>
 <body>
 
-<a class="skip" href="#main">Skip to content</a>
+<nav>
+  <a class="logo" href="index.html">HAVN</a>
+  <div class="nav-right">
+    <a class="planb" href="index.html" title="Back to the main site">PLAN B · CINEMA — PLAN A ↗</a>
+    <span class="cartchip" id="cartchip" hidden>CART <b id="cc">0</b></span>
+  </div>
+</nav>
 
-<canvas id="sky" aria-hidden="true"></canvas>
-<div class="planb-tag" aria-hidden="true">PLAN B · ONE SKY</div>
+<!-- ————— THE CINEMA ————— -->
+<div class="cinema" id="cinema">
+  <div class="stage" id="stage">
+    <div class="field" id="field"></div>
+    <div class="ghost" id="ghost">N°01</div>
 
-<div class="anno" id="anno" aria-live="off">
-  <div class="msg on">Free U.S. shipping over <b>$75</b> — the full ritual always ships free</div>
-  <div class="msg"><span class="berrytx">N°04 STEADY:</span>&nbsp;<s>$18</s>&nbsp;<b>FREE</b>&nbsp;with the complete ritual</div>
-  <div class="msg">Subscribe &amp; save 15% &nbsp;·&nbsp; 30-day “feel it or free” guarantee</div>
-</div>
+    <div class="rail" id="rail"><i id="railfill"></i></div>
 
-<header class="nav">
-  <div class="wrap nav-in">
-    <a href="#" class="logo" aria-label="HAVN home" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">HAVN</a>
-    <nav class="nav-links" aria-label="Primary">
-      <a href="#ritual">The Ritual</a>
-      <a href="#products">Formulas</a>
-      <a href="#steady" class="n4">N°04 Steady</a>
-      <a href="#science">Why HAVN</a>
-      <a href="#faq">FAQ</a>
-    </nav>
-    <div class="nav-right">
-      <button class="cart-btn" onclick="openCart()" aria-label="Open cart"><span aria-hidden="true">Cart</span> <span class="cart-count" id="cc">0</span></button>
-      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" onclick="openMenu()"><span></span><span></span><span></span></button>
+    <div class="beat hero" id="bHero">
+      <div class="eyebrow" style="color:var(--muted)">The 4-piece daily ritual</div>
+      <h2><span class="l1">Rise.</span> <span class="l2">Calm.</span> <span class="l3">Rest.</span></h2>
+      <div class="plus">+ one more, on the house</div>
+      <p style="color:var(--muted)">Three formulas carry your day. Keep scrolling — they'll introduce themselves.</p>
     </div>
-  </div>
-</header>
+    <div class="scrollcue" id="cue">Scroll</div>
 
-<!-- mobile menu -->
-<div class="mmenu" id="mmenu" role="dialog" aria-modal="true" aria-label="Menu">
-  <div class="top">
-    <span class="logo">HAVN</span>
-    <button class="x" aria-label="Close menu" onclick="closeMenu()">×</button>
+    <div class="beat solo on-color" id="bRise">
+      <div class="eyebrow" style="color:#FFD9BD">N°01 · Morning</div>
+      <h2>Rise</h2>
+      <p>Organic Lion's Mane for focus and a clear head. Your morning, un-fogged.</p>
+      <div class="spec">1000&nbsp;mg · 40% polysaccharides · 2 caps</div>
+    </div>
+    <div class="beat solo on-color" id="bCalm">
+      <div class="eyebrow" style="color:#C9F0E7">N°02 · Midday</div>
+      <h2>Calm</h2>
+      <p>KSM-66® Ashwagandha takes the edge off stress — calm, never drowsy.</p>
+      <div class="spec">600&nbsp;mg KSM-66® · B-vitamins · 2 caps</div>
+    </div>
+    <div class="beat solo on-color" id="bRest">
+      <div class="eyebrow" style="color:#D9D5F5">N°03 · Night</div>
+      <h2>Rest</h2>
+      <p>Magnesium Glycinate — the gentle, absorbable kind. Deep sleep, easy mornings.</p>
+      <div class="spec">275&nbsp;mg elemental · glycinate form · 3 caps</div>
+    </div>
+
+    <div class="beat align" id="bAlign">
+      <div class="eyebrow" style="color:var(--muted)">Morning → midday → night</div>
+      <h2>One ritual.<br>Three moments.</h2>
+    </div>
+
+    <div class="beat price" id="bPrice">
+      <div class="eyebrow" style="color:var(--muted)">Pick yours — or run the whole day</div>
+      <h2 style="font-size:clamp(26px,5.4vw,54px)">Every bottle, 30 days.</h2>
+    </div>
+    <div class="chips" id="chips">
+      <div class="chip c-rise"><div class="n">N°01</div><h4>Rise</h4><div class="pr"><s>$38</s>$32/mo</div><button data-add="rise">ADD</button></div>
+      <div class="chip c-calm"><div class="n">N°02</div><h4>Calm</h4><div class="pr"><s>$38</s>$32/mo</div><button data-add="calm">ADD</button></div>
+      <div class="chip c-rest"><div class="n">N°03</div><h4>Rest</h4><div class="pr"><s>$38</s>$32/mo</div><button data-add="rest">ADD</button></div>
+    </div>
+
+    <div class="beat steady on-color" id="bSteady">
+      <div class="eyebrow" style="color:#F08BC0">N°04 · The fourth piece</div>
+      <div class="flip"><s id="flipPrice">$18</s><span class="free" id="flipFree" style="opacity:0">FREE</span></div>
+      <p style="color:#E8B8D2">STEADY — blood-sugar botanicals, level energy all day. Free in every complete-ritual order, every month.</p>
+    </div>
+    <div class="steadycta" id="steadyCta">
+      <button class="btn" onclick="addTrio()">Complete the Ritual — $96/mo</button>
+      <span class="alt">Rise + Calm + Rest + free STEADY · free shipping · skip or cancel anytime<br><a href="index.html#products">prefer one-time? $114 on the main site ↗</a></span>
+    </div>
+
+    <img class="bottle" id="btRise"  src="assets/products/cut_rise.webp"  alt="HAVN Rise bottle">
+    <img class="bottle" id="btCalm"  src="assets/products/cut_calm.webp"  alt="HAVN Calm bottle">
+    <img class="bottle" id="btRest"  src="assets/products/cut_rest.webp"  alt="HAVN Rest bottle">
+    <img class="bottle" id="btSteady" src="assets/products/cut_steady.webp" alt="HAVN Steady bottle">
   </div>
-  <nav aria-label="Mobile">
-    <a href="#ritual" onclick="closeMenu()">The Ritual</a>
-    <a href="#products" onclick="closeMenu()">Formulas</a>
-    <a href="#steady" class="n4" onclick="closeMenu()">N°04 Steady</a>
-    <a href="#science" onclick="closeMenu()">Why HAVN</a>
-    <a href="#faq" onclick="closeMenu()">FAQ</a>
-  </nav>
-  <div class="foot">Rise · Calm · Rest — and the piece you earn.</div>
 </div>
 
-<main id="main">
-
-<!-- HERO -->
-<section class="hero">
-  <div class="wrap">
-    <div class="hero-grid">
+<!-- ————— KEPT STRUCTURE ————— -->
+<div class="after">
+  <div class="wrap sec">
+    <div class="offer">
       <div>
-        <div class="eyebrow">The 4-piece daily ritual</div>
-        <h1><span class="r">Rise.</span><br><span class="c">Calm.</span><br><span class="s">Rest.</span></h1>
-        <div class="plus4">+ Steady<small>N°04 — <s>$18</s> free with the full ritual</small></div>
-        <p class="lead">Three clean formulas carry your day — focus, balance, deep sleep. Complete all three and the $18 fourth piece comes <b>free, every month</b>.</p>
-        <div class="hero-cta">
-          <button id="trioBtn" class="btn rise mag shine" onclick="addTrio()">Complete the Ritual — $92/mo</button>
-          <a href="#products" class="btn ghost mag">Meet the formulas</a>
-        </div>
-        <div class="hero-note">◇ Designed in Denmark · Made in the USA · Vegan · Non-GMO · Third-party tested</div>
-      </div>
-      <div class="stage" id="stage">
-        <div class="fb b-rise" data-px="14"><div class="tilt"><div class="bobber"><img src="assets/products/cut_rise.webp" width="624" height="1200" alt="HAVN RISE — Lion's Mane bottle" loading="eager"></div></div></div>
-        <div class="fb b-calm" data-px="8"><div class="bobber"><img src="assets/products/cut_calm.webp" width="666" height="1200" alt="HAVN CALM — Ashwagandha Plus bottle" loading="eager"></div></div>
-        <div class="fb b-rest" data-px="16"><div class="tilt"><div class="bobber"><img src="assets/products/cut_rest.webp" width="600" height="1200" alt="HAVN REST — Magnesium Glycinate bottle" loading="eager"></div></div></div>
-        <div class="chip4" data-px="24" onclick="document.getElementById('steady').scrollIntoView({behavior:'smooth'})" role="link" tabindex="0" aria-label="N°04 Steady — the fourth piece, free inside the complete ritual" onkeydown="if(event.key==='Enter')this.click()">
-          <img class="ch-img" src="assets/products/cut_steady.webp" alt="" aria-hidden="true">
-          <div><div class="t1">N°04 · The 4th piece</div><div class="t2">Steady</div><div class="t3"><s>$18</s> free with the full ritual ↓</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MARQUEE -->
-<div class="marquee" aria-hidden="true"><div class="track" id="mqtrack">
-  <span><b class="r">☀ RISE</b></span><span>FOCUS</span><span><b class="c">◐ CALM</b></span><span>BALANCE</span><span><b class="s">☾ REST</b></span><span>SLEEP</span><span><b class="y">⊖ STEADY</b></span><span>THE 4TH PIECE: <s>$18</s> FREE WITH THE FULL RITUAL</span><span>DESIGNED IN DENMARK · MADE IN USA</span>
-</div></div>
-
-<!-- RITUAL -->
-<section class="ritual" id="ritual">
-  <div class="wrap" style="position:relative;z-index:2">
-    <div class="sec-head rv"><div class="eyebrow" style="color:#8B8172">Morning to night — and underneath it all</div><h2>One ritual, four pieces</h2><p style="color:#C9BFB0">Three formulas map to the three moments of your day. The fourth runs quietly beneath all of them — and comes free when you take all three.</p></div>
-    <div class="steps">
-      <div class="step rise rv rl"><div class="idx">01</div><div class="when">A.M. · Morning</div><div class="t">Rise</div><p>Organic Lion's Mane for memory, focus and a clear head to start the day. Two capsules with breakfast.</p></div>
-      <div class="step calm rv rl d1"><div class="idx">02</div><div class="when">Midday · Afternoon</div><div class="t">Calm</div><p>KSM-66® Ashwagandha plus adaptogens to take the edge off stress — calm, not drowsy.</p></div>
-      <div class="step rest rv rr d2"><div class="idx">03</div><div class="when">P.M. · Night</div><div class="t">Rest</div><p>Gentle, highly-absorbable Magnesium Glycinate to wind down and sink into deep sleep.</p></div>
-      <div class="step steady rv rr d3"><div class="idx">04</div><div class="when">All day · Underneath</div><div class="t">Steady</div><p>Six botanicals in daily drops to keep energy steady while the other three do their work.</p>
-        <span class="lockrow"><s>$18</s>&nbsp;· free with the full set</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- FORMULAS -->
-<section class="products" id="products">
-  <div class="wrap">
-    <div class="sec-head rv"><div class="eyebrow">Shop the range</div><h2>Pick your formulas</h2><p>Start with one, or take the full ritual. Every bottle is a 30-day supply.</p></div>
-    <div class="modetoggle" role="group" aria-label="Purchase type">
-      <button id="mSub" class="mt on" onclick="setMode(true)" aria-pressed="true">Subscribe &amp; Save 15%</button>
-      <button id="mOne" class="mt" onclick="setMode(false)" aria-pressed="false">One-time</button>
-    </div>
-    <div class="pgrid" id="pgrid"></div>
-  </div>
-</section>
-
-<!-- COMPLETE THE RITUAL -->
-<section class="offer" id="steady">
-  <div class="wrap">
-    <div class="offer-grid">
-      <div class="rv rl">
-        <div class="eyebrow" style="color:#F08BC0">The completion offer</div>
-        <h2>Complete the ritual.<br><span class="hl shimtxt">Claim the 4th piece.</span></h2>
-        <div class="big-price"><span class="now" id="offerNow">$92</span><span class="was" id="offerWas">$108</span><span class="save" id="offerSave">SUBSCRIBE &amp; SAVE 15%</span></div>
-        <p style="max-width:440px;color:#E9E1D2">Rise + Calm + Rest, delivered monthly — and STEADY, our Normal Blood Sugar Drops, added free to <b style="color:#F08BC0">every single order</b>. On its own it's $18. With the full ritual it's always $0.</p>
+        <h2>Complete the ritual.<br>Claim the 4th piece.</h2>
+        <div class="big">$96/mo <s>$114</s></div>
         <ul>
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> N°04 STEADY — <s>$18</s>&nbsp;<b style="color:#F08BC0">FREE</b>, every order</li>
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Free U.S. shipping, every month</li>
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Skip, swap or cancel anytime</li>
-          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F08BC0" stroke-width="2.5" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> 30-day “feel it or free” guarantee</li>
+          <li>N°04 STEADY — <s style="color:#FF7B7B">$18</s>&nbsp;<b style="color:#F08BC0">FREE</b>, every order</li>
+          <li>Free U.S. shipping, every month</li>
+          <li>Skip, swap or cancel anytime</li>
+          <li>30-day “feel it or free” guarantee — first order</li>
         </ul>
-        <button class="btn onwhite mag shine" id="offerBtn" onclick="addTrio()">Complete my ritual — $92/mo</button>
-        <div class="mononote">Cancel and the gift stops. Complete and it returns — every month.</div>
       </div>
-      <div class="puzzle beam rv rr d1" id="puzzlePanel">
-        <div class="ptitle">Your ritual — live status</div>
-        <div class="slots" id="offerSlots">
-          <div class="slot" data-sku="rise"><div class="sn">01</div><div class="sname">Rise</div></div>
-          <div class="slot" data-sku="calm"><div class="sn">02</div><div class="sname">Calm</div></div>
-          <div class="slot" data-sku="rest"><div class="sn">03</div><div class="sname">Rest</div></div>
-        </div>
-        <div class="slot4" id="slot4">
-          <img src="assets/products/cut_steady.webp" width="411" height="1200" alt="HAVN STEADY — Normal Blood Sugar Drops bottle" loading="lazy">
-          <div class="s4t">
-            <div class="l1">N°04 · The 4th piece</div>
-            <div class="l2">Steady</div>
-            <div class="s4price"><s>$18</s><span class="free shimtxt">Free</span></div>
-            <div class="l3" id="slot4msg">when 01–03 are in your order</div>
-          </div>
-          <span class="badge-free">FREE</span>
-        </div>
-        <div class="pfoot">On its own, STEADY (Normal Blood Sugar Drops — cinnamon bark, bitter melon, turmeric &amp; three more botanicals) runs <b>$18</b>. Put 01–03 in one order and it drops to $0 — and stays $0 every month you keep the ritual.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TRUST -->
-<section class="trust">
-  <div class="wrap">
-    <div class="sec-head rv"><div class="eyebrow">No fillers. No junk.</div><h2>Clean by default</h2></div>
-    <div class="badgerow rv rp">
-      <span class="badge">Designed in Denmark</span><span class="badge">Made in the USA</span><span class="badge">Vegan</span><span class="badge">Non-GMO</span>
-      <span class="badge">Gluten-Free</span><span class="badge">Third-Party Tested</span><span class="badge">cGMP Facility</span><span class="badge">No Artificial Fillers</span>
-    </div>
-  </div>
-</section>
-
-<!-- SCIENCE -->
-<section id="science">
-  <div class="wrap">
-    <div class="sec-head rv"><div class="eyebrow">Dosed to matter</div><h2>Real actives, real amounts</h2><p>Studied ingredients at studied doses — the stuff that actually does something.</p></div>
-    <div class="sci-grid">
-      <div class="sci rise spot tilt3d rv"><div class="k">1000mg</div><h4>Rise · Lion's Mane</h4><p>Organic fruiting body &amp; mycelium, standardized to 40% polysaccharides for cognitive support.</p></div>
-      <div class="sci calm spot tilt3d rv d1"><div class="k">600mg</div><h4>Calm · KSM-66® Ashwagandha</h4><p>The most clinically-studied ashwagandha root extract, plus B-vitamins, maca and ginseng.</p></div>
-      <div class="sci rest spot tilt3d rv d2"><div class="k">275mg</div><h4>Rest · Magnesium</h4><p>Chelated magnesium glycinate — the gentle, highly-absorbable form your body actually uses.</p></div>
-      <div class="sci steady spot tilt3d rv d3"><div class="k">6</div><h4>Steady · Botanicals</h4><p>Cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander &amp; resveratrol. Free with the full ritual.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- REVIEWS -->
-<section class="reviews" id="reviews">
-  <div class="wrap" style="position:relative;z-index:2">
-    <div class="sec-head rv"><div class="eyebrow" style="color:#8B8172">4.8 ★ from early members</div><h2>People feel the difference</h2></div>
-  </div>
-  <div class="rmarq rv d1" style="position:relative;z-index:2">
-    <div class="rmtrack" id="rmtrack">
-      <div class="review"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Rise is the first nootropic that actually cuts through my morning fog. And the packaging is gorgeous on my desk.”</p><div class="who">— Maya R., verified</div></div>
-      <div class="review"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Calm does exactly what it says — I'm less wound up by 3pm without feeling sleepy. The set just works.”</p><div class="who">— Dev P., verified</div></div>
-      <div class="review"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Completed the ritual for the free drops, honestly. Now it's the whole system I won't drop — and STEADY killed my afternoon crash.”</p><div class="who">— Jordan K., verified</div></div>
-      <div class="review"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Rest ended my 2am doom-scroll era. I take it with a book at 10 and I'm gone by 10:30. Gentle, no grogginess.”</p><div class="who">— Anika S., verified</div></div>
-      <div class="review"><div class="stars" aria-label="5 stars">★★★★★</div><p>“Did the math three times — trio subscription plus free STEADY and shipping beats buying my old stack separately. Easy switch.”</p><div class="who">— Tom W., verified</div></div>
-      <div class="review"><div class="stars" aria-label="5 stars">★★★★★</div><p>“The Danish design sold me, the routine kept me. Three bottles on the shelf, morning to night. It just feels considered.”</p><div class="who">— Freja L., verified</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="faq" id="faq">
-  <div class="wrap" style="max-width:900px">
-    <div class="sec-head rv"><div class="eyebrow">Good to know</div><h2>Questions, answered</h2></div>
-    <details open><summary>What is the 4th piece?</summary><div class="fa"><p>STEADY — N°04, our Normal Blood Sugar Drops. Six botanicals (cinnamon bark 1:5, bitter melon, turmeric, licorice, coriander and Japanese knotweed resveratrol) in a daily 2&nbsp;ml dropper to support healthy energy metabolism*. On its own it's $18 — but it ships free with every complete ritual order, and repeats every month you stay subscribed.</p></div></details>
-    <details><summary>Can I buy STEADY on its own?</summary><div class="fa"><p>Yes — $18 one-time, or $15/mo subscribed. But here's the easy math: complete the ritual (Rise + Calm + Rest in one order) and you never pay for it. N°04 rides along free, every single order.</p></div></details>
-    <details><summary>How does the subscription work?</summary><div class="fa"><p>Choose Subscribe &amp; Save to lock in 15% off, free shipping, and your monthly STEADY. Your ritual arrives every 30 days. Skip, swap, or cancel anytime from your account — no phone calls, no hassle. Cancel and the gift stops; come back and it returns.</p></div></details>
-    <details><summary>When will I feel a difference?</summary><div class="fa"><p>Rest and Calm are often felt within the first few days. Rise (Lion's Mane) builds over 2–4 weeks of consistent use. That's why we back the whole ritual with a 30-day “feel it or free” guarantee.</p></div></details>
-    <details><summary>Can I take all four together?</summary><div class="fa"><p>Yes — they're designed as a system, taken at different times: Rise in the morning, Calm midday, Rest before bed, STEADY drops any morning moment. If you're pregnant, nursing, or on medication, check with your doctor first.</p></div></details>
-    <details><summary>Shipping &amp; returns?</summary><div class="fa"><p>Orders $75+ ship free in the U.S. (the complete ritual always qualifies). Not feeling it? Reach out within 30 days for a full refund — even on empty bottles.</p></div></details>
-  </div>
-</section>
-
-</main>
-
-<footer>
-  <div class="wrap">
-    <div class="foot-grid">
       <div>
-        <div class="foot-logo">HAVN</div>
-        <p style="color:#C9BFB0;font-size:14px;max-width:280px;margin-top:14px">A daily ritual for a clearer, calmer, better-rested you. Three you buy. The fourth comes free.</p>
-        <p style="font-family:var(--mono);font-size:11.5px;color:var(--muted2);margin-top:12px">Designed in Denmark · Made in the USA</p>
+        <img src="assets/products/trio_cascade.webp" alt="The HAVN trio with STEADY" loading="lazy">
+        <button class="btn" onclick="addTrio()" style="margin-top:18px">Complete my ritual — $96/mo</button>
+        <div class="mini">Subscription · <a href="policies.html">guarantee &amp; terms</a></div>
       </div>
-      <div><h5>Shop</h5><ul><li><a href="#products">Rise</a></li><li><a href="#products">Calm</a></li><li><a href="#products">Rest</a></li><li><a href="#steady">Steady — N°04</a></li></ul></div>
-      <div><h5>Company</h5><ul><li><a href="#science">Why HAVN</a></li><li><a href="#reviews">Reviews</a></li><li><a href="#faq">FAQ</a></li><li><a href="mailto:hello@havn.co">Contact</a></li></ul></div>
-      <div><h5>Get 15% off</h5><p style="color:#C9BFB0;font-size:13px;margin-bottom:12px">Join the ritual. First order, first to know.</p>
-        <label for="nlemail" style="position:absolute;left:-9999px">Email address</label>
-        <input id="nlemail" type="email" autocomplete="email" placeholder="you@email.com">
-        <button class="btn rise" style="width:100%;margin-top:10px" onclick="joinList(this)">Subscribe</button></div>
-    </div>
-    <div class="foot-bot">
-      <span>© 2026 HAVN. *These statements have not been evaluated by the FDA. Not intended to diagnose, treat, cure or prevent any disease.</span>
-      <span><a href="policies.html#privacy">Privacy</a> · <a href="policies.html#terms">Terms</a> · <a href="policies.html#refunds">Refunds</a> · <a href="policies.html#shipping">Shipping</a></span>
-      <span>HAVN · 14701 W. 65th Way, Suite 5, Arvada, CO 80004</span>
     </div>
   </div>
-</footer>
 
-<!-- STICKY MOBILE CTA -->
-<div class="stickycta" id="stickycta">
-  <div class="stot" id="stickyTot">The 4-piece ritual<br>$92/mo</div>
-  <button class="btn rise shine" onclick="addTrio()">Complete the ritual</button>
-</div>
-
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLabel()" role="dialog" aria-modal="true" aria-label="Supplement Facts">
-  <div class="lb-in"><button class="lb-x" aria-label="Close" onclick="closeLabel()">×</button><img id="lbimg" src="" alt=""></div>
-</div>
-
-<!-- CHECKOUT MODAL (pre-launch waitlist) -->
-<div class="lightbox" id="ckmodal" onclick="if(event.target===this)closeCk()" role="dialog" aria-modal="true" aria-label="Checkout">
-  <div class="lb-in" style="max-width:460px;padding:32px 30px;text-align:center;">
-    <button class="lb-x" aria-label="Close" onclick="closeCk()">×</button>
-    <div style="font-family:var(--disp);font-weight:900;font-variation-settings:'wght' 900,'wdth' 118;font-size:29px;text-transform:uppercase;letter-spacing:-.5px;margin-bottom:8px;">Almost live</div>
-    <p style="color:var(--muted);font-size:14.5px;line-height:1.55;margin-bottom:16px;">Checkout opens at launch. Lock your spot now — first in line get <b style="color:var(--ink)">15% off</b> and the STEADY gift from order one.</p>
-    <div class="ck-sum" id="ckSummary"></div>
-    <label for="ckemail" style="position:absolute;left:-9999px">Email address</label>
-    <input id="ckemail" type="email" autocomplete="email" placeholder="you@email.com" style="width:100%;padding:13px;min-height:46px;border-radius:10px;border:1.5px solid var(--line);font-family:var(--mono);font-size:13px;margin-bottom:10px;">
-    <button class="btn rise" style="width:100%" onclick="ckJoin(this)">Notify me at launch</button>
+  <div class="sec" style="padding-top:8px">
+    <div class="sec-head"><div class="eyebrow">Early ritualists</div><h2>Word of mouth</h2></div>
+    <div class="rmarq"><div class="rmtrack" id="rmtrack">
+      <div class="review"><div class="stars">★★★★★</div><p>“ok so the fog thing is real. week 1 I felt nothing, week 3 I stopped reaching for a second coffee.”</p><div class="who">— Maya R.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“Bought Calm for work stress. It just turns the volume down a bit. My wife noticed before I did.”</p><div class="who">— Dev P.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“Honestly got the trio for the free drops lol. Kept it because my 2pm crash just… stopped?”</p><div class="who">— Jordan K.</div></div>
+      <div class="review"><div class="stars">★★★★☆</div><p>“Real talk: Rise took almost a month to do anything and I was about to cancel. Glad I waited — but it's not instant.”</p><div class="who">— Marcus T.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“Rest is the first magnesium that hasn't messed with my stomach. In bed at 10, out by 10:30.”</p><div class="who">— Anika S.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“Did the math against buying everything seperately — the trio plus the free bottle wins by like 20 bucks a month.”</p><div class="who">— Tom W.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“Night shift nurse. Rest after work, Rise at 2pm. My sleep schedule finally doesn't feel like jet lag.”</p><div class="who">— Sam O.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“The Danish design is what got me, not gonna lie. Three months in, the routine actually stuck.”</p><div class="who">— Freja L.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“Was fully ready to use the refund guarantee. Kept the subscription instead.”</p><div class="who">— Priya N.</div></div>
+    </div></div>
   </div>
-</div>
 
-<!-- CART -->
-<div class="overlay" id="overlay" onclick="closeCart()"></div>
-<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Cart">
-  <div class="drawer-head"><h3>Your ritual</h3><button class="x" id="drawerX" aria-label="Close cart" onclick="closeCart()">×</button></div>
-  <div class="ship-bar"><div class="msg" id="shipMsg">Add $79 for free U.S. shipping</div><div class="track" role="progressbar" aria-label="Free shipping progress" aria-valuemin="0" aria-valuemax="79" aria-valuenow="0" id="shipTrack"><div class="fill" id="shipFill"></div></div></div>
-  <div class="cslots" id="cartSlots" aria-label="Ritual completion">
-    <div class="cs s1">01</div><div class="cs s2">02</div><div class="cs s3">03</div><div class="cs s4" id="cs4">04</div>
-    <div class="lbl" id="slotLbl">Complete 01–03<br>to unlock N°04</div>
-  </div>
-  <div class="cart-items" id="cartItems"></div>
-  <div class="drawer-foot">
-    <div class="gift-line" id="giftLine" role="status">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13M12 8s-4.5.2-4.5-2.6C7.5 3 12 3.6 12 8Zm0 0s4.5.2 4.5-2.6C16.5 3 12 3.6 12 8Z"/></svg>
-      <span>STEADY unlocked — <s>$18</s> <b>FREE</b> in this order</span>
+  <div class="wrap sec" style="padding-top:14px">
+    <div class="sec-head"><div class="eyebrow">Questions</div><h2>FAQ</h2></div>
+    <div class="faq">
+      <details open><summary>What is the 4th piece?</summary><p>STEADY — N°04, our Normal Blood Sugar Drops. Six botanicals in a daily 2ml dropper to support healthy energy metabolism*. On its own it's $18 — free with every complete-ritual order, every month you stay subscribed.</p></details>
+      <details><summary>How does the subscription work?</summary><p>Monthly delivery, $96 for the full ritual. Skip, swap or cancel anytime from the link in any receipt — at least 48h before renewal. Cancel and the free STEADY ends with it.</p></details>
+      <details><summary>Shipping &amp; returns?</summary><p>Subscriptions always ship free in the U.S. One-time orders ship free at $79+, otherwise $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
+      <details><summary>When will I feel a difference?</summary><p>Rest and Calm often land within days. Rise builds over 2–4 weeks — that's why the first order carries the guarantee.</p></details>
+      <details><summary>What exactly is in each formula?</summary><p>Full supplement-facts labels for all four formulas are on the <a href="index.html#products">main site</a> — tap “See the label” on any bottle.</p></details>
     </div>
-    <div class="row"><span>Subtotal</span><span id="subtotal">$0</span></div>
-    <button class="btn" id="ckBtn" onclick="checkout()" disabled>Checkout</button>
-    <div class="subnote" id="footNote">Subscription renews monthly · skip or cancel anytime</div>
   </div>
-</aside>
+
+  <footer>HAVN · Designed in Denmark · Made in the USA · <a href="index.html">Main site</a> · <a href="policies.html">Policies</a><br>*These statements have not been evaluated by the FDA. Not intended to diagnose, treat, cure, or prevent any disease.</footer>
+</div>
+
+<!-- cart bar -->
+<div class="cartbar" id="cartbar">
+  <div class="sum" id="cartsum">—</div>
+  <a class="full" href="index.html">full cart ↗</a>
+  <button class="go" id="goBtn" onclick="checkout()">Checkout</button>
+</div>
 
 <script>
-/* ================= data ================= */
-const PRODUCTS = [
-  {id:'rise', name:'Rise', sub:"Lion's Mane · 1000mg", n:'N°01', cls:'rise',
-   desc:'Memory, focus & clarity for your mornings. Organic fruiting body & mycelium.', price:36, subPrice:31},
-  {id:'calm', name:'Calm', sub:'Ashwagandha+ · KSM-66®', n:'N°02', cls:'calm',
-   desc:'Stress relief & balance without the drowsiness. Plus B-vitamins, maca & ginseng.', price:36, subPrice:31},
-  {id:'rest', name:'Rest', sub:'Magnesium · Glycinate', n:'N°03', cls:'rest',
-   desc:'Deep, restful sleep and easy wind-down. The gentle, absorbable form.', price:36, subPrice:31},
-];
-const STEADY = {id:'steady', name:'Steady', sub:'Blood Sugar Drops · 6 botanicals', n:'N°04', cls:'steady',
-   desc:'Six botanicals to keep energy level all day. $18 on its own — free with the complete ritual.', price:18, subPrice:15};
-const ALL = [...PRODUCTS, STEADY];
-const HEX = {rise:'#FF6A15', calm:'#12A594', rest:'#4E43C9', steady:'#C81E78'};
-const FREE_SHIP = 75;
-
-let subscribe = true;
-let cart = {trio:0, singles:{rise:0, calm:0, rest:0, steady:0}};
-try{ const c = JSON.parse(localStorage.getItem('havn_cart')||'null'); if(c && c.singles){ cart = c; ALL.forEach(p=>{ if(typeof cart.singles[p.id]!=='number') cart.singles[p.id]=0; }); } }catch(e){}
-
+/* ================= shared cart (same storage + API as Plan A) ================= */
 const $ = id => document.getElementById(id);
-const fmt = n => Number.isInteger(n) ? '$'+n : '$'+n.toFixed(2);
-const trioPrice = () => subscribe ? 92 : 108;
-const priceOf = p => subscribe ? p.subPrice : p.price;
-const itemCount = () => cart.trio*3 + ALL.reduce((s,p)=>s+cart.singles[p.id],0);
-const hasSku = id => cart.trio>0 || cart.singles[id]>0;
-const complete = () => cart.trio>0 || (cart.singles.rise>0 && cart.singles.calm>0 && cart.singles.rest>0);
-const subtotal = () => cart.trio*trioPrice() + ALL.reduce((s,p)=>s+cart.singles[p.id]*priceOf(p),0);
+const PRICE = {single:32, trio:96, steady:15};                 /* subscription mode — keep in sync with api/_catalog.js */
+let cart = {trio:0, singles:{rise:0, calm:0, rest:0, steady:0}};
+try{ const c = JSON.parse(localStorage.getItem('havn_cart')||'null'); if(c && c.singles){ cart = c; ['rise','calm','rest','steady'].forEach(k=>{ if(typeof cart.singles[k]!=='number') cart.singles[k]=0; }); } }catch(e){}
 
-/* ================= products grid ================= */
-function renderProducts(){
-  const card = (p,i,extra) => {
-    const sale = subscribe;
-    const main = sale ? p.subPrice : p.price;
-    const wasHTML = sale ? `<s>$${p.price}</s>` : '';
-    const suf  = sale ? ' /mo' : ' one-time';
-    const alt  = p.id==='steady'
-      ? `or <b>FREE</b> with the complete ritual`
-      : (sale ? `or $${p.price} one-time` : `or $${p.subPrice}/mo subscribed`);
-    return `<div class="pcard ${p.cls} spot tilt3d${p.id==='steady'?' beam':''} rv d${i+1}">
-      ${extra||''}
-      <div class="pimg">
-        <img class="base" src="assets/products/${p.id}_front.jpg" width="1200" height="1200" alt="HAVN ${p.name} bottle" loading="lazy">
-        <img class="alt" src="assets/products/${p.id}_duo.jpg" width="1200" height="1200" alt="" aria-hidden="true" loading="lazy">
-      </div>
-      <h3>${p.name}</h3><div class="sub">${p.n} · ${p.sub}</div>
-      <div class="desc">${p.desc}</div>
-      <button class="seelabel" onclick="openLabel('${p.id}','${p.name}')">See the label ↗</button>
-      <div class="price">${wasHTML}$${main}<small>${suf}</small></div>
-      <div class="subprice">${alt}</div>
-      <button class="btn" onclick="addItem('${p.id}')">Add to ritual</button>
-    </div>`;
+window.havnEvents = window.havnEvents || [];
+function track(n,p){ try{ window.havnEvents.push({name:n,props:p||{},t:Date.now()}); if(window.plausible) plausible(n,{props:p||{}}); }catch(e){} }
+
+function save(){ try{ localStorage.setItem('havn_cart', JSON.stringify(cart)); }catch(e){} }
+function normalize(){ while(cart.singles.rise>0 && cart.singles.calm>0 && cart.singles.rest>0){ cart.singles.rise--; cart.singles.calm--; cart.singles.rest--; cart.trio++; } }
+function count(){ return cart.trio*3 + Object.values(cart.singles).reduce((s,q)=>s+q,0); }
+function total(){ return cart.trio*PRICE.trio + (cart.singles.rise+cart.singles.calm+cart.singles.rest)*PRICE.single + cart.singles.steady*PRICE.steady; }
+
+function syncCart(){
+  normalize(); save();
+  const n = count();
+  $('cartchip').hidden = n===0;
+  $('cc').textContent = n + (cart.trio>0 ? 1 : 0);
+  const bar = $('cartbar');
+  if(n===0){ bar.classList.remove('on'); return; }
+  bar.classList.add('on');
+  const bits = [];
+  if(cart.trio>0) bits.push(cart.trio + '× ritual');
+  ['rise','calm','rest','steady'].forEach(k=>{ if(cart.singles[k]>0) bits.push(cart.singles[k]+'× '+k); });
+  $('cartsum').innerHTML = '$' + total() + '/mo — ' + bits.join(' · ') +
+    (cart.trio>0 ? '<small>+ N°04 STEADY free · free shipping</small>' : '<small>subscription · free shipping from $30/mo</small>');
+  document.querySelectorAll('.chip button').forEach(b=>{
+    const has = cart.trio>0 || cart.singles[b.dataset.add]>0;
+    b.classList.toggle('added', has); b.textContent = has ? '✓ IN' : 'ADD';
+  });
+}
+function addSku(sku){ cart.singles[sku]++; syncCart(); track('add_to_cart',{sku, via:'planB'}); }
+function addTrio(){ cart.trio = Math.max(1, cart.trio); syncCart(); track('add_to_cart',{sku:'trio', via:'planB'}); }
+document.querySelectorAll('.chip button').forEach(b=> b.addEventListener('click', ()=>addSku(b.dataset.add)));
+
+let ckBusy = false;
+async function checkout(){
+  if(count()===0 || ckBusy) return;
+  ckBusy = true; const btn = $('goBtn'), old = btn.textContent; btn.textContent = '…';
+  track('begin_checkout',{subtotal: total(), subscription:true, via:'planB'});
+  try{
+    const r = await fetch('/api/checkout', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({cart, subscribe:true})});
+    if(!r.ok) throw 0;
+    const d = await r.json(); if(!d.url) throw 0;
+    location.href = d.url; return;
+  }catch(e){
+    location.href = 'index.html';           /* no backend on this mirror — the main site handles it */
+  }finally{ ckBusy = false; btn.textContent = old; }
+}
+
+/* ================= the scroll engine ================= */
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const lerp = (a,b,t)=>a+(b-a)*t;
+const clamp01 = v=>Math.min(1,Math.max(0,v));
+const eio = t=>t<.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
+function kf(p, stops, e){
+  if(p<=stops[0][0]) return stops[0][1];
+  for(let i=1;i<stops.length;i++){
+    if(p<=stops[i][0]){
+      const t0=stops[i-1], t1=stops[i];
+      let t=(p-t0[0])/(t1[0]-t0[0]); if(e) t=e(t);
+      return lerp(t0[1], t1[1], t);
+    }
+  }
+  return stops[stops.length-1][1];
+}
+/* window helper: fade in [a..b], hold, fade out [c..d] */
+const win = (p,a,b,c,d)=> p<a?0 : p<b?(p-a)/(b-a) : p<c?1 : p<d?1-(p-c)/(d-c) : 0;
+
+const hexRGB = h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+const CREAM=hexRGB('#F6EFE1'), RISE=hexRGB('#FF6A15'), CALM=hexRGB('#12A594'), REST=hexRGB('#4E43C9'), BERRY=hexRGB('#2B0A1E');
+function fieldColor(p){
+  const stops=[[0,CREAM],[.10,CREAM],[.145,RISE],[.225,RISE],[.265,CALM],[.345,CALM],[.385,REST],[.465,REST],[.52,CREAM],[.68,CREAM],[.735,BERRY],[.93,BERRY],[.985,CREAM]];
+  for(let i=1;i<stops.length;i++){
+    if(p<=stops[i][0]){
+      const t=(p-stops[i-1][0])/(stops[i][0]-stops[i-1][0]);
+      const a=stops[i-1][1], b=stops[i][1];
+      return 'rgb('+Math.round(lerp(a[0],b[0],t))+','+Math.round(lerp(a[1],b[1],t))+','+Math.round(lerp(a[2],b[2],t))+')';
+    }
+  }
+  return 'rgb('+CREAM.join(',')+')';
+}
+
+/* bottle choreography — solo roll-through, then park in the lineup slot.
+   x in vw, y in vh (offsets from center), r deg, s scale, o opacity */
+function bottleKF(p, t0, slotX){
+  const IN=t0, MID=t0+.055, OUT=t0+.13, ALIGN=.50, LIFT=.735, END=.94;
+  return {
+    x: kf(p, [[IN,-72],[MID,0],[OUT,slotX*1.15],[ALIGN,slotX],[END,slotX]], eio),
+    y: kf(p, [[IN,34],[MID,2],[OUT,26],[ALIGN,9],[LIFT,9],[LIFT+.06,-2],[END,-2]], eio),
+    r: kf(p, [[IN,-165],[MID,-2],[MID+.02,2],[OUT,0],[END,0]]),
+    s: kf(p, [[IN,.92],[MID,1.05],[OUT,.6],[ALIGN,.68],[LIFT,.68],[LIFT+.06,.5],[END,.5]], eio),
+    o: p<IN-.006 ? 0 : kf(p, [[IN-.006,0],[IN+.02,1],[OUT,1],[OUT+.02,.38],[ALIGN-.02,.38],[ALIGN,1],[END,1],[.985,0]])
   };
-  const cards = PRODUCTS.map((p,i)=>card(p,i));
-  cards.push(card(STEADY,3,`<span class="lockchip"><s style="color:#fff;text-decoration-color:#fff">$18</s>&nbsp;FREE W/ FULL RITUAL</span>`));
-  $('pgrid').innerHTML = cards.join('');
-  motionSweep();
 }
-function setMode(sub){
-  subscribe = sub;
-  $('mSub').classList.toggle('on', sub);  $('mSub').setAttribute('aria-pressed', sub);
-  $('mOne').classList.toggle('on', !sub); $('mOne').setAttribute('aria-pressed', !sub);
-  renderProducts(); syncOfferCopy(); update();
+function steadyKF(p){
+  return {
+    x: 0,
+    y: kf(p, [[.72,62],[.80,7],[.94,7]], eio),
+    r: kf(p, [[.72,-230],[.80,0]]),
+    s: .78,
+    o: kf(p, [[.715,0],[.735,1],[.94,1],[.985,0]])
+  };
 }
-function syncOfferCopy(){
-  const t = trioPrice();
-  $('trioBtn').textContent = subscribe ? 'Complete the Ritual — $92/mo' : 'Complete the Ritual — $108';
-  $('offerBtn').textContent = subscribe ? 'Complete my ritual — $92/mo' : 'Complete my ritual — $108';
-  $('offerNow').textContent = fmt(t);
-  $('offerWas').textContent = subscribe ? '$108' : '';
-  $('offerSave').textContent = subscribe ? 'SUBSCRIBE & SAVE 15%' : 'ONE-TIME · SWITCH TO SUB FOR 15% OFF';
-  $('stickyTot').innerHTML = subscribe ? 'The 4-piece ritual<br>$92/mo' : 'The 4-piece ritual<br>$108';
+function place(el, b){
+  el.style.opacity = b.o.toFixed(3);
+  el.style.transform = 'translate(-50%,-50%) translate('+b.x.toFixed(2)+'vw,'+b.y.toFixed(2)+'vh) rotate('+b.r.toFixed(1)+'deg) scale('+b.s.toFixed(3)+')';
 }
 
-/* ================= cart ops ================= */
-function addItem(id){ cart.singles[id]++; update(); openCart(); }
-function addTrio(){ cart.trio = Math.max(1, cart.trio); update(); openCart(); }
-function bumpTrio(d){ cart.trio = Math.max(0, cart.trio + d); update(); }
-function bumpSingle(id,d){ cart.singles[id] = Math.max(0, cart.singles[id] + d); update(); }
+const els = {
+  field: $('field'), ghost: $('ghost'), rail: $('rail'), railfill: $('railfill'), cue: $('cue'),
+  bHero: $('bHero'), bRise: $('bRise'), bCalm: $('bCalm'), bRest: $('bRest'),
+  bAlign: $('bAlign'), bPrice: $('bPrice'), chips: $('chips'), bSteady: $('bSteady'), steadyCta: $('steadyCta'),
+  btRise: $('btRise'), btCalm: $('btCalm'), btRest: $('btRest'), btSteady: $('btSteady'),
+};
+const slotW = () => innerWidth <= 700 ? 30 : 26;
 
-let prevComplete = complete();
-function update(){
-  const done = complete();
-  /* the $18 -> FREE moment: completing the set converts a paid STEADY into the gift */
-  if(done && !prevComplete && cart.singles.steady>0) cart.singles.steady--;
-  try{ localStorage.setItem('havn_cart', JSON.stringify(cart)); }catch(e){}
-  $('cc').textContent = itemCount() + (complete() ? 1 : 0);
-  document.querySelector('.cart-btn').setAttribute('aria-label', `Open cart, ${itemCount()} items`);
-
-  /* items */
-  const items = [];
-  if(cart.trio>0) items.push(`
-    <div class="citem"><div class="sw" style="background:linear-gradient(135deg,#FF6A15 0 25%,#12A594 0 50%,#4E43C9 0 75%,#C81E78 0)" aria-hidden="true"></div>
-      <div><div class="ci-n">Complete Ritual</div><div class="ci-s">Rise + Calm + Rest ${subscribe?'· monthly':''} · N°04 free</div></div>
-      <div class="ci-right"><span class="ci-p">${fmt(cart.trio*trioPrice())}</span>
-        <div class="qty" aria-label="Complete Ritual quantity"><button onclick="bumpTrio(-1)" aria-label="Decrease">−</button><span class="q">${cart.trio}</span><button onclick="bumpTrio(1)" aria-label="Increase">+</button></div></div></div>`);
-  ALL.forEach(p=>{
-    const q = cart.singles[p.id];
-    if(q>0) items.push(`
-    <div class="citem"><div class="sw" style="background:${HEX[p.id]}" aria-hidden="true">${p.n.slice(2)}</div>
-      <div><div class="ci-n">${p.name}</div><div class="ci-s">${p.sub} · ${subscribe?'$'+p.subPrice+'/mo':'$'+p.price}</div></div>
-      <div class="ci-right"><span class="ci-p">${fmt(q*priceOf(p))}</span>
-        <div class="qty" aria-label="${p.name} quantity"><button onclick="bumpSingle('${p.id}',-1)" aria-label="Decrease ${p.name}">−</button><span class="q">${q}</span><button onclick="bumpSingle('${p.id}',1)" aria-label="Increase ${p.name}">+</button></div></div></div>`);
-  });
-  if(complete()) items.push(`
-    <div class="citem gift"><div class="sw" aria-hidden="true">04</div>
-      <div><div class="ci-n">Steady</div><div class="ci-s">Blood Sugar Drops · your reward${subscribe?' · repeats monthly':''}</div></div>
-      <div class="ci-right"><span class="ci-p">FREE</span></div></div>`);
-  $('cartItems').innerHTML = items.length ? items.join('') :
-    `<div class="cart-empty">Your ritual is empty.<br>Four pieces are waiting.<br><button class="btn rise" onclick="addTrio()">Start with all of it — ${fmt(trioPrice())}${subscribe?'/mo':''}</button></div>`;
-
-  /* ship bar */
-  const st = subtotal();
-  $('subtotal').textContent = fmt(st);
-  $('shipFill').style.width = Math.min(100, st/FREE_SHIP*100)+'%';
-  $('shipTrack').setAttribute('aria-valuenow', Math.min(FREE_SHIP, Math.round(st)));
-  $('shipMsg').textContent = st>=FREE_SHIP ? '✓ Free U.S. shipping unlocked' : (st>0 ? `Add ${fmt(FREE_SHIP-st)} for free U.S. shipping` : 'Free U.S. shipping at $79');
-  $('shipFill').classList.toggle('full', st>=FREE_SHIP);
-
-  /* slots (cart + offer panel) */
-  ['rise','calm','rest'].forEach((id,i)=>{
-    document.querySelectorAll('.cslots .cs')[i].classList.toggle('f', hasSku(id));
-    const os = document.querySelector(`#offerSlots .slot[data-sku="${id}"]`);
-    if(os){ os.classList.toggle('filled', hasSku(id)); os.classList.toggle(id, true); }
-  });
-  $('cs4').classList.toggle('f', done);
-  $('slotLbl').innerHTML = done ? 'Ritual complete —<br>N°04 is yours, free' : 'Complete 01–03<br>to unlock N°04';
-  $('slot4').classList.toggle('unlocked', done);
-  $('slot4msg').textContent = done ? 'unlocked — $0 in your order' : 'when 01–03 are in your order';
-  $('giftLine').style.display = done ? 'flex' : 'none';
-  $('ckBtn').disabled = itemCount()===0;
-  $('ckBtn').textContent = itemCount()===0 ? 'Checkout' : `Checkout — ${fmt(st)}${subscribe&&st>0?'/mo':''}`;
-  $('footNote').textContent = subscribe ? 'Subscription renews monthly · skip or cancel anytime' : 'One-time order · switch to Subscribe & Save for 15% off';
-
-  if(done && !prevComplete){ burst($('cs4')); burst($('slot4')); }
-  prevComplete = done;
+function apply(p){
+  els.field.style.background = fieldColor(p);
+  const beat = (el, a,b,c,d, ty)=>{ const o = win(p,a,b,c,d); el.style.opacity = o.toFixed(3); el.style.transform = 'translateX(-50%) translateY('+((1-o)*(ty===undefined?14:ty)).toFixed(1)+'px)'; };
+  beat(els.bHero, 0,.005,.075,.115, 0);
+  els.cue.style.opacity = win(p,0,.005,.05,.09).toFixed(3);
+  beat(els.bRise, .115,.145,.20,.235);
+  beat(els.bCalm, .235,.265,.32,.355);
+  beat(els.bRest, .355,.385,.44,.475);
+  beat(els.bAlign, .49,.52,.565,.60);
+  beat(els.bPrice, .585,.615,.685,.715);
+  beat(els.bSteady, .73,.765,.90,.945);
+  /* chips + CTA (interactive only while visible) */
+  const co = win(p,.585,.615,.69,.72);
+  els.chips.style.opacity = co.toFixed(3);
+  els.chips.style.transform = 'translateX(-50%) translateY('+((1-co)*22).toFixed(1)+'px)';
+  els.chips.style.pointerEvents = co>.55 ? 'auto' : 'none';
+  const so = win(p,.80,.845,.925,.965);
+  els.steadyCta.style.opacity = so.toFixed(3);
+  els.steadyCta.style.pointerEvents = so>.55 ? 'auto' : 'none';
+  /* the $18 -> FREE flip */
+  const flip = clamp01((p-.79)/.035);
+  $('flipPrice').style.opacity = (1-flip*.55).toFixed(2);
+  $('flipFree').style.opacity = flip.toFixed(2);
+  /* ghost numeral per scene */
+  const g = p<.235 && p>.10 ? 'N°01' : p<.355 && p>=.235 ? 'N°02' : p<.475 && p>=.355 ? 'N°03' : p>=.72 ? 'N°04' : '';
+  if(g && g !== els.ghost.textContent) els.ghost.textContent = g;
+  els.ghost.style.opacity = (g ? (p<.475 ? win(p,.12,.16,.44,.475) : win(p,.73,.78,.92,.95))*.35 : 0).toFixed(3);
+  /* bottles */
+  const w = slotW();
+  place(els.btRise,  bottleKF(p, .115, -w));
+  place(els.btCalm,  bottleKF(p, .235, 0));
+  place(els.btRest,  bottleKF(p, .355, w));
+  place(els.btSteady, steadyKF(p));
+  /* rail */
+  els.railfill.style.height = (p*100).toFixed(1)+'%';
+  els.rail.classList.toggle('lite', (p>.10 && p<.50) || (p>.715 && p<.95));
 }
 
-/* confetti burst */
-function burst(host){
-  if(!host || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const b = document.createElement('div'); b.className='burst';
-  const r = host.getBoundingClientRect();
-  b.style.left = (r.width/2)+'px'; b.style.top = (r.height/2)+'px';
-  host.style.position = host.style.position || 'relative';
-  const cols = ['#FF6A15','#12A594','#4E43C9','#C81E78','#F6EFE1'];
-  for(let i=0;i<14;i++){
-    const s = document.createElement('i');
-    const a = Math.random()*Math.PI*2, d = 40+Math.random()*70;
-    s.style.setProperty('--dx', Math.cos(a)*d+'px');
-    s.style.setProperty('--dy', Math.sin(a)*d-30+'px');
-    s.style.background = cols[i%cols.length];
-    s.style.animationDelay = (Math.random()*.12)+'s';
-    b.appendChild(s);
+if(reduced){
+  ['chips','steadyCta'].forEach(k=>{ els[k].style.pointerEvents='auto'; els[k].style.opacity=1; });
+  $('flipFree').style.opacity = 1;
+}else{
+  let target = 0, cur = -1;
+  function measure(){
+    const c = $('cinema');
+    const total2 = c.offsetHeight - innerHeight;
+    target = clamp01((-c.getBoundingClientRect().top) / (total2 || 1));
   }
-  host.appendChild(b);
-  setTimeout(()=>b.remove(), 1300);
-}
-
-/* ================= drawer / modals / menu ================= */
-let lastFocus = null;
-function openCart(){ lastFocus=document.activeElement; $('drawer').classList.add('open'); $('overlay').classList.add('open'); document.body.classList.add('lock'); $('drawerX').focus(); }
-function closeCart(){ $('drawer').classList.remove('open'); $('overlay').classList.remove('open'); document.body.classList.remove('lock'); if(lastFocus)lastFocus.focus(); }
-function openMenu(){ lastFocus=document.activeElement; $('mmenu').classList.add('open'); $('burger').setAttribute('aria-expanded','true'); document.body.classList.add('lock'); $('mmenu').querySelector('.x').focus(); }
-function closeMenu(){ $('mmenu').classList.remove('open'); $('burger').setAttribute('aria-expanded','false'); document.body.classList.remove('lock'); if(lastFocus)lastFocus.focus(); }
-function openLabel(id,name){ $('lbimg').src='assets/products/facts_'+id+'.png'; $('lbimg').alt='HAVN '+name+' Supplement Facts'; $('lightbox').classList.add('open'); }
-function closeLabel(){ $('lightbox').classList.remove('open'); }
-function closeCk(){ $('ckmodal').classList.remove('open'); }
-function checkout(){
-  if(itemCount()===0) return;
-  const lines = [];
-  if(cart.trio>0) lines.push(`<div class="l"><span>Complete Ritual ×${cart.trio}</span><span>${fmt(cart.trio*trioPrice())}</span></div>`);
-  ALL.forEach(p=>{ if(cart.singles[p.id]>0) lines.push(`<div class="l"><span>${p.name} ×${cart.singles[p.id]}</span><span>${fmt(cart.singles[p.id]*priceOf(p))}</span></div>`); });
-  if(complete()) lines.push(`<div class="l g"><span>Steady — N°04 gift</span><span><s>$18</s> FREE</span></div>`);
-  lines.push(`<div class="l"><span>Shipping</span><span>${subtotal()>=FREE_SHIP?'FREE':'at checkout'}</span></div>`);
-  lines.push(`<div class="l t"><span>Total${subscribe?' / month':''}</span><span>${fmt(subtotal())}</span></div>`);
-  $('ckSummary').innerHTML = lines.join('');
-  closeCart(); $('ckmodal').classList.add('open'); $('ckemail').focus();
-}
-function ckJoin(btn){
-  const input = $('ckemail');
-  if(!input.value || !input.value.includes('@')){ input.focus(); return; }
-  try{ localStorage.setItem('havn_waitlist', input.value); }catch(e){}
-  btn.textContent = "You're on the list ✓"; btn.disabled = true; input.disabled = true;
-}
-function joinList(btn){
-  const input = $('nlemail');
-  if(!input.value || !input.value.includes('@')){ input.focus(); return; }
-  try{ localStorage.setItem('havn_nl', input.value); }catch(e){}
-  btn.textContent = "You're in ✓"; btn.disabled = true; input.disabled = true;
-}
-document.addEventListener('keydown', e=>{
-  if(e.key!=='Escape') return;
-  if($('ckmodal').classList.contains('open')) return closeCk();
-  if($('lightbox').classList.contains('open')) return closeLabel();
-  if($('drawer').classList.contains('open')) return closeCart();
-  if($('mmenu').classList.contains('open')) return closeMenu();
-});
-
-/* ================= motion engine (scroll-sweep — survives throttled tabs) ================= */
-function countUp(el){
-  const txt = el.textContent, m = txt.match(/(\d+)/); if(!m) return;
-  const target = +m[1], suffix = txt.replace(m[1],'');
-  const t0 = performance.now(), dur = 1100;
-  function tick(t){
-    const k = Math.min(1,(t-t0)/dur), v = Math.round(target*(1-Math.pow(1-k,3)));
-    el.textContent = v + suffix;
-    if(k<1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-  setTimeout(()=>{ el.textContent = target + suffix; }, dur + 250);
-}
-function motionSweep(){
-  const vh = innerHeight * 0.92;
-  document.querySelectorAll('.rv:not(.in)').forEach(el=>{
-    if(el.getBoundingClientRect().top < vh) el.classList.add('in');
-  });
-  document.querySelectorAll('.sci .k:not(.counted)').forEach(el=>{
-    if(el.getBoundingClientRect().top < vh){ el.classList.add('counted'); countUp(el); }
-  });
-  document.querySelector('header.nav').classList.toggle('scrolled', scrollY>8);
-  /* sticky cta: past hero, not at footer, cart closed */
-  const past = scrollY > innerHeight*0.7;
-  const nearEnd = scrollY + innerHeight > document.body.scrollHeight - 500;
-  $('stickycta').classList.toggle('show', past && !nearEnd && !document.body.classList.contains('lock'));
-}
-addEventListener('scroll', motionSweep, {passive:true});
-addEventListener('resize', motionSweep, {passive:true});
-addEventListener('load', motionSweep);
-setTimeout(motionSweep, 400); setTimeout(motionSweep, 1500);
-
-/* announcement rotator */
-(function(){
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const msgs = document.querySelectorAll('#anno .msg'); let i = 0;
-  setInterval(()=>{ msgs[i].classList.remove('on'); i=(i+1)%msgs.length; msgs[i].classList.add('on'); }, 4600);
-})();
-
-/* marquee duplicate */
-const mq = $('mqtrack'); if(mq){ mq.innerHTML += mq.innerHTML; }
-const rmq = $('rmtrack'); if(rmq && !matchMedia('(prefers-reduced-motion: reduce)').matches){ rmq.innerHTML += rmq.innerHTML; }
-
-/* staggered word reveal on section headings (21st.dev port) */
-document.querySelectorAll('.sec-head h2').forEach(h=>{
-  if(h.children.length) return; /* skip headings with markup (e.g. shimmer spans) */
-  const words = h.textContent.trim().split(/\s+/);
-  h.innerHTML = words.map((w,i)=>`<span class="w" style="--wi:${i}">${w.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</span>`).join(' ');
-});
-
-/* pointer parallax + magnetic buttons (fine pointers, motion allowed) */
-if(matchMedia('(pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches){
-  let raf = null;
-  addEventListener('mousemove', e=>{
-    if(raf) return;
-    raf = requestAnimationFrame(()=>{
-      const nx = (e.clientX/innerWidth - .5), ny = (e.clientY/innerHeight - .5);
-      document.querySelectorAll('[data-px]').forEach(el=>{
-        const f = +el.dataset.px;
-        el.style.setProperty('translate', `${(-nx*f).toFixed(1)}px ${(-ny*f).toFixed(1)}px`);
-      });
-      raf = null;
-    });
-  }, {passive:true});
-  document.querySelectorAll('.btn.mag').forEach(b=>{
-    b.addEventListener('mousemove', e=>{
-      const r = b.getBoundingClientRect();
-      const x = (e.clientX-r.left-r.width/2)/r.width, y = (e.clientY-r.top-r.height/2)/r.height;
-      b.style.setProperty('translate', `${(x*6).toFixed(1)}px ${(y*5).toFixed(1)}px`);
-    });
-    b.addEventListener('mouseleave', ()=>{ b.style.removeProperty('translate'); });
-  });
-  /* cursor spotlight + 3D tilt on cards (delegated — survives re-renders) */
-  document.addEventListener('mousemove', e=>{
-    const c = e.target.closest && e.target.closest('.spot');
-    if(!c) return;
-    const r = c.getBoundingClientRect();
-    c.style.setProperty('--mx', (e.clientX-r.left)+'px');
-    c.style.setProperty('--my', (e.clientY-r.top)+'px');
-    if(c.classList.contains('tilt3d')){
-      const ry = ((e.clientX-r.left)/r.width - .5), rx = ((e.clientY-r.top)/r.height - .5);
-      if(!c.style.transition) c.style.transition = 'transform .18s ease-out, box-shadow .25s ease';
-      c.style.transform = `perspective(950px) rotateX(${(rx*-6).toFixed(2)}deg) rotateY(${(ry*6).toFixed(2)}deg)`
-        + (c.classList.contains('pcard') ? ' translateY(-6px)' : '');
-    }
-  }, {passive:true});
-  document.addEventListener('mouseout', e=>{
-    const c = e.target.closest && e.target.closest('.tilt3d');
-    if(!c || (e.relatedTarget && c.contains(e.relatedTarget))) return;
-    c.style.transform = '';
-  }, {passive:true});
-}
-
-/* ================= living nebula + sparkles (canvas FX) ================= */
-(function(){
-  const COLS = {rise:[255,106,21], calm:[18,165,148], rest:[98,86,226], steady:[214,44,134]};
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  document.querySelectorAll('canvas.fx').forEach(cv=>{
-    const dark = cv.dataset.fx !== 'light';
-    const names = (cv.dataset.colors||'rise,calm').split(',');
-    const density = +(cv.dataset.density||1);
-    const sparkN = reduced ? 0 : +(cv.dataset.sparkles||0);
-    const ctx = cv.getContext('2d');
-    let W, H, clouds = [], sparks = [], t = Math.random()*100, running = false, raf = null;
-
-    function size(){
-      const r = cv.parentElement.getBoundingClientRect();
-      W = cv.width = Math.max(4, Math.round(r.width/3));   /* low-res render = free softness */
-      H = cv.height = Math.max(4, Math.round(r.height/3));
-    }
-    function init(){
-      size(); clouds = []; sparks = [];
-      names.forEach((n,i)=>{
-        const c = COLS[n] || COLS.rise;
-        if(dark){
-          for(let k=0;k<2;k++) clouds.push({c,
-            r:(.5+Math.random()*.45)*Math.min(W,H)*1.7*density,
-            x:(.14+.72*Math.random()), y:(.1+.8*Math.random()),
-            sx:.05+Math.random()*.1, sy:.04+Math.random()*.09,
-            px:Math.random()*7, py:Math.random()*7,
-            a:.4*(k? .65 : 1)});
-        }else{
-          /* light mode: one soft pastel cloud per color, pinned to the perimeter so the cream stays dominant */
-          const ang = (i/names.length)*Math.PI*2 + .6;
-          clouds.push({c,
-            r:(.55+Math.random()*.2)*Math.min(W,H)*1.15*density,
-            x:.5+.44*Math.cos(ang), y:.5+.42*Math.sin(ang),
-            sx:.04+Math.random()*.06, sy:.03+Math.random()*.05,
-            px:Math.random()*7, py:Math.random()*7,
-            a:.17});
-        }
-      });
-      for(let i=0;i<sparkN;i++) sparks.push({x:Math.random(), y:Math.random(), r:.5+Math.random()*1.3, p:Math.random()*7, v:.5+Math.random()});
-    }
-    function frame(){
-      t += .016;
-      ctx.clearRect(0,0,W,H);
-      ctx.globalCompositeOperation = dark ? 'lighter' : 'source-over';
-      for(const b of clouds){
-        const x = (b.x + Math.sin(t*b.sx + b.px)*.2)*W;
-        const y = (b.y + Math.cos(t*b.sy + b.py)*.17)*H;
-        const rr = b.r*(1 + Math.sin(t*.1 + b.px)*.14);
-        const g = ctx.createRadialGradient(x,y,0,x,y,rr);
-        g.addColorStop(0, `rgba(${b.c[0]},${b.c[1]},${b.c[2]},${b.a})`);
-        g.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
-      }
-      if(sparks.length){
-        ctx.globalCompositeOperation = 'lighter';
-        for(const s of sparks){
-          s.y -= s.v*.0006; if(s.y < -.02) s.y = 1.02;
-          const tw = .3 + .7*Math.abs(Math.sin(t*1.6 + s.p));
-          ctx.fillStyle = `rgba(246,239,225,${.8*tw})`;
-          ctx.beginPath(); ctx.arc(s.x*W, s.y*H, s.r*tw, 0, 7); ctx.fill();
-        }
-      }
-    }
-    function loop(){ if(!running) return; frame(); raf = requestAnimationFrame(loop); }
-    function healthy(){ const r = cv.parentElement.getBoundingClientRect(); return r.width > 50 && Math.abs(Math.round(r.width/3) - W) < Math.max(40, W*.4); }
-    function start(){
-      if(reduced) return;
-      if(!healthy()){ init(); }                       /* re-init if sized while hidden/0-width */
-      if(running) return; running = true; raf = requestAnimationFrame(loop);
-    }
-    function stop(){ running = false; if(raf) cancelAnimationFrame(raf); }
-
-    init(); frame();                                  /* static first paint = reduced-motion state */
-    if(!reduced){
-      if('IntersectionObserver' in window){
-        new IntersectionObserver(es=>es.forEach(e=> e.isIntersecting ? start() : stop()), {rootMargin:'160px'}).observe(cv.parentElement);
-      }
-      setTimeout(start, 350);                         /* fallback where IO is throttled */
-      document.addEventListener('visibilitychange', ()=>{ document.hidden ? stop() : start(); });
-      let rt; addEventListener('resize', ()=>{ clearTimeout(rt); rt = setTimeout(()=>{ init(); frame(); }, 180); }, {passive:true});
-    }
-  });
-})();
-
-/* ================= PLAN B: ONE SKY (single scroll-evolving shader) =================
-   One fixed WebGL canvas behind the whole page. The nebula palette rides the
-   scrollbar through the ritual's day: dawn (RISE) → day (CALM) → dusk (REST)
-   → night (STEADY underneath). GLSL adapted from 21st.dev dhiluxui/living-nebula. */
-(function(){
-  const cv = document.getElementById('sky'); if(!cv) return;
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let gl = null;
-  try{ gl = cv.getContext('webgl',{antialias:false,alpha:false,powerPreference:'low-power'}); }catch(e){}
-  if(!gl) return;                                   /* CSS gradient fallback stays */
-  const VERT='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
-  const FRAG=`precision mediump float;
-    uniform vec2 R;uniform float T;uniform vec2 M;uniform vec3 C1;uniform vec3 C2;uniform float S;
-    float hash(vec2 st){return fract(sin(dot(st,vec2(12.9898,78.233)))*43758.5453123);}
-    float noise(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);
-      return mix(mix(hash(i),hash(i+vec2(1.,0.)),u.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),u.x),u.y);}
-    float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*noise(p);p*=2.;a*=.5;}return v;}
-    float stars(vec2 uv,float t){vec2 c=uv*70.;vec2 g=floor(c);float h=hash(g);
-      vec2 o=vec2(hash(g+7.1),hash(g+3.7))-.5;
-      float m=smoothstep(.3,.02,length(fract(c)-.5-o*.5));
-      return step(.94,h)*m*(.35+.65*sin(t*(1.+h*3.)+h*40.));}
-    void main(){
-      vec2 uv=(gl_FragCoord.xy-.5*R)/R.y, m=(M-.5*R)/R.y;
-      float t=T*.08;
-      float md=length(uv-m);
-      uv+=normalize(uv-m+vec2(1e-4))/(md*50.+1.)*smoothstep(.28,0.,md);
-      float a=t*.25+S*1.1; mat2 rot=mat2(cos(a),-sin(a),sin(a),cos(a));
-      vec2 p=rot*uv+vec2(0.,S*1.7);
-      float c1=fbm(p*2.+vec2(t,-t)), c2=fbm(p*3.6-vec2(-t,t));
-      vec3 col=vec3(.05,.042,.036);
-      col=mix(col,C1*.8,smoothstep(.42,.74,c1)*.46);
-      col=mix(col,C2*.85,smoothstep(.5,.8,c2)*.32);
-      col+=stars(uv+vec2(t*.02,S*.35),T)*vec3(1.,.95,.85)*(.75+.25*S);
-      col*=1.-.22*smoothstep(.55,1.35,length(uv));  /* gentle vignette */
-      gl_FragColor=vec4(col,1.);}`;
-  function mk(t,s){const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);
-    return gl.getShaderParameter(o,gl.COMPILE_STATUS)?o:null;}
-  const vs=mk(gl.VERTEX_SHADER,VERT), fs=mk(gl.FRAGMENT_SHADER,FRAG);
-  if(!vs||!fs) return;
-  const P=gl.createProgram(); gl.attachShader(P,vs); gl.attachShader(P,fs); gl.linkProgram(P);
-  if(!gl.getProgramParameter(P,gl.LINK_STATUS)) return;
-  gl.useProgram(P);
-  const b=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b);
-  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
-  const loc=gl.getAttribLocation(P,'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
-  const U={}; ['R','T','M','C1','C2','S'].forEach(n=>U[n]=gl.getUniformLocation(P,n));
-  /* the ritual's day as scroll stops: dawn → day → dusk → night */
-  const STOPS=[
-    [[1,.42,.08],[.83,.12,.49]],    /* dawn:  rise orange + steady magenta */
-    [[.07,.65,.58],[.36,.31,.86]],  /* day:   calm teal + rest indigo */
-    [[.36,.31,.86],[.83,.12,.49]],  /* dusk:  rest indigo + steady magenta */
-    [[.15,.12,.4],[.45,.08,.28]]    /* night: deep indigo + dim magenta */
-  ];
-  const lerp=(a,c,k)=>[a[0]+(c[0]-a[0])*k, a[1]+(c[1]-a[1])*k, a[2]+(c[2]-a[2])*k];
-  function palAt(s){
-    const seg=Math.min(STOPS.length-2, Math.floor(s*(STOPS.length-1)));
-    const k=Math.min(1, Math.max(0, s*(STOPS.length-1)-seg));
-    return [lerp(STOPS[seg][0],STOPS[seg+1][0],k), lerp(STOPS[seg][1],STOPS[seg+1][1],k)];
-  }
-  function size(){
-    const s=Math.min(devicePixelRatio||1,2)*.5;   /* half-res: soft + cheap */
-    cv.width=Math.max(2,Math.round(innerWidth*s));
-    cv.height=Math.max(2,Math.round(innerHeight*s));
-    gl.viewport(0,0,cv.width,cv.height);
-  }
-  size();
-  let rt; addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(size,180);},{passive:true});
-  let mx=-9999,my=-9999;
-  if(matchMedia('(pointer: fine)').matches) addEventListener('mousemove',e=>{
-    const s=cv.width/Math.max(1,innerWidth);
-    mx=e.clientX*s; my=(innerHeight-e.clientY)*s;
-  },{passive:true});
-  const t0=performance.now();
-  const svForce=parseFloat(new URLSearchParams(location.search).get('sv')); /* ?sv=0..1 pins the day-phase (tuning) */
-  function draw(){
-    const sMax=Math.max(1, document.documentElement.scrollHeight-innerHeight);
-    const s=isNaN(svForce) ? Math.min(1, Math.max(0, scrollY/sMax)) : svForce;
-    const pal=palAt(s);
-    gl.uniform2f(U.R,cv.width,cv.height);
-    gl.uniform1f(U.T,(performance.now()-t0)/1000+9.);
-    gl.uniform2f(U.M,mx,my);
-    gl.uniform3fv(U.C1,pal[0]); gl.uniform3fv(U.C2,pal[1]);
-    gl.uniform1f(U.S,s);
-    gl.drawArrays(gl.TRIANGLES,0,3);
-  }
-  if(reduced){ draw(); return; }                   /* static dawn frame */
-  (function frame(){
-    if(!document.hidden){ if(cv.width<4) size(); draw(); }
-    requestAnimationFrame(frame);
+  addEventListener('scroll', measure, {passive:true});
+  addEventListener('resize', measure);
+  measure();
+  (function loop(){
+    if(Math.abs(target-cur) > 0.0004){ cur = cur<0 ? target : cur + (target-cur)*0.16; apply(clamp01(cur)); }
+    requestAnimationFrame(loop);
   })();
-})();
+  apply(0);
+  /* safety: if rAF is starved (backgrounded tab), apply directly on scroll */
+  addEventListener('scroll', ()=>{ if(document.hidden) apply(target); }, {passive:true});
+}
 
-/* boot */
-renderProducts(); syncOfferCopy(); update(); motionSweep();
-setTimeout(()=>{ const st = $('stage'); if(st) st.classList.add('settle'); }, 1800);
-if(location.hash==='#cart'){ addTrio(); }
+/* marquee duplication (same trick as A) */
+const rmq = $('rmtrack'); if(rmq && !reduced){ rmq.innerHTML += rmq.innerHTML; }
+syncCart();
+track('planB_view');
 </script>
 </body>
 </html>
