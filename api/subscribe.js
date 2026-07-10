@@ -7,10 +7,22 @@
    set; HAVN15-DEMO in demo mode. The code is returned to the page instantly
    (shown on screen), so it works even before customer emails are possible. */
 
-const { sendEmail } = require('./_email.js');
+const { sendEmail, esc } = require('./_email.js');
 
 const COUPON_ID = 'HAVN15';           /* the shared 15% coupon behind every unique code */
 const CODE_TTL_DAYS = 30;
+
+/* light per-instance rate limit — serverless instances are ephemeral, but this
+   still blunts single-source spam against code minting + owner emails */
+const hits = new Map();
+function rateLimited(ip) {
+  const now = Date.now(), win = 10 * 60 * 1000, max = 6;
+  const arr = (hits.get(ip) || []).filter(t => now - t < win);
+  arr.push(now);
+  hits.set(ip, arr);
+  if (hits.size > 5000) hits.clear(); /* memory backstop */
+  return arr.length > max;
+}
 
 async function readJson(req) {
   if (req.body !== undefined && req.body !== null) {
@@ -58,17 +70,28 @@ async function mintUniqueCode(stripe, email, source) {
 }
 
 module.exports = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+  /* only the site itself may call this from a browser */
+  const allowed = [
+    process.env.SITE_URL && process.env.SITE_URL.replace(/\/$/, ''),
+    'https://bohmarko567-oss.github.io',
+  ].filter(Boolean);
+  const origin = req.headers.origin;
+  const ok = origin && (allowed.includes(origin) || /^http:\/\/localhost(:\d+)?$/.test(origin));
+  res.setHeader('Access-Control-Allow-Origin', ok ? origin : (allowed[0] || 'null'));
+  res.setHeader('Vary', 'Origin');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
   if (req.method !== 'POST') { res.statusCode = 405; return res.end(JSON.stringify({ error: 'POST only' })); }
 
+  const ip = String(req.headers['x-forwarded-for'] || req.socket && req.socket.remoteAddress || '').split(',')[0].trim();
+  if (rateLimited(ip)) { res.statusCode = 429; return res.end(JSON.stringify({ error: 'slow down' })); }
+
   let email = '', source = '', promo = false;
   try {
     const b = await readJson(req);
     email = String(b.email || '').trim();
-    source = String(b.source || 'site').slice(0, 40);
+    source = String(b.source || 'site').replace(/[^\w.-]/g, '').slice(0, 40);
     promo = !!b.promo;
   } catch { res.statusCode = 400; return res.end(JSON.stringify({ error: 'bad JSON' })); }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
@@ -104,7 +127,7 @@ module.exports = async (req, res) => {
     await sendEmail({
       to: process.env.OWNER_EMAIL,
       subject: (promo ? '🎟️ HAVN promo signup: ' : '✉️ HAVN signup: ') + email,
-      html: `<p><b>${email}</b> via <i>${source}</i>${code ? ` — code <b>${code}</b> (single-use, first order, ${CODE_TTL_DAYS}d)` : ''}.</p>`,
+      html: `<p><b>${esc(email)}</b> via <i>${esc(source)}</i>${code ? ` — code <b>${esc(code)}</b> (single-use, first order, ${CODE_TTL_DAYS}d)` : ''}.</p>`,
     });
   }
 

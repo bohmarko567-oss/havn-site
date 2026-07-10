@@ -19,3 +19,6 @@ package-lock.json
 
 # owner runbook — never in the public repo
 GO_LIVE.md
+
+# env template lives with the runbook, not the public repo
+.env.example

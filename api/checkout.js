@@ -10,7 +10,14 @@ const {
 } = require('./_catalog.js');
 
 function cors(res, origin) {
-  res.setHeader('Access-Control-Allow-Origin', origin || '*');
+  /* only the site itself may call this from a browser */
+  const allowed = [
+    process.env.SITE_URL && process.env.SITE_URL.replace(/\/$/, ''),
+    'https://bohmarko567-oss.github.io',
+  ].filter(Boolean);
+  const ok = origin && (allowed.includes(origin) || /^http:\/\/localhost(:\d+)?$/.test(origin));
+  res.setHeader('Access-Control-Allow-Origin', ok ? origin : (allowed[0] || 'null'));
+  res.setHeader('Vary', 'Origin');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
@@ -85,7 +92,8 @@ module.exports = async (req, res) => {
     /* welcome code from the on-page circle — applied server-side so the Stripe
        total matches the cart. Subscription orders only; the coupon behind it is
        duration:"once", so Stripe discounts the FIRST invoice and renews full. */
-    const promoCode = typeof payload.promo === 'string' ? payload.promo.trim().slice(0, 40) : '';
+    const rawPromo = typeof payload.promo === 'string' ? payload.promo.trim().toUpperCase() : '';
+    const promoCode = /^[A-Z0-9-]{2,24}$/.test(rawPromo) ? rawPromo : '';
     if (promoCode && subscribe) {
       try {
         const found = await stripe.promotionCodes.list({ code: promoCode, active: true, limit: 1 });
