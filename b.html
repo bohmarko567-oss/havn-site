@@ -87,7 +87,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 /* the in-film offer menu — the film's last act IS the order screen */
 /* translateY(max(...)) keeps the menu clear of the bottle row on short
    viewports (iPhone with browser chrome), identical on tall screens */
-.offmenu{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(max(12vh,104px));width:min(92vw,560px);opacity:0;pointer-events:none;color:#F3E6ED;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;}
+.offmenu{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(max(12vh,114px));width:min(92vw,560px);opacity:0;pointer-events:none;color:#F3E6ED;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;}
 .offmenu .modetoggle{display:flex;gap:6px;width:min(78vw,300px);margin:0;}
 .offmenu .mt{flex:1;min-height:36px;border:1.5px solid #5A2B45;background:transparent;color:#C99BB5;border-radius:100px;font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.4px;cursor:pointer;}
 .offmenu .mt.on{background:var(--cream);border-color:var(--cream);color:var(--ink);}
@@ -290,6 +290,29 @@ footer a{color:inherit;}
   .drawer-foot .btn{min-height:46px;font-size:12.5px;}
   .drawer-foot .subnote{font-size:9.5px;margin-top:7px;}
   .gift-line{font-size:11px;margin-bottom:8px;}
+}
+
+/* ————— desktop layer (≥1024): bigger mockups, wider everything —
+   PURELY ADDITIVE: nothing below this block touches phone/tablet rules ————— */
+@media(min-width:1024px){
+  .bottle{height:min(52vh,470px);}
+  .beat.solo h2{font-size:clamp(64px,8vw,120px);}
+  .beat.solo p{max-width:40ch;font-size:17.5px;}
+  .beat .spec{font-size:13.5px;}
+  .beat.hero h2{font-size:clamp(64px,7.5vw,110px);}
+  .chip{width:220px;padding:16px 14px 14px;}
+  .chip h4{font-size:22px;}
+  .chip .pr{font-size:14.5px;}
+  .chip button{min-height:44px;font-size:12.5px;}
+  .flip{font-size:clamp(64px,7.5vw,100px);}
+  .offmenu{width:min(80vw,640px);gap:12px;transform:translate(-50%,-50%) translateY(max(15vh,142px));}
+  .om-big{font-size:36px;}
+  .om-list{font-size:13.5px;gap:6px 22px;max-width:520px;}
+  .om-cta{width:min(60vw,460px);min-height:56px;font-size:14.5px;}
+  .offmenu .minirow{width:min(60vw,460px);}
+  .om-mini{font-size:11px;}
+  .splus{font-size:48px;}
+  .ghost{font-size:min(52vh,44vw);}
 }
 
 /* reduced motion / no JS: static everything-visible page */
@@ -800,7 +823,7 @@ const hexRGB = h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(
 const C_CREAM=hexRGB('#F6EFE1'), C_RISE=hexRGB('#FF6A15'), C_CALM=hexRGB('#12A594'), C_REST=hexRGB('#4E43C9'), C_BERRY=hexRGB('#2B0A1E');
 function fieldColor(p){
   /* the berry finale STAYS — the film simply ends and the site goes on */
-  const stops=[[0,C_CREAM],[.095,C_CREAM],[.14,C_RISE],[.235,C_RISE],[.27,C_CALM],[.345,C_CALM],[.385,C_REST],[.465,C_REST],[.505,C_CREAM],[.715,C_CREAM],[.76,C_BERRY],[1,C_BERRY]];
+  const stops=[[0,C_CREAM],[.095,C_CREAM],[.14,C_RISE],[.235,C_RISE],[.27,C_CALM],[.345,C_CALM],[.385,C_REST],[.465,C_REST],[.505,C_CREAM],[.73,C_CREAM],[.775,C_BERRY],[1,C_BERRY]];
   for(let i=1;i<stops.length;i++){
     if(p<=stops[i][0]){
       const t=(p-stops[i-1][0])/(stops[i][0]-stops[i-1][0]);
@@ -812,26 +835,35 @@ function fieldColor(p){
 }
 
 /* freestyle still-life slots + the hero stack poses */
-const MOB = () => innerWidth <= 700;
-const SLOTS = () => MOB()
-  ? { rise:{x:-31,y:12,r:-8,s:.55}, calm:{x:-3,y:3,r:5,s:.62}, rest:{x:29,y:9,r:-4,s:.52}, steady:{x:10,y:15,r:6,s:.58} }
-  : { rise:{x:-30,y:11,r:-8,s:.66}, calm:{x:-4,y:2,r:5,s:.72}, rest:{x:26,y:8,r:-4,s:.62}, steady:{x:9,y:13,r:6,s:.66} };
-const STACK = () => MOB()   /* spread in all directions — every bottle clearly visible */
-  ? { rise:{x:9,y:8,r:12,s:.66},   calm:{x:-16,y:19,r:-11,s:.60}, rest:{x:17,y:29,r:8,s:.52} }
-  : { rise:{x:10,y:9,r:12,s:.74},  calm:{x:-17,y:20,r:-11,s:.68}, rest:{x:19,y:29,r:8,s:.58} };
-/* the finale row: 1-2-3 on the table, plus, and the (smaller) drops */
-const ROW = () => MOB()
-  ? { rise:{x:-32,y:-21,s:.46}, calm:{x:-11,y:-21,s:.46}, rest:{x:10,y:-21,s:.46}, plus:{x:20.5,y:-17}, steady:{x:32,y:-19.5,s:.38} }
-  : { rise:{x:-16,y:-18,s:.5},  calm:{x:-7,y:-18,s:.5},   rest:{x:2,y:-18,s:.5},   plus:{x:8.5,y:-14},  steady:{x:15.5,y:-16,s:.42} };
+/* three breakpoints — the phone numbers NEVER change when desktop is tuned */
+const BP = () => innerWidth <= 700 ? 'm' : innerWidth < 1024 ? 't' : 'd';
+const SLOTS = () => ({
+  m: { rise:{x:-31,y:12,r:-8,s:.55}, calm:{x:-3,y:3,r:5,s:.62}, rest:{x:29,y:9,r:-4,s:.52}, steady:{x:10,y:15,r:6,s:.58} },
+  t: { rise:{x:-30,y:11,r:-8,s:.66}, calm:{x:-4,y:2,r:5,s:.72}, rest:{x:26,y:8,r:-4,s:.62}, steady:{x:9,y:13,r:6,s:.66} },
+  d: { rise:{x:-27,y:9,r:-8,s:.72},  calm:{x:-4,y:1,r:5,s:.8},  rest:{x:24,y:7,r:-4,s:.68}, steady:{x:9,y:12,r:6,s:.7} },
+})[BP()];
+const STACK = () => ({   /* spread in all directions — every bottle clearly visible */
+  m: { rise:{x:9,y:8,r:12,s:.66},   calm:{x:-16,y:19,r:-11,s:.60}, rest:{x:17,y:29,r:8,s:.52} },
+  t: { rise:{x:10,y:9,r:12,s:.74},  calm:{x:-17,y:20,r:-11,s:.68}, rest:{x:19,y:29,r:8,s:.58} },
+  d: { rise:{x:9,y:7,r:12,s:.86},   calm:{x:-15,y:17,r:-11,s:.8},  rest:{x:16,y:26,r:8,s:.7} },
+})[BP()];
+/* the finale row: 1-2-3 on the table, plus, and the (smaller) drops.
+   Each has a MID pose (straightening LOW, under the flip text) and the final
+   row height — the two-stage rise is what keeps mockups off the text forever */
+const ROW = () => ({
+  m: { rise:{x:-32,s:.46}, calm:{x:-11,s:.46}, rest:{x:10,s:.46}, plus:{x:20.5}, steady:{x:32,s:.38}, midY:8,  y:-20, plusY:-16 },
+  t: { rise:{x:-16,s:.5},  calm:{x:-7,s:.5},   rest:{x:2,s:.5},   plus:{x:8.5},  steady:{x:15.5,s:.42}, midY:7, y:-18, plusY:-14 },
+  d: { rise:{x:-17,s:.52}, calm:{x:-8,s:.52},  rest:{x:1,s:.52},  plus:{x:8},    steady:{x:15,s:.44},  midY:14, y:-22, plusY:-18 },
+})[BP()];
 
 /* RISE: from the hero stack — one continuous zoom-up, ONE rotation sweep,
    hold floating, then ONE toss that lands it AT its slot — and it FREEZES
    there (no residual drifting; the price scene only brightens it). */
 function riseKF(p){
-  const st = STACK().rise, sl = SLOTS().rise, rw = ROW().rise;
+  const st = STACK().rise, sl = SLOTS().rise, R = ROW(), rw = R.rise;
   return {
     x: kf(p, [[.085,st.x],[.15,0],[.215,0],[.245,sl.x],[.72,sl.x],[.80,rw.x]], eio),
-    y: kf(p, [[.085,st.y],[.15,2],[.215,1.3],[.245,sl.y],[.72,sl.y],[.80,rw.y]], eio),
+    y: kf(p, [[.085,st.y],[.15,2],[.215,1.3],[.245,sl.y],[.72,sl.y],[.80,R.midY],[.815,R.midY],[.855,R.y]], eio),
     r: kf(p, [[.085,st.r],[.17,-4],[.215,-6],[.245,sl.r],[.72,sl.r],[.80,0]]),
     s: kf(p, [[.085,st.s],[.155,1.10],[.215,1.10],[.245,sl.s],[.72,sl.s],[.80,rw.s]], eio),
     o: kf(p, [[-1,1],[.245,1],[.255,.38],[.48,.38],[.51,1]])
@@ -852,25 +884,25 @@ function soloKF(p, cfg){
       o: kf(p, [[.085,1],[.13,0],[IN-.001,0]])
     };
   }
-  const row = cfg.row;
+  const row = cfg.row, R = ROW();
   return {
     x: kf(p, [[IN,fromX],[ARR,0],[H1,0],[TOSS,slot.x],[.72,slot.x],[.80,row.x]], eio),
-    y: kf(p, [[IN,42],[ARR,2],[H1,1.2],[TOSS,slot.y],[.72,slot.y],[.80,row.y]], eio),
+    y: kf(p, [[IN,42],[ARR,2],[H1,1.2],[TOSS,slot.y],[.72,slot.y],[.80,R.midY],[.815,R.midY],[.855,R.y]], eio),
     r: kf(p, [[IN,enterR],[ARR,holdR],[H1,holdR*.8],[TOSS,slot.r],[.72,slot.r],[.80,0]]),
     s: kf(p, [[IN,.86],[ARR,1.06],[H1,1.06],[TOSS,slot.s],[.72,slot.s],[.80,row.s]], eio),
     o: kf(p, [[IN-.006,0],[IN+.02,1],[TOSS-.002,1],[TOSS+.01,.38],[.48,.38],[.51,1]])
   };
 }
 function steadyKF(p){
-  /* enters after the trio has settled into the row: fast at first, then a
-     soft eased landing (his "steady by the end") into its row spot */
-  const rw = ROW().steady;
+  /* joins the LOW row while the flip text plays (fast, then a soft eased
+     landing), and rises to the final row height together with the trio */
+  const R = ROW(), rw = R.steady;
   return {
     x: rw.x,
-    y: kf(p, [[.74,60],[.82,rw.y]], eout),
-    r: kf(p, [[.74,-210],[.82,0]], eout),
+    y: kf(p, [[.75,60],[.815,R.midY+1],[.855,R.y+1]], eout),
+    r: kf(p, [[.75,-210],[.815,0]], eout),
     s: rw.s,
-    o: kf(p, [[.735,0],[.755,1]])
+    o: kf(p, [[.745,0],[.765,1]])
   };
 }
 let bobT = 0;   /* idle-life clock — a gentle constant float on every mockup */
@@ -898,27 +930,27 @@ function apply(p){
   beat(els.bRise, .13,.16,.205,.24);
   beat(els.bCalm, .25,.28,.325,.355);
   beat(els.bRest, .36,.39,.435,.465);
-  beat(els.bPrice, .49,.52,.685,.715);
-  beat(els.bSteady, .72,.755,.79,.83);  /* the flip beat hands off to the in-film order menu */
-  $('bands').style.opacity = win(p,.50,.55,.685,.715).toFixed(3);
-  const co = win(p,.50,.535,.685,.715);
+  beat(els.bPrice, .49,.52,.70,.73);    /* wider exit — a flick shouldn't vaporize the scene */
+  beat(els.bSteady, .73,.765,.80,.835); /* plays while the row straightens LOW, then hands off */
+  $('bands').style.opacity = win(p,.465,.505,.70,.73).toFixed(3);
+  const co = win(p,.50,.535,.70,.73);
   els.chips.style.opacity = co.toFixed(3);
   /* center-anchored (same coordinate system as the bottles → no iOS URL-bar drift) */
-  els.chips.style.transform = 'translate(-50%,-50%) translateY('+(MOB()?30.5:31)+'vh) translateY('+((1-co)*22).toFixed(1)+'px)';
+  els.chips.style.transform = 'translate(-50%,-50%) translateY('+({m:30.5,t:31,d:30})[BP()]+'vh) translateY('+((1-co)*22).toFixed(1)+'px)';
   els.chips.style.pointerEvents = co>.55 ? 'auto' : 'none';
   els.pbadge.style.visibility = (p>.48 && p<.97) ? 'hidden' : '';   /* keep the badge off the film's buttons */
-  const so = win(p,.83,.87,2,3);   /* the order menu — in after the row settles, never leaves */
+  const so = win(p,.85,.89,2,3);   /* the order menu — in after the row rises, never leaves */
   els.steadyCta.style.opacity = so.toFixed(3);
   els.steadyCta.style.pointerEvents = so>.55 ? 'auto' : 'none';
   const RW = ROW();
-  els.splus.style.opacity = win(p,.79,.825,2,3).toFixed(3);
-  els.splus.style.transform = 'translate(-50%,-50%) translate('+RW.plus.x+'vw,'+RW.plus.y+'vh)';
-  const flip = clamp01((p-.76)/.035);
+  els.splus.style.opacity = win(p,.85,.88,2,3).toFixed(3);
+  els.splus.style.transform = 'translate(-50%,-50%) translate('+RW.plus.x+'vw,'+RW.plusY+'vh)';
+  const flip = clamp01((p-.77)/.035);
   $('flipPrice').style.opacity = (1-flip*.55).toFixed(2);
   $('flipFree').style.opacity = flip.toFixed(2);
-  const g = p>=.13 && p<.245 ? 'N°01' : p>=.25 && p<.355 ? 'N°02' : p>=.36 && p<.465 ? 'N°03' : p>=.72 ? 'N°04' : '';
+  const g = p>=.13 && p<.245 ? 'N°01' : p>=.25 && p<.355 ? 'N°02' : p>=.36 && p<.465 ? 'N°03' : p>=.73 ? 'N°04' : '';
   if(g && g !== els.ghost.textContent) els.ghost.textContent = g;
-  els.ghost.style.opacity = (g ? (p<.465 ? win(p,.14,.18,.42,.46) : win(p,.73,.78,.84,.88))*.35 : 0).toFixed(3);
+  els.ghost.style.opacity = (g ? (p<.465 ? win(p,.14,.18,.42,.46) : win(p,.74,.79,.83,.87))*.35 : 0).toFixed(3);
   const S = SLOTS(), ST = STACK(), RWx = ROW();
   place(els.btRise, riseKF(p), 0);
   place(els.btCalm, soloKF(p, {t0:.25, fromX:-16, enterR:-14, holdR:7,  slot:S.calm, stack:ST.calm, exitX:-95, exitR:-48, row:RWx.calm}), 2.1);
@@ -933,6 +965,9 @@ if(reduced){
   ['chips','steadyCta'].forEach(k=>{ els[k].style.pointerEvents='auto'; els[k].style.opacity=1; });
   $('flipFree').style.opacity = 1;
   document.querySelectorAll('.bottle').forEach(b=>{ b.style.opacity=1; });
+}else if(Number.isFinite(parseFloat(new URLSearchParams(location.search).get('p')))){
+  /* ?p=0.87 — deterministic tuning/screenshot hook: pins the film at a progress */
+  apply(clamp01(parseFloat(new URLSearchParams(location.search).get('p'))));
 }else{
   let target = 0, cur = -1;
   function measure(){
