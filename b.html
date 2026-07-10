@@ -4,39 +4,41 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>HAVN — Plan B · Product Cinema</title>
+<title>HAVN — The 4-piece daily ritual · Cinema</title>
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <style>
-/* ————— PLAN B · PRODUCT CINEMA —————
-   Scroll-driven: a sticky stage inside a 780vh runway. Native scroll only —
-   no scroll-jacking. Bottles are the existing transparent cutouts, animated
-   with compositor-only transforms (translate/rotate/scale). */
+/* ————— PLAN B v3 · PRODUCT CINEMA, STANDALONE STORE —————
+   The film: hero stack splits apart → RISE zooms up aggressive → each solo
+   holds at its best pose (never fully straight), then tosses away freestyle →
+   merged price scene → berry finale that stays. Full store around it: cart
+   drawer, mode toggle, promo popup, waitlist fallback, labels, balloons. */
 @font-face{font-family:'Archivo';src:url('fonts/Archivo.ttf');font-display:swap;}
 @font-face{font-family:'Hanken';src:url('fonts/HankenGrotesk.ttf');font-display:swap;}
 @font-face{font-family:'Space Mono';src:url('fonts/SpaceMono-Regular.ttf');font-display:swap;}
 @font-face{font-family:'Space Mono';src:url('fonts/SpaceMono-Bold.ttf');font-weight:700;font-display:swap;}
 :root{
-  --cream:#F6EFE1;--ink:#1E1913;--muted:#6E6656;--line:#E2D9C6;
+  --cream:#F6EFE1;--cream2:#FBF6EC;--paper:#FFFFFF;
+  --ink:#1E1913;--muted:#6E6656;--muted2:#A79E8C;--line:#E2D9C6;
   --rise:#FF6A15;--rise2:#C4440A;--calm:#12A594;--calm2:#0A6E60;--rest:#4E43C9;--rest2:#2E259B;
   --berry:#C81E78;--berry2:#8A0E52;--berrydark:#2B0A1E;
   --disp:'Archivo',sans-serif;--body:'Hanken',sans-serif;--mono:'Space Mono',monospace;
+  --ease:cubic-bezier(.22,.61,.21,1);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:auto;}
 body{background:var(--cream);color:var(--ink);font-family:var(--body);overflow-x:clip;}
 img{max-width:100%;}
 button{font-family:inherit;cursor:pointer;}
+.monob{font-family:var(--mono);font-weight:700;}
 
 /* nav */
 nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;align-items:center;padding:14px clamp(16px,4vw,40px);}
 .logo{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 122;font-size:22px;letter-spacing:1px;text-decoration:none;color:var(--ink);background:var(--cream);border:2px solid var(--ink);border-radius:100px;padding:7px 16px;}
-.nav-right{display:flex;gap:8px;align-items:center;}
-.planb{font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:1.6px;background:var(--ink);color:var(--cream);border-radius:100px;padding:9px 13px;text-decoration:none;}
-.cartchip{font-family:var(--mono);font-weight:700;font-size:12px;background:var(--cream);border:2px solid var(--ink);border-radius:100px;padding:8px 14px;color:var(--ink);}
+.cartchip{font-family:var(--mono);font-weight:700;font-size:12px;background:var(--cream);border:2px solid var(--ink);border-radius:100px;padding:10px 16px;color:var(--ink);min-height:44px;}
 .cartchip b{color:var(--rise);}
 
 /* cinema runway + sticky stage */
-.cinema{height:780vh;position:relative;}
+.cinema{height:820vh;position:relative;}
 .stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:clip;}
 .field{position:absolute;inset:0;background:var(--cream);}
 .field::after{content:'';position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 110%, rgba(0,0,0,.16), transparent 55%);pointer-events:none;}
@@ -44,7 +46,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 
 /* bottles */
 .bottle{position:absolute;left:50%;top:50%;height:min(46vh,360px);will-change:transform;filter:drop-shadow(0 26px 30px rgba(20,10,0,.28));opacity:0;pointer-events:none;}
-.bottle.casc{height:min(40vh,420px);}   /* the hero trio mockup — visible from the first pixel */
 
 /* text beats */
 .beat{position:absolute;left:50%;transform:translateX(-50%);text-align:center;width:min(92vw,760px);opacity:0;pointer-events:none;}
@@ -53,18 +54,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .beat p{font-size:clamp(14.5px,2.2vw,17px);max-width:34ch;margin:14px auto 0;line-height:1.55;}
 .beat .spec{font-family:var(--mono);font-weight:700;font-size:clamp(11px,1.7vw,13px);letter-spacing:1.6px;margin-top:12px;text-transform:uppercase;}
 .beat.on-color{color:#fff;}
-.beat.hero{top:16%;}
+.beat.hero{top:15%;}
 .beat.hero h2 .l1{color:var(--rise);} .beat.hero h2 .l2{color:var(--calm);} .beat.hero h2 .l3{color:var(--rest);}
 .beat.hero .plus{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 118;font-size:clamp(19px,3.4vw,30px);color:transparent;-webkit-text-stroke:1.4px var(--berry);text-transform:uppercase;margin-top:10px;}
-.scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10.5px;letter-spacing:2.4px;color:var(--muted);text-transform:uppercase;opacity:0;}
+.scrollcue{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10.5px;letter-spacing:2.4px;color:var(--muted);text-transform:uppercase;opacity:0;}
 .scrollcue::after{content:'↓';display:block;margin-top:5px;font-size:15px;animation:cue 1.4s ease-in-out infinite;}
 @keyframes cue{50%{transform:translateY(5px);}}
 .beat.solo{top:9%;}
-.beat.align{top:12%;}
 .beat.price{top:8%;}
 .beat.steady{top:7%;}
 
-/* lineup price chips (real buttons, active only in their scene) */
+/* lineup price chips */
 .chips{position:absolute;left:50%;bottom:7%;transform:translateX(-50%);display:flex;gap:min(3vw,26px);opacity:0;pointer-events:none;}
 .chip{width:min(27vw,190px);background:#fff;border:2px solid var(--ink);border-radius:16px;padding:13px 12px 12px;text-align:center;box-shadow:0 5px 0 var(--ink);}
 .chip .n{font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:1.6px;color:var(--muted);text-transform:uppercase;}
@@ -82,15 +82,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .steadycta{position:absolute;left:50%;bottom:8%;transform:translateX(-50%);width:min(92vw,480px);text-align:center;opacity:0;pointer-events:none;}
 .steadycta .btn{width:100%;min-height:56px;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:14.5px;letter-spacing:.6px;box-shadow:0 6px 0 rgba(0,0,0,.35);}
 .steadycta .alt{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;color:#E8B8D2;line-height:1.6;}
-.steadycta .alt a{color:inherit;}
-.steadycta.oncream .alt{color:var(--muted);}   /* the field is cream by the held finale */
+.steadycta .alt button{background:none;border:0;color:inherit;text-decoration:underline;font:inherit;padding:0;}
 
 /* progress rail */
 .rail{position:absolute;right:14px;top:50%;transform:translateY(-50%);height:34vh;width:3px;background:rgba(120,110,95,.25);border-radius:3px;z-index:5;}
 .rail i{position:absolute;left:0;top:0;width:100%;background:var(--ink);border-radius:3px;height:0%;}
 .rail.lite{background:rgba(255,255,255,.3);} .rail.lite i{background:#fff;}
 
-/* ————— after the cinema: the kept structure ————— */
+/* ————— after the film ————— */
 .after{position:relative;background:var(--cream);}
 .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
 .sec{padding:76px 0;}
@@ -98,7 +97,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .sec-head .eyebrow{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:2.6px;text-transform:uppercase;color:var(--muted);}
 .sec-head h2{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(30px,6vw,52px);text-transform:uppercase;letter-spacing:-1px;margin-top:6px;}
 
-/* offer recap */
 .offer{background:var(--berrydark);color:#F3E6ED;border-radius:26px;padding:clamp(28px,5vw,54px);display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center;}
 .offer h2{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(30px,5vw,50px);text-transform:uppercase;line-height:.95;letter-spacing:-1px;color:#fff;}
 .offer .big{font-family:var(--mono);font-weight:700;font-size:clamp(24px,4vw,36px);margin:14px 0 6px;}
@@ -111,7 +109,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .offer .mini a{color:inherit;}
 .offer img{width:100%;max-width:340px;margin:0 auto;display:block;filter:drop-shadow(0 24px 28px rgba(0,0,0,.45));}
 
-/* reviews marquee (ported from A) */
 .rmarq{overflow:clip;position:relative;}
 .rmtrack{display:flex;gap:18px;width:max-content;animation:rmq 52s linear infinite;}
 .rmarq:hover .rmtrack{animation-play-state:paused;}
@@ -121,23 +118,113 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .review .who{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:10px;}
 @keyframes rmq{to{transform:translateX(-50%);}}
 
-/* faq */
 .faq{max-width:720px;margin:0 auto;}
 details{border-bottom:1.5px solid var(--line);padding:16px 4px;}
 summary{font-weight:700;font-size:15.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px;}
 summary::after{content:'+';font-family:var(--mono);color:var(--muted);}
 details[open] summary::after{content:'–';}
 details p{color:#4a4438;font-size:14.5px;line-height:1.6;margin-top:10px;}
-footer{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:center;padding:28px 16px 120px;border-top:1.5px solid var(--line);line-height:1.7;}
+footer{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:center;padding:28px 16px 120px;border-top:1.5px solid var(--line);line-height:1.8;}
 footer a{color:inherit;}
 
-/* cart bar */
+/* thin cart bar (mirror of the drawer) */
 .cartbar{position:fixed;left:12px;right:12px;bottom:12px;z-index:70;background:var(--ink);color:var(--cream);border-radius:16px;padding:12px 14px;display:none;align-items:center;gap:12px;box-shadow:0 12px 30px rgba(0,0,0,.35);}
 .cartbar.on{display:flex;}
 .cartbar .sum{flex:1;font-family:var(--mono);font-weight:700;font-size:12.5px;line-height:1.45;}
 .cartbar .sum small{display:block;font-weight:400;font-size:10.5px;color:#C9BFB0;}
+.cartbar .open{background:none;border:1.5px solid #6E6656;border-radius:100px;color:var(--cream);font-family:var(--mono);font-size:11px;padding:11px 14px;white-space:nowrap;}
 .cartbar .go{min-height:46px;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:12.5px;padding:0 20px;white-space:nowrap;}
-.cartbar .full{font-family:var(--mono);font-size:10.5px;color:#C9BFB0;text-decoration:none;white-space:nowrap;}
+
+/* ————— ported from Plan A: cart drawer ————— */
+.overlay{position:fixed;inset:0;background:rgba(20,15,8,.55);opacity:0;pointer-events:none;transition:.25s;z-index:90;}
+.overlay.open{opacity:1;pointer-events:auto;}
+.drawer{position:fixed;top:0;right:0;height:100%;width:440px;max-width:94vw;background:var(--cream2);z-index:100;display:none;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.2);}
+.drawer.open{display:flex;animation:slideIn .32s var(--ease);}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:none}}
+.drawer-head{padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);}
+.drawer-head h3{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 116;font-size:22px;text-transform:uppercase;}
+.drawer-head .x{background:none;border:none;font-size:26px;cursor:pointer;color:var(--ink);padding:8px 14px;min-height:44px;}
+.ship-bar{padding:16px 24px 14px;background:var(--paper);border-bottom:1px solid var(--line);}
+.ship-bar .msg{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.5px;margin-bottom:10px;}
+.ship-bar .track{height:8px;background:var(--line);border-radius:100px;overflow:hidden;}
+.ship-bar .fill{height:100%;width:0;background:linear-gradient(90deg,var(--rise),var(--calm));border-radius:100px;transition:width .4s var(--ease);}
+.cslots{display:flex;gap:8px;padding:14px 24px;border-bottom:1px solid var(--line);background:var(--paper);align-items:center;}
+.cslots .cs{width:40px;height:40px;border-radius:50%;border:1.6px dashed var(--muted2);display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:11px;color:var(--muted);transition:.3s;}
+.cslots .cs.f{border-style:solid;color:#fff;}
+.cslots .cs.f.s1{background:var(--rise);border-color:var(--rise);color:var(--ink);}
+.cslots .cs.f.s2{background:var(--calm);border-color:var(--calm);color:var(--ink);}
+.cslots .cs.f.s3{background:var(--rest);border-color:var(--rest);}
+.cslots .cs.f.s4{background:var(--berry);border-color:var(--berry);animation:pop .5s var(--ease);}
+@keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.18)}100%{transform:scale(1)}}
+.cslots .lbl{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:auto;text-align:right;line-height:1.4;}
+.cart-items{flex:1;overflow-y:auto;padding:4px 24px;}
+.cart-empty{text-align:center;color:var(--muted);padding:44px 10px;font-size:14.5px;line-height:1.7;}
+.cart-empty .btn{margin-top:14px;}
+.citem{display:flex;gap:13px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);}
+.citem .sw{width:46px;height:46px;border-radius:12px;flex:none;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:10px;color:rgba(255,255,255,.9);}
+.citem .ci-n{font-family:var(--disp);font-variation-settings:'wght' 800,'wdth' 112;font-size:15.5px;text-transform:uppercase;}
+.citem .ci-s{font-family:var(--mono);font-size:10.5px;color:var(--muted);max-width:170px;}
+.citem .ci-s button{background:none;border:0;color:var(--rise2);text-decoration:underline;font:inherit;padding:0;}
+.citem .ci-right{margin-left:auto;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.citem .ci-p{font-family:var(--mono);font-weight:700;font-size:13.5px;}
+.qty{display:flex;align-items:center;gap:2px;border:1.5px solid var(--line);border-radius:100px;background:#fff;}
+.qty button{width:34px;height:34px;border:none;background:none;font-size:16px;cursor:pointer;color:var(--ink);border-radius:50%;}
+.qty .q{font-family:var(--mono);font-weight:700;font-size:13px;width:22px;text-align:center;}
+.citem.gift .sw{background:var(--berry);}
+.citem.gift .ci-p{color:var(--berry2);}
+.drawer-foot{padding:16px 24px 20px;border-top:1px solid var(--line);background:var(--paper);}
+.modetoggle{display:flex;gap:6px;margin-bottom:12px;}
+.modetoggle .mt{flex:1;min-height:40px;border:1.5px solid var(--line);background:#fff;border-radius:100px;font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.4px;color:var(--muted);}
+.modetoggle .mt.on{background:var(--ink);border-color:var(--ink);color:var(--cream);}
+.gift-line{color:var(--berry2);font-family:var(--mono);font-size:12px;margin-bottom:12px;display:none;align-items:center;gap:8px;}
+.drawer-foot .row{display:flex;justify-content:space-between;font-family:var(--mono);font-weight:700;font-size:15px;margin-bottom:10px;}
+.drawer-foot .btn{width:100%;min-height:52px;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:13.5px;box-shadow:0 4px 0 rgba(0,0,0,.25);}
+.drawer-foot .btn:disabled{opacity:.45;cursor:default;}
+.drawer-foot .subnote{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:10px;}
+
+/* lightbox (facts) + waitlist modal — ported */
+.lightbox{position:fixed;inset:0;background:rgba(20,15,8,.72);display:none;align-items:center;justify-content:center;z-index:200;padding:24px;}
+.lightbox.open{display:flex;}
+.lightbox .lb-in{background:#fff;border-radius:18px;padding:18px;max-width:min(92vw,720px);max-height:88vh;overflow:auto;position:relative;}
+.lightbox img{display:block;width:100%;height:auto;}
+.lightbox .lb-x{position:absolute;top:10px;right:12px;background:var(--ink);color:var(--cream);border:none;border-radius:50%;width:38px;height:38px;font-size:18px;cursor:pointer;z-index:2;}
+.ck-sum{font-family:var(--mono);font-size:12px;text-align:left;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:14px;}
+.ck-sum .l{display:flex;justify-content:space-between;margin:3px 0;}
+.ck-sum .l.t{font-weight:700;border-top:1px solid var(--line);padding-top:7px;margin-top:7px;}
+.ck-sum .l.g{color:var(--berry2);}
+
+/* promo popup + teaser tab — ported */
+.promo{position:fixed;left:18px;bottom:18px;z-index:140;width:352px;max-width:calc(100vw - 36px);background:var(--cream);border:2px solid var(--ink);border-radius:16px;box-shadow:0 6px 0 var(--ink);padding:18px 18px 15px;display:flex;gap:14px;transform:translateY(18px);opacity:0;transition:transform .45s cubic-bezier(.2,.9,.25,1),opacity .45s;}
+.promo.show{transform:none;opacity:1;}
+.promo .px{position:absolute;top:6px;right:8px;background:none;border:0;font-size:20px;line-height:1;cursor:pointer;color:var(--muted);padding:6px 8px;}
+.promo .pnum{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 122;font-size:62px;line-height:.9;color:transparent;-webkit-text-stroke:2px var(--rise);flex-shrink:0;margin-top:4px;}
+.promo .peyebrow{font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding-right:26px;}
+.promo h4{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 116;font-size:18.5px;line-height:1.05;text-transform:uppercase;margin:5px 0 10px;}
+.promo .pform{display:flex;gap:8px;}
+.promo .pform input{flex:1;min-width:0;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;font-family:var(--mono);font-size:12.5px;background:#fff;}
+.promo .pform input:focus{border-color:var(--rise);outline:none;}
+.promo .pform .btn{padding:11px 14px;font-size:11.5px;white-space:nowrap;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;}
+.promo .pcode{width:100%;font-family:var(--mono);font-weight:700;font-size:21px;letter-spacing:2px;background:var(--ink);color:var(--cream);border:0;border-radius:10px;padding:14px 10px;cursor:pointer;}
+.promo .pnote{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.45;}
+.ptab{position:fixed;left:18px;bottom:18px;z-index:139;font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:1.5px;background:var(--ink);color:var(--cream);border:2px solid var(--ink);border-radius:100px;padding:11px 16px;cursor:pointer;box-shadow:0 4px 0 rgba(30,25,19,.35);display:flex;align-items:center;gap:7px;}
+.ptab i{width:8px;height:8px;border-radius:50%;background:var(--rise);flex-shrink:0;}
+
+/* balloons — the completion celebration (ported fallback; lib preferred) */
+.balloons{position:fixed;inset:0;pointer-events:none;z-index:300;overflow:hidden;}
+.balloons i{position:absolute;bottom:-170px;width:52px;height:66px;
+  background:radial-gradient(circle at 35% 28%,var(--c1),var(--c2) 80%);
+  border-radius:50% 50% 50% 50% / 56% 56% 44% 44%;
+  animation:balloonUp var(--dur,6.5s) ease-in forwards;}
+.balloons i::before{content:'';position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);
+  border:5px solid transparent;border-top:8px solid var(--c2);}
+.balloons i::after{content:'';position:absolute;left:50%;top:100%;width:1.5px;height:76px;
+  background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,0));}
+@keyframes balloonUp{
+  0%{transform:translate(0,0) scale(var(--s,1)) rotate(-2deg);opacity:0;}
+  6%{opacity:1;}
+  50%{transform:translate(calc(var(--drift)*.5),-58vh) scale(var(--s,1)) rotate(3deg);}
+  100%{transform:translate(var(--drift),-125vh) scale(var(--s,1)) rotate(-3deg);opacity:1;}
+}
 
 @media(max-width:700px){
   .offer{grid-template-columns:1fr;}
@@ -149,36 +236,38 @@ footer a{color:inherit;}
   .chip .pr{font-size:11px;}
   .chip button{font-size:10px;min-height:38px;}
   .rail{right:8px;}
-  .planb{font-size:8.5px;padding:8px 10px;}
+  .promo{left:12px;right:12px;bottom:76px;width:auto;}
+  .promo .pnum{font-size:42px;margin-top:2px;}
+  .promo .pform{flex-direction:column;gap:8px;}
+  .promo .pform input{font-size:16px;padding:13px 14px;width:100%;}   /* 16px kills iOS focus-zoom */
+  .promo .pform .btn{width:100%;font-size:13px;}
+  .ptab{bottom:76px;left:12px;}
 }
 
-/* reduced motion / no JS: cinema collapses to a static, everything-visible page */
+/* reduced motion / no JS: static everything-visible page */
 @media(prefers-reduced-motion:reduce){
   .cinema{height:auto;}
   .stage{position:relative;height:auto;padding:110px 0 60px;overflow:visible;}
   .bottle,.beat,.chips,.steadycta{position:relative;opacity:1!important;transform:none!important;left:auto;top:auto;bottom:auto;pointer-events:auto;margin:24px auto;display:block;}
   .bottle{height:260px;}
-  .bottle.casc,.ghost,.scrollcue,.rail{display:none;}
+  .ghost,.scrollcue,.rail{display:none;}
   .chips{display:flex;justify-content:center;}
+  .promo,.ptab{transition:none;}
 }
 </style>
 </head>
-<body>
+<body id="top">
 
 <nav>
-  <a class="logo" href="index.html">HAVN</a>
-  <div class="nav-right">
-    <a class="planb" href="index.html" title="Back to the main site">PLAN B · CINEMA — PLAN A ↗</a>
-    <span class="cartchip" id="cartchip" hidden>CART <b id="cc">0</b></span>
-  </div>
+  <a class="logo" href="#top">HAVN</a>
+  <button class="cartchip" id="cartchip" onclick="openCart()" aria-label="Open cart">CART <b id="cc">0</b></button>
 </nav>
 
-<!-- ————— THE CINEMA ————— -->
+<!-- ————— THE FILM ————— -->
 <div class="cinema" id="cinema">
   <div class="stage" id="stage">
     <div class="field" id="field"></div>
     <div class="ghost" id="ghost">N°01</div>
-
     <div class="rail" id="rail"><i id="railfill"></i></div>
 
     <div class="beat hero" id="bHero">
@@ -208,13 +297,8 @@ footer a{color:inherit;}
       <div class="spec">275&nbsp;mg elemental · glycinate form · 3 caps</div>
     </div>
 
-    <div class="beat align" id="bAlign">
-      <div class="eyebrow" style="color:var(--muted)">Morning → midday → night</div>
-      <h2>One ritual.<br>Three moments.</h2>
-    </div>
-
     <div class="beat price" id="bPrice">
-      <div class="eyebrow" style="color:var(--muted)">Pick yours — or run the whole day</div>
+      <div class="eyebrow" style="color:var(--muted)">One ritual · three moments</div>
       <h2 style="font-size:clamp(26px,5.4vw,54px)">Every bottle, 30 days.</h2>
     </div>
     <div class="chips" id="chips">
@@ -229,11 +313,10 @@ footer a{color:inherit;}
       <p style="color:#E8B8D2">STEADY — blood-sugar botanicals, level energy all day. Free in every complete-ritual order, every month.</p>
     </div>
     <div class="steadycta" id="steadyCta">
-      <button class="btn" onclick="addTrio()">Complete the Ritual — $96/mo</button>
-      <span class="alt">Rise + Calm + Rest + free STEADY · free shipping · skip or cancel anytime<br><a href="index.html#products">prefer one-time? $114 on the main site ↗</a></span>
+      <button class="btn" id="ctaBtn" onclick="addTrio()">Complete the Ritual — $96/mo</button>
+      <span class="alt">Rise + Calm + Rest + free STEADY · free shipping · skip or cancel anytime<br>or <button onclick="addSku('steady')">add STEADY alone — $15/mo</button></span>
     </div>
 
-    <img class="bottle casc" id="casc" src="assets/products/trio_cascade.webp" alt="The HAVN trio">
     <img class="bottle" id="btRise"  src="assets/products/cut_rise.webp"  alt="HAVN Rise bottle">
     <img class="bottle" id="btCalm"  src="assets/products/cut_calm.webp"  alt="HAVN Calm bottle">
     <img class="bottle" id="btRest"  src="assets/products/cut_rest.webp"  alt="HAVN Rest bottle">
@@ -241,7 +324,7 @@ footer a{color:inherit;}
   </div>
 </div>
 
-<!-- ————— KEPT STRUCTURE: reviews → complete your order → FAQ ————— -->
+<!-- ————— reviews → complete your order → FAQ ————— -->
 <div class="after">
   <div class="sec" style="padding-top:34px">
     <div class="sec-head"><div class="eyebrow">Early ritualists</div><h2>Word of mouth</h2></div>
@@ -263,7 +346,7 @@ footer a{color:inherit;}
     <div class="offer">
       <div>
         <h2>Complete the ritual.<br>Claim the 4th piece.</h2>
-        <div class="big">$96/mo <s>$114</s></div>
+        <div class="big" id="offerBig">$96/mo <s>$114</s></div>
         <ul>
           <li>N°04 STEADY — <s style="color:#FF7B7B">$18</s>&nbsp;<b style="color:#F08BC0">FREE</b>, every order</li>
           <li>Free U.S. shipping, every month</li>
@@ -272,8 +355,8 @@ footer a{color:inherit;}
         </ul>
       </div>
       <div>
-        <img src="assets/products/trio_cascade.webp" alt="The HAVN trio with STEADY" loading="lazy">
-        <button class="btn" onclick="addTrio()" style="margin-top:18px">Complete my ritual — $96/mo</button>
+        <img src="assets/products/trio_cascade.webp" alt="The HAVN trio" loading="lazy">
+        <button class="btn" id="offerBtn" onclick="addTrio()" style="margin-top:18px">Complete my ritual — $96/mo</button>
         <div class="mini">Subscription · <a href="policies.html">guarantee &amp; terms</a></div>
       </div>
     </div>
@@ -283,76 +366,333 @@ footer a{color:inherit;}
     <div class="sec-head"><div class="eyebrow">Questions</div><h2>FAQ</h2></div>
     <div class="faq">
       <details open><summary>What is the 4th piece?</summary><p>STEADY — N°04, our Normal Blood Sugar Drops. Six botanicals in a daily 2ml dropper to support healthy energy metabolism*. On its own it's $18 — free with every complete-ritual order, every month you stay subscribed.</p></details>
-      <details><summary>How does the subscription work?</summary><p>Monthly delivery, $96 for the full ritual. Skip, swap or cancel anytime from the link in any receipt — at least 48h before renewal. Cancel and the free STEADY ends with it.</p></details>
+      <details><summary>How does the subscription work?</summary><p>Monthly delivery, $96 for the full ritual (or one-time, $114 — switch in the cart). Skip, swap or cancel anytime from the link in any receipt — at least 48h before renewal. Cancel and the free STEADY ends with it.</p></details>
       <details><summary>Shipping &amp; returns?</summary><p>Subscriptions always ship free in the U.S. One-time orders ship free at $79+, otherwise $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
       <details><summary>When will I feel a difference?</summary><p>Rest and Calm often land within days. Rise builds over 2–4 weeks — that's why the first order carries the guarantee.</p></details>
-      <details><summary>What exactly is in each formula?</summary><p>Full supplement-facts labels for all four formulas are on the <a href="index.html#products">main site</a> — tap “See the label” on any bottle.</p></details>
+      <details><summary>What exactly is in each formula?</summary><p>Every bottle in your cart has a “label” link — tap it to see the full Supplement Facts panel, exactly as printed.</p></details>
     </div>
   </div>
 
-  <footer>HAVN · Designed in Denmark · Made in the USA · <a href="index.html">Main site</a> · <a href="policies.html">Policies</a><br>*These statements have not been evaluated by the FDA. Not intended to diagnose, treat, cure, or prevent any disease.</footer>
+  <footer>HAVN · Designed in Denmark · Made in the USA · <a href="policies.html">Policies</a> · <a href="mailto:hello@havn.co">hello@havn.co</a><br>*These statements have not been evaluated by the FDA. Not intended to diagnose, treat, cure, or prevent any disease.</footer>
 </div>
 
-<!-- cart bar -->
+<!-- thin cart bar -->
 <div class="cartbar" id="cartbar">
   <div class="sum" id="cartsum">—</div>
-  <a class="full" href="index.html">full cart ↗</a>
+  <button class="open" onclick="openCart()">Cart</button>
   <button class="go" id="goBtn" onclick="checkout()">Checkout</button>
 </div>
 
+<!-- ————— cart drawer (ported from Plan A) ————— -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Cart">
+  <div class="drawer-head"><h3>Your ritual</h3><button class="x" id="drawerX" aria-label="Close cart" onclick="closeCart()">×</button></div>
+  <div class="ship-bar"><div class="msg" id="shipMsg">Free U.S. shipping at $79</div><div class="track" role="progressbar" aria-label="Free shipping progress" aria-valuemin="0" aria-valuemax="79" aria-valuenow="0" id="shipTrack"><div class="fill" id="shipFill"></div></div></div>
+  <div class="cslots" aria-label="Ritual completion">
+    <div class="cs s1">01</div><div class="cs s2">02</div><div class="cs s3">03</div><div class="cs s4" id="cs4">04</div>
+    <div class="lbl" id="slotLbl">Complete 01–03<br>to unlock N°04</div>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="drawer-foot">
+    <div class="modetoggle" role="group" aria-label="Purchase type">
+      <button id="mSub" class="mt on" onclick="setMode(true)" aria-pressed="true">SUBSCRIBE &amp; SAVE 15%</button>
+      <button id="mOne" class="mt" onclick="setMode(false)" aria-pressed="false">ONE-TIME</button>
+    </div>
+    <div class="gift-line" id="giftLine" role="status">🎁 <span>STEADY unlocked — <s>$18</s> <b>FREE</b> in this order</span></div>
+    <div class="row"><span>Subtotal</span><span id="subtotal">$0</span></div>
+    <button class="btn" id="ckBtn" onclick="checkout()" disabled>Checkout</button>
+    <div class="subnote" id="footNote">Subscription renews monthly · skip or cancel anytime</div>
+  </div>
+</aside>
+
+<!-- facts lightbox -->
+<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLabel()" role="dialog" aria-modal="true" aria-label="Supplement Facts">
+  <div class="lb-in"><button class="lb-x" aria-label="Close" onclick="closeLabel()">×</button><img id="lbimg" src="" alt=""></div>
+</div>
+
+<!-- waitlist fallback modal (shown only if the checkout API is unreachable) -->
+<div class="lightbox" id="ckmodal" onclick="if(event.target===this)closeCk()" role="dialog" aria-modal="true" aria-label="Checkout">
+  <div class="lb-in" style="max-width:460px;padding:32px 30px;text-align:center;">
+    <button class="lb-x" aria-label="Close" onclick="closeCk()">×</button>
+    <div style="font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 118;font-size:29px;text-transform:uppercase;margin-bottom:8px;">Almost live</div>
+    <p style="color:var(--muted);font-size:14.5px;line-height:1.55;margin-bottom:16px;">Checkout opens at launch. Lock your spot — first in line get <b style="color:var(--ink)">15% off</b> and the STEADY gift from order one.</p>
+    <div class="ck-sum" id="ckSummary"></div>
+    <label for="ckemail" style="position:absolute;left:-9999px">Email address</label>
+    <input id="ckemail" type="email" autocomplete="email" placeholder="you@email.com" style="width:100%;padding:13px;min-height:46px;border-radius:10px;border:1.5px solid var(--line);font-family:var(--mono);font-size:16px;margin-bottom:10px;">
+    <button class="btn" style="width:100%;min-height:50px;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;" onclick="ckJoin(this)">Notify me at launch</button>
+  </div>
+</div>
+
+<!-- promo popup + teaser tab -->
+<aside class="promo" id="promo" role="dialog" aria-label="Get 15% off your first order" hidden>
+  <button class="px" aria-label="Close offer" onclick="promoClose()">×</button>
+  <div class="pnum" aria-hidden="true">15</div>
+  <div style="flex:1;min-width:0">
+    <div class="peyebrow">First order · single-use code</div>
+    <h4>15% off your first ritual</h4>
+    <div class="pform" id="promoForm">
+      <label for="promoEmail" style="position:absolute;left:-9999px">Email address</label>
+      <input id="promoEmail" type="email" autocomplete="email" placeholder="you@email.com">
+      <button class="btn" onclick="promoClaim(this)">Get my code</button>
+    </div>
+    <button class="pcode" id="promoCode" hidden onclick="promoCopy(this)"></button>
+    <div class="pnote" id="promoNote" aria-live="polite">One code per person — yours instantly, right here.</div>
+  </div>
+</aside>
+<button class="ptab" id="ptab" hidden onclick="promoOpen(true)"><i aria-hidden="true"></i>15% OFF</button>
+
 <script>
-/* ================= shared cart (same storage + API as Plan A) ================= */
+/* ================= store engine (shared model with the API) ================= */
 const $ = id => document.getElementById(id);
-const PRICE = {single:32, trio:96, steady:15};                 /* subscription mode — keep in sync with api/_catalog.js */
+/* keep in sync with api/_catalog.js */
+const P2 = { one:{single:38, trio:114, steady:18}, sub:{single:32, trio:96, steady:15} };
+const FREE_SHIP = 79, SUB_FREE_SHIP = 30;
+const HEX = {rise:'#FF6A15', calm:'#12A594', rest:'#4E43C9', steady:'#C81E78'};
+const NAMES = {rise:'Rise', calm:'Calm', rest:'Rest', steady:'Steady'};
+const SUBS = {rise:"Lion's Mane · 1000mg", calm:'Ashwagandha+ · KSM-66®', rest:'Magnesium · Glycinate', steady:'Blood Sugar Drops'};
+
+let subscribe = true;
 let cart = {trio:0, singles:{rise:0, calm:0, rest:0, steady:0}};
-try{ const c = JSON.parse(localStorage.getItem('havn_cart')||'null'); if(c && c.singles){ cart = c; ['rise','calm','rest','steady'].forEach(k=>{ if(typeof cart.singles[k]!=='number') cart.singles[k]=0; }); } }catch(e){}
+try{ const c = JSON.parse(localStorage.getItem('havn_cart')||'null'); if(c && c.singles){ cart = c; Object.keys(cart.singles).length; ['rise','calm','rest','steady'].forEach(k=>{ if(typeof cart.singles[k]!=='number') cart.singles[k]=0; }); } }catch(e){}
 
 window.havnEvents = window.havnEvents || [];
 function track(n,p){ try{ window.havnEvents.push({name:n,props:p||{},t:Date.now()}); if(window.plausible) plausible(n,{props:p||{}}); }catch(e){} }
 
-function save(){ try{ localStorage.setItem('havn_cart', JSON.stringify(cart)); }catch(e){} }
-function normalize(){ while(cart.singles.rise>0 && cart.singles.calm>0 && cart.singles.rest>0){ cart.singles.rise--; cart.singles.calm--; cart.singles.rest--; cart.trio++; } }
-function count(){ return cart.trio*3 + Object.values(cart.singles).reduce((s,q)=>s+q,0); }
-function total(){ return cart.trio*PRICE.trio + (cart.singles.rise+cart.singles.calm+cart.singles.rest)*PRICE.single + cart.singles.steady*PRICE.steady; }
+const fmt = n => Number.isInteger(n) ? '$'+n : '$'+n.toFixed(2);
+const priceSingle = id => subscribe ? (id==='steady'?P2.sub.steady:P2.sub.single) : (id==='steady'?P2.one.steady:P2.one.single);
+const trioPrice = () => subscribe ? P2.sub.trio : P2.one.trio;
+const itemCount = () => cart.trio*3 + Object.values(cart.singles).reduce((s,q)=>s+q,0);
+const hasSku = id => cart.trio>0 || cart.singles[id]>0;
+const complete = () => cart.trio>0;
+const subtotal = () => cart.trio*trioPrice() + Object.entries(cart.singles).reduce((s,[id,q])=>s+q*priceSingle(id),0);
 
-function syncCart(){
-  normalize(); save();
-  const n = count();
-  $('cartchip').hidden = n===0;
-  $('cc').textContent = n + (cart.trio>0 ? 1 : 0);
+let prevComplete = false;
+function update(){
+  /* three loose mains always collapse into the ritual (3×$32 = trio $96) */
+  while(cart.singles.rise>0 && cart.singles.calm>0 && cart.singles.rest>0){
+    cart.singles.rise--; cart.singles.calm--; cart.singles.rest--; cart.trio++;
+  }
+  const done = complete();
+  /* completing the set converts a paid STEADY into the gift */
+  if(done && !prevComplete && cart.singles.steady>0) cart.singles.steady--;
+  try{ localStorage.setItem('havn_cart', JSON.stringify(cart)); }catch(e){}
+
+  $('cc').textContent = itemCount() + (done ? 1 : 0);
+  /* drawer items */
+  const items = [];
+  if(cart.trio>0) items.push(`
+    <div class="citem"><div class="sw" style="background:linear-gradient(135deg,#FF6A15 0 25%,#12A594 0 50%,#4E43C9 0 75%,#C81E78 0)"></div>
+      <div><div class="ci-n">Complete Ritual</div><div class="ci-s">Rise + Calm + Rest ${subscribe?'· monthly':''} · N°04 free</div></div>
+      <div class="ci-right"><span class="ci-p">${fmt(cart.trio*trioPrice())}</span>
+        <div class="qty" aria-label="Ritual quantity"><button onclick="bumpTrio(-1)" aria-label="Decrease">−</button><span class="q">${cart.trio}</span><button onclick="bumpTrio(1)" aria-label="Increase">+</button></div></div></div>`);
+  for(const id of ['rise','calm','rest','steady']){
+    const q = cart.singles[id];
+    if(q>0) items.push(`
+    <div class="citem"><div class="sw" style="background:${HEX[id]}">${{rise:'01',calm:'02',rest:'03',steady:'04'}[id]}</div>
+      <div><div class="ci-n">${NAMES[id]}</div><div class="ci-s">${SUBS[id]} · ${fmt(priceSingle(id))}${subscribe?'/mo':''} · <button onclick="openLabel('${id}')">label</button></div></div>
+      <div class="ci-right"><span class="ci-p">${fmt(q*priceSingle(id))}</span>
+        <div class="qty" aria-label="${NAMES[id]} quantity"><button onclick="bumpSingle('${id}',-1)" aria-label="Decrease">−</button><span class="q">${q}</span><button onclick="bumpSingle('${id}',1)" aria-label="Increase">+</button></div></div></div>`);
+  }
+  if(done) items.push(`
+    <div class="citem gift"><div class="sw">04</div>
+      <div><div class="ci-n">Steady</div><div class="ci-s">Blood Sugar Drops · your reward${subscribe?' · repeats monthly':''} · <button onclick="openLabel('steady')">label</button></div></div>
+      <div class="ci-right"><span class="ci-p">FREE</span></div></div>`);
+  $('cartItems').innerHTML = items.length ? items.join('') :
+    `<div class="cart-empty">Your ritual is empty.<br>Four pieces are waiting.<br><button class="btn" style="border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;padding:14px 22px;" onclick="addTrio()">Start with all of it — ${fmt(trioPrice())}${subscribe?'/mo':''}</button></div>`;
+
+  /* ship bar (per-mode goal) */
+  const st = subtotal();
+  const goal = subscribe ? SUB_FREE_SHIP : FREE_SHIP;
+  $('subtotal').textContent = fmt(st);
+  $('shipFill').style.width = Math.min(100, st/goal*100)+'%';
+  $('shipTrack').setAttribute('aria-valuemax', goal);
+  $('shipTrack').setAttribute('aria-valuenow', Math.min(goal, Math.round(st)));
+  $('shipMsg').textContent = st>=goal
+    ? (subscribe ? '✓ Free shipping — this month & every month' : '✓ Free U.S. shipping unlocked')
+    : (st>0 ? `Add ${fmt(goal-st)} for free U.S. shipping` : (subscribe ? 'Subscriptions ship free from $30/mo' : 'Free U.S. shipping at $79'));
+
+  /* slots */
+  ['rise','calm','rest'].forEach((id,i)=>{ document.querySelectorAll('.cslots .cs')[i].classList.toggle('f', hasSku(id)); });
+  $('cs4').classList.toggle('f', done || cart.singles.steady>0);
+  $('slotLbl').innerHTML = done ? 'Ritual complete —<br>N°04 is yours, free' : 'Complete 01–03<br>to unlock N°04';
+  $('giftLine').style.display = done ? 'flex' : 'none';
+  $('ckBtn').disabled = itemCount()===0;
+  $('ckBtn').textContent = itemCount()===0 ? 'Checkout' : `Checkout — ${fmt(st)}${subscribe&&st>0?'/mo':''}`;
+  $('footNote').textContent = subscribe ? 'Subscription renews monthly · skip or cancel anytime' : 'One-time order · switch to Subscribe & Save for 15% off';
+
+  /* thin bar + chips + film CTAs */
   const bar = $('cartbar');
-  if(n===0){ bar.classList.remove('on'); return; }
-  bar.classList.add('on');
-  const bits = [];
-  if(cart.trio>0) bits.push(cart.trio + '× ritual');
-  ['rise','calm','rest','steady'].forEach(k=>{ if(cart.singles[k]>0) bits.push(cart.singles[k]+'× '+k); });
-  $('cartsum').innerHTML = '$' + total() + '/mo — ' + bits.join(' · ') +
-    (cart.trio>0 ? '<small>+ N°04 STEADY free · free shipping</small>' : '<small>subscription · free shipping from $30/mo</small>');
+  if(itemCount()===0){ bar.classList.remove('on'); }
+  else{
+    bar.classList.add('on');
+    const bits = [];
+    if(cart.trio>0) bits.push(cart.trio+'× ritual');
+    for(const id of ['rise','calm','rest','steady']) if(cart.singles[id]>0) bits.push(cart.singles[id]+'× '+id);
+    $('cartsum').innerHTML = fmt(st) + (subscribe?'/mo':'') + ' — ' + bits.join(' · ') +
+      (done ? '<small>+ N°04 STEADY free · free shipping</small>' : `<small>${subscribe?'subscription · free ship from $30/mo':'one-time · free ship at $79'}</small>`);
+  }
   document.querySelectorAll('.chip button').forEach(b=>{
-    const has = cart.trio>0 || cart.singles[b.dataset.add]>0;
+    const has = hasSku(b.dataset.add);
     b.classList.toggle('added', has); b.textContent = has ? '✓ IN' : 'ADD';
   });
+  $('ctaBtn').textContent = subscribe ? 'Complete the Ritual — $96/mo' : 'Complete the Ritual — $114';
+  $('offerBtn').textContent = subscribe ? 'Complete my ritual — $96/mo' : 'Complete my ritual — $114';
+  $('offerBig').innerHTML = subscribe ? '$96/mo <s>$114</s>' : '$114 one-time';
+
+  if(done && !prevComplete){ balloons(); }
+  prevComplete = done;
 }
-function addSku(sku){ cart.singles[sku]++; syncCart(); track('add_to_cart',{sku, via:'planB'}); }
-function addTrio(){ cart.trio = Math.max(1, cart.trio); syncCart(); track('add_to_cart',{sku:'trio', via:'planB'}); }
+function setMode(sub){
+  subscribe = sub;
+  $('mSub').classList.toggle('on', sub);  $('mSub').setAttribute('aria-pressed', sub);
+  $('mOne').classList.toggle('on', !sub); $('mOne').setAttribute('aria-pressed', !sub);
+  update();
+}
+function addSku(id){ cart.singles[id]++; update(); openCart(); track('add_to_cart',{sku:id, via:'planB'}); }
+function addTrio(){ cart.trio = Math.max(1, cart.trio); update(); openCart(); track('add_to_cart',{sku:'trio', via:'planB'}); }
+function bumpTrio(d){ cart.trio = Math.max(0, cart.trio + d); update(); }
+function bumpSingle(id,d){ cart.singles[id] = Math.max(0, cart.singles[id] + d); update(); }
 document.querySelectorAll('.chip button').forEach(b=> b.addEventListener('click', ()=>addSku(b.dataset.add)));
 
+/* drawer / modals */
+let lastFocus = null;
+function openCart(){ lastFocus=document.activeElement; $('drawer').classList.add('open'); $('overlay').classList.add('open'); $('drawerX').focus(); }
+function closeCart(){ $('drawer').classList.remove('open'); $('overlay').classList.remove('open'); if(lastFocus)lastFocus.focus(); }
+function openLabel(id){ $('lbimg').src='assets/products/facts_'+id+'.png'; $('lbimg').alt='HAVN '+NAMES[id]+' Supplement Facts'; $('lightbox').classList.add('open'); }
+function closeLabel(){ $('lightbox').classList.remove('open'); }
+function closeCk(){ $('ckmodal').classList.remove('open'); }
+document.addEventListener('keydown', e=>{
+  if(e.key!=='Escape') return;
+  if($('ckmodal').classList.contains('open')) return closeCk();
+  if($('lightbox').classList.contains('open')) return closeLabel();
+  if($('drawer').classList.contains('open')) return closeCart();
+  if(!$('promo').hidden) return promoClose();
+});
+
+/* checkout — real API; waitlist modal if unreachable */
 let ckBusy = false;
 async function checkout(){
-  if(count()===0 || ckBusy) return;
-  ckBusy = true; const btn = $('goBtn'), old = btn.textContent; btn.textContent = '…';
-  track('begin_checkout',{subtotal: total(), subscription:true, via:'planB'});
+  if(itemCount()===0 || ckBusy) return;
+  ckBusy = true;
+  track('begin_checkout',{subtotal: subtotal(), subscription: subscribe, via:'planB'});
   try{
-    const r = await fetch('/api/checkout', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({cart, subscribe:true})});
+    const r = await fetch('/api/checkout', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({cart, subscribe})});
     if(!r.ok) throw 0;
     const d = await r.json(); if(!d.url) throw 0;
     location.href = d.url; return;
   }catch(e){
-    location.href = 'index.html';           /* no backend on this mirror — the main site handles it */
-  }finally{ ckBusy = false; btn.textContent = old; }
+    ckFallback(); track('checkout_fallback',{via:'planB'});
+  }finally{ ckBusy = false; }
+}
+function ckFallback(){
+  const lines = [];
+  if(cart.trio>0) lines.push(`<div class="l"><span>Complete Ritual ×${cart.trio}</span><span>${fmt(cart.trio*trioPrice())}</span></div>`);
+  for(const id of ['rise','calm','rest','steady']) if(cart.singles[id]>0) lines.push(`<div class="l"><span>${NAMES[id]} ×${cart.singles[id]}</span><span>${fmt(cart.singles[id]*priceSingle(id))}</span></div>`);
+  if(complete()) lines.push(`<div class="l g"><span>Steady — N°04 gift</span><span><s>$18</s> FREE</span></div>`);
+  lines.push(`<div class="l"><span>Shipping</span><span>${subtotal()>=(subscribe?SUB_FREE_SHIP:FREE_SHIP)?'FREE':'at checkout'}</span></div>`);
+  lines.push(`<div class="l t"><span>Total${subscribe?' / month':''}</span><span>${fmt(subtotal())}</span></div>`);
+  $('ckSummary').innerHTML = lines.join('');
+  closeCart(); $('ckmodal').classList.add('open'); $('ckemail').focus();
+}
+function ckJoin(btn){
+  const input = $('ckemail');
+  if(!input.value || !input.value.includes('@')){ input.focus(); return; }
+  try{ localStorage.setItem('havn_waitlist', input.value); }catch(e){}
+  try{ fetch('/api/subscribe', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email: input.value, source:'checkout-waitlist-b'})}).catch(()=>{}); }catch(e){}
+  btn.textContent = "You're on the list ✓"; btn.disabled = true; input.disabled = true;
+  track('signup',{source:'checkout-waitlist-b'});
 }
 
-/* ================= the scroll engine ================= */
+/* ================= promo popup (ported) ================= */
+const PROMO_KEY = 'havn_promo';
+function promoState(){ try{ return JSON.parse(localStorage.getItem(PROMO_KEY)||'null'); }catch(e){ return null; } }
+function promoSet(v){ try{ localStorage.setItem(PROMO_KEY, JSON.stringify(v)); }catch(e){} }
+function promoOpen(manual){
+  const p = $('promo'); if(!p || !p.hidden) return;
+  const st = promoState();
+  if(st && st.code) promoShowCode(st.code);
+  p.hidden = false; $('ptab').hidden = true;
+  setTimeout(()=>p.classList.add('show'), 30);
+  try{ sessionStorage.setItem('havn_promo_shown','1'); }catch(e){}
+  track(manual ? 'promo_open_tab' : 'promo_view', {via:'planB'});
+}
+function promoClose(){
+  const p = $('promo'); p.classList.remove('show'); setTimeout(()=>{ p.hidden = true; }, 460);
+  $('ptab').hidden = false;
+  const st = promoState();
+  if(!st || !st.code) promoSet({dismissed:true, at: Date.now()});
+}
+function promoShowCode(code){
+  $('promoForm').style.display = 'none';
+  const b = $('promoCode'); b.hidden = false; b.textContent = code;
+  $('promoNote').textContent = 'Tap the code to copy it — then paste it in the promo field at checkout.';
+}
+async function promoClaim(btn){
+  const input = $('promoEmail');
+  if(!input.value || !input.value.includes('@')){ input.focus(); return; }
+  btn.disabled = true; btn.textContent = '…';
+  let code = null;
+  try{
+    const r = await fetch('/api/subscribe', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email: input.value, source:'promo-popup-b', promo:true})});
+    if(r.ok) code = (await r.json()).code;
+  }catch(e){}
+  try{ localStorage.setItem('havn_nl', input.value); }catch(e){}
+  if(code){ promoSet({code, at: Date.now()}); promoShowCode(code); track('promo_claim',{via:'planB'}); }
+  else{
+    $('promoForm').style.display = 'none';
+    $('promoNote').textContent = "You're on the list ✓ — your 15% code arrives by email at launch.";
+    track('promo_claim_pending',{via:'planB'});
+  }
+}
+function promoCopy(b){
+  const code = (promoState()||{}).code || b.textContent;
+  try{ navigator.clipboard.writeText(code).then(()=>{ b.textContent = 'Copied ✓'; setTimeout(()=>{ b.textContent = code; }, 1300); }); }catch(e){}
+}
+(function(){
+  const st = promoState();
+  const snoozed = st && st.dismissed && Date.now()-st.at < 3*86400e3;
+  let shown = false;
+  try{ shown = !!sessionStorage.getItem('havn_promo_shown'); }catch(e){}
+  if(snoozed || shown){ $('ptab').hidden = false; return; }
+  let fired = false;
+  const fire = ()=>{ if(fired) return; fired = true; removeEventListener('scroll', onScroll); promoOpen(); };
+  const onScroll = ()=>{ if(scrollY > (document.body.scrollHeight-innerHeight)*.22) fire(); };
+  addEventListener('scroll', onScroll, {passive:true});
+  setTimeout(fire, 7000);
+})();
+
+/* ================= balloons (ported — lib preferred, CSS fallback) ================= */
+let balloonsAt = 0;
+function balloons(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const now = Date.now();
+  if(now - balloonsAt < 12000) return;
+  balloonsAt = now;
+  setTimeout(()=>{
+    document.querySelectorAll('balloons, .balloons').forEach(n=>{
+      n.style.transition = 'opacity .9s'; n.style.opacity = '0';
+      setTimeout(()=>n.remove(), 950);
+    });
+  }, 10000);
+  if(window.libBalloons){ try{ window.libBalloons(); return; }catch(e){} }
+  const host = document.createElement('div'); host.className='balloons'; host.setAttribute('aria-hidden','true');
+  const cols = [['#FF6A15','#C4440A'],['#12A594','#0A6E60'],['#6E63E8','#2E259B'],['#C81E78','#8A0E52'],['#F6EFE1','#D9CBAF']];
+  for(let i=0;i<9;i++){
+    const b = document.createElement('i');
+    const c = cols[i%cols.length];
+    b.style.setProperty('--c1', c[0]); b.style.setProperty('--c2', c[1]);
+    b.style.left = (5+Math.random()*88)+'%';
+    b.style.setProperty('--drift', (Math.random()*140-70).toFixed(0)+'px');
+    b.style.setProperty('--dur', (5.5+Math.random()*3).toFixed(2)+'s');
+    b.style.setProperty('--s', (.65+Math.random()*.6).toFixed(2));
+    b.style.animationDelay = (Math.random()*1.5).toFixed(2)+'s';
+    host.appendChild(b);
+  }
+  document.body.appendChild(host);
+  setTimeout(()=>host.remove(), 11000);
+}
+
+/* ================= the film ================= */
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const lerp = (a,b,t)=>a+(b-a)*t;
 const clamp01 = v=>Math.min(1,Math.max(0,v));
@@ -368,15 +708,13 @@ function kf(p, stops, e){
   }
   return stops[stops.length-1][1];
 }
-/* window helper: fade in [a..b], hold, fade out [c..d] */
 const win = (p,a,b,c,d)=> p<a?0 : p<b?(p-a)/(b-a) : p<c?1 : p<d?1-(p-c)/(d-c) : 0;
 
 const hexRGB = h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
-const CREAM=hexRGB('#F6EFE1'), RISE=hexRGB('#FF6A15'), CALM=hexRGB('#12A594'), REST=hexRGB('#4E43C9'), BERRY=hexRGB('#2B0A1E');
+const C_CREAM=hexRGB('#F6EFE1'), C_RISE=hexRGB('#FF6A15'), C_CALM=hexRGB('#12A594'), C_REST=hexRGB('#4E43C9'), C_BERRY=hexRGB('#2B0A1E');
 function fieldColor(p){
-  /* berry eases back to cream by .95 so the held final portrait sits on the
-     same cream the reviews section opens with — seamless release, no dim-out */
-  const stops=[[0,CREAM],[.10,CREAM],[.145,RISE],[.225,RISE],[.265,CALM],[.345,CALM],[.385,REST],[.465,REST],[.52,CREAM],[.68,CREAM],[.735,BERRY],[.875,BERRY],[.95,CREAM]];
+  /* the berry finale STAYS — the film simply ends and the site goes on */
+  const stops=[[0,C_CREAM],[.095,C_CREAM],[.14,C_RISE],[.235,C_RISE],[.27,C_CALM],[.345,C_CALM],[.385,C_REST],[.465,C_REST],[.505,C_CREAM],[.715,C_CREAM],[.76,C_BERRY],[1,C_BERRY]];
   for(let i=1;i<stops.length;i++){
     if(p<=stops[i][0]){
       const t=(p-stops[i-1][0])/(stops[i][0]-stops[i-1][0]);
@@ -384,44 +722,61 @@ function fieldColor(p){
       return 'rgb('+Math.round(lerp(a[0],b[0],t))+','+Math.round(lerp(a[1],b[1],t))+','+Math.round(lerp(a[2],b[2],t))+')';
     }
   }
-  return 'rgb('+CREAM.join(',')+')';
+  return 'rgb('+C_BERRY.join(',')+')';
 }
 
-/* bottle choreography — solo roll-through, then settle into a FREESTYLE
-   still-life (loose tilts + staggered heights — not a military row), where
-   STEADY later joins as the 4th piece. The finished portrait HOLDS to the end:
-   no fade-to-blank, the sticky release carries the last frame into reviews.
-   x in vw, y in vh (offsets from center), r deg, s scale, o opacity */
-const SLOTS = () => innerWidth <= 700
+/* freestyle still-life slots + the hero stack poses */
+const MOB = () => innerWidth <= 700;
+const SLOTS = () => MOB()
   ? { rise:{x:-31,y:12,r:-8,s:.55}, calm:{x:-3,y:3,r:5,s:.62}, rest:{x:29,y:9,r:-4,s:.52}, steady:{x:10,y:15,r:6,s:.58} }
   : { rise:{x:-30,y:11,r:-8,s:.66}, calm:{x:-4,y:2,r:5,s:.72}, rest:{x:26,y:8,r:-4,s:.62}, steady:{x:9,y:13,r:6,s:.66} };
-function bottleKF(p, t0, slot){
-  const IN=t0, MID=t0+.055, OUT=t0+.13, ALIGN=.50;
+const STACK = () => MOB()
+  ? { rise:{x:6,y:14,r:12,s:.52},  calm:{x:-12,y:19,r:-11,s:.48}, rest:{x:13,y:25,r:8,s:.42} }
+  : { rise:{x:7,y:15,r:12,s:.60},  calm:{x:-13,y:21,r:-11,s:.56}, rest:{x:15,y:27,r:8,s:.48} };
+
+/* RISE: from the hero stack — zooms up aggressive while the others split away.
+   Then HOLD at its best pose (-7°, never straight), then TOSS down freestyle. */
+function riseKF(p){
+  const st = STACK().rise, sl = SLOTS().rise;
   return {
-    x: kf(p, [[IN,-72],[MID,0],[OUT,slot.x*1.12],[ALIGN,slot.x]], eio),
-    y: kf(p, [[IN,34],[MID,2],[OUT,24],[ALIGN,slot.y]], eio),
-    r: kf(p, [[IN,-165],[MID,-2],[MID+.02,2],[OUT,slot.r*1.6],[ALIGN,slot.r]]),
-    s: kf(p, [[IN,.92],[MID,1.05],[OUT,slot.s*.92],[ALIGN,slot.s]], eio),
-    o: p<IN-.006 ? 0 : kf(p, [[IN-.006,0],[IN+.02,1],[OUT,1],[OUT+.02,.38],[ALIGN-.02,.38],[ALIGN,1]])
+    x: kf(p, [[.085,st.x],[.13,2],[.15,0],[.21,0],[.228,-14],[.245,sl.x*.9],[.50,sl.x]], eio),
+    y: kf(p, [[.085,st.y],[.15,2],[.21,1.2],[.23,20],[.245,24],[.50,sl.y]], eio),
+    r: kf(p, [[.085,st.r],[.125,-18],[.16,-7],[.21,-6],[.245,-30],[.50,sl.r]]),
+    s: kf(p, [[.085,st.s],[.15,1.08],[.21,1.08],[.245,.62],[.50,sl.s]], eio),
+    o: kf(p, [[-1,1],[.245,1],[.255,.38],[.48,.38],[.51,1]])
   };
 }
-function steadyKF(p, slot){
+/* CALM + REST: fly out of the stack in their own directions during the handoff,
+   then return for their solos (roll in → hold tilted → toss down). */
+function soloKF(p, cfg){
+  const {t0, holdR, slot, stack, exitX, exitR} = cfg;
+  const IN=t0, ARR=t0+.04, H0=t0+.045, H1=t0+.085, TOSS=t0+.11;
+  if(p < .085) return {x:stack.x, y:stack.y, r:stack.r, s:stack.s, o:1};
+  if(p < IN){ /* stack split: fly off own direction, gone before the solo */
+    return {
+      x: kf(p, [[.085,stack.x],[.135,exitX]], eio),
+      y: kf(p, [[.085,stack.y],[.135,stack.y-14]], eio),
+      r: kf(p, [[.085,stack.r],[.135,exitR]]),
+      s: stack.s,
+      o: kf(p, [[.085,1],[.13,0],[IN-.001,0]])
+    };
+  }
   return {
-    x: kf(p, [[.72,4],[.80,slot.x]], eio),
-    y: kf(p, [[.72,62],[.80,slot.y]], eio),
-    r: kf(p, [[.72,-230],[.80,slot.r]]),
-    s: slot.s,
+    x: kf(p, [[IN,-75],[ARR,0],[H1,0],[TOSS-.005,slot.x*.85],[.50,slot.x]], eio),
+    y: kf(p, [[IN,30],[ARR,2],[H1,1.4],[TOSS-.01,18],[TOSS,22],[.50,slot.y]], eio),
+    r: kf(p, [[IN,-150],[ARR+ .008,holdR>0?holdR+11:holdR-11],[H0+.01,holdR],[H1,holdR*.9],[TOSS,holdR>0?-22:22],[.50,slot.r]]),
+    s: kf(p, [[IN,.9],[ARR,1.06],[H1,1.06],[TOSS,.62],[.50,slot.s]], eio),
+    o: kf(p, [[IN-.006,0],[IN+.02,1],[TOSS-.002,1],[TOSS+.01,.38],[.48,.38],[.51,1]])
+  };
+}
+function steadyKF(p){
+  const sl = SLOTS().steady;
+  return {
+    x: kf(p, [[.72,4],[.80,sl.x]], eio),
+    y: kf(p, [[.72,62],[.80,sl.y]], eio),
+    r: kf(p, [[.72,-230],[.80,sl.r]]),
+    s: sl.s,
     o: kf(p, [[.715,0],[.735,1]])
-  };
-}
-/* the hero trio mockup: owns the lower half at load, hands off into RISE */
-function cascKF(p){
-  return {
-    x: 0,
-    y: kf(p, [[0,17],[.115,33]], eio),
-    r: 0,
-    s: kf(p, [[0,1],[.115,1.22]], eio),
-    o: p<.05 ? 1 : kf(p, [[.05,1],[.112,0]])
   };
 }
 function place(el, b){
@@ -432,54 +787,48 @@ function place(el, b){
 const els = {
   field: $('field'), ghost: $('ghost'), rail: $('rail'), railfill: $('railfill'), cue: $('cue'),
   bHero: $('bHero'), bRise: $('bRise'), bCalm: $('bCalm'), bRest: $('bRest'),
-  bAlign: $('bAlign'), bPrice: $('bPrice'), chips: $('chips'), bSteady: $('bSteady'), steadyCta: $('steadyCta'),
-  btRise: $('btRise'), btCalm: $('btCalm'), btRest: $('btRest'), btSteady: $('btSteady'), casc: $('casc'),
+  bPrice: $('bPrice'), chips: $('chips'), bSteady: $('bSteady'), steadyCta: $('steadyCta'),
+  btRise: $('btRise'), btCalm: $('btCalm'), btRest: $('btRest'), btSteady: $('btSteady'),
 };
 
 function apply(p){
   els.field.style.background = fieldColor(p);
   const beat = (el, a,b,c,d, ty)=>{ const o = win(p,a,b,c,d); el.style.opacity = o.toFixed(3); el.style.transform = 'translateX(-50%) translateY('+((1-o)*(ty===undefined?14:ty)).toFixed(1)+'px)'; };
-  beat(els.bHero, -1,-.9,.06,.10, 0);          /* visible from the very first pixel */
+  beat(els.bHero, -1,-.9,.06,.10, 0);
   els.cue.style.opacity = win(p,-1,-.9,.04,.08).toFixed(3);
-  beat(els.bRise, .115,.145,.20,.235);
-  beat(els.bCalm, .235,.265,.32,.355);
-  beat(els.bRest, .355,.385,.44,.475);
-  beat(els.bAlign, .49,.52,.565,.60);
-  beat(els.bPrice, .585,.615,.685,.715);
-  beat(els.bSteady, .72,.755,.85,.895);
-  /* chips + CTA (interactive only while visible; the CTA holds to the end) */
-  const co = win(p,.585,.615,.69,.72);
+  /* solo text: on during the HOLD, gone by the toss */
+  beat(els.bRise, .13,.16,.205,.24);
+  beat(els.bCalm, .25,.28,.325,.355);
+  beat(els.bRest, .36,.39,.435,.465);
+  beat(els.bPrice, .49,.52,.685,.715);
+  beat(els.bSteady, .72,.755,.86,.90);
+  const co = win(p,.50,.535,.685,.715);
   els.chips.style.opacity = co.toFixed(3);
   els.chips.style.transform = 'translateX(-50%) translateY('+((1-co)*22).toFixed(1)+'px)';
   els.chips.style.pointerEvents = co>.55 ? 'auto' : 'none';
-  const so = win(p,.80,.84,2,3);               /* in at .80, never leaves */
+  const so = win(p,.80,.84,2,3);
   els.steadyCta.style.opacity = so.toFixed(3);
   els.steadyCta.style.pointerEvents = so>.55 ? 'auto' : 'none';
-  els.steadyCta.classList.toggle('oncream', p>.90);
-  /* the $18 -> FREE flip */
   const flip = clamp01((p-.78)/.035);
   $('flipPrice').style.opacity = (1-flip*.55).toFixed(2);
   $('flipFree').style.opacity = flip.toFixed(2);
-  /* ghost numeral per scene */
-  const g = p<.235 && p>.10 ? 'N°01' : p<.355 && p>=.235 ? 'N°02' : p<.475 && p>=.355 ? 'N°03' : p>=.72 ? 'N°04' : '';
+  const g = p>=.13 && p<.245 ? 'N°01' : p>=.25 && p<.355 ? 'N°02' : p>=.36 && p<.465 ? 'N°03' : p>=.72 ? 'N°04' : '';
   if(g && g !== els.ghost.textContent) els.ghost.textContent = g;
-  els.ghost.style.opacity = (g ? (p<.475 ? win(p,.12,.16,.44,.475) : win(p,.73,.78,.84,.90))*.35 : 0).toFixed(3);
-  /* bottles — freestyle composition; the finished 4-piece portrait holds */
-  const S = SLOTS();
-  place(els.casc, cascKF(p));
-  place(els.btRise,  bottleKF(p, .115, S.rise));
-  place(els.btCalm,  bottleKF(p, .235, S.calm));
-  place(els.btRest,  bottleKF(p, .355, S.rest));
-  place(els.btSteady, steadyKF(p, S.steady));
-  /* rail */
+  els.ghost.style.opacity = (g ? (p<.465 ? win(p,.14,.18,.42,.46) : win(p,.73,.78,.86,.92))*.35 : 0).toFixed(3);
+  const S = SLOTS(), ST = STACK();
+  place(els.btRise, riseKF(p));
+  place(els.btCalm, soloKF(p, {t0:.25,  holdR:7,  slot:S.calm, stack:ST.calm, exitX:-95, exitR:-60}));
+  place(els.btRest, soloKF(p, {t0:.36,  holdR:-5, slot:S.rest, stack:ST.rest, exitX:95,  exitR:50}));
+  place(els.btSteady, steadyKF(p));
   els.railfill.style.height = (p*100).toFixed(1)+'%';
-  els.rail.classList.toggle('lite', (p>.10 && p<.50) || (p>.715 && p<.90));
-  els.rail.style.opacity = (1 - clamp01((p-.955)/.04)).toFixed(2);
+  els.rail.classList.toggle('lite', (p>.10 && p<.505) || p>.715);
+  els.rail.style.opacity = (1 - clamp01((p-.965)/.035)).toFixed(2);
 }
 
 if(reduced){
   ['chips','steadyCta'].forEach(k=>{ els[k].style.pointerEvents='auto'; els[k].style.opacity=1; });
   $('flipFree').style.opacity = 1;
+  document.querySelectorAll('.bottle').forEach(b=>{ b.style.opacity=1; });
 }else{
   let target = 0, cur = -1;
   function measure(){
@@ -495,14 +844,17 @@ if(reduced){
     requestAnimationFrame(loop);
   })();
   apply(0);
-  /* safety: if rAF is starved (backgrounded tab), apply directly on scroll */
   addEventListener('scroll', ()=>{ if(document.hidden) apply(target); }, {passive:true});
 }
 
-/* marquee duplication (same trick as A) */
 const rmq = $('rmtrack'); if(rmq && !reduced){ rmq.innerHTML += rmq.innerHTML; }
-syncCart();
+prevComplete = complete();   /* don't balloon for a cart restored from storage */
+update();
 track('planB_view');
+</script>
+<script type="module">
+  import { balloons as libBalloons } from './assets/balloons.esm.js';
+  window.libBalloons = libBalloons;
 </script>
 </body>
 </html>
