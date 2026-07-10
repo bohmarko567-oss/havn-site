@@ -44,6 +44,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 
 /* bottles */
 .bottle{position:absolute;left:50%;top:50%;height:min(46vh,360px);will-change:transform;filter:drop-shadow(0 26px 30px rgba(20,10,0,.28));opacity:0;pointer-events:none;}
+.bottle.casc{height:min(40vh,420px);}   /* the hero trio mockup — visible from the first pixel */
 
 /* text beats */
 .beat{position:absolute;left:50%;transform:translateX(-50%);text-align:center;width:min(92vw,760px);opacity:0;pointer-events:none;}
@@ -82,6 +83,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .steadycta .btn{width:100%;min-height:56px;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:14.5px;letter-spacing:.6px;box-shadow:0 6px 0 rgba(0,0,0,.35);}
 .steadycta .alt{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;color:#E8B8D2;line-height:1.6;}
 .steadycta .alt a{color:inherit;}
+.steadycta.oncream .alt{color:var(--muted);}   /* the field is cream by the held finale */
 
 /* progress rail */
 .rail{position:absolute;right:14px;top:50%;transform:translateY(-50%);height:34vh;width:3px;background:rgba(120,110,95,.25);border-radius:3px;z-index:5;}
@@ -156,7 +158,7 @@ footer a{color:inherit;}
   .stage{position:relative;height:auto;padding:110px 0 60px;overflow:visible;}
   .bottle,.beat,.chips,.steadycta{position:relative;opacity:1!important;transform:none!important;left:auto;top:auto;bottom:auto;pointer-events:auto;margin:24px auto;display:block;}
   .bottle{height:260px;}
-  .ghost,.scrollcue,.rail{display:none;}
+  .bottle.casc,.ghost,.scrollcue,.rail{display:none;}
   .chips{display:flex;justify-content:center;}
 }
 </style>
@@ -231,6 +233,7 @@ footer a{color:inherit;}
       <span class="alt">Rise + Calm + Rest + free STEADY · free shipping · skip or cancel anytime<br><a href="index.html#products">prefer one-time? $114 on the main site ↗</a></span>
     </div>
 
+    <img class="bottle casc" id="casc" src="assets/products/trio_cascade.webp" alt="The HAVN trio">
     <img class="bottle" id="btRise"  src="assets/products/cut_rise.webp"  alt="HAVN Rise bottle">
     <img class="bottle" id="btCalm"  src="assets/products/cut_calm.webp"  alt="HAVN Calm bottle">
     <img class="bottle" id="btRest"  src="assets/products/cut_rest.webp"  alt="HAVN Rest bottle">
@@ -238,9 +241,25 @@ footer a{color:inherit;}
   </div>
 </div>
 
-<!-- ————— KEPT STRUCTURE ————— -->
+<!-- ————— KEPT STRUCTURE: reviews → complete your order → FAQ ————— -->
 <div class="after">
-  <div class="wrap sec">
+  <div class="sec" style="padding-top:34px">
+    <div class="sec-head"><div class="eyebrow">Early ritualists</div><h2>Word of mouth</h2></div>
+    <div class="rmarq"><div class="rmtrack" id="rmtrack">
+      <div class="review"><div class="stars">★★★★★</div><p>“ok so the fog thing is real. week 1 I felt nothing, week 3 I stopped reaching for a second coffee.”</p><div class="who">— Maya R.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“Bought Calm for work stress. It just turns the volume down a bit. My wife noticed before I did.”</p><div class="who">— Dev P.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“Honestly got the trio for the free drops lol. Kept it because my 2pm crash just… stopped?”</p><div class="who">— Jordan K.</div></div>
+      <div class="review"><div class="stars">★★★★☆</div><p>“Real talk: Rise took almost a month to do anything and I was about to cancel. Glad I waited — but it's not instant.”</p><div class="who">— Marcus T.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“Rest is the first magnesium that hasn't messed with my stomach. In bed at 10, out by 10:30.”</p><div class="who">— Anika S.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“Did the math against buying everything seperately — the trio plus the free bottle wins by like 20 bucks a month.”</p><div class="who">— Tom W.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“Night shift nurse. Rest after work, Rise at 2pm. My sleep schedule finally doesn't feel like jet lag.”</p><div class="who">— Sam O.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“The Danish design is what got me, not gonna lie. Three months in, the routine actually stuck.”</p><div class="who">— Freja L.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“Was fully ready to use the refund guarantee. Kept the subscription instead.”</p><div class="who">— Priya N.</div></div>
+    </div></div>
+  </div>
+
+  <div class="wrap sec" style="padding-top:14px">
+    <div class="sec-head"><div class="eyebrow">The next step</div><h2>Complete your order</h2></div>
     <div class="offer">
       <div>
         <h2>Complete the ritual.<br>Claim the 4th piece.</h2>
@@ -258,21 +277,6 @@ footer a{color:inherit;}
         <div class="mini">Subscription · <a href="policies.html">guarantee &amp; terms</a></div>
       </div>
     </div>
-  </div>
-
-  <div class="sec" style="padding-top:8px">
-    <div class="sec-head"><div class="eyebrow">Early ritualists</div><h2>Word of mouth</h2></div>
-    <div class="rmarq"><div class="rmtrack" id="rmtrack">
-      <div class="review"><div class="stars">★★★★★</div><p>“ok so the fog thing is real. week 1 I felt nothing, week 3 I stopped reaching for a second coffee.”</p><div class="who">— Maya R.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><p>“Bought Calm for work stress. It just turns the volume down a bit. My wife noticed before I did.”</p><div class="who">— Dev P.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><p>“Honestly got the trio for the free drops lol. Kept it because my 2pm crash just… stopped?”</p><div class="who">— Jordan K.</div></div>
-      <div class="review"><div class="stars">★★★★☆</div><p>“Real talk: Rise took almost a month to do anything and I was about to cancel. Glad I waited — but it's not instant.”</p><div class="who">— Marcus T.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><p>“Rest is the first magnesium that hasn't messed with my stomach. In bed at 10, out by 10:30.”</p><div class="who">— Anika S.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><p>“Did the math against buying everything seperately — the trio plus the free bottle wins by like 20 bucks a month.”</p><div class="who">— Tom W.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><p>“Night shift nurse. Rest after work, Rise at 2pm. My sleep schedule finally doesn't feel like jet lag.”</p><div class="who">— Sam O.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><p>“The Danish design is what got me, not gonna lie. Three months in, the routine actually stuck.”</p><div class="who">— Freja L.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><p>“Was fully ready to use the refund guarantee. Kept the subscription instead.”</p><div class="who">— Priya N.</div></div>
-    </div></div>
   </div>
 
   <div class="wrap sec" style="padding-top:14px">
@@ -370,7 +374,9 @@ const win = (p,a,b,c,d)=> p<a?0 : p<b?(p-a)/(b-a) : p<c?1 : p<d?1-(p-c)/(d-c) : 
 const hexRGB = h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
 const CREAM=hexRGB('#F6EFE1'), RISE=hexRGB('#FF6A15'), CALM=hexRGB('#12A594'), REST=hexRGB('#4E43C9'), BERRY=hexRGB('#2B0A1E');
 function fieldColor(p){
-  const stops=[[0,CREAM],[.10,CREAM],[.145,RISE],[.225,RISE],[.265,CALM],[.345,CALM],[.385,REST],[.465,REST],[.52,CREAM],[.68,CREAM],[.735,BERRY],[.93,BERRY],[.985,CREAM]];
+  /* berry eases back to cream by .95 so the held final portrait sits on the
+     same cream the reviews section opens with — seamless release, no dim-out */
+  const stops=[[0,CREAM],[.10,CREAM],[.145,RISE],[.225,RISE],[.265,CALM],[.345,CALM],[.385,REST],[.465,REST],[.52,CREAM],[.68,CREAM],[.735,BERRY],[.875,BERRY],[.95,CREAM]];
   for(let i=1;i<stops.length;i++){
     if(p<=stops[i][0]){
       const t=(p-stops[i-1][0])/(stops[i][0]-stops[i-1][0]);
@@ -381,25 +387,41 @@ function fieldColor(p){
   return 'rgb('+CREAM.join(',')+')';
 }
 
-/* bottle choreography — solo roll-through, then park in the lineup slot.
+/* bottle choreography — solo roll-through, then settle into a FREESTYLE
+   still-life (loose tilts + staggered heights — not a military row), where
+   STEADY later joins as the 4th piece. The finished portrait HOLDS to the end:
+   no fade-to-blank, the sticky release carries the last frame into reviews.
    x in vw, y in vh (offsets from center), r deg, s scale, o opacity */
-function bottleKF(p, t0, slotX){
-  const IN=t0, MID=t0+.055, OUT=t0+.13, ALIGN=.50, LIFT=.735, END=.94;
+const SLOTS = () => innerWidth <= 700
+  ? { rise:{x:-31,y:12,r:-8,s:.55}, calm:{x:-3,y:3,r:5,s:.62}, rest:{x:29,y:9,r:-4,s:.52}, steady:{x:10,y:15,r:6,s:.58} }
+  : { rise:{x:-30,y:11,r:-8,s:.66}, calm:{x:-4,y:2,r:5,s:.72}, rest:{x:26,y:8,r:-4,s:.62}, steady:{x:9,y:13,r:6,s:.66} };
+function bottleKF(p, t0, slot){
+  const IN=t0, MID=t0+.055, OUT=t0+.13, ALIGN=.50;
   return {
-    x: kf(p, [[IN,-72],[MID,0],[OUT,slotX*1.15],[ALIGN,slotX],[END,slotX]], eio),
-    y: kf(p, [[IN,34],[MID,2],[OUT,26],[ALIGN,9],[LIFT,9],[LIFT+.06,-2],[END,-2]], eio),
-    r: kf(p, [[IN,-165],[MID,-2],[MID+.02,2],[OUT,0],[END,0]]),
-    s: kf(p, [[IN,.92],[MID,1.05],[OUT,.6],[ALIGN,.68],[LIFT,.68],[LIFT+.06,.5],[END,.5]], eio),
-    o: p<IN-.006 ? 0 : kf(p, [[IN-.006,0],[IN+.02,1],[OUT,1],[OUT+.02,.38],[ALIGN-.02,.38],[ALIGN,1],[END,1],[.985,0]])
+    x: kf(p, [[IN,-72],[MID,0],[OUT,slot.x*1.12],[ALIGN,slot.x]], eio),
+    y: kf(p, [[IN,34],[MID,2],[OUT,24],[ALIGN,slot.y]], eio),
+    r: kf(p, [[IN,-165],[MID,-2],[MID+.02,2],[OUT,slot.r*1.6],[ALIGN,slot.r]]),
+    s: kf(p, [[IN,.92],[MID,1.05],[OUT,slot.s*.92],[ALIGN,slot.s]], eio),
+    o: p<IN-.006 ? 0 : kf(p, [[IN-.006,0],[IN+.02,1],[OUT,1],[OUT+.02,.38],[ALIGN-.02,.38],[ALIGN,1]])
   };
 }
-function steadyKF(p){
+function steadyKF(p, slot){
+  return {
+    x: kf(p, [[.72,4],[.80,slot.x]], eio),
+    y: kf(p, [[.72,62],[.80,slot.y]], eio),
+    r: kf(p, [[.72,-230],[.80,slot.r]]),
+    s: slot.s,
+    o: kf(p, [[.715,0],[.735,1]])
+  };
+}
+/* the hero trio mockup: owns the lower half at load, hands off into RISE */
+function cascKF(p){
   return {
     x: 0,
-    y: kf(p, [[.72,62],[.80,7],[.94,7]], eio),
-    r: kf(p, [[.72,-230],[.80,0]]),
-    s: .78,
-    o: kf(p, [[.715,0],[.735,1],[.94,1],[.985,0]])
+    y: kf(p, [[0,17],[.115,33]], eio),
+    r: 0,
+    s: kf(p, [[0,1],[.115,1.22]], eio),
+    o: p<.05 ? 1 : kf(p, [[.05,1],[.112,0]])
   };
 }
 function place(el, b){
@@ -411,46 +433,48 @@ const els = {
   field: $('field'), ghost: $('ghost'), rail: $('rail'), railfill: $('railfill'), cue: $('cue'),
   bHero: $('bHero'), bRise: $('bRise'), bCalm: $('bCalm'), bRest: $('bRest'),
   bAlign: $('bAlign'), bPrice: $('bPrice'), chips: $('chips'), bSteady: $('bSteady'), steadyCta: $('steadyCta'),
-  btRise: $('btRise'), btCalm: $('btCalm'), btRest: $('btRest'), btSteady: $('btSteady'),
+  btRise: $('btRise'), btCalm: $('btCalm'), btRest: $('btRest'), btSteady: $('btSteady'), casc: $('casc'),
 };
-const slotW = () => innerWidth <= 700 ? 30 : 26;
 
 function apply(p){
   els.field.style.background = fieldColor(p);
   const beat = (el, a,b,c,d, ty)=>{ const o = win(p,a,b,c,d); el.style.opacity = o.toFixed(3); el.style.transform = 'translateX(-50%) translateY('+((1-o)*(ty===undefined?14:ty)).toFixed(1)+'px)'; };
-  beat(els.bHero, 0,.005,.075,.115, 0);
-  els.cue.style.opacity = win(p,0,.005,.05,.09).toFixed(3);
+  beat(els.bHero, -1,-.9,.06,.10, 0);          /* visible from the very first pixel */
+  els.cue.style.opacity = win(p,-1,-.9,.04,.08).toFixed(3);
   beat(els.bRise, .115,.145,.20,.235);
   beat(els.bCalm, .235,.265,.32,.355);
   beat(els.bRest, .355,.385,.44,.475);
   beat(els.bAlign, .49,.52,.565,.60);
   beat(els.bPrice, .585,.615,.685,.715);
-  beat(els.bSteady, .73,.765,.90,.945);
-  /* chips + CTA (interactive only while visible) */
+  beat(els.bSteady, .72,.755,.85,.895);
+  /* chips + CTA (interactive only while visible; the CTA holds to the end) */
   const co = win(p,.585,.615,.69,.72);
   els.chips.style.opacity = co.toFixed(3);
   els.chips.style.transform = 'translateX(-50%) translateY('+((1-co)*22).toFixed(1)+'px)';
   els.chips.style.pointerEvents = co>.55 ? 'auto' : 'none';
-  const so = win(p,.80,.845,.925,.965);
+  const so = win(p,.80,.84,2,3);               /* in at .80, never leaves */
   els.steadyCta.style.opacity = so.toFixed(3);
   els.steadyCta.style.pointerEvents = so>.55 ? 'auto' : 'none';
+  els.steadyCta.classList.toggle('oncream', p>.90);
   /* the $18 -> FREE flip */
-  const flip = clamp01((p-.79)/.035);
+  const flip = clamp01((p-.78)/.035);
   $('flipPrice').style.opacity = (1-flip*.55).toFixed(2);
   $('flipFree').style.opacity = flip.toFixed(2);
   /* ghost numeral per scene */
   const g = p<.235 && p>.10 ? 'N°01' : p<.355 && p>=.235 ? 'N°02' : p<.475 && p>=.355 ? 'N°03' : p>=.72 ? 'N°04' : '';
   if(g && g !== els.ghost.textContent) els.ghost.textContent = g;
-  els.ghost.style.opacity = (g ? (p<.475 ? win(p,.12,.16,.44,.475) : win(p,.73,.78,.92,.95))*.35 : 0).toFixed(3);
-  /* bottles */
-  const w = slotW();
-  place(els.btRise,  bottleKF(p, .115, -w));
-  place(els.btCalm,  bottleKF(p, .235, 0));
-  place(els.btRest,  bottleKF(p, .355, w));
-  place(els.btSteady, steadyKF(p));
+  els.ghost.style.opacity = (g ? (p<.475 ? win(p,.12,.16,.44,.475) : win(p,.73,.78,.84,.90))*.35 : 0).toFixed(3);
+  /* bottles — freestyle composition; the finished 4-piece portrait holds */
+  const S = SLOTS();
+  place(els.casc, cascKF(p));
+  place(els.btRise,  bottleKF(p, .115, S.rise));
+  place(els.btCalm,  bottleKF(p, .235, S.calm));
+  place(els.btRest,  bottleKF(p, .355, S.rest));
+  place(els.btSteady, steadyKF(p, S.steady));
   /* rail */
   els.railfill.style.height = (p*100).toFixed(1)+'%';
-  els.rail.classList.toggle('lite', (p>.10 && p<.50) || (p>.715 && p<.95));
+  els.rail.classList.toggle('lite', (p>.10 && p<.50) || (p>.715 && p<.90));
+  els.rail.style.opacity = (1 - clamp01((p-.955)/.04)).toFixed(2);
 }
 
 if(reduced){
