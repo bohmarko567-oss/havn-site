@@ -85,7 +85,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .flip s{color:#FF7B7B;text-decoration-thickness:6px;}
 .flip .free{color:#F08BC0;margin-left:14px;}
 /* the in-film offer menu — the film's last act IS the order screen */
-.offmenu{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(12vh);width:min(92vw,560px);opacity:0;pointer-events:none;color:#F3E6ED;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;}
+/* translateY(max(...)) keeps the menu clear of the bottle row on short
+   viewports (iPhone with browser chrome), identical on tall screens */
+.offmenu{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(max(12vh,104px));width:min(92vw,560px);opacity:0;pointer-events:none;color:#F3E6ED;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;}
 .offmenu .modetoggle{display:flex;gap:6px;width:min(78vw,300px);margin:0;}
 .offmenu .mt{flex:1;min-height:36px;border:1.5px solid #5A2B45;background:transparent;color:#C99BB5;border-radius:100px;font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.4px;cursor:pointer;}
 .offmenu .mt.on{background:var(--cream);border-color:var(--cream);color:var(--ink);}
@@ -941,12 +943,14 @@ if(reduced){
   addEventListener('scroll', measure, {passive:true});
   addEventListener('resize', measure);
   measure();
-  const cinEl = $('cinema');
+  /* NO layout reads in the frame loop — a per-frame getBoundingClientRect
+     forces reflow 60×/s and janks everything below the film on phones */
+  let cinH = $('cinema').offsetHeight;
+  addEventListener('resize', ()=>{ cinH = $('cinema').offsetHeight; });
   (function loop(now){
     const scrolling = Math.abs(target-cur) > 0.0004;
     if(scrolling){ cur = cur<0 ? target : cur + (target-cur)*0.16; }
-    /* idle-life: keep breathing while the stage is on screen */
-    const onStage = !document.hidden && cinEl.getBoundingClientRect().bottom > 0;
+    const onStage = !document.hidden && scrollY < cinH - 8;   /* cinema starts at page top */
     if(scrolling || onStage){ bobT = now || 0; apply(clamp01(cur<0 ? target : cur)); }
     requestAnimationFrame(loop);
   })(0);
