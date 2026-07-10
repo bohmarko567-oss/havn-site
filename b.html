@@ -292,6 +292,18 @@ footer a{color:inherit;}
   .gift-line{font-size:11px;margin-bottom:8px;}
 }
 
+/* short stages (phone + visible browser chrome): compact the film's text so
+   the solo holds and the flip always clear the mockups */
+@media(max-height:719px){
+  .beat.solo{top:6%;}
+  .beat.solo h2{font-size:clamp(32px,8.5vw,58px);}
+  .beat.solo p{font-size:13.5px;max-width:32ch;margin-top:10px;}
+  .beat .spec{font-size:10.5px;margin-top:8px;}
+  .beat.hero{top:11%;}
+  .beat.steady{top:5%;}
+  .flip{font-size:clamp(36px,8vw,64px);}
+}
+
 /* ————— desktop layer (≥1024): bigger mockups, wider everything —
    PURELY ADDITIVE: nothing below this block touches phone/tablet rules ————— */
 @media(min-width:1024px){
@@ -756,18 +768,8 @@ function promoCopy(b){
   }, true);
 })();
 
-(function(){
-  const st = promoState();
-  const snoozed = st && st.dismissed && Date.now()-st.at < 3*86400e3;
-  let shown = false;
-  try{ shown = !!sessionStorage.getItem('havn_promo_shown'); }catch(e){}
-  if(snoozed || shown){ $('pbadge').hidden = false; return; }
-  let fired = false;
-  const fire = ()=>{ if(fired) return; fired = true; removeEventListener('scroll', onScroll); promoOpen(); };
-  const onScroll = ()=>{ if(scrollY > (document.body.scrollHeight-innerHeight)*.22) fire(); };
-  addEventListener('scroll', onScroll, {passive:true});
-  setTimeout(fire, 7000);
-})();
+/* NO auto-popping — the badge is the invitation; the circle opens on tap only */
+$('pbadge').hidden = false;
 
 /* ================= balloons (ported — lib preferred, CSS fallback) ================= */
 let balloonsAt = 0;
@@ -837,6 +839,9 @@ function fieldColor(p){
 /* freestyle still-life slots + the hero stack poses */
 /* three breakpoints — the phone numbers NEVER change when desktop is tuned */
 const BP = () => innerWidth <= 700 ? 'm' : innerWidth < 1024 ? 't' : 'd';
+/* short stages (phone with browser chrome) can't fit full-size solo holds */
+let stageH = innerHeight;
+const HOLD = () => stageH < 720 ? {s:.92, y:6.5} : {s:1.08, y:1.3};
 const SLOTS = () => ({
   m: { rise:{x:-31,y:12,r:-8,s:.55}, calm:{x:-3,y:3,r:5,s:.62}, rest:{x:29,y:9,r:-4,s:.52}, steady:{x:10,y:15,r:6,s:.58} },
   t: { rise:{x:-30,y:11,r:-8,s:.66}, calm:{x:-4,y:2,r:5,s:.72}, rest:{x:26,y:8,r:-4,s:.62}, steady:{x:9,y:13,r:6,s:.66} },
@@ -860,12 +865,12 @@ const ROW = () => ({
    hold floating, then ONE toss that lands it AT its slot — and it FREEZES
    there (no residual drifting; the price scene only brightens it). */
 function riseKF(p){
-  const st = STACK().rise, sl = SLOTS().rise, R = ROW(), rw = R.rise;
+  const st = STACK().rise, sl = SLOTS().rise, R = ROW(), rw = R.rise, H = HOLD();
   return {
     x: kf(p, [[.085,st.x],[.15,0],[.215,0],[.245,sl.x],[.72,sl.x],[.80,rw.x]], eio),
-    y: kf(p, [[.085,st.y],[.15,2],[.215,1.3],[.245,sl.y],[.72,sl.y],[.80,R.midY],[.815,R.midY],[.855,R.y]], eio),
+    y: kf(p, [[.085,st.y],[.15,H.y],[.215,H.y*.9],[.245,sl.y],[.72,sl.y],[.80,R.midY],[.815,R.midY],[.855,R.y]], eio),
     r: kf(p, [[.085,st.r],[.17,-4],[.215,-6],[.245,sl.r],[.72,sl.r],[.80,0]]),
-    s: kf(p, [[.085,st.s],[.155,1.10],[.215,1.10],[.245,sl.s],[.72,sl.s],[.80,rw.s]], eio),
+    s: kf(p, [[.085,st.s],[.155,H.s+.02],[.215,H.s+.02],[.245,sl.s],[.72,sl.s],[.80,rw.s]], eio),
     o: kf(p, [[-1,1],[.245,1],[.255,.38],[.48,.38],[.51,1]])
   };
 }
@@ -884,12 +889,12 @@ function soloKF(p, cfg){
       o: kf(p, [[.085,1],[.13,0],[IN-.001,0]])
     };
   }
-  const row = cfg.row, R = ROW();
+  const row = cfg.row, R = ROW(), H = HOLD();
   return {
     x: kf(p, [[IN,fromX],[ARR,0],[H1,0],[TOSS,slot.x],[.72,slot.x],[.80,row.x]], eio),
-    y: kf(p, [[IN,42],[ARR,2],[H1,1.2],[TOSS,slot.y],[.72,slot.y],[.80,R.midY],[.815,R.midY],[.855,R.y]], eio),
+    y: kf(p, [[IN,42],[ARR,H.y],[H1,H.y*.85],[TOSS,slot.y],[.72,slot.y],[.80,R.midY],[.815,R.midY],[.855,R.y]], eio),
     r: kf(p, [[IN,enterR],[ARR,holdR],[H1,holdR*.8],[TOSS,slot.r],[.72,slot.r],[.80,0]]),
-    s: kf(p, [[IN,.86],[ARR,1.06],[H1,1.06],[TOSS,slot.s],[.72,slot.s],[.80,row.s]], eio),
+    s: kf(p, [[IN,.86],[ARR,H.s],[H1,H.s],[TOSS,slot.s],[.72,slot.s],[.80,row.s]], eio),
     o: kf(p, [[IN-.006,0],[IN+.02,1],[TOSS-.002,1],[TOSS+.01,.38],[.48,.38],[.51,1]])
   };
 }
@@ -969,10 +974,20 @@ if(reduced){
   /* ?p=0.87 — deterministic tuning/screenshot hook: pins the film at a progress */
   apply(clamp01(parseFloat(new URLSearchParams(location.search).get('p'))));
 }else{
+  /* FREEZE the stage height in px: iOS re-shows its bars on scroll-UP, which
+     shrinks dvh and re-lays the whole film mid-gesture (mockups over text on
+     the way up, fine on the way down). A frozen stage = one constant
+     coordinate system both directions. Re-freeze only on REAL resizes. */
+  const stageEl = $('stage');
+  let frozenH = innerHeight;
+  function freezeStage(){ frozenH = innerHeight; stageH = frozenH; stageEl.style.height = frozenH + 'px'; }
+  freezeStage();
+  addEventListener('resize', ()=>{ if(Math.abs(innerHeight - frozenH) > 130) freezeStage(); });
+
   let target = 0, cur = -1;
   function measure(){
     const c = $('cinema');
-    const total2 = c.offsetHeight - innerHeight;
+    const total2 = c.offsetHeight - frozenH;
     target = clamp01((-c.getBoundingClientRect().top) / (total2 || 1));
   }
   addEventListener('scroll', measure, {passive:true});
