@@ -27,7 +27,7 @@ async function sendEmail({ to, subject, html, from }) {
 }
 
 /* The fulfillment alert the owner acts on — everything needed to place the
-   Supliful manual order (Orders → "Order products") without opening Stripe. */
+   manual fulfillment order (Orders → "Order products") without opening Stripe. */
 function ownerOrderEmail(order) {
   const a = order.shipping && order.shipping.address ? order.shipping.address : {};
   const shipName = (order.shipping && order.shipping.name) || order.customerName || '';
@@ -44,21 +44,20 @@ function ownerOrderEmail(order) {
     .filter(Boolean).join('<br>');
   const akHi = ['AK', 'HI'].includes(String(a.state || '').toUpperCase())
     ? `<p style="background:#FDE8E8;border:1px solid #E03131;border-radius:8px;padding:10px 12px;color:#8A0E0E">
-       ⚠ <b>Alaska/Hawaii address — Supliful can't ship there.</b> Refund this order in Stripe and email the customer an apology (add AK/HI exclusion is already in the shipping policy).</p>`
+       ⚠ <b>Alaska/Hawaii address — the fulfillment partner can't ship there.</b> Refund this order in Stripe and email the customer an apology (the AK/HI exclusion is already in the shipping policy).</p>`
     : '';
   return `${akHi}
   <div style="font-family:Arial,sans-serif;max-width:620px">
     <h2 style="margin:0 0 4px">${order.kind === 'renewal' ? '🔁 Subscription renewal' : '🟠 New HAVN order'} — ship it</h2>
     <p style="color:#555;margin:4px 0 14px">${order.summary || ''} · paid <b>$${(order.amountTotal / 100).toFixed(2)}</b> · ${order.id}</p>
-    <h3 style="margin:14px 0 6px">1 · What to ship (Supliful → Orders → “Order products”)</h3>
+    <h3 style="margin:14px 0 6px">1 · What to ship (fulfillment dashboard → Orders → “Order products”)</h3>
     <table style="border-collapse:collapse">${rows}</table>
     <h3 style="margin:16px 0 6px">2 · Ship to</h3>
     <p style="line-height:1.5;margin:0">${addr || '⚠ no address captured — check Stripe dashboard'}</p>
     <p style="margin:6px 0 0;color:#555">📧 ${order.customerEmail || '—'} · 📞 ${order.customerPhone || '—'}</p>
     <h3 style="margin:16px 0 6px">3 · Done</h3>
-    <p style="margin:0;color:#555">Place the manual order, pay wholesale, and when Supliful sends tracking, forward it to the customer. Full runbook: GO_LIVE.md → “Per-order fulfillment”.</p>
-    <p style="margin:14px 0 0"><a href="https://app.supliful.com/orders" style="background:#FF6A15;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:bold">Open Supliful orders →</a>
-    &nbsp;<a href="https://dashboard.stripe.com/payments" style="color:#555">Stripe payment ↗</a></p>
+    <p style="margin:0;color:#555">Place the manual order, pay wholesale, and when the tracking email arrives, forward it to the customer. Full runbook: GO_LIVE.md → “Per-order fulfillment”.</p>
+    <p style="margin:14px 0 0">${process.env.FULFILL_DASH_URL ? `<a href="${process.env.FULFILL_DASH_URL}" style="background:#FF6A15;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:bold">Open fulfillment orders →</a>&nbsp;` : ''}<a href="https://dashboard.stripe.com/payments" style="color:#555">Stripe payment ↗</a></p>
   </div>`;
 }
 

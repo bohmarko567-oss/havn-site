@@ -16,3 +16,6 @@ package-lock.json
 !.env.example
 
 .claude/
+
+# owner runbook — never in the public repo
+GO_LIVE.md

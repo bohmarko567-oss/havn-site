@@ -2,9 +2,9 @@
    Every paid order becomes a fulfillment record that is:
      1. logged (Vercel → Deployments → Functions logs; Stripe dashboard is the
         permanent source of truth either way),
-     2. emailed to OWNER_EMAIL as a ready-to-ship Supliful picklist (Resend),
+     2. emailed to OWNER_EMAIL as a ready-to-ship picklist (Resend),
      3. optionally pushed straight into a headless Shopify store for hands-free
-        Supliful fulfillment (see api/_shopify.js) — best-effort, never blocks.
+        fulfillment (see api/_shopify.js) — best-effort, never blocks.
 
    Events handled:
      checkout.session.completed          → first order (one-time or sub month 1)

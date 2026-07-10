@@ -4,18 +4,19 @@
    All amounts are integer cents. */
 
 const CATALOG = {
-  rise:   { name: "HAVN Rise — Lion's Mane 1000mg",       n: 'N°01', img: 'rise_front.jpg',   one: 3800, sub: 3200 },
-  calm:   { name: 'HAVN Calm — Ashwagandha+ (KSM-66®)',   n: 'N°02', img: 'calm_front.jpg',   one: 3800, sub: 3200 },
-  rest:   { name: 'HAVN Rest — Magnesium Glycinate',      n: 'N°03', img: 'rest_front.jpg',   one: 3800, sub: 3200 },
+  rise:   { name: "HAVN Rise — Lion's Mane 1000mg",       n: 'N°01', img: 'rise_front.jpg',   one: 3800, sub: 3100 },
+  calm:   { name: 'HAVN Calm — Ashwagandha+ (KSM-66®)',   n: 'N°02', img: 'calm_front.jpg',   one: 3800, sub: 3100 },
+  rest:   { name: 'HAVN Rest — Magnesium Glycinate',      n: 'N°03', img: 'rest_front.jpg',   one: 3800, sub: 3100 },
   steady: { name: 'HAVN Steady — Blood Sugar Drops',      n: 'N°04', img: 'steady_front.jpg', one: 1800, sub: 1500 },
 };
 
-/* Trio bundle: Rise+Calm+Rest. Sub $96 = exactly 3×$32 (collapse-neutral) and
-   15%+ off the $114 one-time anchor. Repriced 2026-07-10 on real Supliful
-   costs (wholesale + $1.99/unit fulfillment + weight-based shipping). */
+/* Trio bundle: Rise+Calm+Rest. Sub $93 = exactly 3×$31 (collapse-neutral),
+   ~18% off the $114 one-time anchor; the 15% welcome code (first order only —
+   coupon duration "once") lands the first month at $79.05. Repriced 2026-07-10
+   on verified wholesale + per-unit fulfillment + weight-based shipping. */
 const TRIO = {
   one: 11400,
-  sub: 9600,
+  sub: 9300,
   name: 'HAVN Complete Ritual — Rise + Calm + Rest',
   desc: 'The 4-piece daily ritual. Includes N°04 STEADY (Blood Sugar Drops, $18 value) FREE in every shipment.',
 };

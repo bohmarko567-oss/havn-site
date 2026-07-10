@@ -1,13 +1,13 @@
 /* OPTIONAL phase-2 automation: push paid orders into a headless Shopify store
-   that has the Supliful app installed — Supliful then auto-fulfills and pushes
-   tracking back to Shopify. This is Supliful's officially supported path for
-   custom storefronts ("Connect your custom app to Supliful using Shopify Admin
-   API", help.supliful.com article 12459926).
+   that has the fulfillment partner's app installed — orders then auto-fulfill
+   and tracking flows back to Shopify. This is the partner's officially
+   supported path for custom storefronts (their "connect your custom app via
+   Shopify Admin API" guide).
 
    Requirements before enabling (see GO_LIVE.md → "Full automation"):
-   - Shopify store (Basic) + Supliful app installed + products published FROM Supliful
+   - Shopify store (Basic) + partner app installed + products published from the partner dashboard
    - Settings → Checkout → "Automatically fulfill the order's line items"
-   - Supliful Pro plan + payment method on file
+   - Partner's paid plan + payment method on file
    - Custom app token with write_orders, write_customers, read_products
    - Env vars:
        SHOPIFY_STORE_DOMAIN  = yourstore.myshopify.com

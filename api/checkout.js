@@ -78,10 +78,23 @@ module.exports = async (req, res) => {
       success_url: origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: origin + '/#products',
       shipping_address_collection: { allowed_countries: ['US'] },
-      phone_number_collection: { enabled: true },   /* Supliful declines orders without a phone */
+      phone_number_collection: { enabled: true },   /* the fulfillment partner declines orders without a phone */
       allow_promotion_codes: true,
       metadata,
     };
+    /* welcome code from the on-page circle — applied server-side so the Stripe
+       total matches the cart. Subscription orders only; the coupon behind it is
+       duration:"once", so Stripe discounts the FIRST invoice and renews full. */
+    const promoCode = typeof payload.promo === 'string' ? payload.promo.trim().slice(0, 40) : '';
+    if (promoCode && subscribe) {
+      try {
+        const found = await stripe.promotionCodes.list({ code: promoCode, active: true, limit: 1 });
+        if (found.data[0]) {
+          params.discounts = [{ promotion_code: found.data[0].id }];
+          delete params.allow_promotion_codes; /* Stripe: mutually exclusive */
+        }
+      } catch (e) { console.error('promo lookup failed:', e.message || e); }
+    }
     if (subscribe) {
       params.subscription_data = { metadata };      /* renewals carry the cart too */
     } else {

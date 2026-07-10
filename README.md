@@ -2,9 +2,9 @@
 
 E-commerce site for **HAVN**, a four-piece daily supplement ritual: **Rise** (focus) · **Calm** (balance) · **Rest** (sleep) · **Steady** (the earned N°04, free with the full ritual).
 
-Static "Spectrum"-design front end (Archivo Expanded + Space Mono, per-SKU color coding, vanilla-JS motion system, working cart drawer with the $75 free-shipping + free-gift mechanic) **plus a real commerce backend**: Stripe Checkout, order webhooks, and a Supliful fulfillment pipeline. Fulfillment is white-label dropship via [Supliful](https://supliful.com) — print-ready label PDFs live in `Downloads/Havn-Labels/PRINT/`.
+Static "Spectrum"-design front end (Archivo Expanded + Space Mono, per-SKU color coding, vanilla-JS motion system, working cart drawer with the free-shipping + free-gift mechanic) **plus a real commerce backend**: Stripe Checkout, order webhooks, and a white-label U.S. fulfillment pipeline.
 
-**▶ To take this live, follow [GO_LIVE.md](GO_LIVE.md) — the ordered runbook of owner-only steps.**
+**▶ To take this live, follow the owner runbook (GO_LIVE.md — kept out of the repo).**
 
 ## How an order flows (A → Z)
 
@@ -15,8 +15,8 @@ customer on index.html → cart drawer → POST /api/checkout
   → success.html (cart cleared, timeline)
   → Stripe fires /api/stripe-webhook (checkout.session.completed / invoice.paid renewals)
       → order logged + "🟠 ship it" picklist email to OWNER_EMAIL (Resend)
-      → [optional] auto-created in headless Shopify → Supliful auto-fulfills (api/_shopify.js)
-  → you (or the bridge) place the Supliful order → they bottle, label, ship
+      → [optional] auto-created in headless Shopify → auto-fulfilled (api/_shopify.js)
+  → you (or the bridge) place the fulfillment order → bottled, labeled, shipped
   → tracking → customer's door
 ```
 
@@ -27,7 +27,7 @@ With **no env vars set, `/api/checkout` runs in demo mode** (simulated success p
 havn-site/
 ├── index.html            # the storefront (inline CSS + JS)
 ├── success.html          # order confirmation (clears cart, demo banner)
-├── policies.html · 404.html · sitemap.xml · robots.txt · b.html (parked prototype)
+├── policies.html · 404.html · sitemap.xml · robots.txt · b.html (the cinematic store)
 ├── api/
 │   ├── checkout.js       # cart → Stripe Checkout Session (or demo URL)
 │   ├── stripe-webhook.js # payments → fulfillment records + owner emails
@@ -43,9 +43,9 @@ havn-site/
 └── vercel.json           # cleanUrls + cache headers (zero-config functions)
 ```
 
-## Pricing model (v2 — repriced 2026-07-10 on real Supliful costs)
+## Pricing model (v3 — repriced 2026-07-10 on verified wholesale costs)
 
-Single $38 / $32 sub · Trio $114 / **$96 sub** (= 3×$32; 15%+ off) · Steady $18 / $15 sub, **free with the complete ritual** (repeats monthly on the trio sub) · **subscriptions from $30/mo ship free** · one-time orders free ≥ $79, else $6.95. All enforced server-side in `api/_catalog.js`; change prices there + in `index.html`'s `PRODUCTS` (and the JSON-LD offers). Unit economics: GO_LIVE.md Part 3.
+Single $38 / $31 sub · Trio $114 / **$93 sub** (= 3×$31; ~18% off) · Steady $18 / $15 sub, **free with the complete ritual** (repeats monthly on the trio sub) · 15% welcome code applies to the **first** subscription order only (Stripe coupon, duration "once") · **subscriptions from $30/mo ship free** · one-time orders free ≥ $79, else $6.95. All enforced server-side in `api/_catalog.js`; change prices there + in the storefront's price map. Unit economics: GO_LIVE.md Part 3.
 
 ## Run locally
 ```

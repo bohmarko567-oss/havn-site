@@ -479,9 +479,8 @@ footer a{color:inherit;}
     <div class="sec-head"><div class="eyebrow">Questions</div><h2>FAQ</h2></div>
     <div class="faq">
       <details open><summary>What is the 4th piece?</summary><p>STEADY — N°04, our Normal Blood Sugar Drops. Six botanicals in a daily 2ml dropper to support healthy energy metabolism*. On its own it's $18 — free with every complete-ritual order, every month you stay subscribed.</p></details>
-      <details><summary>How do I get the whole ritual for $79?</summary><p>Two steps. Subscribe — the complete ritual drops from $114 to <b>$93/mo</b> and ships free. Then tap the floating <b>15% circle</b> and claim your code: it applies to your cart on its own, and the whole order lands at <b>$79.05/mo</b> — all four pieces, shipping included, locked in for as long as you keep the ritual.</p></details>
       <details><summary>How does the subscription work?</summary><p>One delivery a month: Rise, Calm, Rest — and STEADY riding along free. $93/mo (or one-time, $114 — switch in the cart). Skip a month, swap a formula or cancel from the link in any receipt, at least 48h before renewal. No calls, no fees.</p></details>
-      <details><summary>Can I actually cancel anytime?</summary><p>Yes — two taps from any receipt, and the subscription ends with the current month. Nothing to return, nobody to argue with. The only things you give up are the free STEADY and your locked price.</p></details>
+      <details><summary>Can I actually cancel anytime?</summary><p>Yes — two taps from any receipt, and the subscription ends with the current month. Nothing to return, nobody to argue with. The only thing you give up is the free STEADY.</p></details>
       <details><summary>Shipping &amp; returns?</summary><p>Subscriptions always ship free in the U.S. One-time orders ship free at $79+, otherwise $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
       <details><summary>When will I feel a difference?</summary><p>Honest answer: Rest and Calm often land within days. Rise builds over 2–4 weeks of daily use — that's exactly why the first order carries the guarantee. Give it the month; it costs you nothing if it's not for you.</p></details>
       <details><summary>What exactly is in each bottle?</summary><p>No proprietary blends — full doses, printed on the label. In your cart, tap <b>Rise</b>, <b>Calm</b> or <b>Rest</b> on the ritual line (or the “label” link on any bottle) to see the complete Supplement Facts panel, exactly as it prints.</p></details>
@@ -513,7 +512,7 @@ footer a{color:inherit;}
     <div class="gift-line" id="giftLine" role="status">🎁 <span>STEADY unlocked — <s>$18</s> <b>FREE</b> in this order</span></div>
     <div class="row"><span>Subtotal</span><span id="subtotal">$0</span></div>
     <div class="row" id="discRow" style="display:none;color:var(--rise2)"><span id="discLbl">15% code</span><span id="discAmt"></span></div>
-    <div class="row" id="totalRow" style="display:none"><span>Total</span><span id="totalAmt"></span></div>
+    <div class="row" id="totalRow" style="display:none"><span id="totalLbl">Total</span><span id="totalAmt"></span></div>
     <button class="btn" id="ckBtn" onclick="checkout()" disabled>Checkout</button>
     <div class="subnote" id="footNote">Subscription renews monthly · skip or cancel anytime</div>
   </div>
@@ -628,9 +627,9 @@ function update(){
   const goal = subscribe ? SUB_FREE_SHIP : FREE_SHIP;
   $('subtotal').textContent = fmt(st);
   $('discRow').style.display = disc>0 ? 'flex' : 'none';
-  if(disc>0){ $('discLbl').textContent = `15% code · ${promoCodeVal()}`; $('discAmt').textContent = '−'+fmt(disc); }
+  if(disc>0){ $('discLbl').textContent = `15% code · ${promoCodeVal()} · first order`; $('discAmt').textContent = '−'+fmt(disc); }
   $('totalRow').style.display = disc>0 ? 'flex' : 'none';
-  if(disc>0) $('totalAmt').textContent = fmt(total)+(subscribe?'/mo':'');
+  if(disc>0){ $('totalLbl').textContent = 'First month'; $('totalAmt').textContent = fmt(total); }
   $('shipFill').style.width = Math.min(100, total/goal*100)+'%';
   $('shipTrack').setAttribute('aria-valuemax', goal);
   $('shipTrack').setAttribute('aria-valuenow', Math.min(goal, Math.round(total)));
@@ -644,8 +643,10 @@ function update(){
   $('slotLbl').innerHTML = done ? 'Ritual complete —<br>N°04 is yours, free' : 'Complete 01–03<br>to unlock N°04';
   $('giftLine').style.display = done ? 'flex' : 'none';
   $('ckBtn').disabled = itemCount()===0;
-  $('ckBtn').textContent = itemCount()===0 ? 'Checkout' : `Checkout — ${fmt(total)}${subscribe&&total>0?'/mo':''}`;
-  $('footNote').textContent = subscribe ? 'Subscription renews monthly · skip or cancel anytime' : 'One-time order · switch to Subscribe & Save for 15% off';
+  $('ckBtn').textContent = itemCount()===0 ? 'Checkout' : `Checkout — ${fmt(total)}${subscribe&&total>0&&disc===0?'/mo':''}`;
+  $('footNote').textContent = subscribe
+    ? (disc>0 ? `Renews at ${fmt(st)}/mo from month 2 · skip or cancel anytime` : 'Subscription renews monthly · skip or cancel anytime')
+    : 'One-time order · switch to Subscribe & Save for 15% off';
 
   document.querySelectorAll('.chip button').forEach(b=>{
     const has = hasSku(b.dataset.add);
@@ -711,9 +712,10 @@ function ckFallback(){
   if(cart.trio>0) lines.push(`<div class="l"><span>Complete Ritual ×${cart.trio}</span><span>${fmt(cart.trio*trioPrice())}</span></div>`);
   for(const id of ['rise','calm','rest','steady']) if(cart.singles[id]>0) lines.push(`<div class="l"><span>${NAMES[id]} ×${cart.singles[id]}</span><span>${fmt(cart.singles[id]*priceSingle(id))}</span></div>`);
   if(complete()) lines.push(`<div class="l g"><span>Steady — N°04 gift</span><span><s>$18</s> FREE</span></div>`);
-  if(discount()>0) lines.push(`<div class="l g"><span>15% code · ${promoCodeVal()}</span><span>−${fmt(discount())}</span></div>`);
+  if(discount()>0) lines.push(`<div class="l g"><span>15% code · ${promoCodeVal()} · first order</span><span>−${fmt(discount())}</span></div>`);
   lines.push(`<div class="l"><span>Shipping</span><span>${cartTotal()>=(subscribe?SUB_FREE_SHIP:FREE_SHIP)?'FREE':'at checkout'}</span></div>`);
-  lines.push(`<div class="l t"><span>Total${subscribe?' / month':''}</span><span>${fmt(cartTotal())}</span></div>`);
+  lines.push(`<div class="l t"><span>${discount()>0?'First month':'Total'+(subscribe?' / month':'')}</span><span>${fmt(cartTotal())}</span></div>`);
+  if(discount()>0) lines.push(`<div class="l"><span>Then</span><span>${fmt(subtotal())}/mo</span></div>`);
   $('ckSummary').innerHTML = lines.join('');
   closeCart(); $('ckmodal').classList.add('open');
 }
@@ -748,7 +750,7 @@ function promoClose(){
 function promoShowCode(code){
   $('promoForm').style.display = 'none';
   const b = $('promoCode'); b.hidden = false; b.textContent = code;
-  $('promoNote').textContent = 'Applied to your cart automatically — subscription orders get 15% off.';
+  $('promoNote').textContent = 'Applied automatically — 15% off the first order of your subscription.';
   const big = document.querySelector('.pc-big'); if(big) big.textContent = 'Yours ✓';
   update(); /* the cart reflects the code the moment it exists */
 }
