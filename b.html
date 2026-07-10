@@ -866,27 +866,46 @@ const STACK = () => ({   /* spread in all directions — every bottle clearly vi
 /* the finale row: 1-2-3 on the table, plus, and the (smaller) drops.
    Each has a MID pose (straightening LOW, under the flip text) and the final
    row height — the two-stage rise is what keeps mockups off the text forever */
+/* plus sits truly BETWEEN the last bottle and the drops (x = midpoint of
+   rest's right edge and steady's left edge; y ≈ bottle midline) */
 const ROW = () => ({
-  m: { rise:{x:-32,s:.46}, calm:{x:-11,s:.46}, rest:{x:10,s:.46}, plus:{x:20.5}, steady:{x:32,s:.38}, y:-20, plusY:-16 },
-  t: { rise:{x:-16,s:.5},  calm:{x:-7,s:.5},   rest:{x:2,s:.5},   plus:{x:8.5},  steady:{x:15.5,s:.42}, y:-18, plusY:-14 },
-  d: { rise:{x:-17,s:.52}, calm:{x:-8,s:.52},  rest:{x:1,s:.52},  plus:{x:8},    steady:{x:15,s:.44},  y:-22, plusY:-18 },
+  m: { rise:{x:-32,s:.46}, calm:{x:-11,s:.46}, rest:{x:10,s:.46}, plus:{x:22},  steady:{x:32,s:.38}, y:-20, plusY:-17.5 },
+  t: { rise:{x:-16,s:.5},  calm:{x:-7,s:.5},   rest:{x:2,s:.5},   plus:{x:9.1}, steady:{x:15.5,s:.42}, y:-18, plusY:-15.5 },
+  d: { rise:{x:-17,s:.52}, calm:{x:-8,s:.52},  rest:{x:1,s:.52},  plus:{x:8.9}, steady:{x:15,s:.44},  y:-22, plusY:-19.5 },
 })[BP()];
-/* the APEX: the drops' hero moment — big, center stage, held */
-const APEX = () => ({ m:{y:7,s:.78}, t:{y:8,s:.72}, d:{y:18,s:.72} })[BP()];
+/* the APEX: the drops' hero moment — big, center stage, held, spotlit
+   (the trio stays on stage but dims into the shadows behind it) */
+const APEX = () => ({ m:{y:7,s:.86}, t:{y:8,s:.78}, d:{y:18,s:.76} })[BP()];
 /* desktop solos put text left, bottle right */
 const HOLDX = () => BP()==='d' ? 17 : 0;
 
 /* RISE: from the hero stack — one continuous zoom-up, ONE rotation sweep,
    hold floating, then ONE toss that lands it AT its slot — and it FREEZES
    there (no residual drifting; the price scene only brightens it). */
-function riseKF(p){
-  const st = STACK().rise, sl = SLOTS().rise, R = ROW(), rw = R.rise, H = HOLD(), HX = HOLDX();
+/* the last act: the CURTAIN CALL — after the hero takes its seat, each
+   bottle lifts out of the shadows where it stood, brightening, in ONE
+   eased sweep up into the row. No arrivals from nowhere: everything the
+   closing slide shows was on stage the whole time. */
+function assemble(p, slot, row, R, t0){
+  const t1 = t0+.032;
   return {
-    x: kf(p, [[.085,st.x],[.15,HX],[.215,HX],[.245,sl.x],[.87,sl.x],[.91,rw.x]], eio),
-    y: kf(p, [[.085,st.y],[.15,H.y],[.215,H.y*.9],[.245,sl.y],[.87,sl.y],[.91,R.y]], eio),
-    r: kf(p, [[.085,st.r],[.17,-4],[.215,-6],[.245,sl.r],[.87,sl.r],[.91,0]]),
-    s: kf(p, [[.085,st.s],[.155,H.s+.02],[.215,H.s+.02],[.245,sl.s],[.87,sl.s],[.91,rw.s]], eio),
-    o: kf(p, [[-1,1],[.245,1],[.255,.38],[.48,.38],[.51,1]])
+    x: kf(p, [[t0,slot.x],[t1,row.x]], eout),
+    y: kf(p, [[t0,slot.y],[t1,R.y]], eout),
+    r: kf(p, [[t0,slot.r],[t1,0]], eout),
+    s: kf(p, [[t0,slot.s],[t1,row.s]], eout),
+    o: kf(p, [[t0,.25],[t0+.02,1]])
+  };
+}
+function riseKF(p){
+  const R = ROW();
+  if(p >= .74) return assemble(p, SLOTS().rise, R.rise, R, .885);
+  const st = STACK().rise, sl = SLOTS().rise, H = HOLD(), HX = HOLDX();
+  return {
+    x: kf(p, [[.085,st.x],[.15,HX],[.215,HX],[.245,sl.x]], eio),
+    y: kf(p, [[.085,st.y],[.15,H.y],[.215,H.y*.9],[.245,sl.y]], eio),
+    r: kf(p, [[.085,st.r],[.17,-4],[.215,-6],[.245,sl.r]]),
+    s: kf(p, [[.085,st.s],[.155,H.s+.02],[.215,H.s+.02],[.245,sl.s]], eio),
+    o: kf(p, [[-1,1],[.245,1],[.255,.38],[.48,.38],[.51,1],[.705,1],[.74,.25]])
   };
 }
 /* CALM + REST: split out of the stack, return from below in one sweep,
@@ -905,23 +924,25 @@ function soloKF(p, cfg){
     };
   }
   const row = cfg.row, R = ROW(), H = HOLD(), HX = HOLDX();
+  if(p >= .74) return assemble(p, slot, row, R, cfg.seatT);
   return {
-    x: kf(p, [[IN,fromX],[ARR,HX],[H1,HX],[TOSS,slot.x],[.87,slot.x],[.91,row.x]], eio),
-    y: kf(p, [[IN,42],[ARR,H.y],[H1,H.y*.85],[TOSS,slot.y],[.87,slot.y],[.91,R.y]], eio),
-    r: kf(p, [[IN,enterR],[ARR,holdR],[H1,holdR*.8],[TOSS,slot.r],[.87,slot.r],[.91,0]]),
-    s: kf(p, [[IN,.86],[ARR,H.s],[H1,H.s],[TOSS,slot.s],[.87,slot.s],[.91,row.s]], eio),
-    o: kf(p, [[IN-.006,0],[IN+.02,1],[TOSS-.002,1],[TOSS+.01,.38],[.48,.38],[.51,1]])
+    x: kf(p, [[IN,fromX],[ARR,HX],[H1,HX],[TOSS,slot.x]], eio),
+    y: kf(p, [[IN,42],[ARR,H.y],[H1,H.y*.85],[TOSS,slot.y]], eio),
+    r: kf(p, [[IN,enterR],[ARR,holdR],[H1,holdR*.8],[TOSS,slot.r]]),
+    s: kf(p, [[IN,.86],[ARR,H.s],[H1,H.s],[TOSS,slot.s]], eio),
+    o: kf(p, [[IN-.006,0],[IN+.02,1],[TOSS-.002,1],[TOSS+.01,.38],[.48,.38],[.51,1],[.705,1],[.74,.25]])
   };
 }
 function steadyKF(p){
   /* the drops' own act: rolls up BIG to center stage (fast in, soft landing),
-     HOLDS through the $18→FREE apex, then glides into its row spot */
+     HOLDS through the $18→FREE apex, then — text gone — takes its row seat
+     FIRST, one eased sweep, before the trio's curtain call fills in behind */
   const R = ROW(), rw = R.steady, A = APEX();
   return {
-    x: kf(p, [[.745,0],[.87,0],[.91,rw.x]], eio),
-    y: kf(p, [[.745,60],[.80,A.y],[.87,A.y],[.91,R.y+1]], eout),
+    x: kf(p, [[.745,0],[.875,0],[.908,rw.x]], eout),
+    y: kf(p, [[.745,60],[.80,A.y],[.875,A.y],[.908,R.y+1]], eout),
     r: kf(p, [[.745,-210],[.80,0]], eout),
-    s: kf(p, [[.745,A.s],[.87,A.s],[.91,rw.s]], eio),
+    s: kf(p, [[.745,A.s],[.875,A.s],[.908,rw.s]], eout),
     o: kf(p, [[.74,0],[.76,1]])
   };
 }
@@ -951,31 +972,34 @@ function apply(p){
   beat(els.bCalm, .25,.28,.325,.355);
   beat(els.bRest, .36,.39,.435,.465);
   beat(els.bPrice, .49,.52,.70,.73);    /* wider exit — a flick shouldn't vaporize the scene */
-  beat(els.bSteady, .75,.785,.865,.90); /* the drops' APEX — held, then hands off to the row */
+  beat(els.bSteady, .75,.785,.855,.882); /* the drops' APEX — held; fully out before the seat move */
   $('bands').style.opacity = win(p,.465,.505,.70,.73).toFixed(3);
   const co = win(p,.50,.535,.70,.73);
   els.chips.style.opacity = co.toFixed(3);
   /* center-anchored (same coordinate system as the bottles → no iOS URL-bar drift) */
   els.chips.style.transform = 'translate(-50%,-50%) translateY('+({m:30.5,t:31,d:30})[BP()]+'vh) translateY('+((1-co)*22).toFixed(1)+'px)';
-  els.chips.style.pointerEvents = co>.55 ? 'auto' : 'none';
+  els.chips.style.pointerEvents = co>.25 ? 'auto' : 'none';
   /* badge stays visible through the whole experience — it's draggable, the
      user decides where it lives */
-  const so = win(p,.91,.95,2,3);   /* the order menu — in after the row forms, never leaves */
+  /* the order menu closes the show: fades in RISING gently once the family
+     portrait is complete — and never leaves */
+  const so = win(p,.945,.972,2,3);
   els.steadyCta.style.opacity = so.toFixed(3);
-  els.steadyCta.style.pointerEvents = so>.55 ? 'auto' : 'none';
+  els.steadyCta.style.pointerEvents = so>.25 ? 'auto' : 'none';
+  els.steadyCta.style.transform = 'translate(-50%,-50%) translateY(max('+(BP()==='d'?'15vh,142px':'12vh,114px')+')) translateY('+((1-so)*26).toFixed(1)+'px)';
   const RW = ROW();
-  els.splus.style.opacity = win(p,.905,.93,2,3).toFixed(3);
+  els.splus.style.opacity = win(p,.938,.958,2,3).toFixed(3);
   els.splus.style.transform = 'translate(-50%,-50%) translate('+RW.plus.x+'vw,'+RW.plusY+'vh)';
   const flip = clamp01((p-.775)/.03);
   $('flipPrice').style.opacity = (1-flip*.55).toFixed(2);
   $('flipFree').style.opacity = flip.toFixed(2);
   const g = p>=.13 && p<.245 ? 'N°01' : p>=.25 && p<.355 ? 'N°02' : p>=.36 && p<.465 ? 'N°03' : p>=.74 ? 'N°04' : '';
   if(g && g !== els.ghost.textContent) els.ghost.textContent = g;
-  els.ghost.style.opacity = (g ? (p<.465 ? win(p,.14,.18,.42,.46) : win(p,.76,.81,.86,.90))*.35 : 0).toFixed(3);
+  els.ghost.style.opacity = (g ? (p<.465 ? win(p,.14,.18,.42,.46) : win(p,.76,.81,.845,.875))*.35 : 0).toFixed(3);
   const S = SLOTS(), ST = STACK(), RWx = ROW();
   place(els.btRise, riseKF(p), 0);
-  place(els.btCalm, soloKF(p, {t0:.25, fromX:-16, enterR:-14, holdR:7,  slot:S.calm, stack:ST.calm, exitX:-95, exitR:-48, row:RWx.calm}), 2.1);
-  place(els.btRest, soloKF(p, {t0:.36, fromX:16,  enterR:14,  holdR:-5, slot:S.rest, stack:ST.rest, exitX:95,  exitR:42,  row:RWx.rest}), 4.2);
+  place(els.btCalm, soloKF(p, {t0:.25, fromX:-16, enterR:-14, holdR:7,  slot:S.calm, stack:ST.calm, exitX:-95, exitR:-48, row:RWx.calm, seatT:.894}), 2.1);
+  place(els.btRest, soloKF(p, {t0:.36, fromX:16,  enterR:14,  holdR:-5, slot:S.rest, stack:ST.rest, exitX:95,  exitR:42,  row:RWx.rest, seatT:.903}), 4.2);
   place(els.btSteady, steadyKF(p), 1.1);
   els.railfill.style.height = (p*100).toFixed(1)+'%';
   els.rail.classList.toggle('lite', (p>.10 && p<.505) || p>.715);
@@ -1012,7 +1036,12 @@ if(reduced){
   addEventListener('resize', ()=>{ cinH = $('cinema').offsetHeight; });
   (function loop(now){
     const scrolling = Math.abs(target-cur) > 0.0004;
-    if(scrolling){ cur = cur<0 ? target : cur + (target-cur)*0.16; }
+    if(scrolling){
+      cur = cur<0 ? target : cur + (target-cur)*0.16;
+      /* snap the asymptotic tail — the slow last 1% kept buttons
+         non-interactive after the user stopped scrolling (two-tap bug) */
+      if(Math.abs(target-cur) < .006) cur = target;
+    }
     const onStage = !document.hidden && scrollY < cinH - 8;   /* cinema starts at page top */
     if(scrolling || onStage){ bobT = now || 0; apply(clamp01(cur<0 ? target : cur)); }
     requestAnimationFrame(loop);
