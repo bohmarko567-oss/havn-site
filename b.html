@@ -64,8 +64,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .beat.price{top:8%;}
 .beat.steady{top:7%;}
 
-/* lineup price chips */
-.chips{position:absolute;left:50%;bottom:7%;transform:translateX(-50%);display:flex;gap:min(3vw,26px);opacity:0;pointer-events:none;}
+/* soft per-bottle color bands behind the price scene (the "flag" backdrop) */
+.bands{position:absolute;inset:0;opacity:0;background:linear-gradient(90deg,#FBE6D2 0 33.4%,#D6EEE8 33.4% 66.7%,#E2E0F7 66.7% 100%);pointer-events:none;}
+
+/* lineup price chips — anchored to CENTER like the bottles, so iOS URL-bar
+   collapse moves buttons and mockups together (was bottom-anchored = drift) */
+.chips{position:absolute;left:50%;top:50%;display:flex;gap:min(3vw,26px);opacity:0;pointer-events:none;}
 .chip{width:min(27vw,190px);background:#fff;border:2px solid var(--ink);border-radius:16px;padding:13px 12px 12px;text-align:center;box-shadow:0 5px 0 var(--ink);}
 .chip .n{font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:1.6px;color:var(--muted);text-transform:uppercase;}
 .chip h4{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 118;font-size:19px;text-transform:uppercase;margin:2px 0 1px;}
@@ -79,7 +83,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .flip{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 122;font-size:clamp(40px,9vw,84px);text-transform:uppercase;line-height:1;}
 .flip s{color:#FF7B7B;text-decoration-thickness:6px;}
 .flip .free{color:#F08BC0;margin-left:14px;}
-.steadycta{position:absolute;left:50%;bottom:8%;transform:translateX(-50%);width:min(92vw,480px);text-align:center;opacity:0;pointer-events:none;}
+.steadycta{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(34vh);width:min(92vw,480px);text-align:center;opacity:0;pointer-events:none;}
 .steadycta .btn{width:100%;min-height:56px;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:14.5px;letter-spacing:.6px;box-shadow:0 6px 0 rgba(0,0,0,.35);}
 .steadycta .alt{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;color:#E8B8D2;line-height:1.6;}
 .steadycta .alt button{background:none;border:0;color:inherit;text-decoration:underline;font:inherit;padding:0;}
@@ -107,7 +111,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .offer .btn{width:100%;min-height:56px;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:14.5px;box-shadow:0 6px 0 rgba(0,0,0,.4);}
 .offer .mini{font-family:var(--mono);font-size:11px;color:#C99BB5;margin-top:10px;text-align:center;}
 .offer .mini a{color:inherit;}
-.offer img{width:100%;max-width:340px;margin:0 auto;display:block;filter:drop-shadow(0 24px 28px rgba(0,0,0,.45));}
+.offerimg{position:relative;max-width:340px;margin:0 auto;}
+.offerimg .trio{width:100%;display:block;filter:drop-shadow(0 24px 28px rgba(0,0,0,.45));}
+.offerimg .drops{position:absolute;right:-5%;bottom:-7%;height:58%;transform:rotate(8deg);filter:drop-shadow(0 18px 20px rgba(0,0,0,.5));}
+.offer .modetoggle{margin:16px 0 0;}
+.offer .modetoggle .mt{background:transparent;border-color:#5A2B45;color:#C99BB5;}
+.offer .modetoggle .mt.on{background:var(--cream);border-color:var(--cream);color:var(--ink);}
+.minirow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+.minirow button{min-height:44px;border:1.5px solid #5A2B45;background:transparent;color:#F3E6ED;border-radius:100px;font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.4px;}
+.minirow button.has{border-color:var(--berry);color:#F08BC0;}
 
 .rmarq{overflow:clip;position:relative;}
 .rmtrack{display:flex;gap:18px;width:max-content;animation:rmq 52s linear infinite;}
@@ -124,8 +136,15 @@ summary{font-weight:700;font-size:15.5px;cursor:pointer;list-style:none;display:
 summary::after{content:'+';font-family:var(--mono);color:var(--muted);}
 details[open] summary::after{content:'–';}
 details p{color:#4a4438;font-size:14.5px;line-height:1.6;margin-top:10px;}
-footer{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:center;padding:28px 16px 120px;border-top:1.5px solid var(--line);line-height:1.8;}
+footer{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:center;padding:26px 16px 34px;line-height:1.8;}
 footer a{color:inherit;}
+body.hasbar footer{padding-bottom:112px;}   /* only reserve space when the cart bar is actually shown */
+
+/* ritual ribbon — the running line between FAQ and the credits */
+.ribbon{overflow:clip;background:var(--ink);color:var(--cream);padding:13px 0;}
+.rtrack{display:flex;gap:44px;width:max-content;animation:rmq 32s linear infinite;font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:2px;white-space:nowrap;align-items:center;}
+.rtrack b{font-weight:700;}
+@media(prefers-reduced-motion:reduce){.rtrack{animation:none;}}
 
 /* thin cart bar (mirror of the drawer) */
 .cartbar{position:fixed;left:12px;right:12px;bottom:12px;z-index:70;background:var(--ink);color:var(--cream);border-radius:16px;padding:12px 14px;display:none;align-items:center;gap:12px;box-shadow:0 12px 30px rgba(0,0,0,.35);}
@@ -206,7 +225,7 @@ footer a{color:inherit;}
 .promo .pform .btn{padding:11px 14px;font-size:11.5px;white-space:nowrap;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;}
 .promo .pcode{width:100%;font-family:var(--mono);font-weight:700;font-size:21px;letter-spacing:2px;background:var(--ink);color:var(--cream);border:0;border-radius:10px;padding:14px 10px;cursor:pointer;}
 .promo .pnote{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.45;}
-.ptab{position:fixed;left:18px;bottom:18px;z-index:139;font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:1.5px;background:var(--ink);color:var(--cream);border:2px solid var(--ink);border-radius:100px;padding:11px 16px;cursor:pointer;box-shadow:0 4px 0 rgba(30,25,19,.35);display:flex;align-items:center;gap:7px;}
+.ptab{position:fixed;right:18px;bottom:18px;z-index:139;font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:1.5px;background:var(--ink);color:var(--cream);border:2px solid var(--ink);border-radius:100px;padding:11px 16px;cursor:pointer;box-shadow:0 4px 0 rgba(30,25,19,.35);display:flex;align-items:center;gap:7px;}
 .ptab i{width:8px;height:8px;border-radius:50%;background:var(--rise);flex-shrink:0;}
 
 /* balloons — the completion celebration (ported fallback; lib preferred) */
@@ -228,9 +247,9 @@ footer a{color:inherit;}
 
 @media(max-width:700px){
   .offer{grid-template-columns:1fr;}
-  .offer img{max-width:230px;}
+  .offerimg{max-width:240px;}
   .bottle{height:min(38vh,300px);}
-  .chips{gap:8px;bottom:9%;}
+  .chips{gap:8px;}
   .chip{width:30vw;padding:10px 8px 9px;}
   .chip h4{font-size:15px;}
   .chip .pr{font-size:11px;}
@@ -241,7 +260,7 @@ footer a{color:inherit;}
   .promo .pform{flex-direction:column;gap:8px;}
   .promo .pform input{font-size:16px;padding:13px 14px;width:100%;}   /* 16px kills iOS focus-zoom */
   .promo .pform .btn{width:100%;font-size:13px;}
-  .ptab{bottom:76px;left:12px;}
+  .ptab{bottom:76px;right:12px;}
 }
 
 /* reduced motion / no JS: static everything-visible page */
@@ -267,6 +286,7 @@ footer a{color:inherit;}
 <div class="cinema" id="cinema">
   <div class="stage" id="stage">
     <div class="field" id="field"></div>
+    <div class="bands" id="bands" aria-hidden="true"></div>
     <div class="ghost" id="ghost">N°01</div>
     <div class="rail" id="rail"><i id="railfill"></i></div>
 
@@ -300,6 +320,7 @@ footer a{color:inherit;}
     <div class="beat price" id="bPrice">
       <div class="eyebrow" style="color:var(--muted)">One ritual · three moments</div>
       <h2 style="font-size:clamp(26px,5.4vw,54px)">Every bottle, 30 days.</h2>
+      <div class="spec" style="color:#8B8172;margin-top:10px"><b style="color:var(--rise2)">☀ FOCUS</b> · <b style="color:var(--calm2)">◐ BALANCE</b> · <b style="color:var(--rest2)">☾ SLEEP</b></div>
     </div>
     <div class="chips" id="chips">
       <div class="chip c-rise"><div class="n">N°01</div><h4>Rise</h4><div class="pr"><s>$38</s>$32/mo</div><button data-add="rise">ADD</button></div>
@@ -355,9 +376,17 @@ footer a{color:inherit;}
         </ul>
       </div>
       <div>
-        <img src="assets/products/trio_cascade.webp" alt="The HAVN trio" loading="lazy">
-        <button class="btn" id="offerBtn" onclick="addTrio()" style="margin-top:18px">Complete my ritual — $96/mo</button>
-        <div class="mini">Subscription · <a href="policies.html">guarantee &amp; terms</a></div>
+        <div class="offerimg">
+          <img class="trio" src="assets/products/trio_cascade.webp" alt="The HAVN trio" loading="lazy">
+          <img class="drops" src="assets/products/cut_steady.webp" alt="STEADY drops — the free 4th piece" loading="lazy">
+        </div>
+        <button class="btn" id="offerBtn" onclick="addTrio()" style="margin-top:22px">Complete my ritual — $96/mo</button>
+        <div class="modetoggle" role="group" aria-label="Purchase type">
+          <button id="mSub2" class="mt on" onclick="setMode(true)" aria-pressed="true">SUBSCRIBE · SAVE 15%</button>
+          <button id="mOne2" class="mt" onclick="setMode(false)" aria-pressed="false">ONE-TIME</button>
+        </div>
+        <div class="minirow" id="miniRow" aria-label="Build your own stack"></div>
+        <div class="mini" id="offerMini">Subscription · <a href="policies.html">guarantee &amp; terms</a></div>
       </div>
     </div>
   </div>
@@ -372,6 +401,8 @@ footer a{color:inherit;}
       <details><summary>What exactly is in each formula?</summary><p>Every bottle in your cart has a “label” link — tap it to see the full Supplement Facts panel, exactly as printed.</p></details>
     </div>
   </div>
+
+  <div class="ribbon"><div class="rtrack" id="rtrack"><span><b style="color:#FF9C5F">☀ RISE</b>&nbsp;— FOCUS</span><span><b style="color:#5FD0BF">◐ CALM</b>&nbsp;— BALANCE</span><span><b style="color:#9F96F2">☾ REST</b>&nbsp;— SLEEP</span><span><b style="color:#F08BC0">⊖ STEADY</b>&nbsp;— THE 4TH PIECE, FREE</span><span>✚ SUBSCRIPTIONS SHIP FREE</span><span>◆ 30-DAY FIRST-ORDER GUARANTEE</span></div></div>
 
   <footer>HAVN · Designed in Denmark · Made in the USA · <a href="policies.html">Policies</a> · <a href="mailto:hello@havn.co">hello@havn.co</a><br>*These statements have not been evaluated by the FDA. Not intended to diagnose, treat, cure, or prevent any disease.</footer>
 </div>
@@ -538,14 +569,20 @@ function update(){
   $('ctaBtn').textContent = subscribe ? 'Complete the Ritual — $96/mo' : 'Complete the Ritual — $114';
   $('offerBtn').textContent = subscribe ? 'Complete my ritual — $96/mo' : 'Complete my ritual — $114';
   $('offerBig').innerHTML = subscribe ? '$96/mo <s>$114</s>' : '$114 one-time';
+  $('offerMini').innerHTML = (subscribe ? 'Subscription · skip or cancel anytime' : 'One-time order') + ' · <a href="policies.html">guarantee &amp; terms</a>';
+  /* build-your-own-stack pills (mixed bundles: e.g. two formulas + the drops) */
+  $('miniRow').innerHTML = ['rise','calm','rest','steady'].map(id =>
+    `<button class="${hasSku(id)?'has':''}" onclick="addSku('${id}')">${hasSku(id)?'✓':'+'} ${NAMES[id].toUpperCase()} · ${fmt(priceSingle(id))}${subscribe?'/mo':''}</button>`).join('');
+  document.body.classList.toggle('hasbar', itemCount()>0);
 
   if(done && !prevComplete){ balloons(); }
   prevComplete = done;
 }
 function setMode(sub){
   subscribe = sub;
-  $('mSub').classList.toggle('on', sub);  $('mSub').setAttribute('aria-pressed', sub);
-  $('mOne').classList.toggle('on', !sub); $('mOne').setAttribute('aria-pressed', !sub);
+  [['mSub',sub],['mOne',!sub],['mSub2',sub],['mOne2',!sub]].forEach(([id,on])=>{
+    const b = $(id); if(b){ b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); }
+  });
   update();
 }
 function addSku(id){ cart.singles[id]++; update(); openCart(); track('add_to_cart',{sku:id, via:'planB'}); }
@@ -607,8 +644,10 @@ function ckJoin(btn){
 const PROMO_KEY = 'havn_promo';
 function promoState(){ try{ return JSON.parse(localStorage.getItem(PROMO_KEY)||'null'); }catch(e){ return null; } }
 function promoSet(v){ try{ localStorage.setItem(PROMO_KEY, JSON.stringify(v)); }catch(e){} }
+let promoCloseT = null;
 function promoOpen(manual){
-  const p = $('promo'); if(!p || !p.hidden) return;
+  const p = $('promo'); if(!p || p.classList.contains('show')) return;
+  clearTimeout(promoCloseT);                     /* re-open during the close animation must win */
   const st = promoState();
   if(st && st.code) promoShowCode(st.code);
   p.hidden = false; $('ptab').hidden = true;
@@ -617,7 +656,9 @@ function promoOpen(manual){
   track(manual ? 'promo_open_tab' : 'promo_view', {via:'planB'});
 }
 function promoClose(){
-  const p = $('promo'); p.classList.remove('show'); setTimeout(()=>{ p.hidden = true; }, 460);
+  const p = $('promo'); p.classList.remove('show');
+  clearTimeout(promoCloseT);
+  promoCloseT = setTimeout(()=>{ p.hidden = true; }, 460);
   $('ptab').hidden = false;
   const st = promoState();
   if(!st || !st.code) promoSet({dismissed:true, at: Date.now()});
@@ -731,28 +772,29 @@ const SLOTS = () => MOB()
   ? { rise:{x:-31,y:12,r:-8,s:.55}, calm:{x:-3,y:3,r:5,s:.62}, rest:{x:29,y:9,r:-4,s:.52}, steady:{x:10,y:15,r:6,s:.58} }
   : { rise:{x:-30,y:11,r:-8,s:.66}, calm:{x:-4,y:2,r:5,s:.72}, rest:{x:26,y:8,r:-4,s:.62}, steady:{x:9,y:13,r:6,s:.66} };
 const STACK = () => MOB()
-  ? { rise:{x:6,y:14,r:12,s:.52},  calm:{x:-12,y:19,r:-11,s:.48}, rest:{x:13,y:25,r:8,s:.42} }
-  : { rise:{x:7,y:15,r:12,s:.60},  calm:{x:-13,y:21,r:-11,s:.56}, rest:{x:15,y:27,r:8,s:.48} };
+  ? { rise:{x:6,y:13,r:12,s:.66},  calm:{x:-13,y:19,r:-11,s:.60}, rest:{x:14,y:25,r:8,s:.52} }
+  : { rise:{x:7,y:14,r:12,s:.74},  calm:{x:-14,y:20,r:-11,s:.68}, rest:{x:16,y:26,r:8,s:.58} };
 
-/* RISE: from the hero stack — zooms up aggressive while the others split away.
-   Then HOLD at its best pose (-7°, never straight), then TOSS down freestyle. */
+/* RISE: from the hero stack — one continuous zoom-up, ONE rotation sweep
+   (12° → -6°, no bounce-back), hold floating, then a same-direction toss. */
 function riseKF(p){
   const st = STACK().rise, sl = SLOTS().rise;
   return {
-    x: kf(p, [[.085,st.x],[.13,2],[.15,0],[.21,0],[.228,-14],[.245,sl.x*.9],[.50,sl.x]], eio),
-    y: kf(p, [[.085,st.y],[.15,2],[.21,1.2],[.23,20],[.245,24],[.50,sl.y]], eio),
-    r: kf(p, [[.085,st.r],[.125,-18],[.16,-7],[.21,-6],[.245,-30],[.50,sl.r]]),
-    s: kf(p, [[.085,st.s],[.15,1.08],[.21,1.08],[.245,.62],[.50,sl.s]], eio),
+    x: kf(p, [[.085,st.x],[.15,0],[.215,0],[.245,sl.x*.9],[.50,sl.x]], eio),
+    y: kf(p, [[.085,st.y],[.15,2],[.215,1.3],[.245,25],[.50,sl.y]], eio),
+    r: kf(p, [[.085,st.r],[.17,-4],[.215,-6],[.245,-16],[.50,sl.r]]),
+    s: kf(p, [[.085,st.s],[.155,1.10],[.215,1.10],[.245,.62],[.50,sl.s]], eio),
     o: kf(p, [[-1,1],[.245,1],[.255,.38],[.48,.38],[.51,1]])
   };
 }
-/* CALM + REST: fly out of the stack in their own directions during the handoff,
-   then return for their solos (roll in → hold tilted → toss down). */
+/* CALM + REST: split out of the stack in their own directions, then return —
+   one smooth rise from below with a single rotation sweep, a steady float,
+   then a down-drift that CONTINUES the same turn (no direction flips). */
 function soloKF(p, cfg){
-  const {t0, holdR, slot, stack, exitX, exitR} = cfg;
-  const IN=t0, ARR=t0+.04, H0=t0+.045, H1=t0+.085, TOSS=t0+.11;
+  const {t0, fromX, enterR, holdR, slot, stack, exitX, exitR} = cfg;
+  const IN=t0, ARR=t0+.04, H1=t0+.085, TOSS=t0+.11;
   if(p < .085) return {x:stack.x, y:stack.y, r:stack.r, s:stack.s, o:1};
-  if(p < IN){ /* stack split: fly off own direction, gone before the solo */
+  if(p < IN){ /* stack split: one straight fly-off, gone before the solo */
     return {
       x: kf(p, [[.085,stack.x],[.135,exitX]], eio),
       y: kf(p, [[.085,stack.y],[.135,stack.y-14]], eio),
@@ -761,11 +803,12 @@ function soloKF(p, cfg){
       o: kf(p, [[.085,1],[.13,0],[IN-.001,0]])
     };
   }
+  const exitR2 = holdR + (holdR>0 ? 9 : -9);      /* keep turning the same way */
   return {
-    x: kf(p, [[IN,-75],[ARR,0],[H1,0],[TOSS-.005,slot.x*.85],[.50,slot.x]], eio),
-    y: kf(p, [[IN,30],[ARR,2],[H1,1.4],[TOSS-.01,18],[TOSS,22],[.50,slot.y]], eio),
-    r: kf(p, [[IN,-150],[ARR+ .008,holdR>0?holdR+11:holdR-11],[H0+.01,holdR],[H1,holdR*.9],[TOSS,holdR>0?-22:22],[.50,slot.r]]),
-    s: kf(p, [[IN,.9],[ARR,1.06],[H1,1.06],[TOSS,.62],[.50,slot.s]], eio),
+    x: kf(p, [[IN,fromX],[ARR,0],[H1,0],[TOSS,slot.x*.85],[.50,slot.x]], eio),
+    y: kf(p, [[IN,42],[ARR,2],[H1,1.2],[TOSS,24],[.50,slot.y]], eio),
+    r: kf(p, [[IN,enterR],[ARR,holdR],[H1,holdR*.8],[TOSS,exitR2],[.50,slot.r]]),
+    s: kf(p, [[IN,.86],[ARR,1.06],[H1,1.06],[TOSS,.62],[.50,slot.s]], eio),
     o: kf(p, [[IN-.006,0],[IN+.02,1],[TOSS-.002,1],[TOSS+.01,.38],[.48,.38],[.51,1]])
   };
 }
@@ -789,6 +832,7 @@ const els = {
   bHero: $('bHero'), bRise: $('bRise'), bCalm: $('bCalm'), bRest: $('bRest'),
   bPrice: $('bPrice'), chips: $('chips'), bSteady: $('bSteady'), steadyCta: $('steadyCta'),
   btRise: $('btRise'), btCalm: $('btCalm'), btRest: $('btRest'), btSteady: $('btSteady'),
+  ptab: $('ptab'),
 };
 
 function apply(p){
@@ -802,10 +846,13 @@ function apply(p){
   beat(els.bRest, .36,.39,.435,.465);
   beat(els.bPrice, .49,.52,.685,.715);
   beat(els.bSteady, .72,.755,.86,.90);
+  $('bands').style.opacity = win(p,.50,.55,.685,.715).toFixed(3);
   const co = win(p,.50,.535,.685,.715);
   els.chips.style.opacity = co.toFixed(3);
-  els.chips.style.transform = 'translateX(-50%) translateY('+((1-co)*22).toFixed(1)+'px)';
+  /* center-anchored (same coordinate system as the bottles → no iOS URL-bar drift) */
+  els.chips.style.transform = 'translate(-50%,-50%) translateY('+(MOB()?30.5:31)+'vh) translateY('+((1-co)*22).toFixed(1)+'px)';
   els.chips.style.pointerEvents = co>.55 ? 'auto' : 'none';
+  els.ptab.style.visibility = (p>.48 && p<.97) ? 'hidden' : '';   /* keep the 15% tab off the film's buttons */
   const so = win(p,.80,.84,2,3);
   els.steadyCta.style.opacity = so.toFixed(3);
   els.steadyCta.style.pointerEvents = so>.55 ? 'auto' : 'none';
@@ -817,8 +864,8 @@ function apply(p){
   els.ghost.style.opacity = (g ? (p<.465 ? win(p,.14,.18,.42,.46) : win(p,.73,.78,.86,.92))*.35 : 0).toFixed(3);
   const S = SLOTS(), ST = STACK();
   place(els.btRise, riseKF(p));
-  place(els.btCalm, soloKF(p, {t0:.25,  holdR:7,  slot:S.calm, stack:ST.calm, exitX:-95, exitR:-60}));
-  place(els.btRest, soloKF(p, {t0:.36,  holdR:-5, slot:S.rest, stack:ST.rest, exitX:95,  exitR:50}));
+  place(els.btCalm, soloKF(p, {t0:.25, fromX:-16, enterR:-14, holdR:7,  slot:S.calm, stack:ST.calm, exitX:-95, exitR:-48}));
+  place(els.btRest, soloKF(p, {t0:.36, fromX:16,  enterR:14,  holdR:-5, slot:S.rest, stack:ST.rest, exitX:95,  exitR:42}));
   place(els.btSteady, steadyKF(p));
   els.railfill.style.height = (p*100).toFixed(1)+'%';
   els.rail.classList.toggle('lite', (p>.10 && p<.505) || p>.715);
@@ -848,6 +895,7 @@ if(reduced){
 }
 
 const rmq = $('rmtrack'); if(rmq && !reduced){ rmq.innerHTML += rmq.innerHTML; }
+const rt = $('rtrack'); if(rt){ rt.innerHTML += rt.innerHTML; rt.innerHTML += rt.innerHTML; }
 prevComplete = complete();   /* don't balloon for a cart restored from storage */
 update();
 track('planB_view');
