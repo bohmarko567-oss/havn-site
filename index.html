@@ -471,6 +471,11 @@ footer input:focus{border-color:var(--rise);outline:none;}
   .promo .pform input{font-size:16px;padding:13px 14px;width:100%;}
   .promo .pform .btn{width:100%;font-size:13px;}
 }
+/* teaser tab — the popup's permanent front door (shows whenever the popup is closed) */
+.ptab{position:fixed;left:18px;bottom:18px;z-index:139;font-family:var(--monob);font-size:11.5px;letter-spacing:1.5px;background:var(--ink);color:var(--cream);border:2px solid var(--ink);border-radius:100px;padding:11px 16px;cursor:pointer;box-shadow:0 4px 0 rgba(30,25,19,.35);display:flex;align-items:center;gap:7px;}
+.ptab i{width:8px;height:8px;border-radius:50%;background:var(--rise);flex-shrink:0;}
+.ptab:hover{transform:translateY(-1px);}
+@media(max-width:900px){.ptab{bottom:76px;left:12px;}}
 @media(prefers-reduced-motion:reduce){.promo{transition:none;transform:none;}}
 
 @media(max-width:1020px){
@@ -836,6 +841,7 @@ footer input:focus{border-color:var(--rise);outline:none;}
     <div class="pnote" id="promoNote" aria-live="polite">One code per person — yours instantly, right here.</div>
   </div>
 </aside>
+<button class="ptab" id="ptab" hidden onclick="promoOpen(true)"><i aria-hidden="true"></i>15% OFF</button>
 
 <!-- CART -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
@@ -1152,7 +1158,9 @@ function countUp(el){
   setTimeout(()=>{ el.textContent = target + suffix; }, dur + 250);
 }
 function motionSweep(){
-  const vh = innerHeight * 0.92;
+  /* phones: reveal at 72% of the viewport so the animation happens where you're
+     looking, not the instant an element peeks in at the very bottom edge */
+  const vh = innerHeight * (innerWidth <= 900 ? 0.72 : 0.85);
   document.querySelectorAll('.rv:not(.in)').forEach(el=>{
     if(el.getBoundingClientRect().top < vh) el.classList.add('in');
   });
@@ -1402,18 +1410,20 @@ function track(name, props){
 const PROMO_KEY = 'havn_promo';
 function promoState(){ try{ return JSON.parse(localStorage.getItem(PROMO_KEY)||'null'); }catch(e){ return null; } }
 function promoSet(v){ try{ localStorage.setItem(PROMO_KEY, JSON.stringify(v)); }catch(e){} }
-function promoOpen(){
+function promoOpen(manual){
   const p = $('promo'); if(!p || !p.hidden) return;
   const st = promoState();
   if(st && st.code) promoShowCode(st.code);          /* returning visitor: remind them of their code */
-  p.hidden = false; requestAnimationFrame(()=>p.classList.add('show'));
+  p.hidden = false; $('ptab').hidden = true;
+  setTimeout(()=>p.classList.add('show'), 30);       /* NOT rAF — iOS throttles it and the card stays invisible */
   try{ sessionStorage.setItem('havn_promo_shown','1'); }catch(e){}
-  track('promo_view');
+  track(manual ? 'promo_open_tab' : 'promo_view');
 }
 function promoClose(){
   const p = $('promo'); p.classList.remove('show'); setTimeout(()=>{ p.hidden = true; }, 460);
+  $('ptab').hidden = false;                          /* the offer stays one tap away, always */
   const st = promoState();
-  if(!st || !st.code) promoSet({dismissed:true, at: Date.now()});   /* snooze 3 days */
+  if(!st || !st.code) promoSet({dismissed:true, at: Date.now()});   /* stops auto-fire; the tab remains */
 }
 function promoShowCode(code){
   $('promoForm').style.display = 'none';
@@ -1447,15 +1457,19 @@ function promoCopy(b){
   const code = (promoState()||{}).code || b.textContent;
   try{ navigator.clipboard.writeText(code).then(()=>{ b.textContent = 'Copied ✓'; setTimeout(()=>{ b.textContent = code; }, 1300); }); }catch(e){}
 }
-(function(){ /* trigger: 14s on page OR 40% scroll depth — once per session */
+(function(){ /* auto-fire: 7s on page OR 22% scroll depth — once per session.
+                When auto-fire is skipped (dismissed before / already shown), the
+                15%-OFF tab renders instead, so the offer is never unreachable. */
   const st = promoState();
-  if(st && st.dismissed && Date.now()-st.at < 3*86400e3) return;
-  try{ if(sessionStorage.getItem('havn_promo_shown')) return; }catch(e){}
+  const snoozed = st && st.dismissed && Date.now()-st.at < 3*86400e3;
+  let shown = false;
+  try{ shown = !!sessionStorage.getItem('havn_promo_shown'); }catch(e){}
+  if(snoozed || shown){ $('ptab').hidden = false; return; }
   let fired = false;
   const fire = ()=>{ if(fired) return; fired = true; removeEventListener('scroll', onScroll); promoOpen(); };
-  const onScroll = ()=>{ if(scrollY > (document.body.scrollHeight-innerHeight)*.4) fire(); };
+  const onScroll = ()=>{ if(scrollY > (document.body.scrollHeight-innerHeight)*.22) fire(); };
   addEventListener('scroll', onScroll, {passive:true});
-  setTimeout(fire, 14000);
+  setTimeout(fire, 7000);
 })();
 document.addEventListener('keydown', e=>{
   if(e.key!=='Escape' || $('promo').hidden) return;
