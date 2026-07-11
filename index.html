@@ -81,9 +81,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
    depth shadow only */
 #btSteady{filter:drop-shadow(0 26px 30px rgba(20,10,0,.28));}
 .splus{position:absolute;left:50%;top:50%;font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(26px,4vw,40px);color:#F08BC0;opacity:0;pointer-events:none;line-height:1;}
-#btRise,#btRest{z-index:1;}
-#btCalm{z-index:2;}
-#btSteady,.splus{z-index:3;}
+.stage.final-form #btRise,.stage.final-form #btRest{z-index:1;}
+.stage.final-form #btCalm{z-index:2;}
+.stage.final-form #btSteady,.stage.final-form .splus{z-index:3;}
 
 /* text beats */
 .beat{position:absolute;left:50%;transform:translateX(-50%);text-align:center;width:min(92vw,760px);opacity:0;pointer-events:none;}
@@ -356,7 +356,7 @@ footer a{color:inherit;}
   .beat.hero{top:11%;}
   .beat.steady{top:9%;}
   .flip{font-size:clamp(36px,8vw,64px);}
-  .beat.close{top:6%;}
+  .beat.close{top:8.5%;}
   .beat.close h2{font-size:24px;}
 }
 
@@ -952,9 +952,9 @@ const STACK = () => ({   /* spread in all directions — every bottle clearly vi
    the foreground; Rise and Rest tuck behind at the original -11/+9 degrees.
    The plus and Drops stay separate, completing the four-piece equation. */
 const FINAL = () => ({
-  m: { rise:{x:-23,y:-12,r:-11,s:.47}, calm:{x:-8,y:-15,r:0,s:.61}, rest:{x:7,y:-12,r:9,s:.47}, plus:{x:17}, steady:{x:27,y:-13,s:.41}, plusY:-10 },
-  t: { rise:{x:-21,y:-13,r:-11,s:.57}, calm:{x:-8,y:-16,r:0,s:.74}, rest:{x:5,y:-13,r:9,s:.57}, plus:{x:14}, steady:{x:22,y:-14,s:.52}, plusY:-11 },
-  d: { rise:{x:-21,y:-13,r:-11,s:.64}, calm:{x:-8.5,y:-16,r:0,s:.82}, rest:{x:4,y:-13,r:9,s:.64}, plus:{x:13}, steady:{x:21,y:-14,s:.58}, plusY:-10 },
+  m: { rise:{x:-25,y:-12,r:-11,s:.41}, calm:{x:-10,y:-15,r:0,s:.53}, rest:{x:5,y:-12,r:9,s:.41}, plus:{x:17}, steady:{x:27,y:-13,s:.41}, plusY:-10 },
+  t: { rise:{x:-23,y:-13,r:-11,s:.50}, calm:{x:-10,y:-16,r:0,s:.65}, rest:{x:3,y:-13,r:9,s:.50}, plus:{x:14}, steady:{x:22,y:-14,s:.52}, plusY:-11 },
+  d: { rise:{x:-23,y:-13,r:-11,s:.55}, calm:{x:-10.5,y:-16,r:0,s:.70}, rest:{x:2,y:-13,r:9,s:.55}, plus:{x:13}, steady:{x:21,y:-14,s:.58}, plusY:-10 },
 })[BP()];
 /* the APEX: Drops alone — no trio ghosts behind it. */
 const APEX = () => ({ m:{y:8,s:1.08}, t:{y:9,s:.98}, d:{y:19,s:.96} })[BP()];
@@ -989,10 +989,10 @@ function riseKF(p){
   const st = STACK().rise, sl = SLOTS().rise, H = HOLD(), HX = HOLDX();
   return {
     x: kf(p, [[.085,st.x],[.15,HX],[.215,HX],[.245,sl.x]], eio),
-    y: kf(p, [[.085,st.y],[.15,H.y],[.215,H.y*.9],[.245,sl.y],[.465,sl.y],[.50,sl.y+30]], eio),
+    y: kf(p, [[.085,st.y],[.15,H.y],[.215,H.y*.9],[.245,sl.y]], eio),
     r: kf(p, [[.085,st.r],[.17,-4],[.215,-6],[.245,sl.r]]),
-    s: kf(p, [[.085,st.s],[.155,H.s+.02],[.215,H.s+.02],[.245,sl.s],[.465,sl.s],[.50,sl.s*.9]], eio),
-    o: kf(p, [[-1,1],[.245,1],[.255,.38],[.465,.38],[.50,0],[.74,0]])
+    s: kf(p, [[.085,st.s],[.155,H.s+.02],[.215,H.s+.02],[.245,sl.s]], eio),
+    o: kf(p, [[-1,1],[.245,1],[.255,.38],[.48,.38],[.51,1],[.705,1],[.74,0]])
   };
 }
 /* CALM + REST: split out of the stack, return from below in one sweep,
@@ -1014,10 +1014,10 @@ function soloKF(p, cfg){
   if(p >= .74) return finalArrival(p, cfg.key, cfg.seatT);
   return {
     x: kf(p, [[IN,fromX],[ARR,HX],[H1,HX],[TOSS,slot.x]], eio),
-    y: kf(p, [[IN,42],[ARR,H.y],[H1,H.y*.85],[TOSS,slot.y],[.465,slot.y],[.50,slot.y+30]], eio),
+    y: kf(p, [[IN,42],[ARR,H.y],[H1,H.y*.85],[TOSS,slot.y]], eio),
     r: kf(p, [[IN,enterR],[ARR,holdR],[H1,holdR*.8],[TOSS,slot.r]]),
-    s: kf(p, [[IN,.86],[ARR,H.s],[H1,H.s],[TOSS,slot.s],[.465,slot.s],[.50,slot.s*.9]], eio),
-    o: kf(p, [[IN-.006,0],[IN+.02,1],[TOSS-.002,1],[TOSS+.01,.38],[.465,.38],[.50,0],[.74,0]])
+    s: kf(p, [[IN,.86],[ARR,H.s],[H1,H.s],[TOSS,slot.s]], eio),
+    o: kf(p, [[IN-.006,0],[IN+.02,1],[TOSS-.002,1],[TOSS+.01,.38],[.48,.38],[.51,1],[.705,1],[.74,0]])
   };
 }
 function steadyKF(p){
@@ -1051,6 +1051,7 @@ const els = {
 
 function apply(p){
   els.field.style.background = fieldColor(p);
+  $('stage').classList.toggle('final-form',p>=.885);
   const beat = (el, a,b,c,d, ty)=>{ const o = win(p,a,b,c,d); el.style.opacity = o.toFixed(3); el.style.transform = 'translateX(-50%) translateY('+((1-o)*(ty===undefined?14:ty)).toFixed(1)+'px)'; };
   beat(els.bHero, -1,-.9,.06,.10, 0);
   els.cue.style.opacity = win(p,-1,-.9,.04,.08).toFixed(3);
