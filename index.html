@@ -132,17 +132,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .offmenu{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(max(12vh,114px));width:min(92vw,560px);opacity:0;pointer-events:none;color:#F3E6ED;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;}
 /* merged price+mode picker: the prices ARE the toggle — one row instead of
    toggle+price, so the closing menu is slimmer and the mockups get more air */
-.offmenu .pricepick{display:grid;grid-template-columns:1.3fr 1fr;gap:8px;width:min(84vw,420px);}
-.offmenu .pp{border:1.5px solid #5A2B45;background:transparent;color:#C99BB5;border-radius:18px;padding:9px 8px 11px;display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;font-family:var(--mono);}
-.offmenu .pp small{font-weight:700;font-size:9.5px;letter-spacing:.4px;text-transform:uppercase;}
-.offmenu .pp b{font-weight:700;font-size:clamp(21px,4.8vw,28px);line-height:1.05;color:#F3E6ED;}
-.offmenu .pp b i{font-style:normal;font-size:.55em;}
-.offmenu .pp s{font-size:11px;color:#FF7B7B;line-height:1.2;}
-.offmenu .pp .ppn{font-size:9px;color:inherit;opacity:.75;line-height:1.45;}
+.offmenu .pricepick{display:grid;grid-template-columns:1.15fr 1fr;gap:8px;width:min(80vw,360px);}
+.offmenu .pp{min-height:44px;border:1.5px solid #5A2B45;background:transparent;color:#C99BB5;border-radius:100px;padding:5px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;cursor:pointer;font-family:var(--mono);line-height:1.15;}
+.offmenu .pp small{font-weight:700;font-size:8.5px;letter-spacing:.3px;text-transform:uppercase;opacity:.9;}
+.offmenu .pp b{font-weight:700;font-size:13px;white-space:nowrap;color:#F3E6ED;}
+.offmenu .pp b s{font-size:.8em;color:#FF7B7B;margin-left:5px;font-weight:400;}
 .offmenu .pp.on{background:var(--cream);border-color:var(--cream);color:var(--ink);}
 .offmenu .pp.on b{color:var(--ink);}
-.offmenu .pp.on s{color:var(--sale);}
-.pricepick .pp.on small::before{content:'✓ ';}   /* the selected card is never ambiguous */
+.offmenu .pp.on b s{color:var(--sale);}
+.pricepick .pp.on small::before{content:'✓ ';}   /* the selected button is never ambiguous */
 .offmenu .modetoggle{display:flex;gap:6px;width:min(78vw,300px);margin:0;}
 /* .offmenu .modetoggle .mt — higher specificity than the drawer's later .modetoggle
    rules (equal-specificity source order was INVERTING selected/unselected here) */
@@ -383,9 +381,10 @@ footer a{color:inherit;}
   .chip button{min-height:44px;font-size:12.5px;}
   .flip{font-size:clamp(64px,7.5vw,100px);}
   .offmenu{width:min(80vw,640px);gap:12px;transform:translate(-50%,-50%) translateY(max(15vh,142px));}
-  .offmenu .pricepick{width:min(60vw,460px);gap:10px;}
-  .offmenu .pp b{font-size:31px;}
-  .offmenu .pp small{font-size:10.5px;}
+  .offmenu .pricepick{width:min(46vw,380px);gap:10px;}
+  .offmenu .pp{min-height:48px;}
+  .offmenu .pp b{font-size:15px;}
+  .offmenu .pp small{font-size:9.5px;}
   .om-big{font-size:36px;}
   .om-list{font-size:13.5px;gap:6px 22px;max-width:520px;}
   .om-cta{width:min(60vw,460px);min-height:56px;font-size:14.5px;}
@@ -398,6 +397,11 @@ footer a{color:inherit;}
   .beat.close{top:4.5%;}
   .beat.close h2{font-size:40px;}
 }
+
+/* desktop mouse-wheel: a taller runway = more scroll-distance per scene, so the
+   held poses are readable instead of flying by. Touch iPads/laptops excluded via
+   hover+pointer. MUST stay above the reduced-motion block so height:auto wins there. */
+@media(min-width:1024px) and (hover:hover) and (pointer:fine){ .cinema{height:1600vh;} }
 
 /* reduced motion / no JS: static everything-visible page */
 @media(prefers-reduced-motion:reduce){
@@ -479,8 +483,8 @@ footer a{color:inherit;}
     <div class="splus" id="splus" aria-hidden="true">+</div>
     <div class="offmenu" id="steadyCta">
       <div class="pricepick" role="group" aria-label="Purchase type">
-        <button id="mSub2" class="pp on" onclick="setMode(true)" aria-pressed="true"><small>Subscribe · save 15%</small><b>$93<i>/mo</i></b><s>$114</s></button>
-        <button id="mOne2" class="pp" onclick="setMode(false)" aria-pressed="false"><small>One-time</small><b>$114</b><span class="ppn">no strings</span></button>
+        <button id="mSub2" class="pp on" onclick="setMode(true)" aria-pressed="true"><small>Subscribe · 15% off</small><b>$93/mo <s>$114</s></b></button>
+        <button id="mOne2" class="pp" onclick="setMode(false)" aria-pressed="false"><small>One-time</small><b>$114</b></button>
       </div>
       <ul class="om-list">
         <li>N°04 STEADY — <s>$18</s>&nbsp;<b>FREE</b>, every order</li>
@@ -1123,16 +1127,29 @@ if(reduced){
      forces reflow 60×/s and janks everything below the film on phones */
   let cinH = $('cinema').offsetHeight;
   addEventListener('resize', ()=>{ cinH = $('cinema').offsetHeight; });
+  /* true-mouse desktop only (excludes touch iPads/laptops at >=1024) — cached,
+     recomputed on resize so the frame loop never queries matchMedia/innerWidth */
+  let last = 0;
+  const deskChk = () => innerWidth >= 1024 && matchMedia('(hover:hover) and (pointer:fine)').matches;
+  let isDesk = deskChk();
+  addEventListener('resize', ()=>{ isDesk = deskChk(); });
   (function loop(now){
+    now = now || 0;
+    /* frame-rate-independent smoothing: an exponential ease on real elapsed dt,
+       so the glide is identical at 60/120/144Hz. The old *0.16/frame ran ~2x
+       fast on high-refresh monitors — that was the "too fast / not smooth" on
+       desktop. dt is clamped so a background-tab return eases in over a few
+       frames instead of teleporting. Touch keeps the byte-identical 0.16. */
+    let dt = last ? now - last : 16.7; last = now; if(dt > 50) dt = 50;
     const scrolling = Math.abs(target-cur) > 0.0004;
     if(scrolling){
-      cur = cur<0 ? target : cur + (target-cur)*0.16;
+      cur = cur<0 ? target : cur + (target-cur)*(isDesk ? (1 - Math.exp(-dt/150)) : 0.16);
       /* snap the asymptotic tail — the slow last 1% kept buttons
          non-interactive after the user stopped scrolling (two-tap bug) */
       if(Math.abs(target-cur) < .006) cur = target;
     }
     const onStage = !document.hidden && scrollY < cinH - 8;   /* cinema starts at page top */
-    if(scrolling || onStage){ bobT = now || 0; apply(warp(clamp01(cur<0 ? target : cur))); }
+    if(scrolling || onStage){ bobT = now; apply(warp(clamp01(cur<0 ? target : cur))); }
     requestAnimationFrame(loop);
   })(0);
   apply(0);
