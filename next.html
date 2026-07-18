@@ -192,8 +192,11 @@ button.haspick.on .car{display:inline-block;}
 .mini-car .car{display:inline-block;margin-left:0;}
 button[aria-expanded="true"] .car{transform:rotate(-135deg) translate(-2px,-2px);}
 .finalmode button{display:inline-flex;align-items:center;justify-content:center;}
-/* per-card supply caret in the what's-in-it section */
-.mini-car{width:42px;min-height:42px;border:2px solid var(--ink);border-radius:100px;background:#fff;color:var(--ink);cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.18);display:inline-flex;align-items:center;justify-content:center;padding:0;}
+/* per-card supply caret — married to the add button, one split pill (hero pattern) */
+.addsplit{display:inline-flex;}
+.addsplit .add-btn{border-radius:100px 0 0 100px;}
+.mini-car{width:38px;min-height:42px;border:0;border-left:1.5px solid rgba(246,239,225,.35);border-radius:0 100px 100px 0;background:var(--ink);color:var(--cream);cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.18);display:inline-flex;align-items:center;justify-content:center;padding:0 2px 0 0;}
+.addsplit.solo .add-btn{border-radius:100px;}   /* one-time mode: the caret is gone, the pill closes */
 .sku .row2{position:relative;}
 .sku .planpick{width:min(100%,340px);}
 .planpick.up{top:auto;bottom:calc(100% + 9px);}
@@ -296,6 +299,11 @@ button[aria-expanded="true"] .car{transform:rotate(-135deg) translate(-2px,-2px)
   .sku .blurb{font-size:13.5px;}
   /* ghost numeral: fully visible top-right (was top:-10% = upper half clipped) */
   .sku .num{top:10px;right:8px;font-size:clamp(84px,24vw,104px);-webkit-text-stroke-width:1.6px;}
+  /* the button row holds one line on phones — label pill + split add-pill */
+  .sku .row2{gap:8px;}
+  .sku .lbl-btn{min-height:40px;font-size:10.5px;padding:0 13px;}
+  .sku .add-btn{min-height:40px;font-size:10.5px;padding:0 12px;}
+  .mini-car{width:34px;min-height:40px;}
   .dayline{grid-template-columns:1fr 1fr;gap:10px;}
   .mom{padding:15px 11px 14px;}
   .mom .g{font-size:21px;}
@@ -675,8 +683,7 @@ footer a{color:inherit;}
         </ul>
         <div class="row2">
           <button class="lbl-btn" onclick="openLabel('rise')">See the label</button>
-          <button class="add-btn" data-sku="rise" onclick="addSku('rise')">+ Add</button>
-          <button class="mini-car" id="mc-rise" aria-haspopup="true" aria-expanded="false" aria-label="Supply length" onclick="pickTap('pp-rise','mc-rise')"><span class="car" aria-hidden="true"></span></button>
+          <div class="addsplit"><button class="add-btn" data-sku="rise" onclick="addSku('rise')">+ Add</button><button class="mini-car" id="mc-rise" aria-haspopup="true" aria-expanded="false" aria-label="Supply length" onclick="pickTap('pp-rise','mc-rise')"><span class="car" aria-hidden="true"></span></button></div>
           <div class="planpick up" id="pp-rise" data-kind="single" role="radiogroup" aria-label="Supply length"></div>
         </div>
       </div>
@@ -697,8 +704,7 @@ footer a{color:inherit;}
         </ul>
         <div class="row2">
           <button class="lbl-btn" onclick="openLabel('calm')">See the label</button>
-          <button class="add-btn" data-sku="calm" onclick="addSku('calm')">+ Add</button>
-          <button class="mini-car" id="mc-calm" aria-haspopup="true" aria-expanded="false" aria-label="Supply length" onclick="pickTap('pp-calm','mc-calm')"><span class="car" aria-hidden="true"></span></button>
+          <div class="addsplit"><button class="add-btn" data-sku="calm" onclick="addSku('calm')">+ Add</button><button class="mini-car" id="mc-calm" aria-haspopup="true" aria-expanded="false" aria-label="Supply length" onclick="pickTap('pp-calm','mc-calm')"><span class="car" aria-hidden="true"></span></button></div>
           <div class="planpick up" id="pp-calm" data-kind="single" role="radiogroup" aria-label="Supply length"></div>
         </div>
       </div>
@@ -718,8 +724,7 @@ footer a{color:inherit;}
         </ul>
         <div class="row2">
           <button class="lbl-btn" onclick="openLabel('rest')">See the label</button>
-          <button class="add-btn" data-sku="rest" onclick="addSku('rest')">+ Add</button>
-          <button class="mini-car" id="mc-rest" aria-haspopup="true" aria-expanded="false" aria-label="Supply length" onclick="pickTap('pp-rest','mc-rest')"><span class="car" aria-hidden="true"></span></button>
+          <div class="addsplit"><button class="add-btn" data-sku="rest" onclick="addSku('rest')">+ Add</button><button class="mini-car" id="mc-rest" aria-haspopup="true" aria-expanded="false" aria-label="Supply length" onclick="pickTap('pp-rest','mc-rest')"><span class="car" aria-hidden="true"></span></button></div>
           <div class="planpick up" id="pp-rest" data-kind="single" role="radiogroup" aria-label="Supply length"></div>
         </div>
       </div>
@@ -740,8 +745,7 @@ footer a{color:inherit;}
         </ul>
         <div class="row2">
           <button class="lbl-btn" onclick="openLabel('steady')">See the label</button>
-          <button class="add-btn" data-sku="steady" onclick="addSku('steady')">+ Add</button>
-          <button class="mini-car" id="mc-steady" aria-haspopup="true" aria-expanded="false" aria-label="Supply length" onclick="pickTap('pp-steady','mc-steady')"><span class="car" aria-hidden="true"></span></button>
+          <div class="addsplit"><button class="add-btn" data-sku="steady" onclick="addSku('steady')">+ Add</button><button class="mini-car" id="mc-steady" aria-haspopup="true" aria-expanded="false" aria-label="Supply length" onclick="pickTap('pp-steady','mc-steady')"><span class="car" aria-hidden="true"></span></button></div>
           <div class="planpick up" id="pp-steady" data-kind="steady" role="radiogroup" aria-label="Supply length"></div>
         </div>
       </div>
@@ -1060,6 +1064,7 @@ function renderPlanPicks(){
   document.querySelectorAll('.planpick').forEach(p=>{ p.innerHTML = planRows(p.dataset.kind||'trio'); });
   ['hMonthly','fMonthly','mSub'].forEach(id=>{ const b=$(id); if(b) b.classList.toggle('haspick', subscribe); });
   document.querySelectorAll('.mini-car').forEach(b=>{ b.style.display = subscribe ? '' : 'none'; });
+  document.querySelectorAll('.addsplit').forEach(w=>{ w.classList.toggle('solo', !subscribe); });
 }
 document.addEventListener('click', e=>{
   if(!e.target.closest('.planpick') && !e.target.closest('button[aria-haspopup="true"]')) closePlanPicks();
