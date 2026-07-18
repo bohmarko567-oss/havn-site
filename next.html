@@ -109,9 +109,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
     radial-gradient(32% 28% at 76% 58%, rgba(200,30,120,.40), transparent 70%);}
 /* the hero buy bar — the finale's purchasebar, re-cut for the light field */
 .beat.hero .purchasebar{margin:18px auto 0;width:min(88vw,440px);min-height:48px;}
-.beat.hero .finalmode{border-color:#E2B4A6;background:#fff;}
-.beat.hero .finalmode button{color:#9A7268;}
-.beat.hero .finalmode button.on{background:var(--ink);color:var(--cream);box-shadow:0 2px 0 rgba(0,0,0,.16);}
+.beat.hero .finalmode{border-color:var(--ink);background:#fff;box-shadow:0 4px 0 var(--ink);}
+.beat.hero .finalmode button{color:var(--muted);}
+.beat.hero .finalmode button.on{background:var(--ink);color:var(--cream);}
 .beat.hero .h-mini{font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.6px;color:var(--muted);margin-top:9px;text-transform:uppercase;}
 /* "+ the drops" — N°04 teased as a small add-on beside the stack */
 .hero-addon{position:absolute;left:50%;top:50%;transform:translate(calc(-50% + 28vw),calc(-50% + 6vh)) rotate(6deg);display:flex;flex-direction:column;align-items:center;gap:5px;opacity:0;pointer-events:none;}
@@ -160,9 +160,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .offmenu{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(max(12vh,114px));width:min(92vw,560px);opacity:0;pointer-events:none;color:#F3E6ED;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;}
 /* one compact purchase row: a visible two-state selector beside a distinct CTA */
 .purchasebar{display:grid;grid-template-columns:minmax(142px,.78fr) minmax(0,1.22fr);gap:8px;width:min(90vw,460px);min-height:52px;}
-.finalmode{display:grid;grid-template-columns:1.12fr .88fr;gap:3px;padding:4px;border:1.5px solid #6D3754;border-radius:100px;background:#351226;}
-.finalmode button{min-width:0;border:0;border-radius:100px;background:transparent;color:#C99BB5;font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.35px;text-transform:uppercase;cursor:pointer;padding:0 8px;}
-.finalmode button.on{background:var(--cream);color:var(--ink);box-shadow:0 2px 0 rgba(0,0,0,.2);}
+/* purchase controls, sticker-cut: chunky frame + hard offset shadow — same
+   vocabulary as the chips / day-cards / in-out panels. Cream frame on the dark
+   finale, ink frame on the light hero (overrides below). */
+.finalmode{display:grid;grid-template-columns:1.12fr .88fr;gap:4px;padding:4px;border:2px solid var(--cream);border-radius:100px;background:transparent;box-shadow:0 4px 0 rgba(0,0,0,.4);}
+.finalmode button{min-width:0;border:0;border-radius:100px;background:transparent;color:var(--cream);font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;padding:0 8px;}
+.finalmode button.on{background:var(--cream);color:var(--ink);}
 .finalmode button:focus-visible,.om-cta:focus-visible{outline:2px solid var(--cream);outline-offset:2px;}
 .offmenu .modetoggle{display:flex;gap:6px;width:min(78vw,300px);margin:0;}
 /* .offmenu .modetoggle .mt — higher specificity than the drawer's later .modetoggle
@@ -176,7 +179,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .om-list li::before{content:'✓ ';color:#F08BC0;}
 .om-list b{color:#F08BC0;}
 .om-list s{color:#FF7B7B;}
-.om-cta{min-width:0;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:12.5px;box-shadow:0 5px 0 rgba(0,0,0,.35);cursor:pointer;padding:0 14px;white-space:nowrap;}
+.om-cta{min-width:0;border:2px solid var(--ink);border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 4px 0 var(--ink);cursor:pointer;padding:0 14px;white-space:nowrap;transition:transform .12s ease,box-shadow .12s ease;}
+.om-cta:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink);}
 .offmenu .minirow{width:min(84vw,420px);margin-top:0;}
 .om-mini{font-family:var(--mono);font-size:10px;color:#C99BB5;line-height:1.6;}
 .om-mini a{color:inherit;}
@@ -190,7 +194,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 /* the wallpaper breathes: a long soft rose gradient instead of one flat wash */
 .after{position:relative;background:linear-gradient(180deg,var(--cream) 0%,#F9DCD6 34%,#F6D7D8 62%,var(--cream) 100%);}
 .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
-.sec{padding:76px 0;}
+.sec{padding-top:76px;padding-bottom:76px;}   /* longhand — the shorthand was zeroing .wrap's side padding (source order) */
 .sec-head{text-align:center;margin-bottom:34px;}
 .sec-head .eyebrow{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:2.6px;text-transform:uppercase;color:var(--muted);}
 .sec-head h2{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(30px,6vw,52px);text-transform:uppercase;letter-spacing:-1px;margin-top:6px;}
@@ -212,7 +216,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .minirow button.has{border-color:var(--berry);color:#F08BC0;}
 
 /* ————— "so, what's in it?" — per-SKU deep dives (the product pages, inline) ————— */
-.whats .sku{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(18px,4vw,44px);align-items:center;border-radius:26px;padding:clamp(24px,4.5vw,48px);margin-bottom:20px;position:relative;overflow:hidden;}
+.whats .sku{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(18px,4vw,44px);align-items:center;border:2px solid var(--ink);border-radius:26px;padding:clamp(24px,4.5vw,48px);margin-bottom:24px;position:relative;overflow:hidden;box-shadow:0 6px 0 var(--ink);}
 .sku.s-rise{background:#FBE6D2;} .sku.s-calm{background:#D6EEE8;} .sku.s-rest{background:#E2E0F7;} .sku.s-steady{background:#F7DBEA;}
 .sku .num{position:absolute;right:-2%;top:-10%;font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 125;font-size:clamp(130px,24vw,240px);line-height:1;color:transparent;-webkit-text-stroke:2px rgba(30,25,19,.10);pointer-events:none;user-select:none;}
 .sku .ph{position:relative;text-align:center;}
@@ -259,9 +263,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
   .whats .sku{grid-template-columns:1fr;gap:14px;padding:22px 18px 24px;}
   .sku .ph img{height:200px;}
   .sku .blurb{font-size:13.5px;}
-  .dayline{grid-template-columns:1fr 1fr;gap:11px;}
+  /* ghost numeral: fully visible top-right (was top:-10% = upper half clipped) */
+  .sku .num{top:10px;right:8px;font-size:clamp(84px,24vw,104px);-webkit-text-stroke-width:1.6px;}
+  .dayline{grid-template-columns:1fr 1fr;gap:10px;}
+  .mom{padding:15px 11px 14px;}
+  .mom .g{font-size:21px;}
+  .mom h4{font-size:17px;}
   .mom p{font-size:11.5px;}
   .inout{grid-template-columns:1fr;}
+  .io{padding:20px 18px;}
+  .io h3{font-size:19px;}
+  .io li{font-size:10.5px;padding:7px 0;}
 }
 @media(min-width:701px){
   .sku.rev .ph{order:2;}   /* alternate sides on any two-column layout */
