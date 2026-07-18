@@ -101,7 +101,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 /* ————— hero greeting extras (P≈0 only — all of it fades out with the hero beat) ————— */
 /* the splash: a soft multi-color bloom behind the opening stack (the Lemme-style
    abstraction) — pre-feathered radial stops, no blur filter, one paint */
-.splash{position:absolute;left:50%;top:54%;width:min(160vw,940px);height:min(115vh,780px);transform:translate(-50%,-50%) rotate(-6deg);pointer-events:none;opacity:0;
+.splash{position:absolute;left:50%;top:63%;width:min(138vw,620px);height:min(62vh,560px);transform:translate(-50%,-50%) rotate(-6deg);pointer-events:none;opacity:0;
   background:
     radial-gradient(44% 38% at 31% 32%, rgba(255,106,21,.52), transparent 70%),
     radial-gradient(48% 42% at 69% 28%, rgba(18,165,148,.44), transparent 70%),
@@ -114,11 +114,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .beat.hero .finalmode button.on{background:var(--ink);color:var(--cream);box-shadow:0 2px 0 rgba(0,0,0,.16);}
 .beat.hero .h-mini{font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.6px;color:var(--muted);margin-top:9px;text-transform:uppercase;}
 /* "+ the drops" — N°04 teased as a small add-on beside the stack */
-.hero-addon{position:absolute;left:50%;top:50%;transform:translate(calc(-50% + 31vw),calc(-50% + 6vh)) rotate(6deg);display:flex;flex-direction:column;align-items:center;gap:5px;opacity:0;pointer-events:none;}
+.hero-addon{position:absolute;left:50%;top:50%;transform:translate(calc(-50% + 28vw),calc(-50% + 6vh)) rotate(6deg);display:flex;flex-direction:column;align-items:center;gap:5px;opacity:0;pointer-events:none;}
 .hero-addon .row{display:flex;align-items:center;gap:3px;}
 .hero-addon .ps{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(24px,3.4vw,34px);color:transparent;-webkit-text-stroke:1.4px var(--berry);line-height:1;}
 .hero-addon img{height:min(12vh,100px);filter:drop-shadow(0 10px 14px rgba(20,10,0,.22));}
-.hero-addon .t{font-family:var(--mono);font-weight:700;font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:var(--berry2);text-align:center;line-height:1.55;}
+.hero-addon .t{font-family:var(--mono);font-weight:700;font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:var(--berry2);text-align:center;line-height:1.55;max-width:110px;}
 .hero-addon .t b{display:block;font-size:10.5px;color:var(--berry);}
 .scrollcue{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10.5px;letter-spacing:2.4px;color:var(--muted);text-transform:uppercase;opacity:0;}
 .scrollcue::after{content:'↓';display:block;margin-top:5px;font-size:15px;animation:cue 1.4s ease-in-out infinite;}
@@ -440,7 +440,7 @@ footer a{color:inherit;}
   .beat.hero .plus{font-size:clamp(15px,2.8vw,22px);margin-top:6px;}
   .beat.hero .purchasebar{margin-top:10px;min-height:44px;}
   .beat.hero .h-mini{margin-top:6px;font-size:8.5px;}
-  .splash{top:58%;height:min(96vh,700px);}
+  .splash{top:62%;height:min(68vh,480px);}
   .beat.steady{top:9%;}
   .flip{font-size:clamp(36px,8vw,64px);}
   .beat.close{top:8.5%;}
@@ -480,10 +480,11 @@ footer a{color:inherit;}
   .beat.close{top:4.5%;}
   .beat.close h2{font-size:40px;}
   /* hero extras follow the desktop split (text LEFT, stack RIGHT) */
-  .splash{left:64%;top:52%;width:min(76vw,980px);}
+  .splash{left:64%;top:52%;width:min(76vw,980px);height:min(115vh,780px);}
   .beat.hero .purchasebar{margin-left:0;}
   .hero-addon{transform:translate(calc(-50% + 33vw),calc(-50% + 2vh)) rotate(6deg);}
   .hero-addon img{height:min(15vh,128px);}
+  .hero-addon .t{max-width:none;}
 }
 
 /* desktop mouse-wheel: a taller runway = more scroll-distance per scene, so the
@@ -623,7 +624,7 @@ footer a{color:inherit;}
         <ul class="ing">
           <li><span>Organic Lion's Mane<span class="b">Hericium erinaceus · fruiting body + mycelium</span></span><span class="d">1000 mg</span></li>
           <li><span>Standardized polysaccharides<span class="b">the compounds doing the work</span></span><span class="d">40% · 400 mg</span></li>
-          <li><span>Clean capsule<span class="b">organic pullulan + pea starch — that's the whole list</span></span><span class="d">2 caps / day</span></li>
+          <li><span>Clean capsule<span class="b">organic pullulan + pea starch — nothing else</span></span><span class="d">2 caps / day</span></li>
         </ul>
         <div class="row2">
           <button class="lbl-btn" onclick="openLabel('rise')">See the label</button>
