@@ -29,7 +29,7 @@ async function readRaw(req) {
 function cartFromMetadata(md) {
   try {
     const c = JSON.parse((md && md.havn_cart) || '');
-    return { cart: normalizeCart({ trio: c.t, singles: c.s }), subscribe: !!c.sub };
+    return { cart: normalizeCart({ trio: c.t, singles: c.s }), subscribe: !!c.sub, months: [1,2,3].includes(c.m) ? c.m : 1 };
   } catch { return null; }
 }
 
@@ -108,8 +108,8 @@ module.exports = async (req, res) => {
         kind: 'new',
         id: session.id,
         amountTotal: session.amount_total || 0,
-        summary: (session.metadata && session.metadata.havn_summary) || humanSummary(parsed.cart, parsed.subscribe),
-        units: fulfillmentUnits(parsed.cart),
+        summary: (session.metadata && session.metadata.havn_summary) || humanSummary(parsed.cart, parsed.subscribe, parsed.months),
+        units: fulfillmentUnits(parsed.cart, parsed.months),
         customerEmail: cd.email, customerPhone: cd.phone, customerName: cd.name,
         shipping: ship,
         subscribe: parsed.subscribe,
@@ -148,8 +148,8 @@ module.exports = async (req, res) => {
           kind: 'renewal',
           id: invoice.id,
           amountTotal: invoice.amount_paid || 0,
-          summary: (md && md.havn_summary) || humanSummary(parsed.cart, true),
-          units: fulfillmentUnits(parsed.cart),
+          summary: (md && md.havn_summary) || humanSummary(parsed.cart, true, parsed.months),
+          units: fulfillmentUnits(parsed.cart, parsed.months),
           customerEmail: invoice.customer_email, customerPhone: (ship && ship.phone) || null, customerName: invoice.customer_name,
           shipping: ship,
           subscribe: true,

@@ -95,9 +95,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .beat p{font-size:clamp(14.5px,2.2vw,17px);max-width:34ch;margin:14px auto 0;line-height:1.55;}
 .beat .spec{font-family:var(--mono);font-weight:700;font-size:clamp(11px,1.7vw,13px);letter-spacing:1.6px;margin-top:12px;text-transform:uppercase;}
 .beat.on-color{color:#fff;}
-.beat.hero{top:15%;}
+.beat.hero{top:15%;z-index:10;}   /* above the bottle layer — the plan menu must never sit under a mockup */
 .beat.hero h2 .l1{color:var(--rise);} .beat.hero h2 .l2{color:var(--calm);} .beat.hero h2 .l3{color:var(--rest);}
-.beat.hero .plus{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 118;font-size:clamp(19px,3.4vw,30px);color:transparent;-webkit-text-stroke:1.4px var(--berry);text-transform:uppercase;margin-top:10px;}
+.beat.hero .plus{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 118;font-size:clamp(16px,3.4vw,26px);color:transparent;-webkit-text-stroke:1.4px var(--berry);text-transform:uppercase;margin-top:10px;}
 /* ————— hero greeting extras (P≈0 only — all of it fades out with the hero beat) ————— */
 /* the splash: a soft multi-color bloom behind the opening stack (the Lemme-style
    abstraction) — pre-feathered radial stops, no blur filter, one paint */
@@ -109,6 +109,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
     radial-gradient(32% 28% at 76% 58%, rgba(200,30,120,.40), transparent 70%);}
 /* the hero buy bar — the finale's purchasebar, re-cut for the light field */
 .beat.hero .purchasebar{margin:18px auto 0;width:min(88vw,440px);min-height:48px;}
+@media(max-width:700px){ .beat.hero .om-cta{font-size:10.5px;letter-spacing:.4px;padding:0 10px;} .offmenu .om-cta{font-size:10.5px;letter-spacing:.4px;padding:0 10px;} }
 .beat.hero .finalmode{border-color:var(--ink);background:#fff;box-shadow:0 4px 0 var(--ink);}
 .beat.hero .finalmode button{color:var(--muted);}
 .beat.hero .finalmode button.on{background:var(--ink);color:var(--cream);}
@@ -157,7 +158,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 /* the in-film offer menu — the film's last act IS the order screen */
 /* translateY(max(...)) keeps the menu clear of the bottle row on short
    viewports (iPhone with browser chrome), identical on tall screens */
-.offmenu{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(max(12vh,114px));width:min(92vw,560px);opacity:0;pointer-events:none;color:#F3E6ED;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;}
+.offmenu{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(max(12vh,114px));width:min(92vw,560px);opacity:0;pointer-events:none;color:#F3E6ED;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;z-index:10;}
 /* one compact purchase row: a visible two-state selector beside a distinct CTA */
 .purchasebar{display:grid;grid-template-columns:minmax(142px,.78fr) minmax(0,1.22fr);gap:8px;width:min(90vw,460px);min-height:52px;}
 /* purchase controls, sticker-cut: chunky frame + hard offset shadow — same
@@ -181,6 +182,23 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .om-list s{color:#FF7B7B;}
 .om-cta{min-width:0;border:2px solid var(--ink);border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.6px;text-transform:uppercase;box-shadow:0 4px 0 var(--ink);cursor:pointer;padding:0 14px;white-space:nowrap;transition:transform .12s ease,box-shadow .12s ease;}
 .om-cta:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink);}
+/* the crossed one-time anchor inside the CTA — the deal, visible */
+.om-cta s{font-size:.82em;opacity:.66;margin-right:1px;text-decoration-thickness:2px;}
+/* MONTHLY's ˅ + the supply-plan sticker menu it opens */
+.purchasebar{position:relative;}
+.finalmode .car{display:none;margin-left:4px;font-size:11px;line-height:1;vertical-align:-1px;transition:transform .15s ease;}
+.finalmode button.haspick.on .car{display:inline-block;}
+.finalmode button[aria-expanded="true"] .car{transform:rotate(180deg);}
+.planpick{display:none;position:absolute;top:calc(100% + 9px);left:0;width:min(88vw,340px);background:#fff;border:2px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);padding:5px;z-index:40;}
+.planpick.open{display:block;}
+.planpick button{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;min-height:40px;border:0;border-radius:11px;background:transparent;color:var(--ink);font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;padding:0 12px;text-align:left;}
+.planpick button:hover{background:rgba(30,25,19,.06);}
+.planpick button.on{background:var(--ink);color:var(--cream);}
+.planpick .pp-p{font-size:10px;white-space:nowrap;}
+.planpick .pp-p b{color:#E03131;margin-left:3px;}
+.planpick button.on .pp-p b{color:#FFB1A1;}
+/* the film finale sits low — its menu opens upward */
+.offmenu .planpick{top:auto;bottom:calc(100% + 9px);}
 .offmenu .minirow{width:min(84vw,420px);margin-top:0;}
 .om-mini{font-family:var(--mono);font-size:10px;color:#C99BB5;line-height:1.6;}
 .om-mini a{color:inherit;}
@@ -220,8 +238,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .sku.s-rise{background:#FBE6D2;} .sku.s-calm{background:#D6EEE8;} .sku.s-rest{background:#E2E0F7;} .sku.s-steady{background:#F7DBEA;}
 .sku .num{position:absolute;right:-2%;top:-10%;font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 125;font-size:clamp(130px,24vw,240px);line-height:1;color:transparent;-webkit-text-stroke:2px rgba(30,25,19,.10);pointer-events:none;user-select:none;}
 .sku .ph{position:relative;text-align:center;}
-.sku .ph img{height:clamp(220px,30vw,320px);filter:drop-shadow(0 22px 26px rgba(20,10,0,.24));transform:rotate(-4deg);}
-.sku.rev .ph img{transform:rotate(4deg);}
+/* the mockups hover — a slow levitation, staggered per card */
+.sku .ph img{--tilt:-4deg;height:clamp(220px,30vw,320px);filter:drop-shadow(0 22px 26px rgba(20,10,0,.24));transform:rotate(var(--tilt));animation:skulev 5.6s ease-in-out infinite;}
+.sku.rev .ph img{--tilt:4deg;}
+#p-calm .ph img{animation-delay:-1.4s;} #p-rest .ph img{animation-delay:-2.8s;} #p-steady .ph img{animation-delay:-4.2s;}
+@keyframes skulev{0%,100%{transform:rotate(var(--tilt)) translateY(0);}50%{transform:rotate(var(--tilt)) translateY(-10px);}}
 .sku .moment{font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:2.2px;text-transform:uppercase;}
 .sku h3{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 121;font-size:clamp(32px,6.5vw,48px);text-transform:uppercase;letter-spacing:-.5px;margin:3px 0 8px;}
 .sku .blurb{font-size:14.5px;line-height:1.6;max-width:46ch;}
@@ -517,6 +538,7 @@ footer a{color:inherit;}
   .chips{display:flex;justify-content:center;}
   .pbadge,.pbadge .bring{animation:none;}
   .pcircle{animation:none;}
+  .sku .ph img{animation:none;}
 }
 </style>
 </head>
@@ -539,15 +561,16 @@ footer a{color:inherit;}
     <div class="beat hero" id="bHero">
       <div class="eyebrow" style="color:var(--muted)">The 4-piece daily ritual</div>
       <h2><span class="l1">Rise.</span> <span class="l2">Calm.</span> <span class="l3">Rest.</span></h2>
-      <div class="plus">+ one more, on the house</div>
+      <div class="plus">+ the 4th piece, always free</div>
       <div class="purchasebar">
         <div class="finalmode" role="group" aria-label="Purchase frequency">
-          <button id="hMonthly" class="on" type="button" aria-pressed="true" onclick="setMode(true)">Monthly</button>
+          <button id="hMonthly" class="on" type="button" aria-pressed="true" aria-haspopup="true" aria-expanded="false" onclick="monthlyTap('h')">Monthly<span class="car" aria-hidden="true">⌄</span></button>
           <button id="hOnce" type="button" aria-pressed="false" onclick="setMode(false)">Once</button>
         </div>
         <button class="om-cta" id="heroBtn" onclick="addTrio()">Complete ritual · $93</button>
+        <div class="planpick" id="hPlanPick" role="radiogroup" aria-label="Supply length"></div>
       </div>
-      <div class="h-mini">N°04 Steady rides along free · skip or cancel anytime</div>
+      <div class="h-mini">Free U.S. shipping · skip or cancel anytime</div>
     </div>
     <div class="scrollcue" id="cue">Scroll</div>
 
@@ -600,10 +623,11 @@ footer a{color:inherit;}
       </ul>
       <div class="purchasebar">
         <div class="finalmode" role="group" aria-label="Purchase frequency">
-          <button id="fMonthly" class="on" type="button" aria-pressed="true" onclick="setMode(true)">Monthly</button>
+          <button id="fMonthly" class="on" type="button" aria-pressed="true" aria-haspopup="true" aria-expanded="false" onclick="monthlyTap('f')">Monthly<span class="car" aria-hidden="true">⌄</span></button>
           <button id="fOnce" type="button" aria-pressed="false" onclick="setMode(false)">Once</button>
         </div>
         <button class="om-cta" id="offerBtn" onclick="addTrio()">Complete ritual · $93</button>
+        <div class="planpick" id="fPlanPick" role="radiogroup" aria-label="Supply length"></div>
       </div>
       <div class="minirow" id="miniRow" aria-label="Build your own stack"></div>
       <div class="om-mini" id="offerMini">Subscription · <a href="policies.html">guarantee &amp; terms</a></div>
@@ -651,7 +675,7 @@ footer a{color:inherit;}
       <div>
         <div class="moment" style="color:var(--calm2)">◐ N°02 · Midday · Balance</div>
         <h3 style="color:var(--calm2)">Calm</h3>
-        <p class="blurb">KSM-66® — the most-studied ashwagandha extract there is — plus a small crew of adaptogens and B-vitamins. Stress gets quieter; you don't get slower*.</p>
+        <p class="blurb">A full clinical dose of KSM-66® — the most-studied ashwagandha on earth — layered with maca, ginseng and B-vitamins. Stress comes down; your speed doesn't*.</p>
         <ul class="ing">
           <li><span>KSM-66® Ashwagandha<span class="b">full-spectrum root extract</span></span><span class="d">600 mg</span></li>
           <li><span>Vitamin D3<span class="b">a full day's worth</span></span><span class="d">20 mcg · 100% DV</span></li>
@@ -690,7 +714,7 @@ footer a{color:inherit;}
       <div>
         <div class="moment" style="color:var(--berry2)">⊖ N°04 · All day · Level</div>
         <h3 style="color:var(--berry2)">Steady</h3>
-        <p class="blurb">Six botanicals in a 2&nbsp;ml daily dropper, built around cinnamon bark — for energy that stays level instead of spiking*. $18 on its own. Free in every complete-ritual order.</p>
+        <p class="blurb">One dropper a day holds your energy on one level line — no spike, no 3pm crash*. Cinnamon bark leads five supporting botanicals. Worth $18 — free in every complete-ritual order.</p>
         <ul class="ing">
           <li><span>Cinnamon Bark<span class="b">1:5 extract — the anchor botanical</span></span><span class="d">500 mg</span></li>
           <li><span>Licorice Root<span class="b">traditional metabolic support</span></span><span class="d">174 mg</span></li>
@@ -713,7 +737,7 @@ footer a{color:inherit;}
       <div class="mom"><div class="g" style="color:var(--rise)">☀</div><div class="tm">07:00</div><h4 style="color:var(--rise2)">Rise</h4><p>Two caps with breakfast. The fog lifts before the second coffee — which you won't need.</p></div>
       <div class="mom"><div class="g" style="color:var(--calm)">◐</div><div class="tm">13:00</div><h4 style="color:var(--calm2)">Calm</h4><p>Two caps at the desk. The afternoon turns its volume down.</p></div>
       <div class="mom"><div class="g" style="color:var(--rest)">☾</div><div class="tm">22:00</div><h4 style="color:var(--rest2)">Rest</h4><p>Three caps before bed. Sleep that actually restores.</p></div>
-      <div class="mom"><div class="g" style="color:var(--berry)">⊖</div><div class="tm">Any morning</div><h4 style="color:var(--berry2)">Steady</h4><p>2 ml of drops. Level energy underneath all of it — on the house.</p></div>
+      <div class="mom"><div class="g" style="color:var(--berry)">⊖</div><div class="tm">Any morning</div><h4 style="color:var(--berry2)">Steady</h4><p>One dropper with breakfast. The 3pm crash just doesn't come.</p></div>
     </div>
   </div>
 
@@ -756,7 +780,7 @@ footer a{color:inherit;}
     <div class="sec-head"><div class="eyebrow">Questions</div><h2>FAQ</h2></div>
     <div class="faq">
       <details open><summary>What is the 4th piece?</summary><p>STEADY — N°04, our Normal Blood Sugar Drops. Six botanicals in a daily 2ml dropper to support healthy energy metabolism*. On its own it's $18 — free with every complete-ritual order, every month you stay subscribed.</p></details>
-      <details><summary>How does the subscription work?</summary><p>One delivery a month: Rise, Calm, Rest — and STEADY riding along free. $93/mo (or one-time, $114 — switch in the cart). Skip a month, swap a formula or cancel from the link in any receipt, at least 48h before renewal. No calls, no fees.</p></details>
+      <details><summary>How does the subscription work?</summary><p>One delivery a month: Rise, Calm, Rest — and STEADY riding along free. $93/mo (or one-time, $114 — switch in the cart). Want fewer boxes? Pick a 2- or 3-month supply under MONTHLY and the price drops to $91/mo — 20% off the one-time rate, one STEADY free per month of supply. Skip a delivery, swap a formula or cancel from the link in any receipt, at least 48h before renewal. No calls, no fees.</p></details>
       <details><summary>Can I actually cancel anytime?</summary><p>Yes — two taps from any receipt, and the subscription ends with the current month. Nothing to return, nobody to argue with. The only thing you give up is the free STEADY.</p></details>
       <details><summary>Shipping &amp; returns?</summary><p>Subscriptions always ship free in the U.S. One-time orders ship free at $79+, otherwise $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
       <details><summary>When will I feel a difference?</summary><p>Honest answer: Rest and Calm often land within days. Rise builds over 2–4 weeks of daily use — that's exactly why the first order carries the guarantee. Give it the month; it costs you nothing if it's not for you.</p></details>
@@ -765,7 +789,7 @@ footer a{color:inherit;}
     </div>
   </div>
 
-  <div class="ribbon"><div class="rtrack" id="rtrack"><span><b style="color:#FF9C5F">☀ RISE</b>&nbsp;— FOCUS</span><span><b style="color:#5FD0BF">◐ CALM</b>&nbsp;— BALANCE</span><span><b style="color:#9F96F2">☾ REST</b>&nbsp;— SLEEP</span><span><b style="color:#F08BC0">⊖ STEADY</b>&nbsp;— THE 4TH PIECE, FREE</span><span>✚ SUBSCRIPTIONS SHIP FREE</span><span>◆ 30-DAY FIRST-ORDER GUARANTEE</span></div></div>
+  <div class="ribbon"><div class="rtrack" id="rtrack"><span><b style="color:#FF9C5F">☀ RISE</b>&nbsp;— FOCUS</span><span><b style="color:#5FD0BF">◐ CALM</b>&nbsp;— BALANCE</span><span><b style="color:#9F96F2">☾ REST</b>&nbsp;— SLEEP</span><span><b style="color:#F08BC0">⊖ STEADY</b>&nbsp;— LEVEL, ALL DAY</span><span>✚ SUBSCRIPTIONS SHIP FREE</span><span>◆ 30-DAY FIRST-ORDER GUARANTEE</span></div></div>
 
   <footer>HAVN · Designed in Denmark · Manufactured in the USA from globally sourced ingredients · <a href="policies.html">Policies</a> · <a href="mailto:hello@havn.co">hello@havn.co</a><br>*These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease.</footer>
 </div>
@@ -839,6 +863,11 @@ footer a{color:inherit;}
 const $ = id => document.getElementById(id);
 /* keep in sync with api/_catalog.js */
 const P2 = { one:{single:38, trio:114, steady:18}, sub:{single:31, trio:93, steady:15} };
+/* supply plans (subscription only) — keep in sync with TRIO.subPlans server-side.
+   total = per delivery; anchor = one-time equivalent (the crossed price). */
+const PLANM = { 1:{total:93, anchor:114, pm:93, tag:''}, 2:{total:182, anchor:228, pm:91, tag:'−20%'}, 3:{total:273, anchor:342, pm:91, tag:'−20%'} };
+let planMonths = 1;
+try{ const m = parseInt(localStorage.getItem('havn_plan')||'1',10); if([1,2,3].includes(m)) planMonths = m; }catch(e){}
 const PROMO_PCT = 15; /* the floating-circle code — applies to subscription orders */
 const FREE_SHIP = 79, SUB_FREE_SHIP = 30;
 const HEX = {rise:'#FF6A15', calm:'#12A594', rest:'#4E43C9', steady:'#C81E78'};
@@ -854,11 +883,13 @@ function track(n,p){ try{ window.havnEvents.push({name:n,props:p||{},t:Date.now(
 
 const fmt = n => Number.isInteger(n) ? '$'+n : '$'+n.toFixed(2);
 const priceSingle = id => subscribe ? (id==='steady'?P2.sub.steady:P2.sub.single) : (id==='steady'?P2.one.steady:P2.one.single);
-const trioPrice = () => subscribe ? P2.sub.trio : P2.one.trio;
+const planMult = () => subscribe ? planMonths : 1;
+const perLbl = () => subscribe ? (planMonths===1 ? '/mo' : ' / '+planMonths+' mo') : '';
+const trioPrice = () => subscribe ? PLANM[planMonths].total : P2.one.trio;
 const itemCount = () => cart.trio*3 + Object.values(cart.singles).reduce((s,q)=>s+q,0);
 const hasSku = id => cart.trio>0 || cart.singles[id]>0;
 const complete = () => cart.trio>0;
-const subtotal = () => cart.trio*trioPrice() + Object.entries(cart.singles).reduce((s,[id,q])=>s+q*priceSingle(id),0);
+const subtotal = () => cart.trio*trioPrice() + Object.entries(cart.singles).reduce((s,[id,q])=>s+q*priceSingle(id),0)*planMult();
 /* the floating-circle 15% — once claimed it applies itself to subscription orders */
 const promoCodeVal = () => { const st = promoState(); const c = st && st.code ? String(st.code) : ''; return /^[A-Z0-9-]{2,24}$/.test(c) ? c : null; };
 const discount = () => (subscribe && promoCodeVal() && subtotal()>0) ? Math.round(subtotal()*PROMO_PCT)/100 : 0;
@@ -880,7 +911,7 @@ function update(){
   const items = [];
   if(cart.trio>0) items.push(`
     <div class="citem"><div class="sw" style="background:linear-gradient(135deg,#FF6A15 0 25%,#12A594 0 50%,#4E43C9 0 75%,#C81E78 0)"></div>
-      <div><div class="ci-n">Complete Ritual</div><div class="ci-s"><button onclick="openLabel('rise')" aria-label="Rise Supplement Facts">Rise</button> + <button onclick="openLabel('calm')" aria-label="Calm Supplement Facts">Calm</button> + <button onclick="openLabel('rest')" aria-label="Rest Supplement Facts">Rest</button> ${subscribe?'· monthly':''} · N°04 free</div></div>
+      <div><div class="ci-n">Complete Ritual</div><div class="ci-s"><button onclick="openLabel('rise')" aria-label="Rise Supplement Facts">Rise</button> + <button onclick="openLabel('calm')" aria-label="Calm Supplement Facts">Calm</button> + <button onclick="openLabel('rest')" aria-label="Rest Supplement Facts">Rest</button> ${subscribe?(planMonths>1?'· every '+planMonths+' months':'· monthly'):''} · N°04 free</div></div>
       <div class="ci-right"><span class="ci-p">${fmt(cart.trio*trioPrice())}</span>
         <div class="qty" aria-label="Ritual quantity"><button onclick="bumpTrio(-1)" aria-label="Decrease">−</button><span class="q">${cart.trio}</span><button onclick="bumpTrio(1)" aria-label="Increase">+</button></div></div></div>`);
   for(const id of ['rise','calm','rest','steady']){
@@ -888,15 +919,15 @@ function update(){
     if(q>0) items.push(`
     <div class="citem"><div class="sw" style="background:${HEX[id]}">${{rise:'01',calm:'02',rest:'03',steady:'04'}[id]}</div>
       <div><div class="ci-n">${NAMES[id]}</div><div class="ci-s">${SUBS[id]} · ${fmt(priceSingle(id))}${subscribe?'/mo':''} · <button onclick="openLabel('${id}')">label</button></div></div>
-      <div class="ci-right"><span class="ci-p">${fmt(q*priceSingle(id))}</span>
+      <div class="ci-right"><span class="ci-p">${fmt(q*priceSingle(id)*planMult())}</span>
         <div class="qty" aria-label="${NAMES[id]} quantity"><button onclick="bumpSingle('${id}',-1)" aria-label="Decrease">−</button><span class="q">${q}</span><button onclick="bumpSingle('${id}',1)" aria-label="Increase">+</button></div></div></div>`);
   }
   if(done) items.push(`
     <div class="citem gift"><div class="sw">04</div>
-      <div><div class="ci-n">Steady</div><div class="ci-s">Blood Sugar Drops · your reward${subscribe?' · repeats monthly':''} · <button onclick="openLabel('steady')">label</button></div></div>
+      <div><div class="ci-n">Steady</div><div class="ci-s">Blood Sugar Drops · your reward${subscribe?(planMonths>1?' · '+planMonths+' bottles per delivery':' · repeats monthly'):''} · <button onclick="openLabel('steady')">label</button></div></div>
       <div class="ci-right"><span class="ci-p">FREE</span></div></div>`);
   $('cartItems').innerHTML = items.length ? items.join('') :
-    `<div class="cart-empty">Your ritual is empty.<br>Four pieces are waiting.<br><button class="btn" style="border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;padding:14px 22px;" onclick="addTrio()">Start with all of it — ${fmt(trioPrice())}${subscribe?'/mo':''}</button></div>`;
+    `<div class="cart-empty">Your ritual is empty.<br>Four pieces are waiting.<br><button class="btn" style="border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;padding:14px 22px;" onclick="addTrio()">Start with all of it — ${fmt(trioPrice())}${perLbl()}</button></div>`;
 
   /* ship bar (per-mode goal) */
   const st = subtotal();
@@ -920,9 +951,10 @@ function update(){
   $('slotLbl').innerHTML = done ? 'Ritual complete —<br>N°04 is yours, free' : 'Complete 01–03<br>to unlock N°04';
   $('giftLine').style.display = done ? 'flex' : 'none';
   $('ckBtn').disabled = itemCount()===0;
-  $('ckBtn').textContent = itemCount()===0 ? 'Checkout' : `Checkout — ${fmt(total)}${subscribe&&total>0&&disc===0?'/mo':''}`;
+  $('ckBtn').textContent = itemCount()===0 ? 'Checkout' : `Checkout — ${fmt(total)}${subscribe&&total>0&&disc===0?perLbl():''}`;
   $('footNote').textContent = subscribe
-    ? (disc>0 ? `Renews at ${fmt(st)}/mo from month 2 · skip or cancel anytime` : 'Subscription renews monthly · skip or cancel anytime')
+    ? (disc>0 ? `Renews at ${fmt(st)}${perLbl()} from delivery 2 · skip or cancel anytime`
+       : (planMonths>1 ? `Billed & delivered every ${planMonths} months · skip or cancel anytime` : 'Subscription renews monthly · skip or cancel anytime'))
     : 'One-time order · switch to Subscribe & Save for 15% off';
 
   document.querySelectorAll('.chip button').forEach(b=>{
@@ -935,9 +967,18 @@ function update(){
     b.classList.toggle('has', has);
     b.textContent = has ? '✓ In the ritual' : `+ Add · ${fmt(priceSingle(id))}${subscribe?'/mo':''}`;
   });
-  $('offerBtn').textContent = subscribe ? 'Complete ritual · $93' : 'Complete ritual · $114';
-  const hb = $('heroBtn'); if(hb) hb.textContent = subscribe ? 'Complete ritual · $93' : 'Complete ritual · $114';
-  $('offerMini').innerHTML = (subscribe ? 'Subscription · skip or cancel anytime' : 'One-time order') + ' · <a href="policies.html">guarantee &amp; terms</a>';
+  /* CTA: the deal is visible — crossed one-time anchor next to the plan price */
+  const pl = PLANM[planMonths];
+  const ctaHtml = subscribe
+    ? (planMonths===1 ? `COMPLETE RITUAL · <s>$${pl.anchor}</s> $${pl.total}`
+                      : `${planMonths}-MO RITUAL · <s>$${pl.anchor}</s> $${pl.total}`)
+    : 'COMPLETE RITUAL · $114';
+  $('offerBtn').innerHTML = ctaHtml;
+  const hb = $('heroBtn'); if(hb) hb.innerHTML = ctaHtml;
+  $('offerMini').innerHTML = (subscribe
+    ? (planMonths>1 ? `Billed every ${planMonths} months · skip or cancel anytime` : 'Subscription · skip or cancel anytime')
+    : 'One-time order') + ' · <a href="policies.html">guarantee &amp; terms</a>';
+  renderPlanPicks();
   /* build-your-own-stack pills (mixed bundles: e.g. two formulas + the drops) */
   $('miniRow').innerHTML = ['rise','calm','rest','steady'].map(id =>
     `<button class="${hasSku(id)?'has':''}" onclick="addSku('${id}')">${hasSku(id)?'✓':'+'} ${NAMES[id].toUpperCase()} · ${fmt(priceSingle(id))}${subscribe?'/mo':''}</button>`).join('');
@@ -947,6 +988,7 @@ function update(){
 }
 function setMode(sub){
   subscribe = sub;
+  if(!sub) closePlanPicks();
   [['mSub',sub],['mOne',!sub]].forEach(([id,on])=>{   /* cart-drawer toggle */
     const b = $(id); if(b){ b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); }
   });
@@ -955,6 +997,40 @@ function setMode(sub){
   });
   update();
 }
+/* ————— supply-plan picker (the ˅ under MONTHLY) ————— */
+function setPlan(m){
+  planMonths = [1,2,3].includes(m) ? m : 1;
+  try{ localStorage.setItem('havn_plan', String(planMonths)); }catch(e){}
+  closePlanPicks();
+  update();
+  track('select_plan',{months:planMonths});
+}
+/* first tap turns MONTHLY on; a tap while already on opens the plan menu */
+function monthlyTap(which){
+  if(!subscribe){ setMode(true); return; }
+  const p = $(which+'PlanPick'); if(!p) return;
+  const open = !p.classList.contains('open');
+  closePlanPicks();
+  if(open){ p.classList.add('open'); $(which+'Monthly').setAttribute('aria-expanded','true'); }
+}
+function closePlanPicks(){
+  ['hPlanPick','fPlanPick'].forEach(id=>{ const p=$(id); if(p) p.classList.remove('open'); });
+  ['hMonthly','fMonthly'].forEach(id=>{ const b=$(id); if(b) b.setAttribute('aria-expanded','false'); });
+}
+function renderPlanPicks(){
+  const rows = [1,2,3].map(m=>{
+    const p = PLANM[m], on = m===planMonths;
+    return `<button role="radio" aria-checked="${on}" class="${on?'on':''}" onclick="setPlan(${m})">
+      <span>${m===1?'1 MONTH':m+' MONTHS'}</span>
+      <span class="pp-p">$${p.pm}/MO${p.tag?` <b>${p.tag}</b>`:''}</span></button>`;
+  }).join('');
+  ['hPlanPick','fPlanPick'].forEach(id=>{ const p=$(id); if(p) p.innerHTML = rows; });
+  ['hMonthly','fMonthly'].forEach(id=>{ const b=$(id); if(b) b.classList.toggle('haspick', subscribe); });
+}
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.planpick') && !e.target.closest('#hMonthly') && !e.target.closest('#fMonthly')) closePlanPicks();
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePlanPicks(); });
 function addSku(id){ cart.singles[id]++; update(); openCart(); track('add_to_cart',{sku:id, via:'planB'}); }
 function addTrio(){ cart.trio = Math.max(1, cart.trio); update(); openCart(); track('add_to_cart',{sku:'trio', via:'planB'}); }
 function bumpTrio(d){ cart.trio = Math.max(0, cart.trio + d); update(); }
@@ -983,7 +1059,7 @@ async function checkout(){
   ckBusy = true;
   track('begin_checkout',{subtotal: subtotal(), subscription: subscribe, via:'planB'});
   try{
-    const r = await fetch('/api/checkout', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({cart, subscribe, promo: promoCodeVal()})});
+    const r = await fetch('/api/checkout', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({cart, subscribe, months: planMonths, promo: promoCodeVal()})});
     if(!r.ok) throw 0;
     const d = await r.json(); if(!d.url) throw 0;
     location.href = d.url; return;

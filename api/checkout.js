@@ -6,7 +6,7 @@
    the whole A→Z flow stays clickable before the Stripe account exists. */
 
 const {
-  normalizeCart, subtotalCents, shippingCents, lineItems, humanSummary, FREE_SHIP_CENTS, SHIP_CENTS,
+  normalizeCart, subtotalCents, shippingCents, lineItems, humanSummary, planMonths, FREE_SHIP_CENTS, SHIP_CENTS,
 } = require('./_catalog.js');
 
 function cors(res, origin) {
@@ -53,12 +53,13 @@ module.exports = async (req, res) => {
   catch { res.statusCode = 400; return res.end(JSON.stringify({ error: 'bad JSON' })); }
 
   const subscribe = !!payload.subscribe;
+  const months = subscribe ? planMonths(payload.months) : 1;
   const cart = normalizeCart(payload.cart);
   if (cart.count === 0) { res.statusCode = 400; return res.end(JSON.stringify({ error: 'cart is empty' })); }
 
   const origin = siteOrigin(req);
-  const subtotal = subtotalCents(cart, subscribe);
-  const summary = humanSummary(cart, subscribe);
+  const subtotal = subtotalCents(cart, subscribe, months);
+  const summary = humanSummary(cart, subscribe, months);
 
   /* ---------- demo mode (no Stripe account yet) ---------- */
   if (!process.env.STRIPE_SECRET_KEY) {
@@ -66,7 +67,7 @@ module.exports = async (req, res) => {
     return res.end(JSON.stringify({
       demo: true,
       url: origin + '/success.html?demo=1&total=' + subtotal + '&sub=' + (subscribe ? 1 : 0)
-           + '&sum=' + encodeURIComponent(summary),
+           + '&m=' + months + '&sum=' + encodeURIComponent(summary),
     }));
   }
 
@@ -75,13 +76,13 @@ module.exports = async (req, res) => {
     const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
     const imgBase = origin.startsWith('https://') ? origin : (process.env.SITE_URL || '');
     const metadata = {
-      havn_cart: JSON.stringify({ t: cart.trio, s: cart.singles, sub: subscribe }),
+      havn_cart: JSON.stringify({ t: cart.trio, s: cart.singles, sub: subscribe, m: months }),
       havn_summary: summary,
     };
 
     const params = {
       mode: subscribe ? 'subscription' : 'payment',
-      line_items: lineItems(cart, subscribe, imgBase || null),
+      line_items: lineItems(cart, subscribe, imgBase || null, months),
       success_url: origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: origin + '/#products',
       shipping_address_collection: { allowed_countries: ['US'] },

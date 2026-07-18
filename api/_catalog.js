@@ -17,9 +17,15 @@ const CATALOG = {
 const TRIO = {
   one: 11400,
   sub: 9300,
+  /* multi-month supply per delivery: 2/3-month boxes land at $91/mo (−20% vs the
+     one-time anchor; 1-month stays the $93 collapse-neutral price). Totals are
+     whole dollars on purpose. Keys are months, values are cents PER DELIVERY. */
+  subPlans: { 1: 9300, 2: 18200, 3: 27300 },
   name: 'HAVN Complete Ritual — Rise + Calm + Rest',
   desc: 'The 4-piece daily ritual. Includes N°04 STEADY (Blood Sugar Drops, $18 value) FREE in every shipment.',
 };
+
+function planMonths(v) { return [1, 2, 3].includes(Math.floor(Number(v))) ? Math.floor(Number(v)) : 1; }
 
 const FREE_SHIP_CENTS     = intEnv('FREE_SHIP_CENTS', 7900);     /* one-time orders: free U.S. shipping threshold */
 const FREE_SUB_SHIP_CENTS = intEnv('FREE_SUB_SHIP_CENTS', 3000); /* subscriptions ship free from $30/mo (any formula qualifies) */
@@ -54,25 +60,32 @@ function normalizeCart(raw) {
   return { trio, singles, complete, count };
 }
 
-function subtotalCents(cart, subscribe) {
-  const mode = subscribe ? 'sub' : 'one';
-  let total = cart.trio * TRIO[mode];
-  for (const [id, q] of Object.entries(cart.singles)) total += q * CATALOG[id][mode];
+function subtotalCents(cart, subscribe, months) {
+  const m = subscribe ? planMonths(months) : 1;
+  let total = cart.trio * (subscribe ? TRIO.subPlans[m] : TRIO.one);
+  for (const [id, q] of Object.entries(cart.singles)) total += q * CATALOG[id][subscribe ? 'sub' : 'one'] * m;
   return total;
 }
 
-function shippingCents(cart, subscribe) {
-  const st = subtotalCents(cart, subscribe);
-  if (subscribe) return st >= FREE_SUB_SHIP_CENTS ? 0 : SHIP_CENTS;
+function shippingCents(cart, subscribe, months) {
+  const m = subscribe ? planMonths(months) : 1;
+  const st = subtotalCents(cart, subscribe, m);
+  /* threshold is per-month-equivalent so a 2-month box doesn't unlock free
+     shipping a 1-month box wouldn't; the fee itself is per delivery */
+  if (subscribe) return st >= FREE_SUB_SHIP_CENTS * m ? 0 : SHIP_CENTS;
   return st >= FREE_SHIP_CENTS ? 0 : SHIP_CENTS;
 }
 
 /* Stripe Checkout line items via price_data — no dashboard products required.
    The free STEADY is described inside the Trio item (a separate $0 line is
    avoided on purpose: it must never be able to fail a live checkout). */
-function lineItems(cart, subscribe, imgBase) {
+function lineItems(cart, subscribe, imgBase, months) {
   const items = [];
-  const recurring = subscribe ? { recurring: { interval: 'month' } } : {};
+  const m = subscribe ? planMonths(months) : 1;
+  /* every recurring line in one Checkout Session must share the same interval,
+     so the whole order bills & ships every m months */
+  const recurring = subscribe ? { recurring: { interval: 'month', interval_count: m } } : {};
+  const cadence = subscribe ? (m === 1 ? ' (monthly)' : ' (every ' + m + ' months)') : '';
   const img = (file) => (imgBase ? { images: [imgBase + '/assets/products/' + file] } : {});
 
   if (cart.trio > 0) {
@@ -80,11 +93,11 @@ function lineItems(cart, subscribe, imgBase) {
       quantity: cart.trio,
       price_data: {
         currency: 'usd',
-        unit_amount: subscribe ? TRIO.sub : TRIO.one,
+        unit_amount: subscribe ? TRIO.subPlans[m] : TRIO.one,
         ...recurring,
         product_data: {
-          name: TRIO.name + (subscribe ? ' (monthly)' : ''),
-          description: TRIO.desc,
+          name: TRIO.name + cadence,
+          description: (m > 1 ? m + '-month supply per delivery. ' : '') + TRIO.desc,
           metadata: { havn_sku: 'trio' },
           ...img('trio_official.jpg'),
         },
@@ -98,28 +111,28 @@ function lineItems(cart, subscribe, imgBase) {
       quantity: q,
       price_data: {
         currency: 'usd',
-        unit_amount: subscribe ? p.sub : p.one,
+        unit_amount: (subscribe ? p.sub : p.one) * m,
         ...recurring,
         product_data: {
-          name: p.name + (subscribe ? ' (monthly)' : ''),
-          description: p.n + ' · 30-day supply',
+          name: p.name + cadence,
+          description: p.n + ' · ' + (30 * m) + '-day supply',
           metadata: { havn_sku: id },
           ...img(p.img),
         },
       },
     });
   }
-  /* customer-paid monthly shipping when a subscription cart is under the threshold
-     (Checkout shipping_options are one-time-mode only) */
-  if (subscribe && shippingCents(cart, true) > 0) {
+  /* customer-paid shipping when a subscription cart is under the threshold
+     (Checkout shipping_options are one-time-mode only); one fee per delivery */
+  if (subscribe && shippingCents(cart, true, m) > 0) {
     items.push({
       quantity: 1,
       price_data: {
         currency: 'usd',
         unit_amount: SHIP_CENTS,
-        recurring: { interval: 'month' },
+        recurring: { interval: 'month', interval_count: m },
         product_data: {
-          name: 'U.S. shipping (monthly)',
+          name: 'U.S. shipping',
           description: 'Free on subscriptions from $' + (FREE_SUB_SHIP_CENTS / 100) + '/mo',
           metadata: { havn_sku: 'shipping' },
         },
@@ -131,26 +144,28 @@ function lineItems(cart, subscribe, imgBase) {
 
 /* What the warehouse must actually ship — trio explodes into SKUs,
    ritual-complete orders always include one free STEADY. */
-function fulfillmentUnits(cart) {
+function fulfillmentUnits(cart, months) {
+  const m = planMonths(months);
   const units = { rise: 0, calm: 0, rest: 0, steady: 0 };
-  units.rise += cart.trio; units.calm += cart.trio; units.rest += cart.trio;
-  for (const [id, q] of Object.entries(cart.singles)) units[id] += q;
-  if (cart.complete) units.steady += 1; /* the gift */
+  units.rise += cart.trio * m; units.calm += cart.trio * m; units.rest += cart.trio * m;
+  for (const [id, q] of Object.entries(cart.singles)) units[id] += q * m;
+  if (cart.complete) units.steady += m; /* the gift — one per month of supply */
   return units;
 }
 
-function humanSummary(cart, subscribe) {
+function humanSummary(cart, subscribe, months) {
+  const m = subscribe ? planMonths(months) : 1;
   const parts = [];
-  if (cart.trio > 0) parts.push(cart.trio + '× Trio');
+  if (cart.trio > 0) parts.push(cart.trio + '× Trio' + (m > 1 ? ' (' + m + '-mo supply)' : ''));
   for (const [id, q] of Object.entries(cart.singles)) if (q > 0) parts.push(q + '× ' + id);
-  if (cart.complete) parts.push('+1 STEADY FREE');
-  parts.push(subscribe ? 'SUBSCRIPTION' : 'one-time');
-  const ship = shippingCents(cart, subscribe);
+  if (cart.complete) parts.push('+' + m + '× STEADY FREE');
+  parts.push(subscribe ? (m > 1 ? 'SUBSCRIPTION every ' + m + ' months' : 'SUBSCRIPTION') : 'one-time');
+  const ship = shippingCents(cart, subscribe, m);
   parts.push(ship === 0 ? 'ship FREE' : 'ship $' + (ship / 100).toFixed(2));
   return parts.join(' | ');
 }
 
 module.exports = {
-  CATALOG, TRIO, FREE_SHIP_CENTS, FREE_SUB_SHIP_CENTS, SHIP_CENTS,
+  CATALOG, TRIO, FREE_SHIP_CENTS, FREE_SUB_SHIP_CENTS, SHIP_CENTS, planMonths,
   normalizeCart, subtotalCents, shippingCents, lineItems, fulfillmentUnits, humanSummary,
 };
