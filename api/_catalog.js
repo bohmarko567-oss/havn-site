@@ -3,11 +3,13 @@
    re-prices the cart here, with the same rules the on-page cart shows.
    All amounts are integer cents. */
 
+/* subPlans = PER-MONTH cents by supply length (1/2/3-month boxes; the deeper
+   ladder motivates the bigger box). sub stays = subPlans[1] for old callers. */
 const CATALOG = {
-  rise:   { name: "HAVN Rise — Lion's Mane 1000mg",       n: 'N°01', img: 'rise_front.jpg',   one: 3800, sub: 3100 },
-  calm:   { name: 'HAVN Calm — Ashwagandha+ (KSM-66®)',   n: 'N°02', img: 'calm_front.jpg',   one: 3800, sub: 3100 },
-  rest:   { name: 'HAVN Rest — Magnesium Glycinate',      n: 'N°03', img: 'rest_front.jpg',   one: 3800, sub: 3100 },
-  steady: { name: 'HAVN Steady — Blood Sugar Drops',      n: 'N°04', img: 'steady_front.jpg', one: 1800, sub: 1500 },
+  rise:   { name: "HAVN Rise — Lion's Mane 1000mg",       n: 'N°01', img: 'rise_front.jpg',   one: 3800, sub: 3100, subPlans: { 1: 3100, 2: 3000, 3: 2800 } },
+  calm:   { name: 'HAVN Calm — Ashwagandha+ (KSM-66®)',   n: 'N°02', img: 'calm_front.jpg',   one: 3800, sub: 3100, subPlans: { 1: 3100, 2: 3000, 3: 2800 } },
+  rest:   { name: 'HAVN Rest — Magnesium Glycinate',      n: 'N°03', img: 'rest_front.jpg',   one: 3800, sub: 3100, subPlans: { 1: 3100, 2: 3000, 3: 2800 } },
+  steady: { name: 'HAVN Steady — Blood Sugar Drops',      n: 'N°04', img: 'steady_front.jpg', one: 1800, sub: 1500, subPlans: { 1: 1500, 2: 1400, 3: 1300 } },
 };
 
 /* Trio bundle: Rise+Calm+Rest. Sub $93 = exactly 3×$31 (collapse-neutral),
@@ -17,10 +19,11 @@ const CATALOG = {
 const TRIO = {
   one: 11400,
   sub: 9300,
-  /* multi-month supply per delivery: 2/3-month boxes land at $91/mo (−20% vs the
-     one-time anchor; 1-month stays the $93 collapse-neutral price). Totals are
-     whole dollars on purpose. Keys are months, values are cents PER DELIVERY. */
-  subPlans: { 1: 9300, 2: 18200, 3: 27300 },
+  /* multi-month supply per delivery: $93/mo (−18%) → $90/mo (−20%) → $84/mo
+     (−25% vs the $114 one-time anchor). Collapse-neutral on every tier: the
+     trio per-month price is exactly 3× the single per-month price. Keys are
+     months, values are cents PER DELIVERY. */
+  subPlans: { 1: 9300, 2: 18000, 3: 25200 },
   name: 'HAVN Complete Ritual — Rise + Calm + Rest',
   desc: 'The 4-piece daily ritual. Includes N°04 STEADY (Blood Sugar Drops, $18 value) FREE in every shipment.',
 };
@@ -63,7 +66,7 @@ function normalizeCart(raw) {
 function subtotalCents(cart, subscribe, months) {
   const m = subscribe ? planMonths(months) : 1;
   let total = cart.trio * (subscribe ? TRIO.subPlans[m] : TRIO.one);
-  for (const [id, q] of Object.entries(cart.singles)) total += q * CATALOG[id][subscribe ? 'sub' : 'one'] * m;
+  for (const [id, q] of Object.entries(cart.singles)) total += q * (subscribe ? CATALOG[id].subPlans[m] * m : CATALOG[id].one);
   return total;
 }
 
@@ -111,7 +114,7 @@ function lineItems(cart, subscribe, imgBase, months) {
       quantity: q,
       price_data: {
         currency: 'usd',
-        unit_amount: (subscribe ? p.sub : p.one) * m,
+        unit_amount: subscribe ? p.subPlans[m] * m : p.one,
         ...recurring,
         product_data: {
           name: p.name + cadence,

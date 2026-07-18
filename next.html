@@ -186,9 +186,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .om-cta s{font-size:.82em;opacity:.66;margin-right:1px;text-decoration-thickness:2px;}
 /* MONTHLY's ˅ + the supply-plan sticker menu it opens */
 .purchasebar{position:relative;}
-.finalmode .car{display:none;margin-left:4px;font-size:11px;line-height:1;vertical-align:-1px;transition:transform .15s ease;}
-.finalmode button.haspick.on .car{display:inline-block;}
-.finalmode button[aria-expanded="true"] .car{transform:rotate(180deg);}
+/* caret = drawn chevron (glyph ⌄ renders unreliably in Space Mono) */
+.car{display:none;width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(-1px,-1px);margin-left:6px;transition:transform .15s ease;flex:none;}
+button.haspick.on .car{display:inline-block;}
+.mini-car .car{display:inline-block;margin-left:0;}
+button[aria-expanded="true"] .car{transform:rotate(-135deg) translate(-2px,-2px);}
+.finalmode button{display:inline-flex;align-items:center;justify-content:center;}
+/* per-card supply caret in the what's-in-it section */
+.mini-car{width:42px;min-height:42px;border:2px solid var(--ink);border-radius:100px;background:#fff;color:var(--ink);cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.18);display:inline-flex;align-items:center;justify-content:center;padding:0;}
+.sku .row2{position:relative;}
+.sku .planpick{width:min(100%,340px);}
+.planpick.up{top:auto;bottom:calc(100% + 9px);}
+.modetoggle{position:relative;}
+.drawer-foot .planpick{top:auto;bottom:calc(100% + 8px);}
 .planpick{display:none;position:absolute;top:calc(100% + 9px);left:0;width:min(88vw,340px);background:#fff;border:2px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);padding:5px;z-index:40;}
 .planpick.open{display:block;}
 .planpick button{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;min-height:40px;border:0;border-radius:11px;background:transparent;color:var(--ink);font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;padding:0 12px;text-align:left;}
@@ -239,9 +249,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .sku .num{position:absolute;right:-2%;top:-10%;font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 125;font-size:clamp(130px,24vw,240px);line-height:1;color:transparent;-webkit-text-stroke:2px rgba(30,25,19,.10);pointer-events:none;user-select:none;}
 .sku .ph{position:relative;text-align:center;}
 /* the mockups hover — a slow levitation, staggered per card */
-.sku .ph img{--tilt:-4deg;height:clamp(220px,30vw,320px);filter:drop-shadow(0 22px 26px rgba(20,10,0,.24));transform:rotate(var(--tilt));animation:skulev 5.6s ease-in-out infinite;}
+.sku .ph img{--tilt:-4deg;height:clamp(220px,30vw,320px);filter:drop-shadow(0 22px 26px rgba(20,10,0,.24));transform:rotate(var(--tilt));animation:skulev 3.8s ease-in-out infinite;}
 .sku.rev .ph img{--tilt:4deg;}
-#p-calm .ph img{animation-delay:-1.4s;} #p-rest .ph img{animation-delay:-2.8s;} #p-steady .ph img{animation-delay:-4.2s;}
+#p-calm .ph img{animation-delay:-.95s;} #p-rest .ph img{animation-delay:-1.9s;} #p-steady .ph img{animation-delay:-2.85s;}
 @keyframes skulev{0%,100%{transform:rotate(var(--tilt)) translateY(0);}50%{transform:rotate(var(--tilt)) translateY(-10px);}}
 .sku .moment{font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:2.2px;text-transform:uppercase;}
 .sku h3{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 121;font-size:clamp(32px,6.5vw,48px);text-transform:uppercase;letter-spacing:-.5px;margin:3px 0 8px;}
@@ -485,7 +495,8 @@ footer a{color:inherit;}
 @media(min-width:1024px){
   .bottle{height:min(52vh,470px);}
   /* split scenes: text LEFT, mockup RIGHT (hero + all three solos) */
-  .beat.hero{left:27%;top:26%;width:min(42vw,560px);text-align:left;}
+  .beat.hero{left:27%;top:18%;width:min(42vw,560px);text-align:left;}
+  .beat.hero .planpick{top:auto;bottom:calc(100% + 9px);}   /* desktop: open upward, clear of the fold */
   .beat.hero p{margin-left:0;}
   .beat.solo{left:26%;top:30%;width:min(38vw,520px);text-align:left;}
   .beat.solo p{margin-left:0;}
@@ -564,7 +575,7 @@ footer a{color:inherit;}
       <div class="plus">+ the 4th piece, always free</div>
       <div class="purchasebar">
         <div class="finalmode" role="group" aria-label="Purchase frequency">
-          <button id="hMonthly" class="on" type="button" aria-pressed="true" aria-haspopup="true" aria-expanded="false" onclick="monthlyTap('h')">Monthly<span class="car" aria-hidden="true">⌄</span></button>
+          <button id="hMonthly" class="on" type="button" aria-pressed="true" aria-haspopup="true" aria-expanded="false" onclick="monthlyTap('h')">Monthly<span class="car" aria-hidden="true"></span></button>
           <button id="hOnce" type="button" aria-pressed="false" onclick="setMode(false)">Once</button>
         </div>
         <button class="om-cta" id="heroBtn" onclick="addTrio()">Complete ritual · $93</button>
@@ -623,7 +634,7 @@ footer a{color:inherit;}
       </ul>
       <div class="purchasebar">
         <div class="finalmode" role="group" aria-label="Purchase frequency">
-          <button id="fMonthly" class="on" type="button" aria-pressed="true" aria-haspopup="true" aria-expanded="false" onclick="monthlyTap('f')">Monthly<span class="car" aria-hidden="true">⌄</span></button>
+          <button id="fMonthly" class="on" type="button" aria-pressed="true" aria-haspopup="true" aria-expanded="false" onclick="monthlyTap('f')">Monthly<span class="car" aria-hidden="true"></span></button>
           <button id="fOnce" type="button" aria-pressed="false" onclick="setMode(false)">Once</button>
         </div>
         <button class="om-cta" id="offerBtn" onclick="addTrio()">Complete ritual · $93</button>
@@ -665,6 +676,8 @@ footer a{color:inherit;}
         <div class="row2">
           <button class="lbl-btn" onclick="openLabel('rise')">See the label</button>
           <button class="add-btn" data-sku="rise" onclick="addSku('rise')">+ Add</button>
+          <button class="mini-car" id="mc-rise" aria-haspopup="true" aria-expanded="false" aria-label="Supply length" onclick="pickTap('pp-rise','mc-rise')"><span class="car" aria-hidden="true"></span></button>
+          <div class="planpick up" id="pp-rise" data-kind="single" role="radiogroup" aria-label="Supply length"></div>
         </div>
       </div>
     </div>
@@ -685,6 +698,8 @@ footer a{color:inherit;}
         <div class="row2">
           <button class="lbl-btn" onclick="openLabel('calm')">See the label</button>
           <button class="add-btn" data-sku="calm" onclick="addSku('calm')">+ Add</button>
+          <button class="mini-car" id="mc-calm" aria-haspopup="true" aria-expanded="false" aria-label="Supply length" onclick="pickTap('pp-calm','mc-calm')"><span class="car" aria-hidden="true"></span></button>
+          <div class="planpick up" id="pp-calm" data-kind="single" role="radiogroup" aria-label="Supply length"></div>
         </div>
       </div>
     </div>
@@ -704,6 +719,8 @@ footer a{color:inherit;}
         <div class="row2">
           <button class="lbl-btn" onclick="openLabel('rest')">See the label</button>
           <button class="add-btn" data-sku="rest" onclick="addSku('rest')">+ Add</button>
+          <button class="mini-car" id="mc-rest" aria-haspopup="true" aria-expanded="false" aria-label="Supply length" onclick="pickTap('pp-rest','mc-rest')"><span class="car" aria-hidden="true"></span></button>
+          <div class="planpick up" id="pp-rest" data-kind="single" role="radiogroup" aria-label="Supply length"></div>
         </div>
       </div>
     </div>
@@ -724,6 +741,8 @@ footer a{color:inherit;}
         <div class="row2">
           <button class="lbl-btn" onclick="openLabel('steady')">See the label</button>
           <button class="add-btn" data-sku="steady" onclick="addSku('steady')">+ Add</button>
+          <button class="mini-car" id="mc-steady" aria-haspopup="true" aria-expanded="false" aria-label="Supply length" onclick="pickTap('pp-steady','mc-steady')"><span class="car" aria-hidden="true"></span></button>
+          <div class="planpick up" id="pp-steady" data-kind="steady" role="radiogroup" aria-label="Supply length"></div>
         </div>
       </div>
     </div>
@@ -780,7 +799,7 @@ footer a{color:inherit;}
     <div class="sec-head"><div class="eyebrow">Questions</div><h2>FAQ</h2></div>
     <div class="faq">
       <details open><summary>What is the 4th piece?</summary><p>STEADY — N°04, our Normal Blood Sugar Drops. Six botanicals in a daily 2ml dropper to support healthy energy metabolism*. On its own it's $18 — free with every complete-ritual order, every month you stay subscribed.</p></details>
-      <details><summary>How does the subscription work?</summary><p>One delivery a month: Rise, Calm, Rest — and STEADY riding along free. $93/mo (or one-time, $114 — switch in the cart). Want fewer boxes? Pick a 2- or 3-month supply under MONTHLY and the price drops to $91/mo — 20% off the one-time rate, one STEADY free per month of supply. Skip a delivery, swap a formula or cancel from the link in any receipt, at least 48h before renewal. No calls, no fees.</p></details>
+      <details><summary>How does the subscription work?</summary><p>One delivery a month: Rise, Calm, Rest — and STEADY riding along free. $93/mo (or one-time, $114 — switch in the cart). Want a better rate? Pick your supply under MONTHLY: a 2-month box lands at $90/mo (−20%), a 3-month box at $84/mo (−25%) — and one STEADY comes free per month of supply. Skip a delivery, swap a formula or cancel from the link in any receipt, at least 48h before renewal. No calls, no fees.</p></details>
       <details><summary>Can I actually cancel anytime?</summary><p>Yes — two taps from any receipt, and the subscription ends with the current month. Nothing to return, nobody to argue with. The only thing you give up is the free STEADY.</p></details>
       <details><summary>Shipping &amp; returns?</summary><p>Subscriptions always ship free in the U.S. One-time orders ship free at $79+, otherwise $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
       <details><summary>When will I feel a difference?</summary><p>Honest answer: Rest and Calm often land within days. Rise builds over 2–4 weeks of daily use — that's exactly why the first order carries the guarantee. Give it the month; it costs you nothing if it's not for you.</p></details>
@@ -807,8 +826,9 @@ footer a{color:inherit;}
   <div class="cart-items" id="cartItems"></div>
   <div class="drawer-foot">
     <div class="modetoggle" role="group" aria-label="Purchase type">
-      <button id="mSub" class="mt on" onclick="setMode(true)" aria-pressed="true">SUBSCRIBE &amp; SAVE 15%</button>
+      <button id="mSub" class="mt on" onclick="drawerSubTap()" aria-pressed="true" aria-haspopup="true" aria-expanded="false">SUBSCRIBE &amp; SAVE<span class="car" aria-hidden="true"></span></button>
       <button id="mOne" class="mt" onclick="setMode(false)" aria-pressed="false">ONE-TIME</button>
+      <div class="planpick" id="mPlanPick" data-kind="trio" role="radiogroup" aria-label="Supply length"></div>
     </div>
     <div class="gift-line" id="giftLine" role="status">🎁 <span>STEADY unlocked — <s>$18</s> <b>FREE</b> in this order</span></div>
     <div class="row"><span>Subtotal</span><span id="subtotal">$0</span></div>
@@ -863,9 +883,15 @@ footer a{color:inherit;}
 const $ = id => document.getElementById(id);
 /* keep in sync with api/_catalog.js */
 const P2 = { one:{single:38, trio:114, steady:18}, sub:{single:31, trio:93, steady:15} };
-/* supply plans (subscription only) — keep in sync with TRIO.subPlans server-side.
-   total = per delivery; anchor = one-time equivalent (the crossed price). */
-const PLANM = { 1:{total:93, anchor:114, pm:93, tag:''}, 2:{total:182, anchor:228, pm:91, tag:'−20%'}, 3:{total:273, anchor:342, pm:91, tag:'−20%'} };
+/* supply plans (subscription only) — keep in sync with the server catalog.
+   pm = per-month price; the ladder motivates longer supply. Collapse-neutral by
+   construction: trio pm is exactly 3× the single pm on every tier. */
+const PLANP = {
+  trio:   {1:{pm:93, tag:'−18%'}, 2:{pm:90, tag:'−20%'}, 3:{pm:84, tag:'−25%'}},
+  single: {1:{pm:31, tag:'−18%'}, 2:{pm:30, tag:'−20%'}, 3:{pm:28, tag:'−25%'}},
+  steady: {1:{pm:15, tag:'−15%'}, 2:{pm:14, tag:'−20%'}, 3:{pm:13, tag:'−25%'}},
+};
+const PLANM = m => ({ total: PLANP.trio[m].pm*m, anchor: 114*m, pm: PLANP.trio[m].pm, tag: PLANP.trio[m].tag });
 let planMonths = 1;
 try{ const m = parseInt(localStorage.getItem('havn_plan')||'1',10); if([1,2,3].includes(m)) planMonths = m; }catch(e){}
 const PROMO_PCT = 15; /* the floating-circle code — applies to subscription orders */
@@ -882,10 +908,10 @@ window.havnEvents = window.havnEvents || [];
 function track(n,p){ try{ window.havnEvents.push({name:n,props:p||{},t:Date.now()}); if(window.plausible) plausible(n,{props:p||{}}); }catch(e){} }
 
 const fmt = n => Number.isInteger(n) ? '$'+n : '$'+n.toFixed(2);
-const priceSingle = id => subscribe ? (id==='steady'?P2.sub.steady:P2.sub.single) : (id==='steady'?P2.one.steady:P2.one.single);
+const priceSingle = id => subscribe ? PLANP[id==='steady'?'steady':'single'][planMonths].pm : (id==='steady'?P2.one.steady:P2.one.single);
 const planMult = () => subscribe ? planMonths : 1;
 const perLbl = () => subscribe ? (planMonths===1 ? '/mo' : ' / '+planMonths+' mo') : '';
-const trioPrice = () => subscribe ? PLANM[planMonths].total : P2.one.trio;
+const trioPrice = () => subscribe ? PLANM(planMonths).total : P2.one.trio;
 const itemCount = () => cart.trio*3 + Object.values(cart.singles).reduce((s,q)=>s+q,0);
 const hasSku = id => cart.trio>0 || cart.singles[id]>0;
 const complete = () => cart.trio>0;
@@ -968,7 +994,7 @@ function update(){
     b.textContent = has ? '✓ In the ritual' : `+ Add · ${fmt(priceSingle(id))}${subscribe?'/mo':''}`;
   });
   /* CTA: the deal is visible — crossed one-time anchor next to the plan price */
-  const pl = PLANM[planMonths];
+  const pl = PLANM(planMonths);
   const ctaHtml = subscribe
     ? (planMonths===1 ? `COMPLETE RITUAL · <s>$${pl.anchor}</s> $${pl.total}`
                       : `${planMonths}-MO RITUAL · <s>$${pl.anchor}</s> $${pl.total}`)
@@ -1005,30 +1031,38 @@ function setPlan(m){
   update();
   track('select_plan',{months:planMonths});
 }
-/* first tap turns MONTHLY on; a tap while already on opens the plan menu */
-function monthlyTap(which){
+/* first tap turns the mode on; a tap while already on opens the plan menu */
+function pickTap(pickId, btnId){
   if(!subscribe){ setMode(true); return; }
-  const p = $(which+'PlanPick'); if(!p) return;
+  const p = $(pickId); if(!p) return;
   const open = !p.classList.contains('open');
   closePlanPicks();
-  if(open){ p.classList.add('open'); $(which+'Monthly').setAttribute('aria-expanded','true'); }
+  if(open){ p.classList.add('open'); const b=$(btnId); if(b) b.setAttribute('aria-expanded','true'); }
 }
+function monthlyTap(which){ pickTap(which+'PlanPick', which+'Monthly'); }
+function drawerSubTap(){ pickTap('mPlanPick','mSub'); }
 function closePlanPicks(){
-  ['hPlanPick','fPlanPick'].forEach(id=>{ const p=$(id); if(p) p.classList.remove('open'); });
-  ['hMonthly','fMonthly'].forEach(id=>{ const b=$(id); if(b) b.setAttribute('aria-expanded','false'); });
+  document.querySelectorAll('.planpick.open').forEach(p=>p.classList.remove('open'));
+  document.querySelectorAll('button[aria-haspopup="true"]').forEach(b=>b.setAttribute('aria-expanded','false'));
 }
-function renderPlanPicks(){
-  const rows = [1,2,3].map(m=>{
-    const p = PLANM[m], on = m===planMonths;
+/* one plan, everywhere: hero + finale + cart (ritual pricing) and the four
+   deep-dive cards (that SKU's per-month price). All rows carry the discount. */
+function planRows(kind){
+  const table = PLANP[kind] || PLANP.trio;
+  return [1,2,3].map(m=>{
+    const p = table[m], on = m===planMonths;
     return `<button role="radio" aria-checked="${on}" class="${on?'on':''}" onclick="setPlan(${m})">
       <span>${m===1?'1 MONTH':m+' MONTHS'}</span>
-      <span class="pp-p">$${p.pm}/MO${p.tag?` <b>${p.tag}</b>`:''}</span></button>`;
+      <span class="pp-p">$${p.pm}/MO <b>${p.tag}</b></span></button>`;
   }).join('');
-  ['hPlanPick','fPlanPick'].forEach(id=>{ const p=$(id); if(p) p.innerHTML = rows; });
-  ['hMonthly','fMonthly'].forEach(id=>{ const b=$(id); if(b) b.classList.toggle('haspick', subscribe); });
+}
+function renderPlanPicks(){
+  document.querySelectorAll('.planpick').forEach(p=>{ p.innerHTML = planRows(p.dataset.kind||'trio'); });
+  ['hMonthly','fMonthly','mSub'].forEach(id=>{ const b=$(id); if(b) b.classList.toggle('haspick', subscribe); });
+  document.querySelectorAll('.mini-car').forEach(b=>{ b.style.display = subscribe ? '' : 'none'; });
 }
 document.addEventListener('click', e=>{
-  if(!e.target.closest('.planpick') && !e.target.closest('#hMonthly') && !e.target.closest('#fMonthly')) closePlanPicks();
+  if(!e.target.closest('.planpick') && !e.target.closest('button[aria-haspopup="true"]')) closePlanPicks();
 });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePlanPicks(); });
 function addSku(id){ cart.singles[id]++; update(); openCart(); track('add_to_cart',{sku:id, via:'planB'}); }
