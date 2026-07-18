@@ -202,7 +202,9 @@ button[aria-expanded="true"] .car{transform:rotate(-135deg) translate(-2px,-2px)
 .sku .planpick{width:min(100%,340px);}
 .planpick.up{top:auto;bottom:calc(100% + 9px);}
 .modetoggle{position:relative;}
-.drawer-foot .planpick{top:auto;bottom:calc(100% + 8px);}
+/* drawer menu: as wide as the SUBSCRIBE & SAVE button itself, length + save only */
+.drawer-foot .planpick{top:auto;bottom:calc(100% + 8px);width:calc(50% - 3px);left:0;}
+.drawer-foot .planpick button{min-height:36px;font-size:10px;padding:0 10px;}
 .planpick{display:none;position:absolute;top:calc(100% + 9px);left:0;width:min(88vw,340px);background:#fff;border:2px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);padding:5px;z-index:40;}
 .planpick.open{display:block;}
 .planpick button{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;min-height:40px;border:0;border-radius:11px;background:transparent;color:var(--ink);font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;padding:0 12px;text-align:left;}
@@ -269,7 +271,6 @@ button[aria-expanded="true"] .car{transform:rotate(-135deg) translate(-2px,-2px)
 .sku .row2{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
 .sku .lbl-btn{border:2px solid var(--ink);background:transparent;color:var(--ink);border-radius:100px;min-height:42px;padding:0 18px;font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.4px;}
 .sku .add-btn{border:0;border-radius:100px;background:var(--ink);color:var(--cream);min-height:42px;padding:0 18px;font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.4px;box-shadow:0 4px 0 rgba(0,0,0,.18);}
-.sku .add-btn.has{background:var(--calm2);}
 .whats .foot{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;margin-top:6px;line-height:1.7;}
 
 /* a day on HAVN — the ritual as a timeline */
@@ -417,7 +418,6 @@ footer a{color:inherit;}
 .pwrap.open{display:flex;}
 .pcircle{position:relative;width:min(88vw,400px);aspect-ratio:1;border-radius:50%;background:var(--cream);border:3px solid var(--ink);box-shadow:0 14px 34px rgba(0,0,0,.4), inset 0 0 0 9px var(--cream), inset 0 0 0 11px var(--berry);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:36px;animation:circpop .5s var(--ease);}
 @keyframes circpop{0%{transform:scale(.35);opacity:0}70%{transform:scale(1.05)}100%{transform:scale(1)}}
-.pcircle .px{position:absolute;top:7%;right:13%;background:none;border:0;font-size:22px;color:var(--muted);cursor:pointer;padding:6px 8px;}
 .pcircle .pc-eyebrow{font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
 .pcircle .pc-big{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 122;font-size:clamp(40px,11vw,56px);line-height:.95;color:var(--rise);text-transform:uppercase;margin:6px 0 2px;}
 .pcircle .pc-sub{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 114;font-size:14.5px;text-transform:uppercase;margin-bottom:14px;}
@@ -833,7 +833,7 @@ footer a{color:inherit;}
     <div class="modetoggle" role="group" aria-label="Purchase type">
       <button id="mSub" class="mt on" onclick="drawerSubTap()" aria-pressed="true" aria-haspopup="true" aria-expanded="false">SUBSCRIBE &amp; SAVE<span class="car" aria-hidden="true"></span></button>
       <button id="mOne" class="mt" onclick="setMode(false)" aria-pressed="false">ONE-TIME</button>
-      <div class="planpick" id="mPlanPick" data-kind="trio" role="radiogroup" aria-label="Supply length"></div>
+      <div class="planpick" id="mPlanPick" data-kind="bare" role="radiogroup" aria-label="Supply length"></div>
     </div>
     <div class="gift-line" id="giftLine" role="status">🎁 <span>STEADY unlocked — <s>$18</s> <b>FREE</b> in this order</span></div>
     <div class="row"><span>Subtotal</span><span id="subtotal">$0</span></div>
@@ -869,7 +869,6 @@ footer a{color:inherit;}
 </button>
 <div class="pwrap" id="pwrap" onclick="if(event.target===this)promoClose()">
   <div class="pcircle" role="dialog" aria-modal="true" aria-label="Get 15% off your first order">
-    <button class="px" aria-label="Close offer" onclick="promoClose()">×</button>
     <div class="pc-eyebrow">First order · single-use code</div>
     <div class="pc-big">15% off</div>
     <div class="pc-sub">your first ritual</div>
@@ -1053,12 +1052,15 @@ function closePlanPicks(){
 /* one plan, everywhere: hero + finale + cart (ritual pricing) and the four
    deep-dive cards (that SKU's per-month price). All rows carry the discount. */
 function planRows(kind){
+  /* 'bare' (cart drawer): no prices — the cart may hold any mix, so rows show
+     only the supply length + the save. Floors of each tier, never overstated. */
+  const BARE = {1:'−15%', 2:'−20%', 3:'−25%'};
   const table = PLANP[kind] || PLANP.trio;
   return [1,2,3].map(m=>{
-    const p = table[m], on = m===planMonths;
+    const on = m===planMonths, lbl = m===1?'1 MONTH':m+' MONTHS';
+    const price = kind==='bare' ? `<b>${BARE[m]}</b>` : `$${table[m].pm}/MO <b>${table[m].tag}</b>`;
     return `<button role="radio" aria-checked="${on}" class="${on?'on':''}" onclick="setPlan(${m})">
-      <span>${m===1?'1 MONTH':m+' MONTHS'}</span>
-      <span class="pp-p">$${p.pm}/MO <b>${p.tag}</b></span></button>`;
+      <span>${lbl}</span><span class="pp-p">${price}</span></button>`;
   }).join('');
 }
 function renderPlanPicks(){
