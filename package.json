@@ -2,10 +2,11 @@
   "name": "havn-site",
   "private": true,
   "version": "1.0.0",
-  "description": "HAVN storefront — static Spectrum site + Vercel serverless Stripe checkout + white-label fulfillment pipeline",
+  "description": "HAVN storefront with a static front end and fail-closed Vercel Stripe checkout",
   "engines": { "node": ">=20" },
   "scripts": {
-    "dev": "node server.local.js"
+    "dev": "node server.local.js",
+    "test": "node --test tests/*.test.js"
   },
   "dependencies": {
     "stripe": "^18.0.0"

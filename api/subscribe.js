@@ -2,9 +2,9 @@
    Body: { email, source, promo:true? }
 
    promo:true → mints a UNIQUE 10%-off code for this signup:
-   single-use (max_redemptions 1), first order only, expires in 30 days,
+   single-use (max_redemptions 1), first subscription invoice only, expires in 30 days,
    branded HAVN10-XXXX. Real Stripe promotion code when STRIPE_SECRET_KEY is
-   set; HAVN10-DEMO in demo mode. The code is returned to the page instantly
+   set; HAVN10-DEMO in demo mode. The code is returned in the response
    (shown on screen), so it works even before customer emails are possible.
 
    NOTE: coupon id is HAVN10, not HAVN15 — the old 15% coupon still exists in
@@ -14,6 +14,11 @@ const { sendEmail, esc } = require('./_email.js');
 
 const COUPON_ID = 'HAVN10';           /* the shared 10% coupon behind every unique code */
 const CODE_TTL_DAYS = 30;
+
+function configuredOrigin() {
+  try { return process.env.SITE_URL ? new URL(process.env.SITE_URL).origin : null; }
+  catch { return null; }
+}
 
 /* light per-instance rate limit — serverless instances are ephemeral, but this
    still blunts single-source spam against code minting + owner emails */
@@ -45,14 +50,18 @@ function suffix(n) { /* unambiguous A-Z/2-9, no 0/O/1/I */
 }
 
 async function mintUniqueCode(stripe, email, source) {
-  try { await stripe.coupons.retrieve(COUPON_ID); }
+  let coupon;
+  try { coupon = await stripe.coupons.retrieve(COUPON_ID); }
   catch {
-    await stripe.coupons.create({
+    coupon = await stripe.coupons.create({
       id: COUPON_ID, percent_off: 10, duration: 'once', name: 'HAVN welcome 10%',
     }).catch(async (e) => {
       /* lost a create race or transient — one re-check before giving up */
-      try { await stripe.coupons.retrieve(COUPON_ID); } catch { throw e; }
+      try { return await stripe.coupons.retrieve(COUPON_ID); } catch { throw e; }
     });
+  }
+  if (!coupon || coupon.percent_off !== 10 || coupon.duration !== 'once' || coupon.valid === false) {
+    throw new Error('HAVN10 coupon configuration does not match the advertised 10% first-invoice offer');
   }
   for (let attempt = 0; attempt < 3; attempt++) {
     const code = 'HAVN10-' + suffix(4);
@@ -62,7 +71,6 @@ async function mintUniqueCode(stripe, email, source) {
         code,
         max_redemptions: 1,
         expires_at: Math.floor(Date.now() / 1000) + CODE_TTL_DAYS * 86400,
-        restrictions: { first_time_transaction: true },
         metadata: { email, source },
       });
       return pc.code;
@@ -75,7 +83,7 @@ async function mintUniqueCode(stripe, email, source) {
 module.exports = async (req, res) => {
   /* only the site itself may call this from a browser */
   const allowed = [
-    process.env.SITE_URL && process.env.SITE_URL.replace(/\/$/, ''),
+    configuredOrigin(),
     'https://bohmarko567-oss.github.io',
   ].filter(Boolean);
   const origin = req.headers.origin;
@@ -90,12 +98,13 @@ module.exports = async (req, res) => {
   const ip = String(req.headers['x-forwarded-for'] || req.socket && req.socket.remoteAddress || '').split(',')[0].trim();
   if (rateLimited(ip)) { res.statusCode = 429; return res.end(JSON.stringify({ error: 'slow down' })); }
 
-  let email = '', source = '', promo = false;
+  let email = '', source = '', promo = false, marketingConsent = false;
   try {
     const b = await readJson(req);
     email = String(b.email || '').trim();
     source = String(b.source || 'site').replace(/[^\w.-]/g, '').slice(0, 40);
     promo = !!b.promo;
+    marketingConsent = b.marketingConsent === true;
   } catch { res.statusCode = 400; return res.end(JSON.stringify({ error: 'bad JSON' })); }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
     res.statusCode = 400; return res.end(JSON.stringify({ error: 'invalid email' }));
@@ -104,17 +113,30 @@ module.exports = async (req, res) => {
   /* 1 · unique code (when asked for one) */
   let code = null, demo = false;
   if (promo) {
-    if (!process.env.STRIPE_SECRET_KEY) { code = 'HAVN10-DEMO'; demo = true; }
+    if (!process.env.STRIPE_SECRET_KEY) {
+      if (process.env.VERCEL_ENV === 'production' || process.env.NODE_ENV === 'production') {
+        res.statusCode = 503;
+        res.setHeader('Content-Type', 'application/json');
+        return res.end(JSON.stringify({ error: 'promo_unavailable' }));
+      }
+      code = 'HAVN10-DEMO'; demo = true;
+    }
     else {
       try { code = await mintUniqueCode(require('stripe')(process.env.STRIPE_SECRET_KEY), email, source); }
-      catch (e) { console.error('promo code mint failed:', e.message || e); } /* page shows graceful copy */
+      catch (e) {
+        console.error('promo code mint failed:', e.message || e);
+        res.statusCode = 503;
+        res.setHeader('Content-Type', 'application/json');
+        return res.end(JSON.stringify({ error: 'promo_unavailable' }));
+      }
     }
   }
 
-  /* 2 · store the contact (Resend audience if configured) */
+  /* 2 · only store a marketing contact when the caller supplies separate,
+     affirmative marketing consent. Requesting a discount code is not consent. */
   let stored = false;
   const key = process.env.RESEND_API_KEY, aud = process.env.RESEND_AUDIENCE_ID;
-  if (key && aud) {
+  if (key && aud && marketingConsent) {
     try {
       const r = await fetch(`https://api.resend.com/audiences/${aud}/contacts`, {
         method: 'POST',
@@ -130,11 +152,11 @@ module.exports = async (req, res) => {
     await sendEmail({
       to: process.env.OWNER_EMAIL,
       subject: (promo ? '🎟️ HAVN promo signup: ' : '✉️ HAVN signup: ') + email,
-      html: `<p><b>${esc(email)}</b> via <i>${esc(source)}</i>${code ? ` — code <b>${esc(code)}</b> (single-use, first order, ${CODE_TTL_DAYS}d)` : ''}.</p>`,
+      html: `<p><b>${esc(email)}</b> via <i>${esc(source)}</i>${code ? ` — code <b>${esc(code)}</b> (single-use, first subscription invoice, ${CODE_TTL_DAYS}d)` : ''}.</p>`,
     });
   }
 
   console.log('HAVN SIGNUP', JSON.stringify({ email, source, promo, code, stored }));
   res.setHeader('Content-Type', 'application/json');
-  return res.end(JSON.stringify({ ok: true, stored, code, demo }));
+  return res.end(JSON.stringify({ ok: true, stored, code, percent: code ? 10 : null, demo }));
 };

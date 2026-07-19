@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 1100" role="img" aria-labelledby="t d">
+  <title id="t">HAVN Rise label review status</title>
+  <desc id="d">Known audit facts and unresolved label information. This is not a final Supplement Facts panel.</desc>
+  <rect width="860" height="1100" fill="#fff"/>
+  <rect x="34" y="34" width="792" height="1032" fill="none" stroke="#111" stroke-width="8"/>
+  <text x="72" y="112" font-family="Arial Black, Arial, sans-serif" font-size="49" font-weight="900">RISE · LABEL REVIEW</text>
+  <text x="72" y="157" font-family="Arial, sans-serif" font-size="22" font-weight="700">LOCAL PRODUCT AUDIT · RECORD DATED 2026-07-15</text>
+  <line x1="70" y1="187" x2="790" y2="187" stroke="#111" stroke-width="16"/>
+  <text x="72" y="247" font-family="Arial, sans-serif" font-size="27" font-weight="700">KNOWN FROM THE AUDIT</text>
+  <text x="90" y="302" font-family="Arial, sans-serif" font-size="25">• Product: Lion's Mane Mushroom Capsules</text>
+  <text x="90" y="352" font-family="Arial, sans-serif" font-size="25">• Primary serving: 2 capsules daily</text>
+  <text x="90" y="402" font-family="Arial, sans-serif" font-size="25">• 30 primary servings · 60 capsules</text>
+  <text x="90" y="452" font-family="Arial, sans-serif" font-size="25">• Organic Lion's Mane, fruiting body + mycelium</text>
+  <text x="90" y="502" font-family="Arial, sans-serif" font-size="25">• Standardized to 40% polysaccharides</text>
+  <line x1="70" y1="548" x2="790" y2="548" stroke="#111" stroke-width="5"/>
+  <rect x="70" y="585" width="720" height="220" rx="18" fill="#fff0e6" stroke="#c4440a" stroke-width="4"/>
+  <text x="100" y="642" fill="#8a2d04" font-family="Arial, sans-serif" font-size="28" font-weight="800">UNKNOWN — FINAL AMOUNT BASIS</text>
+  <text x="100" y="700" fill="#361407" font-family="Arial, sans-serif" font-size="23">The exact mass basis and the fruiting-body-to-mycelium</text>
+  <text x="100" y="738" fill="#361407" font-family="Arial, sans-serif" font-size="23">ratio are unresolved in the local audit. The legacy</text>
+  <text x="100" y="776" fill="#361407" font-family="Arial, sans-serif" font-size="23">1,000 mg / [400 mg] artwork is therefore withheld.</text>
+  <line x1="70" y1="855" x2="790" y2="855" stroke="#111" stroke-width="5"/>
+  <text x="72" y="917" font-family="Arial, sans-serif" font-size="26" font-weight="800">NOT FINAL LABELING</text>
+  <text x="72" y="962" font-family="Arial, sans-serif" font-size="23">Checkout remains gated until compliant final label art</text>
+  <text x="72" y="998" font-family="Arial, sans-serif" font-size="23">and the amount presentation are reviewed and approved.</text>
+  <text x="72" y="1038" font-family="monospace" font-size="17">Source: local Supliful audit only · no live refresh</text>
+</svg>

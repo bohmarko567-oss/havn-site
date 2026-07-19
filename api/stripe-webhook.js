@@ -12,11 +12,13 @@
 
    Signature verification needs the RAW body — bodyParser stays off. */
 
-const { normalizeCart, fulfillmentUnits, humanSummary } = require('./_catalog.js');
-const { sendEmail, ownerOrderEmail } = require('./_email.js');
+const { normalizeCart, shippingEligibility, fulfillmentUnits, humanSummary } = require('./_catalog.js');
+const { sendEmail, ownerOrderEmail, esc } = require('./_email.js');
 const shopify = require('./_shopify.js');
 
 module.exports.config = { api: { bodyParser: false } };
+
+const TERMINAL_FULFILLMENT_STATES = new Set(['handled', 'refunded']);
 
 async function readRaw(req) {
   if (typeof req.body === 'string') return Buffer.from(req.body);
@@ -29,49 +31,95 @@ async function readRaw(req) {
 function cartFromMetadata(md) {
   try {
     const c = JSON.parse((md && md.havn_cart) || '');
-    return { cart: normalizeCart({ trio: c.t, singles: c.s }), subscribe: !!c.sub, months: [1,2,3].includes(c.m) ? c.m : 1 };
+    const cart = normalizeCart({ trio: c.t, singles: c.s });
+    if (cart.overflow || cart.count <= 0) return null;
+    return { cart, subscribe: !!c.sub, months: [1,2,3].includes(c.m) ? c.m : 1 };
   } catch { return null; }
 }
 
-/* server-side conversion event → Plausible (set PLAUSIBLE_DOMAIN to enable).
-   This is the reliable purchase signal for the funnel — it fires even when
-   the customer never returns to the success page. */
-async function trackPurchase(order) {
-  const domain = process.env.PLAUSIBLE_DOMAIN;
-  if (!domain) return;
-  try {
-    await fetch('https://plausible.io/api/event', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'User-Agent': 'havn-server/1.0' },
-      body: JSON.stringify({
-        name: 'purchase',
-        url: 'https://' + domain + '/success.html',
-        domain,
-        props: { kind: order.kind, summary: (order.summary || '').slice(0, 100), subscription: !!order.subscribe },
-        revenue: { currency: 'USD', amount: (order.amountTotal / 100).toFixed(2) },
-      }),
-    });
-  } catch (e) { console.warn('plausible event failed:', e.message || e); }
+function fulfillmentState(object) {
+  return object && object.metadata && object.metadata.havn_fulfillment_status;
+}
+
+async function currentStripeObject(stripe, type, object) {
+  if (type === 'session') return stripe.checkout.sessions.retrieve(object.id);
+  return stripe.invoices.retrieve(object.id);
+}
+
+async function markStripeObject(stripe, type, id, status) {
+  const metadata = {
+    havn_fulfillment_status: status,
+    havn_fulfillment_at: new Date().toISOString(),
+  };
+  if (type === 'session') return stripe.checkout.sessions.update(id, { metadata });
+  return stripe.invoices.update(id, { metadata });
 }
 
 async function handleOrder(order) {
   console.log('HAVN ORDER', JSON.stringify(order));
-  await trackPurchase(order);
   const emailRes = await sendEmail({
     to: process.env.OWNER_EMAIL,
     subject: (order.kind === 'renewal' ? '🔁 HAVN renewal — ship it: ' : '🟠 NEW HAVN ORDER — ship it: ') + (order.summary || order.id),
     html: ownerOrderEmail(order),
+    idempotencyKey: 'havn-owner-order/' + order.id,
   });
   if (!emailRes.sent) console.warn('owner email not sent:', emailRes.reason);
+  let shopifyRes = { pushed: false, reason: 'shopify bridge disabled' };
   if (shopify.enabled()) {
     try {
-      const pushed = await shopify.pushOrder(order);
-      console.log('shopify bridge:', JSON.stringify(pushed));
+      shopifyRes = await shopify.pushOrder(order);
+      console.log('shopify bridge:', JSON.stringify(shopifyRes));
+      if (!shopifyRes.pushed) console.warn('shopify bridge did not accept order:', shopifyRes.reason);
     } catch (e) {
       console.error('shopify bridge failed (order still emailed/logged):', e.message || e);
     }
   }
-  return emailRes;
+  if (!emailRes.sent && !shopifyRes.pushed) {
+    throw new Error('no operational fulfillment path accepted order ' + order.id);
+  }
+  return { email: emailRes, shopify: shopifyRes };
+}
+
+/* Hosted Checkout still lets a customer change the address after the on-site
+   state pre-check. Revalidate Stripe's final address before fulfillment. If it
+   no longer qualifies, stop the subscription and refund the captured payment
+   with an idempotency key so webhook retries cannot double-refund. */
+async function stopIneligibleOrder(stripe, payment) {
+  if (payment.subscription) {
+    try { await stripe.subscriptions.cancel(payment.subscription, { prorate: false }); }
+    catch (e) { if (e.statusCode !== 404) throw e; }
+  }
+  let paymentIntent = payment.paymentIntent || null;
+  let charge = payment.charge || null;
+  if (!paymentIntent && !charge && payment.invoice) {
+    const invoice = await stripe.invoices.retrieve(payment.invoice);
+    paymentIntent = invoice.payment_intent || null;
+    charge = invoice.charge || null;
+  }
+  const refundArgs = paymentIntent
+    ? { payment_intent: typeof paymentIntent === 'string' ? paymentIntent : paymentIntent.id }
+    : charge ? { charge: typeof charge === 'string' ? charge : charge.id } : null;
+  if (!refundArgs) throw new Error('ineligible order has no refundable payment reference');
+  const refund = await stripe.refunds.create(
+    { ...refundArgs, reason: 'requested_by_customer', metadata: { havn_reason: payment.reason, havn_order: payment.id } },
+    { idempotencyKey: 'havn-ineligible-' + payment.id }
+  );
+  console.error('HAVN INELIGIBLE REFUNDED', JSON.stringify({ id: payment.id, reason: payment.reason, refund: refund.id }));
+  const notice = `<p>Order <b>${esc(payment.id)}</b> was stopped and refunded before fulfillment.</p><p>Reason: <b>${esc(payment.reason)}</b>.</p>`;
+  await sendEmail({
+    to: process.env.OWNER_EMAIL,
+    subject: 'HAVN order stopped and refunded',
+    html: notice,
+    idempotencyKey: 'havn-owner-refund/' + payment.id,
+  });
+  if (payment.customerEmail) {
+    await sendEmail({
+      to: payment.customerEmail,
+      subject: 'Your HAVN order was refunded',
+      html: `<p>Your HAVN order could not be shipped to the final delivery address. It was stopped before fulfillment and refunded through Stripe.</p><p>Reference: ${esc(payment.id)}</p>`,
+      idempotencyKey: 'havn-customer-refund/' + payment.id,
+    });
+  }
 }
 
 module.exports = async (req, res) => {
@@ -95,15 +143,36 @@ module.exports = async (req, res) => {
 
   try {
     if (event.type === 'checkout.session.completed') {
-      const session = event.data.object;
+      let session = event.data.object;
+      session = await currentStripeObject(stripe, 'session', session);
+      if (TERMINAL_FULFILLMENT_STATES.has(fulfillmentState(session))) {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        return res.end(JSON.stringify({ received: true, skipped: 'already handled' }));
+      }
       if (session.payment_status && session.payment_status !== 'paid' && session.payment_status !== 'no_payment_required') {
         res.statusCode = 200; return res.end(JSON.stringify({ received: true, skipped: 'not paid yet' }));
       }
-      const parsed = cartFromMetadata(session.metadata) || { cart: normalizeCart({}), subscribe: session.mode === 'subscription' };
+      const parsed = cartFromMetadata(session.metadata);
+      if (!parsed) throw new Error(`checkout ${session.id}: cart metadata missing, invalid, or empty — do not fulfill blind`);
+      if ((session.mode === 'subscription') !== parsed.subscribe) {
+        throw new Error(`checkout ${session.id}: cart subscription metadata does not match session mode`);
+      }
       const cd = session.customer_details || {};
       const ship = session.shipping_details
         || (session.collected_information && session.collected_information.shipping_details)
         || { name: cd.name, address: cd.address };
+      const eligibility = shippingEligibility(ship && ship.address && ship.address.state, parsed.cart);
+      if (!eligibility.ok) {
+        await stopIneligibleOrder(stripe, {
+          id: session.id, reason: eligibility.reason, customerEmail: cd.email,
+          paymentIntent: session.payment_intent, invoice: session.invoice, subscription: session.subscription,
+        });
+        await markStripeObject(stripe, 'session', session.id, 'refunded');
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        return res.end(JSON.stringify({ received: true, refunded: eligibility.reason }));
+      }
       await handleOrder({
         kind: 'new',
         id: session.id,
@@ -114,26 +183,15 @@ module.exports = async (req, res) => {
         shipping: ship,
         subscribe: parsed.subscribe,
       });
-    } else if (event.type === 'checkout.session.expired') {
-      /* abandoned checkout — if they typed an email before leaving, the owner
-         gets the recovery link (deciding whether/how to follow up is a human
-         call — see GO_LIVE.md; don't auto-email customers without consent) */
-      const session = event.data.object;
-      const email = session.customer_details && session.customer_details.email;
-      const rec = session.after_expiration && session.after_expiration.recovery && session.after_expiration.recovery.url;
-      console.log('HAVN ABANDONED', JSON.stringify({ id: session.id, email: email || null, recovery: rec || null, summary: session.metadata && session.metadata.havn_summary }));
-      if (email && rec) {
-        await sendEmail({
-          to: process.env.OWNER_EMAIL,
-          subject: '🛒 Abandoned HAVN checkout — ' + email,
-          html: `<p><b>${email}</b> got to checkout but didn’t finish.</p>
-                 <p>Cart: ${(session.metadata && session.metadata.havn_summary) || '—'} · $${((session.amount_total || 0) / 100).toFixed(2)}</p>
-                 <p>Their checkout can be resumed for 30 days: <a href="${rec}">${rec}</a></p>
-                 <p style="color:#777">Manual follow-up only — no marketing consent was collected.</p>`,
-        });
-      }
+      await markStripeObject(stripe, 'session', session.id, 'handled');
     } else if (event.type === 'invoice.paid') {
-      const invoice = event.data.object;
+      let invoice = event.data.object;
+      invoice = await currentStripeObject(stripe, 'invoice', invoice);
+      if (TERMINAL_FULFILLMENT_STATES.has(fulfillmentState(invoice))) {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        return res.end(JSON.stringify({ received: true, skipped: 'already handled' }));
+      }
       if (invoice.billing_reason === 'subscription_cycle') {   /* month 2+ — month 1 is covered above */
         let md = (invoice.subscription_details && invoice.subscription_details.metadata) || null;
         if (!md && invoice.subscription) {
@@ -147,9 +205,21 @@ module.exports = async (req, res) => {
            failure stays loudly visible in the Stripe dashboard instead of shipping an empty box. */
         const parsed = cartFromMetadata(md);
         if (!parsed) throw new Error(`renewal ${invoice.id}: cart metadata unrecoverable — do not ship blind, look this subscription up in Stripe`);
+        if (!parsed.subscribe) throw new Error(`renewal ${invoice.id}: cart metadata is not a subscription — do not ship blind`);
         let ship = invoice.customer_shipping || null;
         if (!ship && invoice.customer) {
           try { const cust = await stripe.customers.retrieve(invoice.customer); ship = cust.shipping || null; } catch {}
+        }
+        const eligibility = shippingEligibility(ship && ship.address && ship.address.state, parsed.cart);
+        if (!eligibility.ok) {
+          await stopIneligibleOrder(stripe, {
+            id: invoice.id, reason: eligibility.reason, customerEmail: invoice.customer_email,
+            paymentIntent: invoice.payment_intent, charge: invoice.charge, invoice: invoice.id, subscription: invoice.subscription,
+          });
+          await markStripeObject(stripe, 'invoice', invoice.id, 'refunded');
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          return res.end(JSON.stringify({ received: true, refunded: eligibility.reason }));
         }
         await handleOrder({
           kind: 'renewal',
@@ -161,6 +231,7 @@ module.exports = async (req, res) => {
           shipping: ship,
           subscribe: true,
         });
+        await markStripeObject(stripe, 'invoice', invoice.id, 'handled');
       }
     }
     res.statusCode = 200;

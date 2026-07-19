@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-4-PIECE RITUAL scenarios — Steady included forever, no give-then-take.
+4-PIECE RITUAL scenarios — Steady included in each active subscription delivery.
 
 DECISION RECORD, dated 2026-07-19 — not a live model. This is the analysis that
 ARGUED FOR the four-piece change; it compares candidate ladders against the FORMER
@@ -44,7 +44,7 @@ print("\n=== FORMER MODEL: 3 mains + Steady as first-delivery gift ===")
 p, pct, pm = run(93.00, FOUR, 1);  print(f"  month 1 (gift)    $93.00  profit {p:6.2f}  {pct:4.1f}%")
 p, pct, pm = run(93.00, THREE, 1); print(f"  month 2+ (3 only) $93.00  profit {p:6.2f}  {pct:4.1f}%   <- the candy grab")
 
-print("\n=== YOUR IDEA: $99/mo, all four, forever ===")
+print("\n=== YOUR IDEA: $99/mo, all four in each active delivery ===")
 for m, rev in [(1, 99.00), (2, 192.00), (3, 276.00)]:
     p, pct, pm = run(rev, FOUR, m)
     print(f"  {m}-mo supply  ${rev:6.2f}/delivery  profit {p:7.2f}  {pct:4.1f}%   ${pm:5.2f}/month")
