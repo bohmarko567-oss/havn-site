@@ -41,8 +41,8 @@ const TRIO = {
 
 function planMonths(v) { return [1, 2, 3].includes(Math.floor(Number(v))) ? Math.floor(Number(v)) : 1; }
 
-const FREE_SHIP_CENTS     = intEnv('FREE_SHIP_CENTS', 7900);     /* one-time orders: free U.S. shipping threshold */
-const FREE_SUB_SHIP_CENTS = intEnv('FREE_SUB_SHIP_CENTS', 2800); /* subscriptions ship free from $28/mo — matches the deepest tier price so a LONGER supply never pays more shipping than a shorter one */
+const FREE_SHIP_CENTS     = intEnv('FREE_SHIP_CENTS', 5000);     /* universal pre-discount threshold, per delivery */
+const FREE_SUB_SHIP_CENTS = FREE_SHIP_CENTS;                     /* backwards-compatible export */
 const SHIP_CENTS          = intEnv('SHIP_CENTS', 695);           /* flat U.S. shipping otherwise */
 
 function intEnv(k, d) {
@@ -86,9 +86,6 @@ function subtotalCents(cart, subscribe, months) {
 function shippingCents(cart, subscribe, months) {
   const m = subscribe ? planMonths(months) : 1;
   const st = subtotalCents(cart, subscribe, m);
-  /* threshold is per-month-equivalent so a 2-month box doesn't unlock free
-     shipping a 1-month box wouldn't; the fee itself is per delivery */
-  if (subscribe) return st >= FREE_SUB_SHIP_CENTS * m ? 0 : SHIP_CENTS;
   return st >= FREE_SHIP_CENTS ? 0 : SHIP_CENTS;
 }
 
@@ -149,7 +146,7 @@ function lineItems(cart, subscribe, imgBase, months) {
         recurring: { interval: 'month', interval_count: m },
         product_data: {
           name: 'U.S. shipping',
-          description: 'Free on subscriptions from $' + (FREE_SUB_SHIP_CENTS / 100) + '/mo',
+          description: 'Free at a $' + (FREE_SHIP_CENTS / 100) + ' product subtotal per delivery',
           metadata: { havn_sku: 'shipping' },
         },
       },

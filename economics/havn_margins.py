@@ -38,6 +38,8 @@ FULFIL_FIRST  = 1.99           # first unit of each product
 FULFIL_ADDL   = 1.29           # each additional unit of the SAME product
 PRO_MONTHLY   = 49.00          # required to fulfil at all
 PACKAGING_LB  = 0.0            # billable weight unknown for all SKUs (record.md gap)
+FREE_SHIP     = 50.00           # pre-discount product subtotal, per delivery
+CUSTOMER_SHIP = 6.95
 
 SKUS = {  # cost_pro_usd (live-verified), gross lb
     'rise':   {'cost': 11.65, 'lb': 0.20},
@@ -65,6 +67,9 @@ def supliful_ship(units, is_trio):
 def fulfil(units):
     return sum(FULFIL_FIRST + FULFIL_ADDL * (q - 1) for q in units.values() if q > 0)
 
+def customer_shipping(product_subtotal):
+    return 0.0 if product_subtotal >= FREE_SHIP else CUSTOMER_SHIP
+
 def model(label, revenue, units, m=0, sub=False, trio=False):
     cogs  = sum(SKUS[s]['cost'] * q for s, q in units.items())
     ff    = fulfil(units)
@@ -82,16 +87,16 @@ def model(label, revenue, units, m=0, sub=False, trio=False):
 ROWS = []
 def add(*a, **k): ROWS.append(model(*a, **k))
 
-# ---- ONE-TIME: customer pays $6.95 ship unless subtotal >= $79 --------------
-add('1x Rise     one-time',  38.00 + 6.95, {'rise': 1})
-add('1x Calm     one-time',  38.00 + 6.95, {'calm': 1})
-add('1x Rest     one-time',  38.00 + 6.95, {'rest': 1})
-add('1x Steady   one-time',  18.00 + 6.95, {'steady': 1})          # NEVER free ship
-add('2x mains    one-time',  76.00 + 6.95, {'rise': 1, 'calm': 1})
+# ---- ONE-TIME: universal $50 threshold -------------------------------------
+add('1x Rise     one-time',  38.00 + customer_shipping(38.00), {'rise': 1})
+add('1x Calm     one-time',  38.00 + customer_shipping(38.00), {'calm': 1})
+add('1x Rest     one-time',  38.00 + customer_shipping(38.00), {'rest': 1})
+add('1x Steady   one-time',  18.00 + customer_shipping(18.00), {'steady': 1})
+add('2x mains    one-time',  76.00 + customer_shipping(76.00), {'rise': 1, 'calm': 1})
 add('Ritual      one-time', 132.00,        {'rise': 1, 'calm': 1, 'rest': 1, 'steady': 1}, trio=True)
 add('Ritual x2   one-time', 264.00,        {'rise': 2, 'calm': 2, 'rest': 2, 'steady': 2}, trio=True)
 
-# ---- SUBSCRIPTION: free ship iff subtotal >= $28 x m ------------------------
+# ---- SUBSCRIPTION: same $50 threshold per delivery -------------------------
 SINGLE = {1: 31.00, 2: 30.00, 3: 28.00}      # per month, _catalog.js:9-11
 STEADY = {1: 15.00, 2: 14.00, 3: 13.00}      # _catalog.js:12
 TRIO   = {1: 99.00, 2: 190.00, 3: 264.00}    # per delivery, _catalog.js:37
@@ -101,10 +106,10 @@ def sub_rows(coupon):
     k = 0.90 if coupon else 1.0
     for m in (1, 2, 3):
         subt = SINGLE[m] * m
-        fee = 0.0 if subt >= 28.00 * m else 6.95     # 31/60/84 >= 28/56/84 -> ALWAYS free
+        fee = customer_shipping(subt)
         add(f'1x main     sub {m}mo{tag}', round((subt + fee) * k, 2), {'rise': m}, m, sub=True)
         subt = STEADY[m] * m
-        fee = 0.0 if subt >= 28.00 * m else 6.95     # 15/28/39 < 28/56/84 -> ALWAYS pays
+        fee = customer_shipping(subt)
         add(f'1x Steady   sub {m}mo{tag}', round((subt + fee) * k, 2), {'steady': m}, m, sub=True)
         add(f'Ritual      sub {m}mo{tag}', round(TRIO[m] * k, 2),
             {'rise': m, 'calm': m, 'rest': m, 'steady': m}, m, sub=True, trio=True)

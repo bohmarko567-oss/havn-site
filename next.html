@@ -67,9 +67,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .cartchip{font-family:var(--mono);font-weight:700;font-size:12px;background:var(--cream);border:2px solid var(--ink);border-radius:100px;padding:10px 16px;color:var(--ink);min-height:44px;}
 .cartchip b{color:var(--rise);}
 
-/* cinema runway + sticky stage — 1050vh: the extra runway is spent ONLY on
-   the held pauses (see WARP in the script); transit speeds are unchanged */
-.cinema{height:1050vh;position:relative;}
+/* extra runway reserves a static hold after the final motion completes */
+.cinema{height:1250vh;position:relative;}
 /* lvh = LARGE viewport: constant through iOS bar show/hide — the film keeps
    one coordinate system in both scroll directions AND always fills the screen
    (dvh left a cream gap when bars hid; px-freeze froze the gap in) */
@@ -108,7 +107,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
     radial-gradient(54% 48% at 50% 66%, rgba(78,67,201,.40), transparent 72%),
     radial-gradient(32% 28% at 76% 58%, rgba(200,30,120,.40), transparent 70%);}
 /* the hero buy bar — the finale's purchasebar, re-cut for the light field */
-.beat.hero .purchasebar{margin:18px auto 0;width:min(88vw,440px);min-height:48px;}
+.beat.hero .purchasebar{margin:18px auto 0;width:min(94vw,520px);min-height:48px;}
 @media(max-width:700px){ .beat.hero .om-cta{font-size:10.5px;letter-spacing:.4px;padding:0 10px;} .offmenu .om-cta{font-size:10.5px;letter-spacing:.4px;padding:0 10px;} }
 .beat.hero .finalmode{border-color:var(--ink);background:#fff;box-shadow:0 4px 0 var(--ink);}
 .beat.hero .finalmode button{color:var(--muted);}
@@ -118,7 +117,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .hero-addon{position:absolute;left:50%;top:50%;transform:translate(calc(-50% + 28vw),calc(-50% + 6vh)) rotate(6deg);display:flex;flex-direction:column;align-items:center;gap:5px;opacity:0;pointer-events:none;}
 .hero-addon .row{display:flex;align-items:center;gap:3px;}
 .hero-addon .ps{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 120;font-size:clamp(24px,3.4vw,34px);color:transparent;-webkit-text-stroke:1.4px var(--berry);line-height:1;}
-.hero-addon img{height:min(12vh,100px);filter:drop-shadow(0 10px 14px rgba(20,10,0,.22));}
+.hero-addon img{height:min(14.5vh,118px);filter:drop-shadow(0 12px 16px rgba(20,10,0,.24));}
 .hero-addon .t{font-family:var(--mono);font-weight:700;font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:var(--berry2);text-align:center;line-height:1.55;max-width:110px;}
 .hero-addon .t b{display:block;font-size:10.5px;color:var(--berry);}
 .scrollcue{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10.5px;letter-spacing:2.4px;color:var(--muted);text-transform:uppercase;opacity:0;}
@@ -151,8 +150,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
    the one-time price, so it reads as the "was", never as a live price */
 .citem .ci-s s{color:#C0392B;}
 .sku .add-btn s,.minirow button s,.cart-empty .btn s{opacity:.62;text-decoration-thickness:1.5px;}
-.chip button{width:100%;min-height:40px;border:2px solid var(--ink);border-radius:100px;background:var(--ink);color:var(--cream);font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:1px;}
-.chip button.added{background:var(--calm);border-color:var(--calm);}
+.chip-action{position:relative;}
+.chip .addsplit{display:flex;width:100%;border:2px solid var(--ink);box-shadow:0 4px 0 var(--ink);}
+.chip button[data-add]{flex:1;width:auto;min-height:38px;border:0;border-radius:0;background:var(--ink);color:var(--cream);font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:1px;}
+.chip .mini-car{width:32px;min-height:38px;border-left:1px solid rgba(255,255,255,.28);}
+.chip.in-cart button[data-add],.chip.in-cart .mini-car{background:var(--calm);}
+.chip .planpick{top:auto;bottom:calc(100% + 9px);left:50%;width:min(72vw,280px);transform:translateX(-50%);}
 .chip.c-rise h4{color:var(--rise);} .chip.c-calm h4{color:var(--calm);} .chip.c-rest h4{color:var(--rest);}
 
 /* steady reveal */
@@ -458,6 +461,8 @@ footer a{color:inherit;}
   .chip h4{font-size:15px;}
   .chip .pr{font-size:11px;}
   .chip button{font-size:10px;min-height:38px;}
+  #film-pp-rise{left:0;transform:none;}
+  #film-pp-rest{left:auto;right:0;transform:none;}
   .rail{right:8px;}
   .pbadge{bottom:76px;right:12px;}
   /* iPhone-height drawer: slimmer chrome so the items area breathes */
@@ -540,14 +545,14 @@ footer a{color:inherit;}
   .splash{left:64%;top:52%;width:min(76vw,980px);height:min(115vh,780px);}
   .beat.hero .purchasebar{margin-left:0;}
   .hero-addon{transform:translate(calc(-50% + 33vw),calc(-50% + 2vh)) rotate(6deg);}
-  .hero-addon img{height:min(15vh,128px);}
+  .hero-addon img{height:min(17vh,146px);}
   .hero-addon .t{max-width:none;}
 }
 
 /* desktop mouse-wheel: a taller runway = more scroll-distance per scene, so the
    held poses are readable instead of flying by. Touch iPads/laptops excluded via
    hover+pointer. MUST stay above the reduced-motion block so height:auto wins there. */
-@media(min-width:1024px) and (hover:hover) and (pointer:fine){ .cinema{height:1600vh;} }
+@media(min-width:1024px) and (hover:hover) and (pointer:fine){ .cinema{height:1900vh;} }
 
 /* reduced motion / no JS: static everything-visible page */
 @media(prefers-reduced-motion:reduce){
@@ -594,7 +599,7 @@ footer a{color:inherit;}
         <button class="om-cta" id="heroBtn" onclick="addTrio()">Complete ritual · $99</button>
         <div class="planpick" id="hPlanPick" role="radiogroup" aria-label="Supply length"></div>
       </div>
-      <div class="h-mini">Free U.S. shipping from $28/mo · skip or cancel anytime</div>
+      <div class="h-mini">Free U.S. shipping at $50 · skip or cancel anytime</div>
     </div>
     <div class="scrollcue" id="cue">Scroll</div>
 
@@ -623,9 +628,9 @@ footer a{color:inherit;}
       <div class="spec" style="color:#8B8172;margin-top:10px"><b style="color:var(--rise2)">☀ FOCUS</b> · <b style="color:var(--calm2)">◐ BALANCE</b> · <b style="color:var(--rest2)">☾ SLEEP</b></div>
     </div>
     <div class="chips" id="chips">
-      <div class="chip c-rise"><div class="n">N°01</div><h4>Rise</h4><div class="pr"><s>$38</s>$31/mo</div><button data-add="rise">ADD</button></div>
-      <div class="chip c-calm"><div class="n">N°02</div><h4>Calm</h4><div class="pr"><s>$38</s>$31/mo</div><button data-add="calm">ADD</button></div>
-      <div class="chip c-rest"><div class="n">N°03</div><h4>Rest</h4><div class="pr"><s>$38</s>$31/mo</div><button data-add="rest">ADD</button></div>
+      <div class="chip c-rise"><div class="n">N°01</div><h4>Rise</h4><div class="pr"><s>$38</s>$31/mo</div><div class="chip-action"><div class="addsplit"><button class="add-btn" data-add="rise">ADD</button><button class="mini-car" id="film-mc-rise" aria-haspopup="true" aria-expanded="false" aria-label="Rise supply length" onclick="pickTap('film-pp-rise','film-mc-rise')"><span class="car" aria-hidden="true"></span></button></div><div class="planpick up" id="film-pp-rise" data-kind="single" role="radiogroup" aria-label="Rise supply length"></div></div></div>
+      <div class="chip c-calm"><div class="n">N°02</div><h4>Calm</h4><div class="pr"><s>$38</s>$31/mo</div><div class="chip-action"><div class="addsplit"><button class="add-btn" data-add="calm">ADD</button><button class="mini-car" id="film-mc-calm" aria-haspopup="true" aria-expanded="false" aria-label="Calm supply length" onclick="pickTap('film-pp-calm','film-mc-calm')"><span class="car" aria-hidden="true"></span></button></div><div class="planpick up" id="film-pp-calm" data-kind="single" role="radiogroup" aria-label="Calm supply length"></div></div></div>
+      <div class="chip c-rest"><div class="n">N°03</div><h4>Rest</h4><div class="pr"><s>$38</s>$31/mo</div><div class="chip-action"><div class="addsplit"><button class="add-btn" data-add="rest">ADD</button><button class="mini-car" id="film-mc-rest" aria-haspopup="true" aria-expanded="false" aria-label="Rest supply length" onclick="pickTap('film-pp-rest','film-mc-rest')"><span class="car" aria-hidden="true"></span></button></div><div class="planpick up" id="film-pp-rest" data-kind="single" role="radiogroup" aria-label="Rest supply length"></div></div></div>
     </div>
 
     <div class="beat steady on-color" id="bSteady">
@@ -641,7 +646,7 @@ footer a{color:inherit;}
     <div class="offmenu" id="steadyCta">
       <ul class="om-list">
         <li>All four — <b>Steady included</b>, every delivery</li>
-        <li>Free U.S. shipping from $28/mo</li>
+        <li>Free U.S. shipping at $50+</li>
         <li>Skip, swap or cancel anytime</li>
         <li>30-day guarantee — first order</li>
       </ul>
@@ -811,14 +816,14 @@ footer a{color:inherit;}
       <details><summary>How does the subscription work?</summary><p>One delivery a month: Rise, Calm, Rest and Steady — all four, every time. $99/mo (or one-time, $132 — switch in the cart). Want a better rate? Pick your supply under MONTHLY: a 2-month box lands at $95/mo (−28%), a 3-month box at $88/mo (−33%); a 1-month plan already saves −25% against the $132 one-time. Skip a delivery, swap a formula or cancel from the link in any receipt, at least 48h before renewal. No calls, no fees.</p></details>
       <details><summary>Singles or the ritual — what's the actual math?</summary><p>Three mains on subscription run $93/mo. The complete ritual is $99/mo and carries STEADY too — $6 more for an $18 bottle. Buying all four loose costs $108/mo, so completing the set saves $9 every month — and it stays exactly $9 at every supply length (loose $108/$104/$97 against the ritual's $99/$95/$88). Nothing is a promotion: it's the same four bottles in every delivery, for as long as you stay.</p></details>
       <details><summary>Can I actually cancel anytime?</summary><p>Yes — two taps from any receipt, and the subscription ends with the current month. Nothing to return, nobody to argue with. Every bottle already delivered is yours to keep.</p></details>
-      <details><summary>Shipping &amp; returns?</summary><p>Subscriptions ship free in the U.S. from $28/mo of subscription value — the complete ritual and any single main qualify at every supply length. Below that (a STEADY-only subscription), shipping is $6.95. One-time orders ship free at $79+, otherwise $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
+      <details><summary>Shipping &amp; returns?</summary><p>Subscriptions and one-time orders ship free in the U.S. at $50+, otherwise shipping is $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
       <details><summary>When will I feel a difference?</summary><p>Honest answer: Rest and Calm often land within days. Rise builds over 2–4 weeks of daily use — that's exactly why the first order carries the guarantee. Give it the month; it costs you nothing if it's not for you.</p></details>
       <details><summary>What exactly is in each bottle?</summary><p>No proprietary blends — full doses, printed on the label. In your cart, tap <b>Rise</b>, <b>Calm</b>, <b>Rest</b> or <b>Steady</b> on the ritual line (or the “label” link on any bottle) to see the complete Supplement Facts panel, exactly as it prints.</p></details>
       <details><summary>Is it safe — and who makes it?</summary><p>Manufactured in the USA in FDA-registered, cGMP facilities from globally sourced ingredients — non-GMO, gluten-free, third-party tested, no artificial fillers. As with any supplement: check with a physician if you're pregnant, nursing, under 18 or taking medication.</p></details>
     </div>
   </div>
 
-  <div class="ribbon"><div class="rtrack" id="rtrack"><span><b style="color:#FF9C5F">☀ RISE</b>&nbsp;— FOCUS</span><span><b style="color:#5FD0BF">◐ CALM</b>&nbsp;— BALANCE</span><span><b style="color:#9F96F2">☾ REST</b>&nbsp;— SLEEP</span><span><b style="color:#F08BC0">⊖ STEADY</b>&nbsp;— LEVEL, ALL DAY</span><span>✚ ALL FOUR PIECES — EVERY DELIVERY</span><span>✚ SUBSCRIPTIONS SHIP FREE FROM $28/MO</span><span>◆ 30-DAY FIRST-ORDER GUARANTEE</span></div></div>
+  <div class="ribbon"><div class="rtrack" id="rtrack"><span><b style="color:#FF9C5F">☀ RISE</b>&nbsp;— FOCUS</span><span><b style="color:#5FD0BF">◐ CALM</b>&nbsp;— BALANCE</span><span><b style="color:#9F96F2">☾ REST</b>&nbsp;— SLEEP</span><span><b style="color:#F08BC0">⊖ STEADY</b>&nbsp;— LEVEL, ALL DAY</span><span>✚ ALL FOUR PIECES — EVERY DELIVERY</span><span>✚ FREE U.S. SHIPPING AT $50+</span><span>◆ 30-DAY FIRST-ORDER GUARANTEE</span></div></div>
 
   <footer>HAVN · Designed in Denmark · Manufactured in the USA from globally sourced ingredients · <a href="policies.html">Policies</a> · <a href="mailto:hello@havn.co">hello@havn.co</a><br>*These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease.</footer>
 </div>
@@ -828,7 +833,7 @@ footer a{color:inherit;}
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Cart">
   <div class="drawer-head"><h3>Your ritual</h3><button class="x" id="drawerX" aria-label="Close cart" onclick="closeCart()">×</button></div>
-  <div class="ship-bar"><div class="msg" id="shipMsg">Free U.S. shipping at $79</div><div class="track" role="progressbar" aria-label="Free shipping progress" aria-valuemin="0" aria-valuemax="79" aria-valuenow="0" id="shipTrack"><div class="fill" id="shipFill"></div></div></div>
+  <div class="ship-bar"><div class="msg" id="shipMsg">Free U.S. shipping at $50</div><div class="track" role="progressbar" aria-label="Free shipping progress" aria-valuemin="0" aria-valuemax="50" aria-valuenow="0" id="shipTrack"><div class="fill" id="shipFill"></div></div></div>
   <div class="cslots" aria-label="Ritual completion">
     <div class="cs s1">01</div><div class="cs s2">02</div><div class="cs s3">03</div><div class="cs s4" id="cs4">04</div>
     <div class="lbl" id="slotLbl">All four pieces<br>make the ritual</div>
@@ -911,9 +916,8 @@ const PLANM = m => ({ total: PLANP.trio[m].pm*m, pm: PLANP.trio[m].pm, tag: PLAN
 let planMonths = 1;
 try{ const m = parseInt(localStorage.getItem('havn_plan')||'1',10); if([1,2,3].includes(m)) planMonths = m; }catch(e){}
 const PROMO_PCT = 10; /* the floating-circle code — applies to subscription orders */
-/* one-time: free U.S. shipping at $79. Subscriptions: free from $28/mo of
-   subscription value, i.e. $28 × months of supply on the invoice. */
-const FREE_SHIP = 79, SUB_FREE_SHIP = 28;
+/* one universal pre-discount subtotal threshold, per delivery */
+const FREE_SHIP = 50;
 const HEX = {rise:'#FF6A15', calm:'#12A594', rest:'#4E43C9', steady:'#C81E78'};
 const NAMES = {rise:'Rise', calm:'Calm', rest:'Rest', steady:'Steady'};
 const SUBS = {rise:"Lion's Mane · 1000mg", calm:'Ashwagandha+ · KSM-66®', rest:'Magnesium · Glycinate', steady:'Blood Sugar Drops'};
@@ -950,7 +954,7 @@ const discount = () => (subscribe && promoCodeVal() && subtotal()>0) ? Math.roun
 const cartTotal = () => Math.round((subtotal() - discount())*100)/100;
 /* free-shipping goal is measured on SUBTOTAL (subscription value), not on the
    discounted first invoice — the welcome code never costs you free shipping */
-const shipGoal = () => subscribe ? SUB_FREE_SHIP*planMonths : FREE_SHIP;
+const shipGoal = () => FREE_SHIP;
 
 let prevComplete = false;
 function update(){
@@ -996,7 +1000,7 @@ function update(){
   $('shipTrack').setAttribute('aria-valuenow', Math.min(goal, Math.round(st)));
   $('shipMsg').textContent = st>=goal
     ? (subscribe ? '✓ Free U.S. shipping — every delivery' : '✓ Free U.S. shipping unlocked')
-    : (st>0 ? `Add ${fmt(goal-st)} for free U.S. shipping` : (subscribe ? 'Subscriptions ship free from $28/mo' : 'Free U.S. shipping at $79'));
+    : (st>0 ? `Add ${fmt(goal-st)} for free U.S. shipping` : 'Free U.S. shipping at $50');
 
   /* slots */
   ['rise','calm','rest'].forEach((id,i)=>{ document.querySelectorAll('.cslots .cs')[i].classList.toggle('f', hasSku(id)); });
@@ -1022,6 +1026,7 @@ function update(){
     const b = c.querySelector('button[data-add]'); if(!b) return;
     const id = b.dataset.add, has = hasSku(id);
     const pr = c.querySelector('.pr'); if(pr) pr.innerHTML = priceHTML(id, priceSingle(id));
+    c.classList.toggle('in-cart', has);
     b.classList.toggle('added', has); b.textContent = has ? '✓ IN' : 'ADD';
   });
   /* deep-dive add buttons mirror the cart + mode, anchor struck */
@@ -1121,7 +1126,7 @@ function addSku(id){ cart.singles[id]++; update(); openCart(); track('add_to_car
 function addTrio(){ cart.trio = Math.max(1, cart.trio); update(); openCart(); track('add_to_cart',{sku:'trio', via:'planB'}); }
 function bumpTrio(d){ cart.trio = Math.max(0, cart.trio + d); update(); }
 function bumpSingle(id,d){ cart.singles[id] = Math.max(0, cart.singles[id] + d); update(); }
-document.querySelectorAll('.chip button').forEach(b=> b.addEventListener('click', ()=>addSku(b.dataset.add)));
+document.querySelectorAll('.chip button[data-add]').forEach(b=> b.addEventListener('click', ()=>addSku(b.dataset.add)));
 
 /* drawer / modals */
 let lastFocus = null;
@@ -1506,14 +1511,10 @@ function apply(p){
   els.rail.style.opacity = (1 - clamp01((p-.965)/.035)).toFixed(2);
 }
 
-/* ————— PACING: scroll-P → film-P ————— boss note: "30 days" was the one
-   scene that really STUCK; every scene should. This map spends the extra
-   runway (820→1050vh) inside the holds — flat-ish stretches where a lot of
-   scroll moves the film barely at all — while every transit keeps the same
-   absolute scroll length it had before (same feel, already approved).
-   Keyframes/?p pins stay in FILM-P: tuning numbers never change meaning. */
-const WARP = [[0,0],[.118,.155],[.217,.21],[.274,.285],[.373,.335],[.422,.40],
-  [.521,.445],[.586,.53],[.725,.69],[.813,.805],[.875,.85],[.970,.975],[1,1]];
+/* ————— PACING: scroll-P → film-P ————— motion finishes at 82% of the
+   runway; the remaining scroll holds the final frame before editorial content. */
+const WARP = [[0,0],[.099,.155],[.182,.21],[.230,.285],[.313,.335],[.354,.40],
+  [.438,.445],[.492,.53],[.609,.69],[.683,.805],[.735,.85],[.815,.985],[.82,1],[1,1]];
 const warp = s => kf(s, WARP);   /* piecewise-linear, monotonic */
 
 if(reduced){

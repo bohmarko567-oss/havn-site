@@ -3,16 +3,13 @@
 HAVN tweak scenarios vs what actually ships today. Prices are the founder-locked
 ladder (api/_catalog.js, re-verified 2026-07-19): one-time anchor $132; Ritual sub
 $99/$190/$264 per delivery ($99/$95/$88 per month); singles $38 one-time and
-$31/$30/$28 per month; Steady $18 one-time and $15/$14/$13 per month; subscription
-free shipping from $28/mo.
+$31/$30/$28 per month; Steady $18 one-time and $15/$14/$13 per month. Shipping
+is free at a $50 pre-discount product subtotal per delivery.
 
 BASELINE RE-CUT 2026-07-19 — the old baseline was stale in both directions:
 
-  T3  threshold fix   — SHIPPED. The $28xm subscription free-ship threshold is now
-                        the live rule, so it is the baseline, not a tweak. Its
-                        effect has already landed: a 3-month single sub is $84 and
-                        84 >= 28x3, so it now ships FREE (it used to pay $6.95
-                        against the old $30xm threshold).
+  T3  threshold fix   — SHIPPED. The universal $50 free-shipping threshold is the
+                        live rule for both subscription and one-time deliveries.
   T1  gift cap        — RETIRED, NOT AN OPTION. This modelled capping or dropping
                         the "free Steady" on renewals. The gift structure it
                         depended on was retired 2026-07-19: the Ritual is a genuine
@@ -25,9 +22,8 @@ BASELINE RE-CUT 2026-07-19 — the old baseline was stale in both directions:
 Still open, and all this file now models:
 
   T2  USD balance     — hold USD in Stripe, payout to a USD account -> no 2% FX
-  Copy fix (no math)  — "always ship free" is true for mains and the Ritual, but
-                        NOT for a Steady-only subscription, which still pays $6.95
-                        at every tier ($15/$28/$39 never clears $28/$56/$84)
+  Copy fix (no math)  — one-month mains and every Steady-only tier pay $6.95;
+                        multi-month mains and every Ritual tier ship free.
 
 Rows are full-price deliveries. The 10% welcome code (subscriptions only, first
 invoice only) is not modelled here — see havn_margins.py and havn_final.py.
@@ -38,6 +34,7 @@ Run: python havn_tweaks.py
 STRIPE_FIXED = 0.28
 SUP_PROC     = 0.0299
 F1, FA       = 1.99, 1.29
+FREE_SHIP    = 50.00
 
 SKUS = {'rise': (11.65, 0.20), 'calm': (6.99, 0.16),
         'rest': (8.89, 0.25), 'steady': (5.35, 0.17)}
@@ -70,8 +67,6 @@ print(f"\n{'OPTION':<24} {'SHIPS NOW':>9} {'WITH T2 FX':>13} {'GAIN':>7}   what 
 print("(per month for subs; absolute for one-times. T1 gift rows deleted — retired structure.)")
 print('-' * 88)
 
-FREE_SUB_SHIP = 28.00        # SHIPPED rule (was the T3 proposal); _catalog.js:45
-
 rows = []
 for m in (1, 2, 3):
     # all four pieces every delivery — no gift variant to model any more
@@ -82,17 +77,19 @@ for m in (1, 2, 3):
 
 for m in (1, 2, 3):
     subt = SINGLE[m] * m
-    fee = 0.0 if subt >= FREE_SUB_SHIP * m else 6.95     # 31/60/84 -> always free
+    fee = 0.0 if subt >= FREE_SHIP else 6.95
     now = profit(subt + fee, {'rise': m}, SUB_NOW) / m
     twk = profit(subt + fee, {'rise': m}, SUB_TWK) / m
-    rows.append((f'Main sub {m}mo', now, twk, 'T2 only · ships free'))
+    note = 'T2 only · ships free' if fee == 0 else 'T2 only · pays $6.95'
+    rows.append((f'Main sub {m}mo', now, twk, note))
 
 for m in (1, 2, 3):
     subt = STEADY[m] * m
-    fee = 0.0 if subt >= FREE_SUB_SHIP * m else 6.95     # 15/28/39 -> always pays
+    fee = 0.0 if subt >= FREE_SHIP else 6.95
     now = profit(subt + fee, {'steady': m}, SUB_NOW) / m
     twk = profit(subt + fee, {'steady': m}, SUB_TWK) / m
-    rows.append((f'Steady sub {m}mo', now, twk, 'T2 only · pays $6.95'))
+    note = 'T2 only · ships free' if fee == 0 else 'T2 only · pays $6.95'
+    rows.append((f'Steady sub {m}mo', now, twk, note))
 
 one = [('Calm one-time', 44.95, {'calm': 1}, False),
        ('Rise one-time', 44.95, {'rise': 1}, False),

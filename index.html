@@ -531,14 +531,14 @@ footer a{color:inherit;}
       <details><summary>How does the subscription work?</summary><p>One delivery a month, all four pieces: Rise, Calm, Rest and Steady. $99/mo, versus $132 for the same four one-time — that's 25% off (switch in the cart). Skip a month, swap a formula or cancel from the link in any receipt, at least 48h before renewal. No calls, no fees.</p></details>
       <details><summary>Is there a first-order discount?</summary><p>Subscribe to the ritual and use the welcome code — 10% off, first order, subscription only. $99 becomes <b>$89.10</b> for month one, then it renews at $99/mo with all four pieces every time. One code per person; it doesn't stack with other offers.</p></details>
       <details><summary>Can I actually cancel anytime?</summary><p>Yes — two taps from any receipt, and the subscription ends with the current month. Nothing to return, nobody to argue with. Anything already shipped is yours.</p></details>
-      <details><summary>Shipping &amp; returns?</summary><p>Subscriptions ship free in the U.S. from $28/mo — the ritual and every main formula plan clear that on their own. A STEADY-only subscription ($15/mo) is the one plan under that floor, so it adds $6.95 shipping. One-time orders ship free at $79+, otherwise $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
+      <details><summary>Shipping &amp; returns?</summary><p>Subscriptions and one-time orders ship free in the U.S. at $50+, otherwise shipping is $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
       <details><summary>When will I feel a difference?</summary><p>Honest answer: Rest and Calm often land within days. Rise builds over 2–4 weeks of daily use — that's exactly why the first order carries the guarantee. Give it the month; it costs you nothing if it's not for you.</p></details>
       <details><summary>What exactly is in each bottle?</summary><p>No proprietary blends — full doses, printed on the label. In your cart, tap <b>Rise</b>, <b>Calm</b>, <b>Rest</b> or <b>Steady</b> on the ritual line (or the “label” link on any bottle) to see the complete Supplement Facts panel, exactly as it prints.</p></details>
       <details><summary>Is it safe — and who makes it?</summary><p>Manufactured in the USA in FDA-registered, cGMP facilities from globally sourced ingredients — non-GMO, gluten-free, third-party tested, no artificial fillers. As with any supplement: check with a physician if you're pregnant, nursing, under 18 or taking medication.</p></details>
     </div>
   </div>
 
-  <div class="ribbon"><div class="rtrack" id="rtrack"><span><b style="color:#FF9C5F">☀ RISE</b>&nbsp;— FOCUS</span><span><b style="color:#5FD0BF">◐ CALM</b>&nbsp;— BALANCE</span><span><b style="color:#9F96F2">☾ REST</b>&nbsp;— SLEEP</span><span><b style="color:#F08BC0">⊖ STEADY</b>&nbsp;— THE 4TH PIECE, EVERY DELIVERY</span><span>✚ SUBSCRIPTIONS SHIP FREE FROM $28/MO</span><span>◆ 30-DAY FIRST-ORDER GUARANTEE</span></div></div>
+  <div class="ribbon"><div class="rtrack" id="rtrack"><span><b style="color:#FF9C5F">☀ RISE</b>&nbsp;— FOCUS</span><span><b style="color:#5FD0BF">◐ CALM</b>&nbsp;— BALANCE</span><span><b style="color:#9F96F2">☾ REST</b>&nbsp;— SLEEP</span><span><b style="color:#F08BC0">⊖ STEADY</b>&nbsp;— THE 4TH PIECE, EVERY DELIVERY</span><span>✚ FREE U.S. SHIPPING AT $50+</span><span>◆ 30-DAY FIRST-ORDER GUARANTEE</span></div></div>
 
   <footer>HAVN · Designed in Denmark · Manufactured in the USA from globally sourced ingredients · <a href="policies.html">Policies</a> · <a href="mailto:hello@havn.co">hello@havn.co</a><br>*These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease.</footer>
 </div>
@@ -548,7 +548,7 @@ footer a{color:inherit;}
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Cart">
   <div class="drawer-head"><h3>Your ritual</h3><button class="x" id="drawerX" aria-label="Close cart" onclick="closeCart()">×</button></div>
-  <div class="ship-bar"><div class="msg" id="shipMsg">Free U.S. shipping at $79</div><div class="track" role="progressbar" aria-label="Free shipping progress" aria-valuemin="0" aria-valuemax="79" aria-valuenow="0" id="shipTrack"><div class="fill" id="shipFill"></div></div></div>
+  <div class="ship-bar"><div class="msg" id="shipMsg">Free U.S. shipping at $50</div><div class="track" role="progressbar" aria-label="Free shipping progress" aria-valuemin="0" aria-valuemax="50" aria-valuenow="0" id="shipTrack"><div class="fill" id="shipFill"></div></div></div>
   <div class="cslots" aria-label="Ritual completion">
     <div class="cs s1">01</div><div class="cs s2">02</div><div class="cs s3">03</div><div class="cs s4" id="cs4">04</div>
     <div class="lbl" id="slotLbl">All four pieces —<br>that's the ritual</div>
@@ -613,7 +613,7 @@ const $ = id => document.getElementById(id);
 /* keep in sync with api/_catalog.js */
 const P2 = { one:{single:38, trio:132, steady:18}, sub:{single:31, trio:99, steady:15} };
 const PROMO_PCT = 10; /* the floating-circle code — first order, subscription only */
-const FREE_SHIP = 79, SUB_FREE_SHIP = 28;
+const FREE_SHIP = 50, SUB_FREE_SHIP = 50;
 const HEX = {rise:'#FF6A15', calm:'#12A594', rest:'#4E43C9', steady:'#C81E78'};
 const NAMES = {rise:'Rise', calm:'Calm', rest:'Rest', steady:'Steady'};
 const SUBS = {rise:"Lion's Mane · 1000mg", calm:'Ashwagandha+ · KSM-66®', rest:'Magnesium · Glycinate', steady:'Blood Sugar Drops'};
@@ -690,7 +690,7 @@ function update(){
   $('shipTrack').setAttribute('aria-valuenow', Math.min(goal, Math.round(shipBase)));
   $('shipMsg').textContent = shipBase>=goal
     ? (subscribe ? '✓ Free shipping — this month & every month' : '✓ Free U.S. shipping unlocked')
-    : (shipBase>0 ? `Add ${fmt(goal-shipBase)} for free U.S. shipping` : (subscribe ? 'Subscriptions ship free from $28/mo' : 'Free U.S. shipping at $79'));
+    : (shipBase>0 ? `Add ${fmt(goal-shipBase)} for free U.S. shipping` : 'Free U.S. shipping at $50');
 
   /* slots */
   ['rise','calm','rest'].forEach((id,i)=>{ document.querySelectorAll('.cslots .cs')[i].classList.toggle('f', hasSku(id)); });
