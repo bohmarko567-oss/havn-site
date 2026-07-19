@@ -12,20 +12,26 @@ const CATALOG = {
   steady: { name: 'HAVN Steady — Blood Sugar Drops',      n: 'N°04', img: 'steady_front.jpg', one: 1800, sub: 1500, subPlans: { 1: 1500, 2: 1400, 3: 1300 } },
 };
 
-/* Trio bundle: Rise+Calm+Rest. Sub $93 = exactly 3×$31 (collapse-neutral),
-   ~18% off the $114 one-time anchor; the 10% welcome code (first order only —
-   coupon duration "once") lands the first month at $83.70. Fees re-verified
-   2026-07-19 on wholesale + per-unit fulfillment + weight-based shipping. */
+/* THE RITUAL — a genuine FOUR-piece product: Rise + Calm + Rest + Steady.
+   Every delivery ships all four, forever. Steady is not a gift and is never
+   taken away; the old "free gift, first delivery only" model was replaced
+   2026-07-19 because give-then-remove reads as a bait-and-switch at delivery 2.
+
+   $132 one-time is exactly what the four cost separately (38+38+38+18), so the
+   $99 sub is exactly 25% off. Supply ladder $99 / $95 / $90 per month
+   (−25% / −28% / −32% vs the anchor). The 10% welcome code (first order only,
+   coupon duration "once") lands the first delivery at $89.10.
+
+   NOTE: this deliberately breaks the old collapse-neutral invariant (ritual =
+   3× single). Four loose subscriptions are $108/mo; the ritual is $99/mo, so
+   completing the set now earns a real $9/mo discount instead of nothing. */
 const TRIO = {
-  one: 11400,
-  sub: 9300,
-  /* multi-month supply per delivery: $93/mo (−18%) → $90/mo (−20%) → $84/mo
-     (−25% vs the $114 one-time anchor). Collapse-neutral on every tier: the
-     trio per-month price is exactly 3× the single per-month price. Keys are
-     months, values are cents PER DELIVERY. */
-  subPlans: { 1: 9300, 2: 18000, 3: 25200 },
-  name: 'HAVN Complete Ritual — Rise + Calm + Rest',
-  desc: 'The 4-piece daily ritual. Includes N°04 STEADY (Blood Sugar Drops, $18 value) FREE in every shipment.',
+  one: 13200,
+  sub: 9900,
+  /* cents PER DELIVERY: $99×1, $95×2, $90×3 */
+  subPlans: { 1: 9900, 2: 19000, 3: 27000 },
+  name: 'HAVN Complete Ritual — Rise + Calm + Rest + Steady',
+  desc: 'The 4-piece daily ritual. Every delivery includes N°04 STEADY (Blood Sugar Drops).',
 };
 
 function planMonths(v) { return [1, 2, 3].includes(Math.floor(Number(v))) ? Math.floor(Number(v)) : 1; }
@@ -46,20 +52,22 @@ function clampInt(v, min, max) {
 }
 
 /* Mirror of the on-page cart rules:
-   - three loose mains always collapse into one Trio
-   - ritual complete (trio ≥ 1) ⇒ one STEADY ships free with every order */
+   - ALL FOUR loose formulas collapse into one Ritual (saves the customer $9/mo,
+     so completing the set is rewarded). Three mains alone stay three singles —
+     collapsing them would hand over a Steady nobody paid for.
+   - the Ritual is a 4-piece product; there is no separate gift flag. */
 function normalizeCart(raw) {
   const singles = { rise: 0, calm: 0, rest: 0, steady: 0 };
   let trio = clampInt(raw && raw.trio, 0, 10);
   for (const k of Object.keys(singles)) {
     singles[k] = clampInt(raw && raw.singles && raw.singles[k], 0, 20);
   }
-  while (singles.rise > 0 && singles.calm > 0 && singles.rest > 0) {
-    singles.rise--; singles.calm--; singles.rest--; trio++;
+  while (singles.rise > 0 && singles.calm > 0 && singles.rest > 0 && singles.steady > 0) {
+    singles.rise--; singles.calm--; singles.rest--; singles.steady--; trio++;
   }
   trio = Math.min(trio, 10);
   const complete = trio > 0;
-  const count = trio * 3 + Object.values(singles).reduce((s, q) => s + q, 0);
+  const count = trio * 4 + Object.values(singles).reduce((s, q) => s + q, 0);
   return { trio, singles, complete, count };
 }
 
@@ -80,8 +88,8 @@ function shippingCents(cart, subscribe, months) {
 }
 
 /* Stripe Checkout line items via price_data — no dashboard products required.
-   The free STEADY is described inside the Trio item (a separate $0 line is
-   avoided on purpose: it must never be able to fail a live checkout). */
+   The Ritual is ONE line covering all four bottles; the warehouse split lives
+   in fulfillmentUnits(), not in what the customer is charged for. */
 function lineItems(cart, subscribe, imgBase, months) {
   const items = [];
   const m = subscribe ? planMonths(months) : 1;
@@ -145,15 +153,13 @@ function lineItems(cart, subscribe, imgBase, months) {
   return items;
 }
 
-/* What the warehouse must actually ship — trio explodes into SKUs.
-   The STEADY gift is a WELCOME gift: exactly one bottle, first delivery only.
-   Renewals ship the mains alone (pass firstDelivery=false from the webhook). */
-function fulfillmentUnits(cart, months, firstDelivery = true) {
+/* What the warehouse must actually ship — the Ritual explodes into its four
+   SKUs. Every delivery is identical: no gift logic, no first-vs-renewal split. */
+function fulfillmentUnits(cart, months) {
   const m = planMonths(months);
   const units = { rise: 0, calm: 0, rest: 0, steady: 0 };
-  units.rise += cart.trio * m; units.calm += cart.trio * m; units.rest += cart.trio * m;
+  for (const id of ['rise', 'calm', 'rest', 'steady']) units[id] += cart.trio * m;
   for (const [id, q] of Object.entries(cart.singles)) units[id] += q * m;
-  if (cart.complete && firstDelivery) units.steady += 1; /* welcome gift, one bottle, once */
   return units;
 }
 
@@ -162,7 +168,7 @@ function humanSummary(cart, subscribe, months) {
   const parts = [];
   if (cart.trio > 0) parts.push(cart.trio + '× Trio' + (m > 1 ? ' (' + m + '-mo supply)' : ''));
   for (const [id, q] of Object.entries(cart.singles)) if (q > 0) parts.push(q + '× ' + id);
-  if (cart.complete) parts.push('+1× STEADY FREE (welcome gift, first delivery)');
+  /* Steady is part of the Ritual line now — no separate gift line to report. */
   parts.push(subscribe ? (m > 1 ? 'SUBSCRIPTION every ' + m + ' months' : 'SUBSCRIPTION') : 'one-time');
   const ship = shippingCents(cart, subscribe, m);
   parts.push(ship === 0 ? 'ship FREE' : 'ship $' + (ship / 100).toFixed(2));
