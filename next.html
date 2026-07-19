@@ -456,6 +456,8 @@ footer a{color:inherit;}
   .offer{grid-template-columns:1fr;}
   .offerimg{max-width:240px;}
   .bottle{height:min(38vh,300px);}
+  .hero-addon{transform:translate(calc(-50% + 28vw),calc(-50% + 0vh)) rotate(6deg);}
+  .hero-addon img{height:min(16vh,128px);}
   .chips{gap:8px;}
   .chip{width:30vw;padding:10px 8px 9px;}
   .chip h4{font-size:15px;}
@@ -645,10 +647,10 @@ footer a{color:inherit;}
     <div class="splus" id="splus" aria-hidden="true">+</div>
     <div class="offmenu" id="steadyCta">
       <ul class="om-list">
-        <li>All four — <b>Steady included</b>, every delivery</li>
+        <li>All four — <b>Steady included</b></li>
         <li>Free U.S. shipping at $50+</li>
         <li>Skip, swap or cancel anytime</li>
-        <li>30-day guarantee — first order</li>
+        <li>30-day guarantee</li>
       </ul>
       <div class="purchasebar">
         <div class="finalmode" role="group" aria-label="Purchase frequency">
@@ -1354,7 +1356,7 @@ const SLOTS = () => ({
   d: { rise:{x:-27,y:9,r:-8,s:.72},  calm:{x:-4,y:1,r:5,s:.8},  rest:{x:24,y:7,r:-4,s:.68}, steady:{x:9,y:12,r:6,s:.7} },
 })[BP()];
 const STACK = () => ({   /* spread in all directions — every bottle clearly visible */
-  m: { rise:{x:9,y:8,r:12,s:.66},   calm:{x:-16,y:19,r:-11,s:.60}, rest:{x:17,y:29,r:8,s:.52} },
+  m: { rise:{x:9,y:2,r:12,s:.66},   calm:{x:-16,y:13,r:-11,s:.60}, rest:{x:17,y:23,r:8,s:.52} },
   t: { rise:{x:10,y:9,r:12,s:.74},  calm:{x:-17,y:20,r:-11,s:.68}, rest:{x:19,y:29,r:8,s:.58} },
   d: { rise:{x:21,y:5,r:12,s:.86},  calm:{x:8,y:16,r:-11,s:.8},   rest:{x:23,y:26,r:8,s:.7} },   /* desktop: stack lives RIGHT, hero text LEFT */
 })[BP()];
@@ -1362,7 +1364,7 @@ const STACK = () => ({   /* spread in all directions — every bottle clearly vi
    the foreground; Rise and Rest tuck behind at the original -11/+9 degrees.
    The plus and Drops stay separate, completing the four-piece equation. */
 const FINAL = () => ({
-  m: { rise:{x:-25,y:-12,r:-11,s:.41}, calm:{x:-10,y:-15,r:0,s:.53}, rest:{x:5,y:-12,r:9,s:.41}, plus:{x:17}, steady:{x:27,y:-13,s:.41}, plusY:-10 },
+  m: { rise:{x:-25,y:-15,r:-11,s:.41}, calm:{x:-10,y:-18,r:0,s:.53}, rest:{x:5,y:-15,r:9,s:.41}, plus:{x:17}, steady:{x:27,y:-16,s:.41}, plusY:-13 },
   t: { rise:{x:-23,y:-13,r:-11,s:.50}, calm:{x:-10,y:-16,r:0,s:.65}, rest:{x:3,y:-13,r:9,s:.50}, plus:{x:14}, steady:{x:22,y:-14,s:.52}, plusY:-11 },
   d: { rise:{x:-23,y:-13,r:-11,s:.55}, calm:{x:-10.5,y:-16,r:0,s:.70}, rest:{x:2,y:-13,r:9,s:.55}, plus:{x:13}, steady:{x:21,y:-14,s:.58}, plusY:-10 },
 })[BP()];
