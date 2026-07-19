@@ -13,9 +13,9 @@ const CATALOG = {
 };
 
 /* Trio bundle: Rise+Calm+Rest. Sub $93 = exactly 3×$31 (collapse-neutral),
-   ~18% off the $114 one-time anchor; the 15% welcome code (first order only —
-   coupon duration "once") lands the first month at $79.05. Repriced 2026-07-10
-   on verified wholesale + per-unit fulfillment + weight-based shipping. */
+   ~18% off the $114 one-time anchor; the 10% welcome code (first order only —
+   coupon duration "once") lands the first month at $83.70. Fees re-verified
+   2026-07-19 on wholesale + per-unit fulfillment + weight-based shipping. */
 const TRIO = {
   one: 11400,
   sub: 9300,
@@ -31,7 +31,7 @@ const TRIO = {
 function planMonths(v) { return [1, 2, 3].includes(Math.floor(Number(v))) ? Math.floor(Number(v)) : 1; }
 
 const FREE_SHIP_CENTS     = intEnv('FREE_SHIP_CENTS', 7900);     /* one-time orders: free U.S. shipping threshold */
-const FREE_SUB_SHIP_CENTS = intEnv('FREE_SUB_SHIP_CENTS', 3000); /* subscriptions ship free from $30/mo (any formula qualifies) */
+const FREE_SUB_SHIP_CENTS = intEnv('FREE_SUB_SHIP_CENTS', 2800); /* subscriptions ship free from $28/mo — matches the deepest tier price so a LONGER supply never pays more shipping than a shorter one */
 const SHIP_CENTS          = intEnv('SHIP_CENTS', 695);           /* flat U.S. shipping otherwise */
 
 function intEnv(k, d) {
@@ -145,14 +145,15 @@ function lineItems(cart, subscribe, imgBase, months) {
   return items;
 }
 
-/* What the warehouse must actually ship — trio explodes into SKUs,
-   ritual-complete orders always include one free STEADY. */
-function fulfillmentUnits(cart, months) {
+/* What the warehouse must actually ship — trio explodes into SKUs.
+   The STEADY gift is a WELCOME gift: exactly one bottle, first delivery only.
+   Renewals ship the mains alone (pass firstDelivery=false from the webhook). */
+function fulfillmentUnits(cart, months, firstDelivery = true) {
   const m = planMonths(months);
   const units = { rise: 0, calm: 0, rest: 0, steady: 0 };
   units.rise += cart.trio * m; units.calm += cart.trio * m; units.rest += cart.trio * m;
   for (const [id, q] of Object.entries(cart.singles)) units[id] += q * m;
-  if (cart.complete) units.steady += m; /* the gift — one per month of supply */
+  if (cart.complete && firstDelivery) units.steady += 1; /* welcome gift, one bottle, once */
   return units;
 }
 
@@ -161,7 +162,7 @@ function humanSummary(cart, subscribe, months) {
   const parts = [];
   if (cart.trio > 0) parts.push(cart.trio + '× Trio' + (m > 1 ? ' (' + m + '-mo supply)' : ''));
   for (const [id, q] of Object.entries(cart.singles)) if (q > 0) parts.push(q + '× ' + id);
-  if (cart.complete) parts.push('+' + m + '× STEADY FREE');
+  if (cart.complete) parts.push('+1× STEADY FREE (welcome gift, first delivery)');
   parts.push(subscribe ? (m > 1 ? 'SUBSCRIPTION every ' + m + ' months' : 'SUBSCRIPTION') : 'one-time');
   const ship = shippingCents(cart, subscribe, m);
   parts.push(ship === 0 ? 'ship FREE' : 'ship $' + (ship / 100).toFixed(2));

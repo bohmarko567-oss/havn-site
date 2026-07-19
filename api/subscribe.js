@@ -1,15 +1,18 @@
 /* POST /api/subscribe — email capture + unique welcome codes.
    Body: { email, source, promo:true? }
 
-   promo:true → mints a UNIQUE 15%-off code for this signup:
+   promo:true → mints a UNIQUE 10%-off code for this signup:
    single-use (max_redemptions 1), first order only, expires in 30 days,
-   branded HAVN15-XXXX. Real Stripe promotion code when STRIPE_SECRET_KEY is
-   set; HAVN15-DEMO in demo mode. The code is returned to the page instantly
-   (shown on screen), so it works even before customer emails are possible. */
+   branded HAVN10-XXXX. Real Stripe promotion code when STRIPE_SECRET_KEY is
+   set; HAVN10-DEMO in demo mode. The code is returned to the page instantly
+   (shown on screen), so it works even before customer emails are possible.
+
+   NOTE: coupon id is HAVN10, not HAVN15 — the old 15% coupon still exists in
+   Stripe, so reusing that id would silently keep issuing 15% off. */
 
 const { sendEmail, esc } = require('./_email.js');
 
-const COUPON_ID = 'HAVN15';           /* the shared 15% coupon behind every unique code */
+const COUPON_ID = 'HAVN10';           /* the shared 10% coupon behind every unique code */
 const CODE_TTL_DAYS = 30;
 
 /* light per-instance rate limit — serverless instances are ephemeral, but this
@@ -45,14 +48,14 @@ async function mintUniqueCode(stripe, email, source) {
   try { await stripe.coupons.retrieve(COUPON_ID); }
   catch {
     await stripe.coupons.create({
-      id: COUPON_ID, percent_off: 15, duration: 'once', name: 'HAVN welcome 15%',
+      id: COUPON_ID, percent_off: 10, duration: 'once', name: 'HAVN welcome 10%',
     }).catch(async (e) => {
       /* lost a create race or transient — one re-check before giving up */
       try { await stripe.coupons.retrieve(COUPON_ID); } catch { throw e; }
     });
   }
   for (let attempt = 0; attempt < 3; attempt++) {
-    const code = 'HAVN15-' + suffix(4);
+    const code = 'HAVN10-' + suffix(4);
     try {
       const pc = await stripe.promotionCodes.create({
         coupon: COUPON_ID,
@@ -101,7 +104,7 @@ module.exports = async (req, res) => {
   /* 1 · unique code (when asked for one) */
   let code = null, demo = false;
   if (promo) {
-    if (!process.env.STRIPE_SECRET_KEY) { code = 'HAVN15-DEMO'; demo = true; }
+    if (!process.env.STRIPE_SECRET_KEY) { code = 'HAVN10-DEMO'; demo = true; }
     else {
       try { code = await mintUniqueCode(require('stripe')(process.env.STRIPE_SECRET_KEY), email, source); }
       catch (e) { console.error('promo code mint failed:', e.message || e); } /* page shows graceful copy */

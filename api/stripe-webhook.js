@@ -149,7 +149,7 @@ module.exports = async (req, res) => {
           id: invoice.id,
           amountTotal: invoice.amount_paid || 0,
           summary: (md && md.havn_summary) || humanSummary(parsed.cart, true, parsed.months),
-          units: fulfillmentUnits(parsed.cart, parsed.months),
+          units: fulfillmentUnits(parsed.cart, parsed.months, false), /* renewals carry no welcome gift */
           customerEmail: invoice.customer_email, customerPhone: (ship && ship.phone) || null, customerName: invoice.customer_name,
           shipping: ship,
           subscribe: true,
