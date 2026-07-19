@@ -1,27 +1,25 @@
-/* OPTIONAL, UNVALIDATED phase-2 automation: push paid orders into a headless
-   Shopify store that has the fulfillment partner's app installed.
+/* OPTIONAL phase-2 automation: push paid orders into a headless Shopify store
+   that has the fulfillment partner's app installed — orders then auto-fulfill
+   and tracking flows back to Shopify. This is the partner's officially
+   supported path for custom storefronts (their "connect your custom app via
+   Shopify Admin API" guide).
 
-   Requirements before enabling:
+   Requirements before enabling (see GO_LIVE.md → "Full automation"):
    - Shopify store (Basic) + partner app installed + products published from the partner dashboard
    - Settings → Checkout → "Automatically fulfill the order's line items"
    - Partner's paid plan + payment method on file
-   - Custom app token with read_orders, write_orders, write_customers, read_products
+   - Custom app token with write_orders, write_customers, read_products
    - Env vars:
        SHOPIFY_STORE_DOMAIN  = yourstore.myshopify.com
        SHOPIFY_ADMIN_TOKEN   = shpat_…
        SHOPIFY_VARIANT_MAP   = rise:gid://shopify/ProductVariant/111,calm:gid://…,rest:gid://…,steady:gid://…
-       SHOPIFY_API_VERSION   = a currently supported version (required)
-       SHOPIFY_FULFILLMENT_ENABLED = 1 only after the end-to-end test
+       SHOPIFY_API_VERSION   = 2025-01 (optional)
 
-   This bridge has not been exercised against a live store. Keep it disabled
-   until its API version, scopes, variant map, fulfillment handoff, and tracking
-   behavior pass an end-to-end test. The webhook emails the owner either way. */
+   ⚠ Pre-built but NOT yet exercised against a live store — run one $ test
+   order end-to-end before trusting it (the webhook emails you either way). */
 
 function enabled() {
-  return process.env.SHOPIFY_FULFILLMENT_ENABLED === '1' && !!(
-    process.env.SHOPIFY_STORE_DOMAIN && process.env.SHOPIFY_ADMIN_TOKEN &&
-    process.env.SHOPIFY_VARIANT_MAP && process.env.SHOPIFY_API_VERSION
-  );
+  return !!(process.env.SHOPIFY_STORE_DOMAIN && process.env.SHOPIFY_ADMIN_TOKEN && process.env.SHOPIFY_VARIANT_MAP);
 }
 
 function variantMap() {
@@ -33,43 +31,9 @@ function variantMap() {
   return map;
 }
 
-async function adminGraphql(query, variables) {
-  const ver = process.env.SHOPIFY_API_VERSION;
-  const res = await fetch(`https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/${ver}/graphql.json`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Shopify-Access-Token': process.env.SHOPIFY_ADMIN_TOKEN,
-    },
-    body: JSON.stringify({ query, variables }),
-  });
-  const body = await res.json().catch(() => ({}));
-  if (!res.ok || (body.errors && body.errors.length) || !body.data) {
-    throw new Error('Shopify ' + res.status + ': ' + JSON.stringify(body.errors || body));
-  }
-  return body.data;
-}
-
 /* order: { id, units, customerEmail, customerPhone, shipping:{name,address}, summary } */
 async function pushOrder(order) {
   if (!enabled()) return { pushed: false, reason: 'shopify bridge not configured' };
-  const sourceIdentifier = String(order.id || '').trim();
-  if (!/^[A-Za-z0-9_-]{1,255}$/.test(sourceIdentifier)) {
-    throw new Error('invalid Shopify sourceIdentifier');
-  }
-
-  /* Stripe can retry webhooks. Shopify's documented source_identifier search
-     lets us find an order imported by an earlier delivery before creating a
-     second one. sourceIdentifier is also written on every new order below. */
-  const existingData = await adminGraphql(`
-    query orderBySourceIdentifier($query: String!) {
-      orders(first: 1, query: $query) {
-        nodes { id name sourceIdentifier }
-      }
-    }`, { query: 'source_identifier:' + sourceIdentifier });
-  const existing = existingData.orders && existingData.orders.nodes && existingData.orders.nodes[0];
-  if (existing) return { pushed: true, deduplicated: true, shopifyOrder: existing };
-
   const vmap = variantMap();
   const lineItems = Object.entries(order.units)
     .filter(([, q]) => q > 0)
@@ -102,18 +66,25 @@ async function pushOrder(order) {
       shippingAddress,
       billingAddress: shippingAddress,
       financialStatus: 'PAID',
-      sourceIdentifier,
       note: 'HAVN storefront order ' + order.id + ' — ' + (order.summary || ''),
       tags: ['havn-storefront'],
     },
   };
-  const data = await adminGraphql(query, variables);
-  const result = data.orderCreate;
-  const errs = result && result.userErrors;
-  if (!result || (errs && errs.length)) {
-    return { pushed: false, reason: 'Shopify orderCreate: ' + JSON.stringify(errs || data) };
+  const ver = process.env.SHOPIFY_API_VERSION || '2025-01';
+  const res = await fetch(`https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/${ver}/graphql.json`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Access-Token': process.env.SHOPIFY_ADMIN_TOKEN,
+    },
+    body: JSON.stringify({ query, variables }),
+  });
+  const body = await res.json().catch(() => ({}));
+  const errs = body.errors || (body.data && body.data.orderCreate && body.data.orderCreate.userErrors);
+  if (!res.ok || (errs && errs.length)) {
+    return { pushed: false, reason: 'Shopify ' + res.status + ': ' + JSON.stringify(errs || body) };
   }
-  return { pushed: true, shopifyOrder: result.order };
+  return { pushed: true, shopifyOrder: body.data.orderCreate.order };
 }
 
 module.exports = { enabled, pushOrder };

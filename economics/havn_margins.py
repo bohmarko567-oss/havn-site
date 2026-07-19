@@ -3,14 +3,16 @@
 HAVN contribution-margin model v2 — every purchasable permutation, verified inputs.
 
 Sources:
-  costs/weights : local catalog-base/products/*/record.md records dated 2026-07-15;
-                  no live Supliful refresh was performed for this correction
+  costs/weights : catalog-base/products/*/record.md, RE-VERIFIED 2026-07-18 against live
+                  Supliful Sanity API (all 4 unchanged, docs _updatedAt 2026-07-17)
   prices        : havn-site/api/_catalog.js:8-13 (singles) + :33-40 (Ritual)
                   (authoritative; checkout.js builds from it)
-  Supliful fees : local supliful-brief/INTEL-FAQ.md snapshot, lines 33, 40, and 43;
-                  no live fee refresh was performed for this correction
-  Stripe        : assumptions already recorded in this local model; no live rate
-                  refresh was performed for this correction
+  Supliful fees : help.supliful.com articles 11628956 (fulfillment) + 11549933 (processing),
+                  fetched 2026-07-19; cross-checked supliful-brief/INTEL-FAQ.md:33,40,43
+  Stripe        : stripe.com Denmark rates via fee-calculator sources, 2026-07-19:
+                  intl (US) cards 3.25% + 1.80 DKK, +2% currency conversion USD->DKK,
+                  Stripe Billing 0.7% on recurring (subscription) invoices.
+                  Consistent with GO_LIVE.md:122 derived numbers (5.29 on $96 = 5.25%+fixed).
 
 Fee model decisions (v1 errors fixed):
   * Supliful 2.99% "of the total transaction amount" = the transaction between YOU and
@@ -20,7 +22,7 @@ Fee model decisions (v1 errors fixed):
   * Fulfillment $1.29 confirmed same-product-only => Ritual (4 distinct products) pays 4x$1.99.
 
 Product shape: the Ritual is a genuine FOUR-piece product — Rise + Calm + Rest + Steady in
-EVERY active subscription delivery. The old "3 mains + free Steady on delivery 1" model was retired
+EVERY delivery, forever. The old "3 mains + free Steady on delivery 1" model was retired
 2026-07-19; there is no gift flag anywhere in the code or in this model.
 
 Run: python havn_margins.py
@@ -36,10 +38,8 @@ FULFIL_FIRST  = 1.99           # first unit of each product
 FULFIL_ADDL   = 1.29           # each additional unit of the SAME product
 PRO_MONTHLY   = 49.00          # required to fulfil at all
 PACKAGING_LB  = 0.0            # billable weight unknown for all SKUs (record.md gap)
-FREE_SHIP     = 50.00           # pre-discount merchandise subtotal, per delivery
-CUSTOMER_SHIP = 6.95            # charged below FREE_SHIP
 
-SKUS = {  # cost_pro_usd and gross lb from the local product records
+SKUS = {  # cost_pro_usd (live-verified), gross lb
     'rise':   {'cost': 11.65, 'lb': 0.20},
     'calm':   {'cost':  6.99, 'lb': 0.16},
     'rest':   {'cost':  8.89, 'lb': 0.25},
@@ -58,26 +58,12 @@ def ship_tier(lb):
 def supliful_ship(units, is_trio):
     lb = sum(SKUS[s]['lb'] * q for s, q in units.items()) + PACKAGING_LB
     cost = ship_tier(lb)
-    # UNKNOWN — fulfillment packaging weight is absent from the local records.
-    # The $9 floor is a conservative model assumption, not a catalog fact.
+    # GO_LIVE.md:113 asserts trio box = $9.00 (1-2 lb) though gross sum says $7.00 —
+    # packaging almost certainly pushes it over 1 lb. Conservative floor.
     return max(cost, 9.00) if is_trio else cost
 
 def fulfil(units):
     return sum(FULFIL_FIRST + FULFIL_ADDL * (q - 1) for q in units.values() if q > 0)
-
-def customer_shipping(product_subtotal):
-    """One universal storefront rule, evaluated before discounts per delivery."""
-    return 0.0 if product_subtotal >= FREE_SHIP else CUSTOMER_SHIP
-
-def invoice_revenue(product_subtotal, customer_ship, coupon):
-    """Mirror the 10% Stripe coupon in integer cents, one recurring line at a time."""
-    product_cents = int(round(product_subtotal * 100))
-    shipping_cents = int(round(customer_ship * 100))
-    if not coupon:
-        return (product_cents + shipping_cents) / 100
-    product_discount = (product_cents * 10 + 50) // 100
-    shipping_discount = (shipping_cents * 10 + 50) // 100
-    return (product_cents + shipping_cents - product_discount - shipping_discount) / 100
 
 def model(label, revenue, units, m=0, sub=False, trio=False):
     cogs  = sum(SKUS[s]['cost'] * q for s, q in units.items())
@@ -96,34 +82,35 @@ def model(label, revenue, units, m=0, sub=False, trio=False):
 ROWS = []
 def add(*a, **k): ROWS.append(model(*a, **k))
 
-# ---- ONE-TIME: free at $50+ pre-discount per-delivery merchandise subtotal --
-add('1x Rise     one-time',  38.00 + customer_shipping(38.00), {'rise': 1})
-add('1x Calm     one-time',  38.00 + customer_shipping(38.00), {'calm': 1})
-add('1x Rest     one-time',  38.00 + customer_shipping(38.00), {'rest': 1})
-add('1x Steady   one-time',  18.00 + customer_shipping(18.00), {'steady': 1})
-add('2x mains    one-time',  76.00 + customer_shipping(76.00), {'rise': 1, 'calm': 1})
+# ---- ONE-TIME: customer pays $6.95 ship unless subtotal >= $79 --------------
+add('1x Rise     one-time',  38.00 + 6.95, {'rise': 1})
+add('1x Calm     one-time',  38.00 + 6.95, {'calm': 1})
+add('1x Rest     one-time',  38.00 + 6.95, {'rest': 1})
+add('1x Steady   one-time',  18.00 + 6.95, {'steady': 1})          # NEVER free ship
+add('2x mains    one-time',  76.00 + 6.95, {'rise': 1, 'calm': 1})
 add('Ritual      one-time', 132.00,        {'rise': 1, 'calm': 1, 'rest': 1, 'steady': 1}, trio=True)
 add('Ritual x2   one-time', 264.00,        {'rise': 2, 'calm': 2, 'rest': 2, 'steady': 2}, trio=True)
 
-# ---- SUBSCRIPTION: same $50 rule, once per multi-month delivery -------------
+# ---- SUBSCRIPTION: free ship iff subtotal >= $28 x m ------------------------
 SINGLE = {1: 31.00, 2: 30.00, 3: 28.00}      # per month, _catalog.js:9-11
 STEADY = {1: 15.00, 2: 14.00, 3: 13.00}      # _catalog.js:12
 TRIO   = {1: 99.00, 2: 190.00, 3: 264.00}    # per delivery, _catalog.js:37
 
 def sub_rows(coupon):
     tag = '  1st inv -10%' if coupon else ''
+    k = 0.90 if coupon else 1.0
     for m in (1, 2, 3):
         subt = SINGLE[m] * m
-        fee = customer_shipping(subt)                 # 31 pays; 60/84 ship free
-        add(f'1x main     sub {m}mo{tag}', invoice_revenue(subt, fee, coupon), {'rise': m}, m, sub=True)
+        fee = 0.0 if subt >= 28.00 * m else 6.95     # 31/60/84 >= 28/56/84 -> ALWAYS free
+        add(f'1x main     sub {m}mo{tag}', round((subt + fee) * k, 2), {'rise': m}, m, sub=True)
         subt = STEADY[m] * m
-        fee = customer_shipping(subt)                 # 15/28/39 all pay $6.95
-        add(f'1x Steady   sub {m}mo{tag}', invoice_revenue(subt, fee, coupon), {'steady': m}, m, sub=True)
-        add(f'Ritual      sub {m}mo{tag}', invoice_revenue(TRIO[m], 0.0, coupon),
+        fee = 0.0 if subt >= 28.00 * m else 6.95     # 15/28/39 < 28/56/84 -> ALWAYS pays
+        add(f'1x Steady   sub {m}mo{tag}', round((subt + fee) * k, 2), {'steady': m}, m, sub=True)
+        add(f'Ritual      sub {m}mo{tag}', round(TRIO[m] * k, 2),
             {'rise': m, 'calm': m, 'rest': m, 'steady': m}, m, sub=True, trio=True)
 
 sub_rows(False)
-sub_rows(True)    # Stripe applies the first-invoice coupon to recurring product + shipping lines
+sub_rows(True)    # 10% welcome code: subs only, first invoice only, discounts ship line too
 
 # ---------------------------------------------------------------- output
 W = 30

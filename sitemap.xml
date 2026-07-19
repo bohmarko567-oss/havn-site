@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://bohmarko567-oss.github.io/havn-site/next.html</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <!-- Origin must match <link rel="canonical"> in index.html. havn.co is not registered yet
+       (GO_LIVE.md step 6) — pointing crawlers at a domain that does not resolve strands the
+       sitemap and splits authority away from the host that actually serves the site.
+       Flip all of these to https://havn.co/... in one sweep the day the domain lands. -->
+  <url><loc>https://bohmarko567-oss.github.io/havn-site/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://bohmarko567-oss.github.io/havn-site/policies.html</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
 </urlset>

@@ -56,5 +56,5 @@ const server = http.createServer(async (req, res) => {
 const PORT = process.env.PORT || 8123;
 server.listen(PORT, () => {
   console.log(`HAVN local → http://localhost:${PORT}`);
-  console.log(`checkout mode: ${process.env.STRIPE_SECRET_KEY ? 'STRIPE CONFIGURED — verify key mode before testing' : 'DEMO (no STRIPE_SECRET_KEY)'}`);
+  console.log(`checkout mode: ${process.env.STRIPE_SECRET_KEY ? 'LIVE (key set)' : 'DEMO (no STRIPE_SECRET_KEY)'}`);
 });

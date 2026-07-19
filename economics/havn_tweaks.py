@@ -1,19 +1,33 @@
 #!/usr/bin/env python3
 """
-HAVN tweak scenarios after the universal shipping-rule correction. Prices are the
-founder-locked ladder read locally from api/_catalog.js on 2026-07-19: one-time anchor $132; Ritual sub
+HAVN tweak scenarios vs what actually ships today. Prices are the founder-locked
+ladder (api/_catalog.js, re-verified 2026-07-19): one-time anchor $132; Ritual sub
 $99/$190/$264 per delivery ($99/$95/$88 per month); singles $38 one-time and
-$31/$30/$28 per month; Steady $18 one-time and $15/$14/$13 per month.
+$31/$30/$28 per month; Steady $18 one-time and $15/$14/$13 per month; subscription
+free shipping from $28/mo.
 
-Shipping is one rule for one-time and subscription orders: free at a $50 or greater
-pre-discount merchandise subtotal for each delivery; otherwise $6.95. The threshold
-is not multiplied by the subscription cadence.
+BASELINE RE-CUT 2026-07-19 — the old baseline was stale in both directions:
 
-This file models:
+  T3  threshold fix   — SHIPPED. The $28xm subscription free-ship threshold is now
+                        the live rule, so it is the baseline, not a tweak. Its
+                        effect has already landed: a 3-month single sub is $84 and
+                        84 >= 28x3, so it now ships FREE (it used to pay $6.95
+                        against the old $30xm threshold).
+  T1  gift cap        — RETIRED, NOT AN OPTION. This modelled capping or dropping
+                        the "free Steady" on renewals. The gift structure it
+                        depended on was retired 2026-07-19: the Ritual is a genuine
+                        four-piece product, Steady ships in EVERY delivery, and
+                        there is no gift flag anywhere in the code. Give-then-remove
+                        reads as bait-and-switch at delivery 2, and the profit
+                        difference was under $1/month. Rows deleted so nobody can
+                        mistake gift logic for something still on the table.
+
+Still open, and all this file now models:
 
   T2  USD balance     — hold USD in Stripe, payout to a USD account -> no 2% FX
-  Shipping baseline  — one-month main and every Steady-only tier pay $6.95;
-                        two- and three-month mains and every Ritual tier ship free
+  Copy fix (no math)  — "always ship free" is true for mains and the Ritual, but
+                        NOT for a Steady-only subscription, which still pays $6.95
+                        at every tier ($15/$28/$39 never clears $28/$56/$84)
 
 Rows are full-price deliveries. The 10% welcome code (subscriptions only, first
 invoice only) is not modelled here — see havn_margins.py and havn_final.py.
@@ -24,8 +38,6 @@ Run: python havn_tweaks.py
 STRIPE_FIXED = 0.28
 SUP_PROC     = 0.0299
 F1, FA       = 1.99, 1.29
-FREE_SHIP    = 50.00
-CUSTOMER_SHIP = 6.95
 
 SKUS = {'rise': (11.65, 0.20), 'calm': (6.99, 0.16),
         'rest': (8.89, 0.25), 'steady': (5.35, 0.17)}
@@ -47,10 +59,6 @@ def profit(rev, units, stripe_pct, is_trio=False):
     stp  = rev * stripe_pct + STRIPE_FIXED
     return rev - cogs - ff - ship - proc - stp
 
-def customer_shipping(product_subtotal):
-    """Pre-discount merchandise threshold, evaluated once per delivery."""
-    return 0.0 if product_subtotal >= FREE_SHIP else CUSTOMER_SHIP
-
 SINGLE = {1: 31.00, 2: 30.00, 3: 28.00}
 STEADY = {1: 15.00, 2: 14.00, 3: 13.00}
 TRIO   = {1: 99.00, 2: 190.00, 3: 264.00}    # per delivery, _catalog.js:37
@@ -59,39 +67,38 @@ SUB_NOW, SUB_TWK = 0.0325 + 0.020 + 0.007, 0.0325 + 0.007   # T2 kills the 2% FX
 ONE_NOW, ONE_TWK = 0.0325 + 0.020,         0.0325
 
 print(f"\n{'OPTION':<24} {'SHIPS NOW':>9} {'WITH T2 FX':>13} {'GAIN':>7}   what changed")
-print("(per month for subscriptions; absolute for one-time orders; $50 delivery threshold.)")
+print("(per month for subs; absolute for one-times. T1 gift rows deleted — retired structure.)")
 print('-' * 88)
+
+FREE_SUB_SHIP = 28.00        # SHIPPED rule (was the T3 proposal); _catalog.js:45
 
 rows = []
 for m in (1, 2, 3):
     # all four pieces every delivery — no gift variant to model any more
     units = {'rise': m, 'calm': m, 'rest': m, 'steady': m}
-    revenue = TRIO[m] + customer_shipping(TRIO[m])
-    now = profit(revenue, units, SUB_NOW, True) / m
-    twk = profit(revenue, units, SUB_TWK, True) / m
+    now = profit(TRIO[m], units, SUB_NOW, True) / m
+    twk = profit(TRIO[m], units, SUB_TWK, True) / m
     rows.append((f'Ritual sub {m}mo', now, twk, 'T2 FX'))
 
 for m in (1, 2, 3):
     subt = SINGLE[m] * m
-    fee = customer_shipping(subt)                         # 31 pays; 60/84 ship free
+    fee = 0.0 if subt >= FREE_SUB_SHIP * m else 6.95     # 31/60/84 -> always free
     now = profit(subt + fee, {'rise': m}, SUB_NOW) / m
     twk = profit(subt + fee, {'rise': m}, SUB_TWK) / m
-    note = 'T2 only · ships free' if fee == 0 else 'T2 only · pays $6.95'
-    rows.append((f'Main sub {m}mo', now, twk, note))
+    rows.append((f'Main sub {m}mo', now, twk, 'T2 only · ships free'))
 
 for m in (1, 2, 3):
     subt = STEADY[m] * m
-    fee = customer_shipping(subt)                         # 15/28/39 all pay $6.95
+    fee = 0.0 if subt >= FREE_SUB_SHIP * m else 6.95     # 15/28/39 -> always pays
     now = profit(subt + fee, {'steady': m}, SUB_NOW) / m
     twk = profit(subt + fee, {'steady': m}, SUB_TWK) / m
-    note = 'T2 only · ships free' if fee == 0 else 'T2 only · pays $6.95'
-    rows.append((f'Steady sub {m}mo', now, twk, note))
+    rows.append((f'Steady sub {m}mo', now, twk, 'T2 only · pays $6.95'))
 
-one = [('Calm one-time', 38.00 + customer_shipping(38.00), {'calm': 1}, False),
-       ('Rise one-time', 38.00 + customer_shipping(38.00), {'rise': 1}, False),
-       ('Rest one-time', 38.00 + customer_shipping(38.00), {'rest': 1}, False),
-       ('Steady one-time', 18.00 + customer_shipping(18.00), {'steady': 1}, False),
-       ('Ritual one-time', 132.00 + customer_shipping(132.00), {'rise': 1, 'calm': 1, 'rest': 1, 'steady': 1}, True)]
+one = [('Calm one-time', 44.95, {'calm': 1}, False),
+       ('Rise one-time', 44.95, {'rise': 1}, False),
+       ('Rest one-time', 44.95, {'rest': 1}, False),
+       ('Steady one-time', 24.95, {'steady': 1}, False),
+       ('Ritual one-time', 132.00, {'rise': 1, 'calm': 1, 'rest': 1, 'steady': 1}, True)]
 for label, rev, units, t in one:
     rows.append((label, profit(rev, units, ONE_NOW, t),
                  profit(rev, units, ONE_TWK, t), 'T2 only'))

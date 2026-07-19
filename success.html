@@ -4,8 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Checkout return — HAVN</title>
+<title>Order confirmed — HAVN</title>
 <link rel="icon" href="assets/favicon.png">
+<!-- Analytics — enable together with index.html (GO_LIVE.md step 8)
+<script defer data-domain="YOUR-DOMAIN" src="https://plausible.io/js/script.pageview-props.revenue.js"></script>
+-->
 <style>
 @font-face{font-family:'Archivo';src:url('fonts/Archivo.ttf');font-display:swap;}
 @font-face{font-family:'Hanken';src:url('fonts/HankenGrotesk.ttf');font-display:swap;}
@@ -60,71 +63,68 @@ footer{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:cent
 </head>
 <body>
 <div class="band" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-<nav><a class="logo" href="next.html#top">HAVN</a><a class="back" href="next.html#top">← Back to the store</a></nav>
+<nav><a class="logo" href="index.html">HAVN</a><a class="back" href="index.html#products">← Back to the store</a></nav>
 <main>
-  <div class="demo" id="demoNote" hidden><b>DEMO CHECKOUT</b> — no payment was taken. This page only previews the order-confirmation experience.</div>
-  <div class="eyebrow" id="statusEyebrow">Checkout return</div>
-  <h1 id="statusTitle">Thank you.<br><span class="o">You're back.</span></h1>
+  <div class="demo" id="demoNote" hidden><b>DEMO CHECKOUT</b> — no payment was taken. This is the test-mode success page; connect Stripe keys (see GO_LIVE.md) and this exact flow goes live.</div>
+  <div class="eyebrow">Order confirmed</div>
+  <h1>Your ritual<br>is <span class="o">on its way.</span></h1>
   <div class="ref" id="ref"></div>
   <div class="total" id="total"></div>
 
   <div class="steps" aria-label="What happens next">
-    <div class="step on"><span class="tag">Now</span><h3>Check your Stripe receipt</h3><p>Your Stripe receipt is the source of the amount paid and payment status. Keep it and the order reference for your records.</p></div>
-    <div class="step"><span class="tag">After acceptance</span><h3>Fulfillment</h3><p>Accepted orders are submitted to our U.S. fulfillment partner, subject to inventory and address validation.</p></div>
-    <div class="step"><span class="tag">When available</span><h3>Delivery details</h3><p>Carrier and tracking details depend on fulfillment and are provided when available.</p></div>
-    <div class="step"><span class="tag">On arrival</span><h3>Read each label</h3><p>Follow the directions and warnings printed on each product label.</p></div>
+    <div class="step on"><span class="tag">Now</span><h3>Order confirmed</h3><p>Payment received. A receipt is headed to your inbox.</p></div>
+    <div class="step"><span class="tag">1–2 business days</span><h3>Bottled &amp; labeled in the USA</h3><p>Your bottles are prepared at our U.S. fulfillment facility with fresh HAVN labels.</p></div>
+    <div class="step"><span class="tag">2–5 business days</span><h3>Shipped to your door</h3><p>Tracking lands in your email the moment it leaves the facility.</p></div>
+    <div class="step"><span class="tag">Day 1</span><h3>Start the ritual</h3><p>Open the box, line the bottles up, and start with tomorrow morning.</p></div>
   </div>
 
   <h2>How to run it</h2>
   <div class="ritual">
-    <div class="r r1"><span class="n">N°01 · Daily</span><b>Rise</b><p>Take 2 capsules daily, with food or on an empty stomach.</p></div>
-    <div class="r r2"><span class="n">N°02 · Daily</span><b>Calm</b><p>Take 2 capsules daily with 6–8 oz of water, or as directed.</p></div>
-    <div class="r r3"><span class="n">N°03 · Daily</span><b>Rest</b><p>Take 3 capsules once daily.</p></div>
-    <div class="r r4"><span class="n">N°04 · Daily</span><b>Steady</b><p>Shake well. Take 2 mL (40 drops) once daily, preferably in the morning.</p></div>
+    <div class="r r1"><span class="n">N°01 · A.M.</span><b>Rise</b><p>2 capsules with breakfast.</p></div>
+    <div class="r r2"><span class="n">N°02 · Midday</span><b>Calm</b><p>2 capsules with water.</p></div>
+    <div class="r r3"><span class="n">N°03 · Night</span><b>Rest</b><p>3 capsules before bed.</p></div>
+    <div class="r r4"><span class="n">N°04 · Daily</span><b>Steady</b><p>2ml in the morning.</p></div>
   </div>
-  <p class="giftnote">Complete Ritual deliveries contain Rise, Calm, Rest, and N°04 Steady.</p>
+  <p class="giftnote">All four pieces ship together, every delivery — N°04 Steady included, always.</p>
 
   <div class="help" id="subHelp">
-    Questions or a requested change? Email <b><a href="mailto:hello@havn.co">hello@havn.co</a></b>.
-    <span id="subLine" hidden><br><span id="subCadence">Your subscription renews monthly.</span> Request a cancellation, skip, address change, or other subscription change by email at least 48 hours before renewal. The email receipt time determines whether the request reached HAVN before the cutoff; confirmation may arrive later.</span>
+    Questions, changes or a wrong address? Email <b><a href="mailto:hello@havn.co">hello@havn.co</a></b> — we answer fast.
+    <span id="subLine" hidden><br><span id="subCadence">Your subscription renews monthly.</span> Skip, swap or cancel anytime — the link is in your receipt email, or just write us.</span>
   </div>
 </main>
-<footer>HAVN · <a href="policies.html">Policies</a></footer>
+<footer>HAVN · Designed in Denmark · Manufactured in the USA from globally sourced ingredients · <a href="policies.html">Policies</a></footer>
 <script>
 (function(){
   var q = new URLSearchParams(location.search);
-  var demo = q.get('demo')==='1';
+  try{ localStorage.removeItem('havn_cart'); }catch(e){}
+  if(q.get('demo')==='1'){ document.getElementById('demoNote').hidden = false; }
   var sid = q.get('session_id');
   var sum = q.get('sum');
-  /* A session_id in the URL is not proof of payment. Preserve the production
-     cart until a server-side Stripe verification endpoint exists; only the
-     clearly local demo flow clears its simulated cart. */
-  if(demo){ try{ localStorage.removeItem('havn_cart'); }catch(e){} }
-  if(demo){ document.getElementById('demoNote').hidden = false; }
-  if(!sid && !demo){
-    document.getElementById('statusEyebrow').textContent = 'No checkout reference';
-    document.getElementById('statusTitle').innerHTML = 'Nothing to<br><span class="o">confirm.</span>';
-    document.getElementById('ref').textContent = 'Return to the store or use the reference in your Stripe receipt.';
-  }
   if(sid){ document.getElementById('ref').textContent = 'Ref: ' + sid.slice(0,28) + '…'; }
   else if(sum){ document.getElementById('ref').textContent = decodeURIComponent(sum); }
   var t = parseInt(q.get('total')||'',10);
   var sub = q.get('sub')==='1';
   var m = parseInt(q.get('m')||'1',10); if(!(m >= 1)) m = 1;
-  if(demo && Number.isFinite(t)){
-    /* Local demo mode sends its estimated product-plus-shipping total. No
-       payment is taken, and production totals never come from the URL. */
+  if(Number.isFinite(t)){
+    /* `total` is the PER-DELIVERY charge — checkout.js sends subtotalCents(), which already
+       multiplies by the supply length ($190 for a 2-month ritual, $264 for 3). Suffixing it
+       with "/mo" quoted $264/mo to a customer whose real rate is $88/mo. */
     var money = function(c){ return '$' + (c/100).toFixed(2); };
     var out;
-    if(!sub)       out = 'Demo estimated total: <b>' + money(t) + '</b>';
-    else if(m===1) out = 'Demo estimated total: <b>' + money(t) + '</b> · billed monthly';
-    else           out = 'Demo estimated total: <b>' + money(t) + '</b> · billed every ' + m + ' months';
+    if(!sub)       out = 'Total: <b>' + money(t) + '</b>';
+    else if(m===1) out = 'Total: <b>' + money(t) + '/mo</b> · subscription';
+    else           out = 'Total: <b>' + money(t) + '</b> · billed every ' + m + ' months (' + money(t/m) + '/mo)';
     document.getElementById('total').innerHTML = out;
     if(sub && m > 1){
       document.getElementById('subCadence').textContent = 'Your subscription renews every ' + m + ' months.';
     }
   }
   if(sub || q.get('demo')!=='1'){ document.getElementById('subLine').hidden = !sub; }
+  /* client-side purchase ping (the authoritative one fires server-side from the webhook) */
+  window.havnEvents = window.havnEvents || [];
+  var ev = {name:'purchase_page', props:{demo: q.get('demo')==='1', subscription: sub, total: Number.isFinite(t)? t/100 : null}, t: Date.now()};
+  window.havnEvents.push(ev);
+  try{ if(window.plausible) plausible(ev.name, {props: ev.props}); }catch(e){}
 })();
 </script>
 </body>
