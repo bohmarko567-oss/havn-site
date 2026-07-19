@@ -5,7 +5,8 @@ HAVN contribution-margin model v2 — every purchasable permutation, verified in
 Sources:
   costs/weights : catalog-base/products/*/record.md, RE-VERIFIED 2026-07-18 against live
                   Supliful Sanity API (all 4 unchanged, docs _updatedAt 2026-07-17)
-  prices        : havn-site/api/_catalog.js:9-35 (authoritative; checkout.js builds from it)
+  prices        : havn-site/api/_catalog.js:8-13 (singles) + :33-40 (Ritual)
+                  (authoritative; checkout.js builds from it)
   Supliful fees : help.supliful.com articles 11628956 (fulfillment) + 11549933 (processing),
                   fetched 2026-07-19; cross-checked supliful-brief/INTEL-FAQ.md:33,40,43
   Stripe        : stripe.com Denmark rates via fee-calculator sources, 2026-07-19:
@@ -18,7 +19,11 @@ Fee model decisions (v1 errors fixed):
     Supliful (product cost + fulfillment + their shipping) — Supliful never sees your
     retail revenue on a custom storefront. v1 wrongly applied it to retail.
   * Stripe raised from 4.9% to 5.25% (+0.7% Billing on subs). v1 was low.
-  * Fulfillment $1.29 confirmed same-product-only => trio (4 distinct products) pays 4x$1.99.
+  * Fulfillment $1.29 confirmed same-product-only => Ritual (4 distinct products) pays 4x$1.99.
+
+Product shape: the Ritual is a genuine FOUR-piece product — Rise + Calm + Rest + Steady in
+EVERY delivery, forever. The old "3 mains + free Steady on delivery 1" model was retired
+2026-07-19; there is no gift flag anywhere in the code or in this model.
 
 Run: python havn_margins.py
 """
@@ -83,29 +88,29 @@ add('1x Calm     one-time',  38.00 + 6.95, {'calm': 1})
 add('1x Rest     one-time',  38.00 + 6.95, {'rest': 1})
 add('1x Steady   one-time',  18.00 + 6.95, {'steady': 1})          # NEVER free ship
 add('2x mains    one-time',  76.00 + 6.95, {'rise': 1, 'calm': 1})
-add('Trio        one-time', 114.00,        {'rise': 1, 'calm': 1, 'rest': 1, 'steady': 1}, trio=True)
-add('Trio x2     one-time', 228.00,        {'rise': 2, 'calm': 2, 'rest': 2, 'steady': 1}, trio=True)  # _catalog.js:155: 1 steady, not 2
+add('Ritual      one-time', 132.00,        {'rise': 1, 'calm': 1, 'rest': 1, 'steady': 1}, trio=True)
+add('Ritual x2   one-time', 264.00,        {'rise': 2, 'calm': 2, 'rest': 2, 'steady': 2}, trio=True)
 
-# ---- SUBSCRIPTION: free ship iff subtotal >= $30 x m ------------------------
+# ---- SUBSCRIPTION: free ship iff subtotal >= $28 x m ------------------------
 SINGLE = {1: 31.00, 2: 30.00, 3: 28.00}      # per month, _catalog.js:9-11
 STEADY = {1: 15.00, 2: 14.00, 3: 13.00}      # _catalog.js:12
-TRIO   = {1: 93.00, 2: 180.00, 3: 252.00}    # per delivery, _catalog.js:26
+TRIO   = {1: 99.00, 2: 190.00, 3: 264.00}    # per delivery, _catalog.js:37
 
 def sub_rows(coupon):
-    tag = '  1st inv -15%' if coupon else ''
-    k = 0.85 if coupon else 1.0
+    tag = '  1st inv -10%' if coupon else ''
+    k = 0.90 if coupon else 1.0
     for m in (1, 2, 3):
         subt = SINGLE[m] * m
-        fee = 0.0 if subt >= 30.00 * m else 6.95     # m=3: 84 < 90 -> pays
+        fee = 0.0 if subt >= 28.00 * m else 6.95     # 31/60/84 >= 28/56/84 -> ALWAYS free
         add(f'1x main     sub {m}mo{tag}', round((subt + fee) * k, 2), {'rise': m}, m, sub=True)
         subt = STEADY[m] * m
-        fee = 6.95                                    # 15/28/39 < 30/60/90 -> ALWAYS pays
+        fee = 0.0 if subt >= 28.00 * m else 6.95     # 15/28/39 < 28/56/84 -> ALWAYS pays
         add(f'1x Steady   sub {m}mo{tag}', round((subt + fee) * k, 2), {'steady': m}, m, sub=True)
-        add(f'Trio        sub {m}mo{tag}', round(TRIO[m] * k, 2),
+        add(f'Ritual      sub {m}mo{tag}', round(TRIO[m] * k, 2),
             {'rise': m, 'calm': m, 'rest': m, 'steady': m}, m, sub=True, trio=True)
 
 sub_rows(False)
-sub_rows(True)    # 15% welcome code: subs only, first invoice only, discounts ship line too
+sub_rows(True)    # 10% welcome code: subs only, first invoice only, discounts ship line too
 
 # ---------------------------------------------------------------- output
 W = 30

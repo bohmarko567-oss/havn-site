@@ -1,6 +1,6 @@
 # HAVN
 
-**The 4-piece daily ritual** — Rise (focus) · Calm (balance) · Rest (sleep) + Steady, free with the complete ritual.
+**The 4-piece daily ritual** — Rise (focus) · Calm (balance) · Rest (sleep) · Steady (blood sugar). All four in every delivery, one price, forever.
 
 Store: static front end + serverless Stripe checkout (`/api`). Deploy: Vercel (functions) or any static host (demo mode).
 

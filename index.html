@@ -531,7 +531,7 @@ footer a{color:inherit;}
       <details><summary>How does the subscription work?</summary><p>One delivery a month, all four pieces: Rise, Calm, Rest and Steady. $99/mo, versus $132 for the same four one-time — that's 25% off (switch in the cart). Skip a month, swap a formula or cancel from the link in any receipt, at least 48h before renewal. No calls, no fees.</p></details>
       <details><summary>Is there a first-order discount?</summary><p>Subscribe to the ritual and use the welcome code — 10% off, first order, subscription only. $99 becomes <b>$89.10</b> for month one, then it renews at $99/mo with all four pieces every time. One code per person; it doesn't stack with other offers.</p></details>
       <details><summary>Can I actually cancel anytime?</summary><p>Yes — two taps from any receipt, and the subscription ends with the current month. Nothing to return, nobody to argue with. Anything already shipped is yours.</p></details>
-      <details><summary>Shipping &amp; returns?</summary><p>Subscriptions ship free in the U.S. from $28/mo — the ritual and every single-formula plan clear that on their own. A STEADY-only subscription is $6.95. One-time orders ship free at $79+, otherwise $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
+      <details><summary>Shipping &amp; returns?</summary><p>Subscriptions ship free in the U.S. from $28/mo — the ritual and every main formula plan clear that on their own. A STEADY-only subscription ($15/mo) is the one plan under that floor, so it adds $6.95 shipping. One-time orders ship free at $79+, otherwise $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
       <details><summary>When will I feel a difference?</summary><p>Honest answer: Rest and Calm often land within days. Rise builds over 2–4 weeks of daily use — that's exactly why the first order carries the guarantee. Give it the month; it costs you nothing if it's not for you.</p></details>
       <details><summary>What exactly is in each bottle?</summary><p>No proprietary blends — full doses, printed on the label. In your cart, tap <b>Rise</b>, <b>Calm</b>, <b>Rest</b> or <b>Steady</b> on the ritual line (or the “label” link on any bottle) to see the complete Supplement Facts panel, exactly as it prints.</p></details>
       <details><summary>Is it safe — and who makes it?</summary><p>Manufactured in the USA in FDA-registered, cGMP facilities from globally sourced ingredients — non-GMO, gluten-free, third-party tested, no artificial fillers. As with any supplement: check with a physician if you're pregnant, nursing, under 18 or taking medication.</p></details>
@@ -556,7 +556,7 @@ footer a{color:inherit;}
   <div class="cart-items" id="cartItems"></div>
   <div class="drawer-foot">
     <div class="modetoggle" role="group" aria-label="Purchase type">
-      <button id="mSub" class="mt on" onclick="setMode(true)" aria-pressed="true">SUBSCRIBE &amp; SAVE 25%</button>
+      <button id="mSub" class="mt on" onclick="setMode(true)" aria-pressed="true">SUBSCRIBE &amp; SAVE</button>
       <button id="mOne" class="mt" onclick="setMode(false)" aria-pressed="false">ONE-TIME</button>
     </div>
     <div class="gift-line" id="giftLine" role="status">✓ <span>All four pieces — <b>STEADY</b> ships in every delivery</span></div>
@@ -707,7 +707,7 @@ function update(){
   $('footNote').textContent = subscribe
     ? (disc>0 ? `Renews at ${fmt(st)}/mo from month 2 · skip or cancel anytime`
               : 'Subscription renews monthly · skip or cancel anytime')
-    : 'One-time order · switch to Subscribe & Save for 25% off';
+    : 'One-time order · switch to Subscribe & Save';
 
   document.querySelectorAll('.chip button').forEach(b=>{
     const has = hasSku(b.dataset.add);

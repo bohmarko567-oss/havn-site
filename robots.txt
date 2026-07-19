@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://havn.co/sitemap.xml
+# havn.co is not registered yet (GO_LIVE.md step 6) — keep this on the origin that
+# actually serves the site, and flip it with canonical/og:url when the domain lands.
+Sitemap: https://bohmarko567-oss.github.io/havn-site/sitemap.xml

@@ -1,7 +1,19 @@
 #!/usr/bin/env python3
 """
 4-PIECE RITUAL scenarios — Steady included forever, no give-then-take.
-Compares against the current 3+gift structure. Same verified fee model.
+
+DECISION RECORD, dated 2026-07-19 — not a live model. This is the analysis that
+ARGUED FOR the four-piece change; it compares candidate ladders against the FORMER
+3-mains + Steady-as-first-delivery-gift structure, which was RETIRED on that date.
+Nothing below describes what ships today.
+
+The ladder that shipped is $99 / $95 / $88 per month (one-time anchor $132). The
+candidate ladders kept below — including 99/95/90 — are superseded, and are retained
+deliberately as the record of why $88 beat $90: at $90 the 3-month saving vs buying
+the four loose shrinks to $7/mo, so the bundle would read as getting stingier the
+longer the customer commits. Same verified fee model as havn_margins.py.
+
+Live numbers live in havn_margins.py; the money authority is api/_catalog.js.
 """
 C = {'rise': 11.65, 'calm': 6.99, 'rest': 8.89, 'steady': 5.35}
 W = {'rise': 0.20, 'calm': 0.16, 'rest': 0.25, 'steady': 0.17}
@@ -28,7 +40,7 @@ def run(rev, skus, m, sub=True):
 FOUR  = ['rise', 'calm', 'rest', 'steady']
 THREE = ['rise', 'calm', 'rest']
 
-print("\n=== TODAY: 3 mains + Steady as first-delivery gift ===")
+print("\n=== FORMER MODEL: 3 mains + Steady as first-delivery gift ===")
 p, pct, pm = run(93.00, FOUR, 1);  print(f"  month 1 (gift)    $93.00  profit {p:6.2f}  {pct:4.1f}%")
 p, pct, pm = run(93.00, THREE, 1); print(f"  month 2+ (3 only) $93.00  profit {p:6.2f}  {pct:4.1f}%   <- the candy grab")
 

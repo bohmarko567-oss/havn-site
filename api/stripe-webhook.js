@@ -139,7 +139,14 @@ module.exports = async (req, res) => {
         if (!md && invoice.subscription) {
           try { md = (await stripe.subscriptions.retrieve(invoice.subscription)).metadata; } catch {}
         }
-        const parsed = cartFromMetadata(md) || { cart: normalizeCart({}), subscribe: true };
+        /* Never invent a cart for an order that has already been charged. normalizeCart({})
+           yields zero of everything, so fulfillmentUnits() returns an all-zero picklist and
+           ownerOrderEmail (which filters to q>0) sends a ship-it alert with an EMPTY table —
+           the customer pays and receives nothing. Throw instead: the catch below returns 500,
+           Stripe retries (transient retrieve() blips resolve on their own), and a persistent
+           failure stays loudly visible in the Stripe dashboard instead of shipping an empty box. */
+        const parsed = cartFromMetadata(md);
+        if (!parsed) throw new Error(`renewal ${invoice.id}: cart metadata unrecoverable — do not ship blind, look this subscription up in Stripe`);
         let ship = invoice.customer_shipping || null;
         if (!ship && invoice.customer) {
           try { const cust = await stripe.customers.retrieve(invoice.customer); ship = cust.shipping || null; } catch {}

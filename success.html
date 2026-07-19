@@ -89,7 +89,7 @@ footer{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:cent
 
   <div class="help" id="subHelp">
     Questions, changes or a wrong address? Email <b><a href="mailto:hello@havn.co">hello@havn.co</a></b> — we answer fast.
-    <span id="subLine" hidden><br>Your subscription renews monthly. Skip, swap or cancel anytime — the link is in your receipt email, or just write us.</span>
+    <span id="subLine" hidden><br><span id="subCadence">Your subscription renews monthly.</span> Skip, swap or cancel anytime — the link is in your receipt email, or just write us.</span>
   </div>
 </main>
 <footer>HAVN · Designed in Denmark · Manufactured in the USA from globally sourced ingredients · <a href="policies.html">Policies</a></footer>
@@ -104,8 +104,20 @@ footer{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:cent
   else if(sum){ document.getElementById('ref').textContent = decodeURIComponent(sum); }
   var t = parseInt(q.get('total')||'',10);
   var sub = q.get('sub')==='1';
+  var m = parseInt(q.get('m')||'1',10); if(!(m >= 1)) m = 1;
   if(Number.isFinite(t)){
-    document.getElementById('total').innerHTML = 'Total: <b>$'+(t/100).toFixed(2)+(sub?'/mo':'')+'</b>' + (sub?' · subscription':'');
+    /* `total` is the PER-DELIVERY charge — checkout.js sends subtotalCents(), which already
+       multiplies by the supply length ($190 for a 2-month ritual, $264 for 3). Suffixing it
+       with "/mo" quoted $264/mo to a customer whose real rate is $88/mo. */
+    var money = function(c){ return '$' + (c/100).toFixed(2); };
+    var out;
+    if(!sub)       out = 'Total: <b>' + money(t) + '</b>';
+    else if(m===1) out = 'Total: <b>' + money(t) + '/mo</b> · subscription';
+    else           out = 'Total: <b>' + money(t) + '</b> · billed every ' + m + ' months (' + money(t/m) + '/mo)';
+    document.getElementById('total').innerHTML = out;
+    if(sub && m > 1){
+      document.getElementById('subCadence').textContent = 'Your subscription renews every ' + m + ' months.';
+    }
   }
   if(sub || q.get('demo')!=='1'){ document.getElementById('subLine').hidden = !sub; }
   /* client-side purchase ping (the authoritative one fires server-side from the webhook) */

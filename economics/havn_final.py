@@ -1,7 +1,21 @@
 #!/usr/bin/env python3
 """
-FINAL profit table — every live cart, every fee, first order and renewal.
-Mirrors the shipped catalogue exactly (api/_catalog.js, verified 2026-07-19).
+Ritual profit table — first order and renewal, every fee.
+
+Prices mirror the shipped catalogue (api/_catalog.js, re-verified 2026-07-19):
+one-time anchor $132; Ritual sub per delivery $99 / $190 / $264 ($99/$95/$88 per
+month); 10% welcome code, subscriptions only, first invoice only. Four pieces —
+Rise + Calm + Rest + Steady — in EVERY delivery; there is no gift flag.
+
+SCOPE — this file does NOT cover every live cart, despite what it used to claim:
+it models the Ritual (sub 1/2/3-mo at full price and with the welcome code, plus
+the one-time anchor) and the three-loose-mains subscription. Single subs, Steady
+subs and one-time singles are NOT here — see havn_margins.py, which enumerates
+every purchasable permutation. Shared rows agree with havn_margins.py to the cent.
+
+Note on the loose-mains row: three mains do NOT collapse into the Ritual (that
+would hand over a Steady nobody paid for). Only all FOUR loose formulas collapse,
+and that collapse is a $9/mo discount, not price-neutral.
 """
 C = {'rise': 11.65, 'calm': 6.99, 'rest': 8.89, 'steady': 5.35}
 W = {'rise': 0.20, 'calm': 0.16, 'rest': 0.25, 'steady': 0.17}
@@ -37,11 +51,11 @@ ROWS = [
     ('Ritual 1-mo · 10% code',   calc(89.10,  FOUR, 1, ritual=True)),
     ('Ritual 2-mo',              calc(190.00, FOUR, 2, ritual=True)),
     ('Ritual 2-mo · 10% code',   calc(171.00, FOUR, 2, ritual=True)),
-    ('Ritual 3-mo',              calc(270.00, FOUR, 3, ritual=True)),
-    ('Ritual 3-mo · 10% code',   calc(243.00, FOUR, 3, ritual=True)),
+    ('Ritual 3-mo',              calc(264.00, FOUR, 3, ritual=True)),
+    ('Ritual 3-mo · 10% code',   calc(237.60, FOUR, 3, ritual=True)),
     ('Ritual one-time',          calc(132.00, FOUR, 1, sub=False, ritual=True)),
-    ('Three mains sub',          calc(93.00,  THREE, 1)),
-    ('Three mains · 10% code',   calc(83.70,  THREE, 1)),
+    ('3 loose mains sub',        calc(93.00,  THREE, 1)),
+    ('3 loose mains · 10% code', calc(83.70,  THREE, 1)),
 ]
 
 W1 = 24
@@ -72,6 +86,6 @@ def nofx(rev, skus, m, sub=True, ritual=False):
     d = calc(rev, skus, m, sub, ritual)
     return d['p'] + rev * 0.020
 print(f"  Ritual 1-mo      ${ROWS[0][1]['p']:.2f}  ->  ${nofx(99.00, FOUR, 1, ritual=True):.2f}   (+$1.98)")
-print(f"  Ritual 3-mo      ${ROWS[4][1]['p']:.2f}  ->  ${nofx(270.00, FOUR, 3, ritual=True):.2f}   (+$5.40)")
+print(f"  Ritual 3-mo      ${ROWS[4][1]['p']:.2f}  ->  ${nofx(264.00, FOUR, 3, ritual=True):.2f}   (+$5.28)")
 print(f"  Ritual one-time  ${ROWS[6][1]['p']:.2f}  ->  ${nofx(132.00, FOUR, 1, False, True):.2f}   (+$2.64)")
 

@@ -813,7 +813,7 @@ footer a{color:inherit;}
       <details><summary>Can I actually cancel anytime?</summary><p>Yes — two taps from any receipt, and the subscription ends with the current month. Nothing to return, nobody to argue with. Every bottle already delivered is yours to keep.</p></details>
       <details><summary>Shipping &amp; returns?</summary><p>Subscriptions ship free in the U.S. from $28/mo of subscription value — the complete ritual and any single main qualify at every supply length. Below that (a STEADY-only subscription), shipping is $6.95. One-time orders ship free at $79+, otherwise $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
       <details><summary>When will I feel a difference?</summary><p>Honest answer: Rest and Calm often land within days. Rise builds over 2–4 weeks of daily use — that's exactly why the first order carries the guarantee. Give it the month; it costs you nothing if it's not for you.</p></details>
-      <details><summary>What exactly is in each bottle?</summary><p>No proprietary blends — full doses, printed on the label. In your cart, tap <b>Rise</b>, <b>Calm</b> or <b>Rest</b> on the ritual line (or the “label” link on any bottle) to see the complete Supplement Facts panel, exactly as it prints.</p></details>
+      <details><summary>What exactly is in each bottle?</summary><p>No proprietary blends — full doses, printed on the label. In your cart, tap <b>Rise</b>, <b>Calm</b>, <b>Rest</b> or <b>Steady</b> on the ritual line (or the “label” link on any bottle) to see the complete Supplement Facts panel, exactly as it prints.</p></details>
       <details><summary>Is it safe — and who makes it?</summary><p>Manufactured in the USA in FDA-registered, cGMP facilities from globally sourced ingredients — non-GMO, gluten-free, third-party tested, no artificial fillers. As with any supplement: check with a physician if you're pregnant, nursing, under 18 or taking medication.</p></details>
     </div>
   </div>
@@ -874,7 +874,7 @@ footer a{color:inherit;}
 </button>
 <div class="pwrap" id="pwrap" onclick="if(event.target===this)promoClose()">
   <div class="pcircle" role="dialog" aria-modal="true" aria-label="Get 10% off your first order">
-    <div class="pc-eyebrow">First order · single-use code</div>
+    <div class="pc-eyebrow">First order · subscription · single-use code</div>
     <div class="pc-big">10% off</div>
     <div class="pc-sub">your first ritual</div>
     <div class="pform" id="promoForm">
@@ -1162,7 +1162,10 @@ function ckFallback(){
   if(complete()) lines.push(`<div class="l g"><span>Includes N°04 Steady — every delivery</span><span>✓</span></div>`);
   if(discount()>0) lines.push(`<div class="l g"><span>10% code · ${promoCodeVal()} · first order</span><span>−${fmt(discount())}</span></div>`);
   lines.push(`<div class="l"><span>Shipping</span><span>${subtotal()>=shipGoal()?'FREE':'at checkout'}</span></div>`);
-  lines.push(`<div class="l t"><span>${discount()>0?'First invoice':'Total'+(subscribe?' / month':'')}</span><span>${fmt(cartTotal())}</span></div>`);
+  /* cartTotal() is PER DELIVERY (trioPrice() = PLANM(m).total = pm × months), so it must never
+     be labelled "/ month" — that rendered "Total / month  $264" for a 3-month plan whose real
+     rate is $88/mo. perLbl() prints the honest unit, exactly as the "Then" line below does. */
+  lines.push(`<div class="l t"><span>${discount()>0?'First invoice':'Total'}</span><span>${fmt(cartTotal())}${subscribe?perLbl():''}</span></div>`);
   if(discount()>0) lines.push(`<div class="l"><span>Then</span><span>${fmt(subtotal())}${perLbl()}</span></div>`);
   $('ckSummary').innerHTML = lines.join('');
   closeCart(); $('ckmodal').classList.add('open');

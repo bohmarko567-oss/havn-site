@@ -83,7 +83,10 @@ module.exports = async (req, res) => {
     const params = {
       mode: subscribe ? 'subscription' : 'payment',
       line_items: lineItems(cart, subscribe, imgBase || null, months),
-      success_url: origin + '/success.html?session_id={CHECKOUT_SESSION_ID}',
+      /* Pass the same figures demo mode sends, so the confirmation page can show a total
+         and the correct billing cadence in production too (it previously showed neither). */
+      success_url: origin + '/success.html?session_id={CHECKOUT_SESSION_ID}&total=' + subtotal
+                   + '&sub=' + (subscribe ? 1 : 0) + '&m=' + months,
       cancel_url: origin + '/#products',
       shipping_address_collection: { allowed_countries: ['US'] },
       phone_number_collection: { enabled: true },   /* the fulfillment partner declines orders without a phone */
