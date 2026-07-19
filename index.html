@@ -152,6 +152,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .om-list b{color:#F08BC0;}
 .om-list s{color:#FF7B7B;}
 .om-cta{min-width:0;border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;font-size:12.5px;box-shadow:0 5px 0 rgba(0,0,0,.35);cursor:pointer;padding:0 14px;white-space:nowrap;}
+.om-cta s{font-size:.8em;opacity:.5;margin-right:2px;}   /* one-time anchor, never a computed step */
 .offmenu .minirow{width:min(84vw,420px);margin-top:0;}
 .om-mini{font-family:var(--mono);font-size:10px;color:#C99BB5;line-height:1.6;}
 .om-mini a{color:inherit;}
@@ -184,6 +185,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .minirow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
 .minirow button{min-height:44px;border:1.5px solid #5A2B45;background:transparent;color:#F3E6ED;border-radius:100px;font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.4px;}
 .minirow button.has{border-color:var(--berry);color:#F08BC0;}
+.minirow button s{color:#FF7B7B;margin-right:2px;}
 
 .rmarq{overflow:hidden;position:relative;}   /* hidden not clip — iOS skips painting animated clip content */
 .rmtrack{display:flex;gap:18px;width:max-content;animation:rmq 52s linear infinite;will-change:transform;transform:translateZ(0);}
@@ -235,13 +237,16 @@ footer a{color:inherit;}
 .cart-items{flex:1;overflow-y:auto;padding:4px 24px;}
 .cart-empty{text-align:center;color:var(--muted);padding:44px 10px;font-size:14.5px;line-height:1.7;}
 .cart-empty .btn{margin-top:14px;}
+.cart-empty .btn s{opacity:.5;margin-right:2px;}
 .citem{display:flex;gap:13px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);}
 .citem .sw{width:46px;height:46px;border-radius:12px;flex:none;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:10px;color:rgba(255,255,255,.9);}
 .citem .ci-n{font-family:var(--disp);font-variation-settings:'wght' 800,'wdth' 112;font-size:15.5px;text-transform:uppercase;}
 .citem .ci-s{font-family:var(--mono);font-size:10.5px;color:var(--muted);max-width:170px;}
 .citem .ci-s button{background:none;border:0;color:var(--rise2);text-decoration:underline;font:inherit;padding:0;}
+.citem .ci-s s{color:#C0392B;}
 .citem .ci-right{margin-left:auto;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
 .citem .ci-p{font-family:var(--mono);font-weight:700;font-size:13.5px;}
+.citem .ci-p s{color:#C0392B;font-weight:400;font-size:.85em;margin-right:4px;}
 .qty{display:flex;align-items:center;gap:2px;border:1.5px solid var(--line);border-radius:100px;background:#fff;}
 .qty button{width:34px;height:34px;border:none;background:none;font-size:16px;cursor:pointer;color:var(--ink);border-radius:50%;}
 .qty .q{font-family:var(--mono);font-weight:700;font-size:13px;width:22px;text-align:center;}
@@ -489,7 +494,7 @@ footer a{color:inherit;}
           <button id="fMonthly" class="on" type="button" aria-pressed="true" onclick="setMode(true)">Monthly</button>
           <button id="fOnce" type="button" aria-pressed="false" onclick="setMode(false)">Once</button>
         </div>
-        <button class="om-cta" id="offerBtn" onclick="addTrio()">Complete ritual · $99</button>
+        <button class="om-cta" id="offerBtn" onclick="addTrio()">Complete ritual <s>$132</s> $99</button>
       </div>
       <div class="minirow" id="miniRow" aria-label="Build your own stack"></div>
       <div class="om-mini" id="offerMini">Subscription · <a href="policies.html">guarantee &amp; terms</a></div>
@@ -512,7 +517,7 @@ footer a{color:inherit;}
       <div class="review"><div class="stars">★★★★★</div><p>“Honestly got the whole ritual for the drops lol. Kept it because my 2pm crash just… stopped?”</p><div class="who">— Jordan K.</div></div>
       <div class="review"><div class="stars">★★★★☆</div><p>“Real talk: Rise took almost a month to do anything and I was about to cancel. Glad I waited — but it's not instant.”</p><div class="who">— Marcus T.</div></div>
       <div class="review"><div class="stars">★★★★★</div><p>“Rest is the first magnesium that hasn't messed with my stomach. In bed at 10, out by 10:30.”</p><div class="who">— Anika S.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><p>“Did the math against buying all four seperately — the ritual wins by like 30 bucks a month.”</p><div class="who">— Tom W.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><p>“Did the math against subscribing to all four seperately — ritual's nine bucks cheaper a month and the drops come with it.”</p><div class="who">— Tom W.</div></div>
       <div class="review"><div class="stars">★★★★★</div><p>“Night shift nurse. Rest after work, Rise at 2pm. My sleep schedule finally doesn't feel like jet lag.”</p><div class="who">— Sam O.</div></div>
       <div class="review"><div class="stars">★★★★★</div><p>“The Danish design is what got me, not gonna lie. Three months in, the routine actually stuck.”</p><div class="who">— Freja L.</div></div>
       <div class="review"><div class="stars">★★★★★</div><p>“Was fully ready to use the refund guarantee. Kept the subscription instead.”</p><div class="who">— Priya N.</div></div>
@@ -524,7 +529,7 @@ footer a{color:inherit;}
     <div class="faq">
       <details open><summary>What is the 4th piece?</summary><p>STEADY — N°04, our Normal Blood Sugar Drops. Six botanicals in a daily 2ml dropper to support healthy energy metabolism*. It isn't a bonus or a gift you have to earn: it's simply the fourth member of the ritual, in the box every single delivery, for as long as you subscribe. Want it on its own instead? $15/mo on subscription, $18 one-time.</p></details>
       <details><summary>How does the subscription work?</summary><p>One delivery a month, all four pieces: Rise, Calm, Rest and Steady. $99/mo, versus $132 for the same four one-time — that's 25% off (switch in the cart). Skip a month, swap a formula or cancel from the link in any receipt, at least 48h before renewal. No calls, no fees.</p></details>
-      <details><summary>What's the cheapest way in?</summary><p>Subscribe to the ritual and use the welcome code — 10% off, first order, subscription only. $99 becomes <b>$89.10</b> for month one, then it renews at $99/mo with all four pieces every time. One code per person; it doesn't stack with other offers.</p></details>
+      <details><summary>Is there a first-order discount?</summary><p>Subscribe to the ritual and use the welcome code — 10% off, first order, subscription only. $99 becomes <b>$89.10</b> for month one, then it renews at $99/mo with all four pieces every time. One code per person; it doesn't stack with other offers.</p></details>
       <details><summary>Can I actually cancel anytime?</summary><p>Yes — two taps from any receipt, and the subscription ends with the current month. Nothing to return, nobody to argue with. Anything already shipped is yours.</p></details>
       <details><summary>Shipping &amp; returns?</summary><p>Subscriptions ship free in the U.S. from $28/mo — the ritual and every single-formula plan clear that on their own. A STEADY-only subscription is $6.95. One-time orders ship free at $79+, otherwise $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
       <details><summary>When will I feel a difference?</summary><p>Honest answer: Rest and Calm often land within days. Rise builds over 2–4 weeks of daily use — that's exactly why the first order carries the guarantee. Give it the month; it costs you nothing if it's not for you.</p></details>
@@ -623,6 +628,12 @@ function track(n,p){ try{ window.havnEvents.push({name:n,props:p||{},t:Date.now(
 const fmt = n => Number.isInteger(n) ? '$'+n : '$'+n.toFixed(2);
 const priceSingle = id => subscribe ? (id==='steady'?P2.sub.steady:P2.sub.single) : (id==='steady'?P2.one.steady:P2.one.single);
 const trioPrice = () => subscribe ? P2.sub.trio : P2.one.trio;
+/* PRICE LAW: the struck value is ALWAYS the one-time anchor — the highest price a
+   product ever carries ($38 mains / $18 steady / $132 ritual). Never a computed
+   intermediate, never a neighbouring tier. It only renders in subscribe mode, where
+   there is a real discount to anchor against. */
+const anchorSingle = id => id==='steady' ? P2.one.steady : P2.one.single;
+const strike = n => subscribe ? `<s>${fmt(n)}</s> ` : '';
 const itemCount = () => cart.trio*4 + Object.values(cart.singles).reduce((s,q)=>s+q,0);
 const hasSku = id => cart.trio>0 || cart.singles[id]>0;
 const complete = () => cart.trio>0;
@@ -649,18 +660,18 @@ function update(){
   if(cart.trio>0) items.push(`
     <div class="citem"><div class="sw" style="background:linear-gradient(135deg,#FF6A15 0 25%,#12A594 0 50%,#4E43C9 0 75%,#C81E78 0)"></div>
       <div><div class="ci-n">Complete Ritual</div><div class="ci-s"><button onclick="openLabel('rise')" aria-label="Rise Supplement Facts">Rise</button> + <button onclick="openLabel('calm')" aria-label="Calm Supplement Facts">Calm</button> + <button onclick="openLabel('rest')" aria-label="Rest Supplement Facts">Rest</button> + <button onclick="openLabel('steady')" aria-label="Steady Supplement Facts">Steady</button>${subscribe?' · monthly':''} · all four, every delivery</div></div>
-      <div class="ci-right"><span class="ci-p">${fmt(cart.trio*trioPrice())}</span>
+      <div class="ci-right"><span class="ci-p">${strike(cart.trio*P2.one.trio)}${fmt(cart.trio*trioPrice())}</span>
         <div class="qty" aria-label="Ritual quantity"><button onclick="bumpTrio(-1)" aria-label="Decrease">−</button><span class="q">${cart.trio}</span><button onclick="bumpTrio(1)" aria-label="Increase">+</button></div></div></div>`);
   for(const id of ['rise','calm','rest','steady']){
     const q = cart.singles[id];
     if(q>0) items.push(`
     <div class="citem"><div class="sw" style="background:${HEX[id]}">${{rise:'01',calm:'02',rest:'03',steady:'04'}[id]}</div>
-      <div><div class="ci-n">${NAMES[id]}</div><div class="ci-s">${SUBS[id]} · ${fmt(priceSingle(id))}${subscribe?'/mo':''} · <button onclick="openLabel('${id}')">label</button></div></div>
+      <div><div class="ci-n">${NAMES[id]}</div><div class="ci-s">${SUBS[id]} · ${strike(anchorSingle(id))}${fmt(priceSingle(id))}${subscribe?'/mo':''} · <button onclick="openLabel('${id}')">label</button></div></div>
       <div class="ci-right"><span class="ci-p">${fmt(q*priceSingle(id))}</span>
         <div class="qty" aria-label="${NAMES[id]} quantity"><button onclick="bumpSingle('${id}',-1)" aria-label="Decrease">−</button><span class="q">${q}</span><button onclick="bumpSingle('${id}',1)" aria-label="Increase">+</button></div></div></div>`);
   }
   $('cartItems').innerHTML = items.length ? items.join('') :
-    `<div class="cart-empty">Your ritual is empty.<br>Four pieces are waiting.<br><button class="btn" style="border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;padding:14px 22px;" onclick="addTrio()">Start with all of it — ${fmt(trioPrice())}${subscribe?'/mo':''}</button></div>`;
+    `<div class="cart-empty">Your ritual is empty.<br>Four pieces are waiting.<br><button class="btn" style="border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;padding:14px 22px;" onclick="addTrio()">Start with all of it — ${strike(P2.one.trio)}${fmt(trioPrice())}${subscribe?'/mo':''}</button></div>`;
 
   /* ship bar (per-mode goal) */
   const st = subtotal();
@@ -701,12 +712,20 @@ function update(){
   document.querySelectorAll('.chip button').forEach(b=>{
     const has = hasSku(b.dataset.add);
     b.classList.toggle('added', has); b.textContent = has ? '✓ IN' : 'ADD';
+    /* the film chips are price surfaces too — left static they showed the sub price
+       while the cart was in one-time mode. Same law: anchor struck, real price live. */
+    const pr = b.parentElement.querySelector('.pr');
+    if(pr) pr.innerHTML = subscribe
+      ? `<s>${fmt(anchorSingle(b.dataset.add))}</s>${fmt(priceSingle(b.dataset.add))}/mo`
+      : fmt(priceSingle(b.dataset.add));
   });
-  $('offerBtn').textContent = subscribe ? 'Complete ritual · $99' : 'Complete ritual · $132';
+  $('offerBtn').innerHTML = subscribe
+    ? `Complete ritual <s>${fmt(P2.one.trio)}</s> ${fmt(P2.sub.trio)}`
+    : `Complete ritual · ${fmt(P2.one.trio)}`;   /* one-time IS the anchor — nothing to strike */
   $('offerMini').innerHTML = (subscribe ? 'Subscription · skip or cancel anytime' : 'One-time order') + ' · <a href="policies.html">guarantee &amp; terms</a>';
   /* build-your-own-stack pills (mixed bundles: e.g. two formulas + the drops) */
   $('miniRow').innerHTML = ['rise','calm','rest','steady'].map(id =>
-    `<button class="${hasSku(id)?'has':''}" onclick="addSku('${id}')">${hasSku(id)?'✓':'+'} ${NAMES[id].toUpperCase()} · ${fmt(priceSingle(id))}${subscribe?'/mo':''}</button>`).join('');
+    `<button class="${hasSku(id)?'has':''}" onclick="addSku('${id}')">${hasSku(id)?'✓':'+'} ${NAMES[id].toUpperCase()} · ${strike(anchorSingle(id))}${fmt(priceSingle(id))}${subscribe?'/mo':''}</button>`).join('');
 
   if(done && !prevComplete){ balloons(); }
   prevComplete = done;

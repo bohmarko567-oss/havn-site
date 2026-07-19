@@ -147,6 +147,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .chip h4{font-family:var(--disp);font-variation-settings:'wght' 900,'wdth' 118;font-size:19px;text-transform:uppercase;margin:2px 0 1px;}
 .chip .pr{font-family:var(--mono);font-weight:700;font-size:13px;margin-bottom:9px;}
 .chip .pr s{color:#E03131;margin-right:5px;}
+/* the anchor strike, everywhere it now appears: the struck number is ALWAYS
+   the one-time price, so it reads as the "was", never as a live price */
+.citem .ci-s s{color:#C0392B;}
+.sku .add-btn s,.minirow button s,.cart-empty .btn s{opacity:.62;text-decoration-thickness:1.5px;}
 .chip button{width:100%;min-height:40px;border:2px solid var(--ink);border-radius:100px;background:var(--ink);color:var(--cream);font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:1px;}
 .chip button.added{background:var(--calm);border-color:var(--calm);}
 .chip.c-rise h4{color:var(--rise);} .chip.c-calm h4{color:var(--calm);} .chip.c-rest h4{color:var(--rest);}
@@ -804,8 +808,8 @@ footer a{color:inherit;}
     <div class="sec-head"><div class="eyebrow">Questions</div><h2>FAQ</h2></div>
     <div class="faq">
       <details open><summary>What is the 4th piece?</summary><p>STEADY — N°04, our Normal Blood Sugar Drops. Six botanicals in a daily 2ml dropper to support healthy energy metabolism*. On its own it's $18, or from $13/mo on subscription. Inside the ritual it's permanent: every delivery ships all four, Rise, Calm, Rest and Steady, for as long as you're subscribed.</p></details>
-      <details><summary>How does the subscription work?</summary><p>One delivery a month: Rise, Calm, Rest and Steady — all four, every time. $99/mo (or one-time, $132 — switch in the cart). Want a better rate? Pick your supply under MONTHLY: a 2-month box lands at $95/mo (−28%), a 3-month box at $90/mo (−31%); a 1-month plan already saves −25% against the $132 one-time. Skip a delivery, swap a formula or cancel from the link in any receipt, at least 48h before renewal. No calls, no fees.</p></details>
-      <details><summary>Singles or the ritual — what's the actual math?</summary><p>Three mains on subscription run $93/mo. The complete ritual is $99/mo and carries STEADY too — $6 more for an $18 bottle. Buying all four loose costs $108/mo, so completing the set saves $9 every month. Nothing is a promotion: it's the same four bottles in every delivery, for as long as you stay.</p></details>
+      <details><summary>How does the subscription work?</summary><p>One delivery a month: Rise, Calm, Rest and Steady — all four, every time. $99/mo (or one-time, $132 — switch in the cart). Want a better rate? Pick your supply under MONTHLY: a 2-month box lands at $95/mo (−28%), a 3-month box at $88/mo (−33%); a 1-month plan already saves −25% against the $132 one-time. Skip a delivery, swap a formula or cancel from the link in any receipt, at least 48h before renewal. No calls, no fees.</p></details>
+      <details><summary>Singles or the ritual — what's the actual math?</summary><p>Three mains on subscription run $93/mo. The complete ritual is $99/mo and carries STEADY too — $6 more for an $18 bottle. Buying all four loose costs $108/mo, so completing the set saves $9 every month — and it stays exactly $9 at every supply length (loose $108/$104/$97 against the ritual's $99/$95/$88). Nothing is a promotion: it's the same four bottles in every delivery, for as long as you stay.</p></details>
       <details><summary>Can I actually cancel anytime?</summary><p>Yes — two taps from any receipt, and the subscription ends with the current month. Nothing to return, nobody to argue with. Every bottle already delivered is yours to keep.</p></details>
       <details><summary>Shipping &amp; returns?</summary><p>Subscriptions ship free in the U.S. from $28/mo of subscription value — the complete ritual and any single main qualify at every supply length. Below that (a STEADY-only subscription), shipping is $6.95. One-time orders ship free at $79+, otherwise $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
       <details><summary>When will I feel a difference?</summary><p>Honest answer: Rest and Calm often land within days. Rise builds over 2–4 weeks of daily use — that's exactly why the first order carries the guarantee. Give it the month; it costs you nothing if it's not for you.</p></details>
@@ -891,13 +895,19 @@ const P2 = { one:{single:38, trio:132, steady:18}, sub:{single:31, trio:99, stea
 /* supply plans (subscription only) — keep in sync with the server catalog.
    pm = per-month price; the ladder motivates longer supply. The ritual is FOUR
    pieces: $132 one-time is exactly 38+38+38+18, so $99/mo is exactly 25% off.
-   Tags are floored (actual 25.0 / 28.03 / 31.82%) — never overstate. */
+   Tags are floored (actual 25.0 / 28.03 / 33.33%) — never overstate.
+   The ladder is price-neutral by design: four loose formulas cost 108/104/97 per
+   month, the ritual 99/95/88 — exactly $9/mo saved at EVERY supply length. */
 const PLANP = {
-  trio:   {1:{pm:99, tag:'−25%'}, 2:{pm:95, tag:'−28%'}, 3:{pm:90, tag:'−31%'}},
+  trio:   {1:{pm:99, tag:'−25%'}, 2:{pm:95, tag:'−28%'}, 3:{pm:88, tag:'−33%'}},
   single: {1:{pm:31, tag:'−18%'}, 2:{pm:30, tag:'−20%'}, 3:{pm:28, tag:'−25%'}},
   steady: {1:{pm:15, tag:'−15%'}, 2:{pm:14, tag:'−20%'}, 3:{pm:13, tag:'−25%'}},
 };
-const PLANM = m => ({ total: PLANP.trio[m].pm*m, anchor: 132*m, pm: PLANP.trio[m].pm, tag: PLANP.trio[m].tag });
+/* total = what one delivery actually costs. There is deliberately NO `anchor`
+   key here any more: 132×months was a computed intermediate, and it was being
+   struck through in the CTA as if it were a real price. The only strikeable
+   value is ANCHOR() below — the true one-time price. */
+const PLANM = m => ({ total: PLANP.trio[m].pm*m, pm: PLANP.trio[m].pm, tag: PLANP.trio[m].tag });
 let planMonths = 1;
 try{ const m = parseInt(localStorage.getItem('havn_plan')||'1',10); if([1,2,3].includes(m)) planMonths = m; }catch(e){}
 const PROMO_PCT = 10; /* the floating-circle code — applies to subscription orders */
@@ -920,6 +930,16 @@ const priceSingle = id => subscribe ? PLANP[id==='steady'?'steady':'single'][pla
 const planMult = () => subscribe ? planMonths : 1;
 const perLbl = () => subscribe ? (planMonths===1 ? '/mo' : ' / '+planMonths+' mo') : '';
 const trioPrice = () => subscribe ? PLANM(planMonths).total : P2.one.trio;
+/* ————— THE PRICE DISPLAY LAW —————
+   ANCHOR = the one-time price, the HIGHEST a product ever has. It is the ONLY
+   value that may ever appear struck through — never a neighbouring tier, never
+   a per-delivery multiple, never a computed intermediate.
+   LIVE = the real per-month price of the currently selected plan tier.
+   On multi-month plans the per-month number is the prominent one; the
+   per-delivery total appears only as secondary detail. */
+const ANCHOR = id => id==='trio' ? P2.one.trio : (id==='steady' ? P2.one.steady : P2.one.single);
+const trioPM = () => subscribe ? PLANP.trio[planMonths].pm : P2.one.trio;
+const priceHTML = (id, live) => subscribe ? `<s>${fmt(ANCHOR(id))}</s> ${fmt(live)}/mo` : fmt(ANCHOR(id));
 const itemCount = () => cart.trio*4 + Object.values(cart.singles).reduce((s,q)=>s+q,0);
 const hasSku = id => cart.trio>0 || cart.singles[id]>0;
 const complete = () => cart.trio>0;
@@ -948,19 +968,19 @@ function update(){
   const items = [];
   if(cart.trio>0) items.push(`
     <div class="citem"><div class="sw" style="background:linear-gradient(135deg,#FF6A15 0 25%,#12A594 0 50%,#4E43C9 0 75%,#C81E78 0)"></div>
-      <div><div class="ci-n">Complete Ritual</div><div class="ci-s"><button onclick="openLabel('rise')" aria-label="Rise Supplement Facts">Rise</button> + <button onclick="openLabel('calm')" aria-label="Calm Supplement Facts">Calm</button> + <button onclick="openLabel('rest')" aria-label="Rest Supplement Facts">Rest</button> + <button onclick="openLabel('steady')" aria-label="Steady Supplement Facts">Steady</button> ${subscribe?(planMonths>1?'· every '+planMonths+' months':'· monthly'):''} · all four, every delivery</div></div>
+      <div><div class="ci-n">Complete Ritual</div><div class="ci-s"><button onclick="openLabel('rise')" aria-label="Rise Supplement Facts">Rise</button> + <button onclick="openLabel('calm')" aria-label="Calm Supplement Facts">Calm</button> + <button onclick="openLabel('rest')" aria-label="Rest Supplement Facts">Rest</button> + <button onclick="openLabel('steady')" aria-label="Steady Supplement Facts">Steady</button> · ${priceHTML('trio', trioPM())} ${subscribe?(planMonths>1?'· every '+planMonths+' months':'· monthly'):''} · all four, every delivery</div></div>
       <div class="ci-right"><span class="ci-p">${fmt(cart.trio*trioPrice())}</span>
         <div class="qty" aria-label="Ritual quantity"><button onclick="bumpTrio(-1)" aria-label="Decrease">−</button><span class="q">${cart.trio}</span><button onclick="bumpTrio(1)" aria-label="Increase">+</button></div></div></div>`);
   for(const id of ['rise','calm','rest','steady']){
     const q = cart.singles[id];
     if(q>0) items.push(`
     <div class="citem"><div class="sw" style="background:${HEX[id]}">${{rise:'01',calm:'02',rest:'03',steady:'04'}[id]}</div>
-      <div><div class="ci-n">${NAMES[id]}</div><div class="ci-s">${SUBS[id]} · ${fmt(priceSingle(id))}${subscribe?'/mo':''} · <button onclick="openLabel('${id}')">label</button></div></div>
+      <div><div class="ci-n">${NAMES[id]}</div><div class="ci-s">${SUBS[id]} · ${priceHTML(id, priceSingle(id))} · <button onclick="openLabel('${id}')">label</button></div></div>
       <div class="ci-right"><span class="ci-p">${fmt(q*priceSingle(id)*planMult())}</span>
         <div class="qty" aria-label="${NAMES[id]} quantity"><button onclick="bumpSingle('${id}',-1)" aria-label="Decrease">−</button><span class="q">${q}</span><button onclick="bumpSingle('${id}',1)" aria-label="Increase">+</button></div></div></div>`);
   }
   $('cartItems').innerHTML = items.length ? items.join('') :
-    `<div class="cart-empty">Your ritual is empty.<br>Four pieces are waiting.<br><button class="btn" style="border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;padding:14px 22px;" onclick="addTrio()">Start with all of it — ${fmt(trioPrice())}${perLbl()}</button></div>`;
+    `<div class="cart-empty">Your ritual is empty.<br>Four pieces are waiting.<br><button class="btn" style="border:0;border-radius:100px;background:var(--rise);color:#2A1200;font-family:var(--mono);font-weight:700;padding:14px 22px;" onclick="addTrio()">Start with all of it — ${priceHTML('trio', trioPM())}</button></div>`;
 
   /* ship bar (per-mode goal) */
   const st = subtotal();
@@ -981,11 +1001,13 @@ function update(){
   /* slots */
   ['rise','calm','rest'].forEach((id,i)=>{ document.querySelectorAll('.cslots .cs')[i].classList.toggle('f', hasSku(id)); });
   $('cs4').classList.toggle('f', done || cart.singles.steady>0);
-  /* the upsell, stated where it lands: three mains = $93/mo, but adding STEADY
-     makes it the ritual at $99/mo — $6 more for an $18 bottle. */
+  /* the upsell, stated where it lands, at the SELECTED tier: three mains cost
+     93/90/84 per month, the ritual 99/95/88 — so STEADY costs 6/5/4 a month
+     against its $18 one-time anchor. Never a stale tier price here. */
   const threeMains = !done && cart.singles.rise>0 && cart.singles.calm>0 && cart.singles.rest>0 && !cart.singles.steady;
+  const stepUp = PLANP.trio[planMonths].pm - 3*PLANP.single[planMonths].pm;
   $('slotLbl').innerHTML = done ? 'Ritual complete —<br>all four, every delivery'
-    : threeMains && subscribe ? 'Add N°04 → the ritual:<br>$6/mo more, an $18 bottle'
+    : threeMains && subscribe ? `Add N°04 → the ritual:<br>${fmt(stepUp)}/mo more, an ${fmt(P2.one.steady)} bottle`
     : 'All four pieces<br>make the ritual';
   $('giftLine').style.display = done ? 'flex' : 'none';
   $('ckBtn').disabled = itemCount()===0;
@@ -993,33 +1015,38 @@ function update(){
   $('footNote').textContent = subscribe
     ? (disc>0 ? `Renews at ${fmt(st)}${perLbl()} from delivery 2 · skip or cancel anytime`
        : (planMonths>1 ? `Billed & delivered every ${planMonths} months · skip or cancel anytime` : `Subscription renews monthly · skip or cancel anytime`))
-    : 'One-time order · switch to Subscribe & Save — up to 31% off';
+    : 'One-time order · switch to Subscribe & Save — up to 33% off';
 
-  document.querySelectorAll('.chip button').forEach(b=>{
-    const has = hasSku(b.dataset.add);
+  /* lineup chips: struck $38 anchor + the LIVE tier price (was frozen at $31) */
+  document.querySelectorAll('.chip').forEach(c=>{
+    const b = c.querySelector('button[data-add]'); if(!b) return;
+    const id = b.dataset.add, has = hasSku(id);
+    const pr = c.querySelector('.pr'); if(pr) pr.innerHTML = priceHTML(id, priceSingle(id));
     b.classList.toggle('added', has); b.textContent = has ? '✓ IN' : 'ADD';
   });
-  /* deep-dive add buttons mirror the cart + mode */
+  /* deep-dive add buttons mirror the cart + mode, anchor struck */
   document.querySelectorAll('.add-btn[data-sku]').forEach(b=>{
     const id = b.dataset.sku, has = hasSku(id);
     b.classList.toggle('has', has);
-    b.textContent = has ? '✓ In the ritual' : `+ Add · ${fmt(priceSingle(id))}${subscribe?'/mo':''}`;
+    b.innerHTML = has ? '✓ In the ritual' : `+ Add · ${priceHTML(id, priceSingle(id))}`;
   });
-  /* CTA: the deal is visible — crossed one-time anchor next to the plan price */
-  const pl = PLANM(planMonths);
+  /* CTA: the deal is visible — the $132 one-time anchor, struck, beside the
+     LIVE per-month price of the selected tier. The anchor never scales with
+     supply length (a struck $396 was an intermediate, not a real price). */
   const ctaHtml = subscribe
-    ? (planMonths===1 ? `COMPLETE RITUAL · <s>$${pl.anchor}</s> $${pl.total}`
-                      : `${planMonths}-MO RITUAL · <s>$${pl.anchor}</s> $${pl.total}`)
-    : 'COMPLETE RITUAL · $132';
+    ? (planMonths===1 ? `COMPLETE RITUAL · <s>${fmt(P2.one.trio)}</s> ${fmt(trioPM())}`
+                      : `${planMonths}-MO RITUAL · <s>${fmt(P2.one.trio)}</s> ${fmt(trioPM())}/MO`)
+    : `COMPLETE RITUAL · ${fmt(P2.one.trio)}`;
   $('offerBtn').innerHTML = ctaHtml;
   const hb = $('heroBtn'); if(hb) hb.innerHTML = ctaHtml;
+  /* per-delivery total lives here — secondary to the per-month headline */
   $('offerMini').innerHTML = (subscribe
-    ? (planMonths>1 ? `Billed every ${planMonths} months · skip or cancel anytime` : 'Subscription · skip or cancel anytime')
+    ? (planMonths>1 ? `Billed every ${planMonths} months · ${fmt(PLANM(planMonths).total)} per delivery · skip or cancel anytime` : 'Subscription · skip or cancel anytime')
     : 'One-time order') + ' · <a href="policies.html">guarantee &amp; terms</a>';
   renderPlanPicks();
   /* build-your-own-stack pills (mixed bundles: e.g. two formulas + the drops) */
   $('miniRow').innerHTML = ['rise','calm','rest','steady'].map(id =>
-    `<button class="${hasSku(id)?'has':''}" onclick="addSku('${id}')">${hasSku(id)?'✓':'+'} ${NAMES[id].toUpperCase()} · ${fmt(priceSingle(id))}${subscribe?'/mo':''}</button>`).join('');
+    `<button class="${hasSku(id)?'has':''}" onclick="addSku('${id}')">${hasSku(id)?'✓':'+'} ${NAMES[id].toUpperCase()} · ${priceHTML(id, priceSingle(id))}</button>`).join('');
 
   if(done && !prevComplete){ balloons(); }
   prevComplete = done;
@@ -1062,9 +1089,9 @@ function closePlanPicks(){
 function planRows(kind){
   /* 'bare' (cart drawer): no prices — the cart may hold any mix, so rows show
      only the supply length + the save. Never overstated: take the WORST tier
-     across everything actually in the cart. Ritual −25/−28/−31, a loose main
+     across everything actually in the cart. Ritual −25/−28/−33, a loose main
      −18/−20/−25, STEADY solo −15/−20/−25 against its one-time anchor. */
-  const FLOORS = {trio:[25,28,31], single:[18,20,25], steady:[15,20,25]};
+  const FLOORS = {trio:[25,28,33], single:[18,20,25], steady:[15,20,25]};
   const inCart = [];
   if(cart.trio>0) inCart.push('trio');
   if(cart.singles.rise||cart.singles.calm||cart.singles.rest) inCart.push('single');
@@ -1131,12 +1158,12 @@ function ckFallback(){
      open was the "keyboard shows up out of nowhere" bug */
   const lines = [];
   if(cart.trio>0) lines.push(`<div class="l"><span>Complete Ritual ×${cart.trio}</span><span>${fmt(cart.trio*trioPrice())}</span></div>`);
-  for(const id of ['rise','calm','rest','steady']) if(cart.singles[id]>0) lines.push(`<div class="l"><span>${NAMES[id]} ×${cart.singles[id]}</span><span>${fmt(cart.singles[id]*priceSingle(id))}</span></div>`);
+  for(const id of ['rise','calm','rest','steady']) if(cart.singles[id]>0) lines.push(`<div class="l"><span>${NAMES[id]} ×${cart.singles[id]}</span><span>${fmt(cart.singles[id]*priceSingle(id)*planMult())}</span></div>`);
   if(complete()) lines.push(`<div class="l g"><span>Includes N°04 Steady — every delivery</span><span>✓</span></div>`);
   if(discount()>0) lines.push(`<div class="l g"><span>10% code · ${promoCodeVal()} · first order</span><span>−${fmt(discount())}</span></div>`);
   lines.push(`<div class="l"><span>Shipping</span><span>${subtotal()>=shipGoal()?'FREE':'at checkout'}</span></div>`);
   lines.push(`<div class="l t"><span>${discount()>0?'First invoice':'Total'+(subscribe?' / month':'')}</span><span>${fmt(cartTotal())}</span></div>`);
-  if(discount()>0) lines.push(`<div class="l"><span>Then</span><span>${fmt(subtotal())}/mo</span></div>`);
+  if(discount()>0) lines.push(`<div class="l"><span>Then</span><span>${fmt(subtotal())}${perLbl()}</span></div>`);
   $('ckSummary').innerHTML = lines.join('');
   closeCart(); $('ckmodal').classList.add('open');
 }

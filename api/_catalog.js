@@ -18,9 +18,14 @@ const CATALOG = {
    2026-07-19 because give-then-remove reads as a bait-and-switch at delivery 2.
 
    $132 one-time is exactly what the four cost separately (38+38+38+18), so the
-   $99 sub is exactly 25% off. Supply ladder $99 / $95 / $90 per month
-   (−25% / −28% / −32% vs the anchor). The 10% welcome code (first order only,
+   $99 sub is exactly 25% off. Supply ladder $99 / $95 / $88 per month
+   (−25% / −28% / −33% vs the anchor). The 10% welcome code (first order only,
    coupon duration "once") lands the first delivery at $89.10.
+
+   The $88 tier is deliberate: buying the four loose costs $108/$104/$97 per
+   month, so the Ritual saves exactly $9/month at EVERY tier — $9, $18 and $27
+   per delivery. $90 would have made the 3-month saving shrink to $7/month,
+   which reads as the bundle getting stingier the longer you commit.
 
    NOTE: this deliberately breaks the old collapse-neutral invariant (ritual =
    3× single). Four loose subscriptions are $108/mo; the ritual is $99/mo, so
@@ -28,8 +33,8 @@ const CATALOG = {
 const TRIO = {
   one: 13200,
   sub: 9900,
-  /* cents PER DELIVERY: $99×1, $95×2, $90×3 */
-  subPlans: { 1: 9900, 2: 19000, 3: 27000 },
+  /* cents PER DELIVERY: $99×1, $95×2, $88×3 */
+  subPlans: { 1: 9900, 2: 19000, 3: 26400 },
   name: 'HAVN Complete Ritual — Rise + Calm + Rest + Steady',
   desc: 'The 4-piece daily ritual. Every delivery includes N°04 STEADY (Blood Sugar Drops).',
 };
