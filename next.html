@@ -225,6 +225,10 @@ button[aria-expanded="true"] .car{transform:rotate(-135deg) translate(-2px,-2px)
 .offmenu .minirow{width:min(84vw,420px);margin-top:0;}
 .om-mini{font-family:var(--mono);font-size:10px;color:#C99BB5;line-height:1.6;}
 .om-mini a{color:inherit;}
+.stillcue{position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;white-space:nowrap;font-family:var(--mono);text-transform:uppercase;color:#F08BC0;pointer-events:none;}
+.stillcue b{font-size:11px;letter-spacing:1.8px;}
+.stillcue span{margin-top:7px;color:#C99BB5;font-size:8.5px;letter-spacing:2.2px;}
+.stillcue i{font-style:normal;font-size:18px;line-height:1;margin-top:3px;animation:cue 1.4s ease-in-out infinite;}
 
 /* progress rail */
 .rail{position:absolute;right:14px;top:50%;transform:translateY(-50%);height:34vh;width:3px;background:rgba(120,110,95,.25);border-radius:3px;z-index:5;}
@@ -565,7 +569,7 @@ footer a{color:inherit;}
   .splus{display:none;}
   .bottle{height:260px;}
   .ghost,.scrollcue,.rail{display:none;}
-  .splash,.hero-addon{display:none;}
+  .splash,.hero-addon,.stillcue{display:none;}
   .chips{display:flex;justify-content:center;}
   .pbadge,.pbadge .bring{animation:none;}
   .pcircle{animation:none;}
@@ -662,6 +666,7 @@ footer a{color:inherit;}
       </div>
       <div class="minirow" id="miniRow" aria-label="Build your own stack"></div>
       <div class="om-mini" id="offerMini">Subscription · <a href="policies.html">guarantee &amp; terms</a></div>
+      <div class="stillcue" aria-hidden="true"><b>Still not convinced?</b><span>Scroll</span><i>↓</i></div>
     </div>
 
     <img class="bottle" id="btRise"  src="assets/products/cut_rise.webp"  alt="HAVN Rise bottle">
@@ -678,8 +683,8 @@ footer a{color:inherit;}
 <!-- ————— what's in it → a day on HAVN → reviews → FAQ ————— -->
 <div class="after">
 
-  <div class="wrap sec whats" id="whats" style="padding-top:64px">
-    <div class="sec-head"><div class="eyebrow">No proprietary blends · full doses, printed on the label</div><h2>So, what's in it?</h2></div>
+  <div class="wrap sec whats" id="whats" style="padding-top:28px">
+    <div class="sec-head"><h2>So, what's in it?</h2></div>
 
     <div class="sku s-rise" id="p-rise">
       <div class="num" aria-hidden="true">01</div>
