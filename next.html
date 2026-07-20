@@ -68,7 +68,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .cartchip b{color:var(--rise);}
 
 /* extra runway reserves a static hold after the final motion completes */
-.cinema{height:1250vh;position:relative;}
+.cinema{height:1208.6vh;position:relative;}
 /* lvh = LARGE viewport: constant through iOS bar show/hide — the film keeps
    one coordinate system in both scroll directions AND always fills the screen
    (dvh left a cream gap when bars hid; px-freeze froze the gap in) */
@@ -528,7 +528,7 @@ footer a{color:inherit;}
   .bottle{height:min(52vh,470px);}
   /* split scenes: text LEFT, mockup RIGHT (hero + all three solos) */
   .beat.hero{left:27%;top:18%;width:min(42vw,560px);text-align:left;}
-  .beat.hero .planpick,.offmenu .planpick,.chip .planpick{top:calc(100% + 9px);bottom:auto;}
+  .beat.hero .planpick,.offmenu .planpick{top:calc(100% + 9px);bottom:auto;}
   .beat.hero p{margin-left:0;}
   .beat.solo{left:26%;top:30%;width:min(38vw,520px);text-align:left;}
   .beat.solo p{margin-left:0;}
@@ -543,11 +543,11 @@ footer a{color:inherit;}
   .flip{font-size:clamp(64px,7.5vw,100px);}
   .offmenu{width:min(80vw,640px);gap:12px;transform:translate(-50%,-50%) translateY(max(19vh,170px));}
   .purchasebar{width:min(64vw,500px);grid-template-columns:minmax(168px,.8fr) minmax(0,1.2fr);min-height:56px;gap:10px;}
+  .offmenu .purchasebar,.offmenu .minirow{width:min(86vw,610px);grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
   .finalmode button{font-size:10.5px;}
   .om-big{font-size:36px;}
   .om-list{font-size:13.5px;gap:6px 22px;max-width:520px;}
   .om-cta{font-size:14.5px;}
-  .offmenu .minirow{width:min(60vw,460px);}
   .om-mini{font-size:11px;}
   .splus{font-size:48px;}
   .ghost{font-size:min(52vh,44vw);}
@@ -567,7 +567,7 @@ footer a{color:inherit;}
 /* desktop mouse-wheel: a taller runway = more scroll-distance per scene, so the
    held poses are readable instead of flying by. Touch iPads/laptops excluded via
    hover+pointer. MUST stay above the reduced-motion block so height:auto wins there. */
-@media(min-width:1024px) and (hover:hover) and (pointer:fine){ .cinema{height:1900vh;} }
+@media(min-width:1024px) and (hover:hover) and (pointer:fine){ .cinema{height:1835.2vh;} }
 
 /* reduced motion / no JS: static everything-visible page */
 @media(prefers-reduced-motion:reduce){
@@ -1528,10 +1528,12 @@ function apply(p){
   els.rail.style.opacity = (1 - clamp01((p-.965)/.035)).toFixed(2);
 }
 
-/* ————— PACING: scroll-P → film-P ————— motion finishes at 82% of the
-   runway; the remaining scroll holds the final frame before editorial content. */
-const WARP = [[0,0],[.099,.155],[.182,.21],[.230,.285],[.313,.335],[.354,.40],
-  [.438,.445],[.492,.53],[.609,.69],[.683,.805],[.735,.85],[.815,.985],[.82,1],[1,1]];
+/* ————— PACING: scroll-P → film-P ————— the completed-frame hold is 20%
+   shorter (18% → 14.4% of the original runway). Earlier checkpoints are
+   rescaled against the 96.4% runway so every preceding scene keeps the same
+   physical scroll distance and only the fixed final frame releases sooner. */
+const WARP = [[0,0],[.102697,.155],[.188797,.21],[.238589,.285],[.324689,.335],[.367220,.40],
+  [.454357,.445],[.510373,.53],[.631743,.69],[.708506,.805],[.762448,.85],[.845436,.985],[.850622,1],[1,1]];
 const warp = s => kf(s, WARP);   /* piecewise-linear, monotonic */
 
 if(reduced){
