@@ -183,7 +183,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .modetoggle .mt.on::before{content:'✓ ';}   /* the selected pill is never ambiguous */
 .om-big{font-family:var(--mono);font-weight:700;font-size:clamp(22px,5vw,32px);color:#fff;}
 .om-big s{color:#FF7B7B;font-size:.6em;margin-left:8px;}
-.om-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:5px 16px;font-size:12px;color:#E8CBDD;text-align:left;max-width:440px;margin:0;}
+.om-list{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;width:100%;gap:5px 16px;font-size:12px;color:#E8CBDD;text-align:left;margin:0;}
+.om-list li{white-space:nowrap;}
 .om-list li::before{content:'✓ ';color:#F08BC0;}
 .om-list b{color:#F08BC0;}
 .om-list s{color:#FF7B7B;}
@@ -546,7 +547,7 @@ footer a{color:inherit;}
   .offmenu .purchasebar,.offmenu .minirow{width:min(86vw,610px);grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
   .finalmode button{font-size:10.5px;}
   .om-big{font-size:36px;}
-  .om-list{font-size:13.5px;gap:6px 22px;max-width:520px;}
+  .om-list{font-size:13.5px;gap:6px 22px;}
   .om-cta{font-size:14.5px;}
   .om-mini{font-size:11px;}
   .splus{font-size:48px;}
@@ -578,6 +579,7 @@ footer a{color:inherit;}
   .offmenu{display:flex;}
   .splus{display:none;}
   .bottle{height:260px;}
+  #btRest{height:364px;}
   .ghost,.scrollcue,.rail{display:none;}
   .splash,.hero-addon,.stillcue{display:none;}
   .chips{display:flex;justify-content:center;}
@@ -1461,10 +1463,15 @@ function steadyKF(p){
 }
 let bobT = 0;   /* idle-life clock — a gentle constant float on every mockup */
 function place(el, b, ph){
+  const isRest = el.id === 'btRest';
+  const nudgeRise = el.id === 'btRise' && BP() === 'd';
+  const x = b.x + (nudgeRise ? -3 : 0);
+  const y = b.y + (nudgeRise ? -6 : 0);
+  const s = b.s * (isRest ? 1.4 : 1);
   const dy = bobT ? Math.sin(bobT/1500 + (ph||0))*0.5 : 0;
   const dr = bobT ? Math.sin(bobT/2300 + (ph||0)*1.7)*0.5 : 0;
   el.style.opacity = b.o.toFixed(3);
-  el.style.transform = 'translate(-50%,-50%) translate('+b.x.toFixed(2)+'vw,'+(b.y+dy).toFixed(2)+'vh) rotate('+(b.r+dr).toFixed(1)+'deg) scale('+b.s.toFixed(3)+')';
+  el.style.transform = 'translate(-50%,-50%) translate('+x.toFixed(2)+'vw,'+(y+dy).toFixed(2)+'vh) rotate('+(b.r+dr).toFixed(1)+'deg) scale('+s.toFixed(3)+')';
 }
 
 const els = {
