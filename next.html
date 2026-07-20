@@ -768,7 +768,6 @@ footer a{color:inherit;}
       </div>
     </div>
 
-    <div class="foot">Every panel above opens the real print label — same file that wraps the bottle.<br>*These statements have not been evaluated by the Food and Drug Administration.</div>
   </div>
 
   <div class="wrap sec" style="padding-top:20px">
@@ -852,7 +851,7 @@ footer a{color:inherit;}
       <button id="mOne" class="mt" onclick="setMode(false)" aria-pressed="false">ONE-TIME</button>
       <div class="planpick" id="mPlanPick" data-kind="bare" role="radiogroup" aria-label="Supply length"></div>
     </div>
-    <div class="gift-line" id="giftLine" role="status">⊖ <span>All four pieces — <b>Rise, Calm, Rest &amp; Steady</b>, every delivery</span></div>
+    <div class="gift-line" id="giftLine" role="status">⊖ <span><b>Rise, Calm, Rest &amp; Steady</b> — all four, every delivery</span></div>
     <div class="row"><span>Subtotal</span><span id="subtotal">$0</span></div>
     <div class="row" id="discRow" style="display:none;color:var(--rise2)"><span id="discLbl">10% code</span><span id="discAmt"></span></div>
     <div class="row" id="totalRow" style="display:none"><span id="totalLbl">Total</span><span id="totalAmt"></span></div>
@@ -886,7 +885,6 @@ footer a{color:inherit;}
 </button>
 <div class="pwrap" id="pwrap" onclick="if(event.target===this)promoClose()">
   <div class="pcircle" role="dialog" aria-modal="true" aria-label="Get 10% off your first order">
-    <div class="pc-eyebrow">First order · subscription · single-use code</div>
     <div class="pc-big">10% off</div>
     <div class="pc-sub">your first ritual</div>
     <div class="pform" id="promoForm">
@@ -979,7 +977,7 @@ function update(){
   const items = [];
   if(cart.trio>0) items.push(`
     <div class="citem"><div class="sw" style="background:linear-gradient(135deg,#FF6A15 0 25%,#12A594 0 50%,#4E43C9 0 75%,#C81E78 0)"></div>
-      <div><div class="ci-n">Complete Ritual</div><div class="ci-s"><button onclick="openLabel('rise')" aria-label="Rise Supplement Facts">Rise</button> + <button onclick="openLabel('calm')" aria-label="Calm Supplement Facts">Calm</button> + <button onclick="openLabel('rest')" aria-label="Rest Supplement Facts">Rest</button> + <button onclick="openLabel('steady')" aria-label="Steady Supplement Facts">Steady</button> · ${priceHTML('trio', trioPM())} ${subscribe?(planMonths>1?'· every '+planMonths+' months':'· monthly'):''} · all four, every delivery</div></div>
+      <div><div class="ci-n">Complete Ritual</div><div class="ci-s"><button onclick="openLabel('rise')" aria-label="Rise Supplement Facts">Rise</button> + <button onclick="openLabel('calm')" aria-label="Calm Supplement Facts">Calm</button> + <button onclick="openLabel('rest')" aria-label="Rest Supplement Facts">Rest</button> + <button onclick="openLabel('steady')" aria-label="Steady Supplement Facts">Steady</button> · ${priceHTML('trio', trioPM())}${subscribe?(planMonths>1?' · every '+planMonths+' months':' · monthly'):''}</div></div>
       <div class="ci-right"><span class="ci-p">${fmt(cart.trio*trioPrice())}</span>
         <div class="qty" aria-label="Ritual quantity"><button onclick="bumpTrio(-1)" aria-label="Decrease">−</button><span class="q">${cart.trio}</span><button onclick="bumpTrio(1)" aria-label="Increase">+</button></div></div></div>`);
   for(const id of ['rise','calm','rest','steady']){
@@ -1017,7 +1015,7 @@ function update(){
      against its $18 one-time anchor. Never a stale tier price here. */
   const threeMains = !done && cart.singles.rise>0 && cart.singles.calm>0 && cart.singles.rest>0 && !cart.singles.steady;
   const stepUp = PLANP.trio[planMonths].pm - 3*PLANP.single[planMonths].pm;
-  $('slotLbl').innerHTML = done ? 'Ritual complete —<br>all four, every delivery'
+  $('slotLbl').innerHTML = done ? 'Ritual complete!'
     : threeMains && subscribe ? `Add N°04 → the ritual:<br>${fmt(stepUp)}/mo more, an ${fmt(P2.one.steady)} bottle`
     : 'All four pieces<br>make the ritual';
   $('giftLine').style.display = done ? 'flex' : 'none';
