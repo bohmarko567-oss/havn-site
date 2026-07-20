@@ -155,7 +155,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:
 .chip button[data-add]{flex:1;width:auto;min-height:38px;border:0;border-radius:0;background:var(--ink);color:var(--cream);font-family:var(--mono);font-weight:700;font-size:11.5px;letter-spacing:1px;}
 .chip .mini-car{width:32px;min-height:38px;border-left:0;}
 .chip.in-cart button[data-add],.chip.in-cart .mini-car{background:var(--ink);}
-.chip .planpick{top:auto;bottom:calc(100% + 9px);left:50%;width:min(72vw,280px);transform:translateX(-50%);}
+.chip .planpick{top:auto;bottom:calc(100% + 9px);left:50%;width:100%;transform:translateX(-50%);}
 .chip.c-rise h4{color:var(--rise);} .chip.c-calm h4{color:var(--calm);} .chip.c-rest h4{color:var(--rest);}
 
 /* steady reveal */
@@ -222,6 +222,9 @@ button[aria-expanded="true"] .car{transform:rotate(-135deg) translate(-2px,-2px)
 .planpick button.on .pp-p b{color:#FFB1A1;}
 /* the film finale sits low — its menu opens upward */
 .offmenu .planpick{top:auto;bottom:calc(100% + 9px);}
+.modepick{position:relative;min-width:0;}
+.modepick>.finalmode{width:100%;height:100%;}
+.modepick>.planpick{left:0;width:100%;}
 .offmenu .minirow{width:min(84vw,420px);margin-top:0;}
 .om-mini{font-family:var(--mono);font-size:10px;color:#C99BB5;line-height:1.6;}
 .om-mini a{color:inherit;}
@@ -229,6 +232,11 @@ button[aria-expanded="true"] .car{transform:rotate(-135deg) translate(-2px,-2px)
 .stillcue b{font-size:11px;letter-spacing:1.8px;}
 .stillcue span{margin-top:7px;color:#C99BB5;font-size:8.5px;letter-spacing:2.2px;}
 .stillcue i{font-style:normal;font-size:18px;line-height:1;margin-top:3px;animation:cue 1.4s ease-in-out infinite;}
+
+@media(max-width:700px){
+  .chip .planpick button{min-height:46px;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;padding:5px 8px;}
+  .chip .planpick .pp-p{font-size:9px;}
+}
 
 /* progress rail */
 .rail{position:absolute;right:14px;top:50%;transform:translateY(-50%);height:34vh;width:3px;background:rgba(120,110,95,.25);border-radius:3px;z-index:5;}
@@ -520,7 +528,7 @@ footer a{color:inherit;}
   .bottle{height:min(52vh,470px);}
   /* split scenes: text LEFT, mockup RIGHT (hero + all three solos) */
   .beat.hero{left:27%;top:18%;width:min(42vw,560px);text-align:left;}
-  .beat.hero .planpick{top:auto;bottom:calc(100% + 9px);}   /* desktop: open upward, clear of the fold */
+  .beat.hero .planpick,.offmenu .planpick,.chip .planpick{top:calc(100% + 9px);bottom:auto;}
   .beat.hero p{margin-left:0;}
   .beat.solo{left:26%;top:30%;width:min(38vw,520px);text-align:left;}
   .beat.solo p{margin-left:0;}
@@ -528,10 +536,10 @@ footer a{color:inherit;}
   .beat.solo p{max-width:36ch;font-size:17.5px;}
   .beat .spec{font-size:13.5px;}
   .beat.hero h2{font-size:clamp(64px,7.5vw,110px);}
-  .chip{width:220px;padding:16px 14px 14px;}
-  .chip h4{font-size:22px;}
-  .chip .pr{font-size:14.5px;}
-  .chip button{min-height:44px;font-size:12.5px;}
+  .chip{width:184px;padding:10px 10px 9px;border-radius:14px;}
+  .chip h4{font-size:18px;margin:0 0 1px;}
+  .chip .pr{font-size:12.5px;margin-bottom:6px;}
+  .chip button{min-height:38px;font-size:11.5px;}
   .flip{font-size:clamp(64px,7.5vw,100px);}
   .offmenu{width:min(80vw,640px);gap:12px;transform:translate(-50%,-50%) translateY(max(19vh,170px));}
   .purchasebar{width:min(64vw,500px);grid-template-columns:minmax(168px,.8fr) minmax(0,1.2fr);min-height:56px;gap:10px;}
@@ -553,6 +561,7 @@ footer a{color:inherit;}
   .hero-addon{transform:translate(calc(-50% + 33vw),calc(-50% + 2vh)) rotate(6deg);}
   .hero-addon img{height:min(17vh,146px);}
   .hero-addon .t{max-width:none;}
+  .stillcue b{display:none;}
 }
 
 /* desktop mouse-wheel: a taller runway = more scroll-distance per scene, so the
@@ -598,12 +607,14 @@ footer a{color:inherit;}
       <h2><span class="l1">Rise.</span> <span class="l2">Calm.</span> <span class="l3">Rest.</span></h2>
       <div class="plus">+ N°04 Steady, every month</div>
       <div class="purchasebar">
-        <div class="finalmode" role="group" aria-label="Purchase frequency">
-          <button id="hMonthly" class="on" type="button" aria-pressed="true" aria-haspopup="true" aria-expanded="false" onclick="monthlyTap('h')">Monthly<span class="car" aria-hidden="true"></span></button>
-          <button id="hOnce" type="button" aria-pressed="false" onclick="setMode(false)">Once</button>
+        <div class="modepick">
+          <div class="finalmode" role="group" aria-label="Purchase frequency">
+            <button id="hMonthly" class="on" type="button" aria-pressed="true" aria-haspopup="true" aria-expanded="false" onclick="monthlyTap('h')">Monthly<span class="car" aria-hidden="true"></span></button>
+            <button id="hOnce" type="button" aria-pressed="false" onclick="setMode(false)">Once</button>
+          </div>
+          <div class="planpick" id="hPlanPick" role="radiogroup" aria-label="Supply length"></div>
         </div>
         <button class="om-cta" id="heroBtn" onclick="addTrio()">Complete ritual · $99</button>
-        <div class="planpick" id="hPlanPick" role="radiogroup" aria-label="Supply length"></div>
       </div>
       <div class="h-mini">Free U.S. shipping at $50 · skip or cancel anytime</div>
     </div>
@@ -634,9 +645,9 @@ footer a{color:inherit;}
       <div class="spec" style="color:#8B8172;margin-top:10px"><b style="color:var(--rise2)">☀ FOCUS</b> · <b style="color:var(--calm2)">◐ BALANCE</b> · <b style="color:var(--rest2)">☾ SLEEP</b></div>
     </div>
     <div class="chips" id="chips">
-      <div class="chip c-rise"><div class="n">N°01</div><h4>Rise</h4><div class="pr"><s>$38</s>$31/mo</div><div class="chip-action"><div class="addsplit"><button class="add-btn" data-add="rise">ADD</button><button class="mini-car" id="film-mc-rise" aria-haspopup="true" aria-expanded="false" aria-label="Rise supply length" onclick="pickTap('film-pp-rise','film-mc-rise')"><span class="car" aria-hidden="true"></span></button></div><div class="planpick up" id="film-pp-rise" data-kind="single" role="radiogroup" aria-label="Rise supply length"></div></div></div>
-      <div class="chip c-calm"><div class="n">N°02</div><h4>Calm</h4><div class="pr"><s>$38</s>$31/mo</div><div class="chip-action"><div class="addsplit"><button class="add-btn" data-add="calm">ADD</button><button class="mini-car" id="film-mc-calm" aria-haspopup="true" aria-expanded="false" aria-label="Calm supply length" onclick="pickTap('film-pp-calm','film-mc-calm')"><span class="car" aria-hidden="true"></span></button></div><div class="planpick up" id="film-pp-calm" data-kind="single" role="radiogroup" aria-label="Calm supply length"></div></div></div>
-      <div class="chip c-rest"><div class="n">N°03</div><h4>Rest</h4><div class="pr"><s>$38</s>$31/mo</div><div class="chip-action"><div class="addsplit"><button class="add-btn" data-add="rest">ADD</button><button class="mini-car" id="film-mc-rest" aria-haspopup="true" aria-expanded="false" aria-label="Rest supply length" onclick="pickTap('film-pp-rest','film-mc-rest')"><span class="car" aria-hidden="true"></span></button></div><div class="planpick up" id="film-pp-rest" data-kind="single" role="radiogroup" aria-label="Rest supply length"></div></div></div>
+      <div class="chip c-rise"><h4>Rise</h4><div class="pr"><s>$38</s>$31/mo</div><div class="chip-action"><div class="addsplit"><button class="add-btn" data-add="rise">ADD</button><button class="mini-car" id="film-mc-rise" aria-haspopup="true" aria-expanded="false" aria-label="Rise supply length" onclick="pickTap('film-pp-rise','film-mc-rise')"><span class="car" aria-hidden="true"></span></button></div><div class="planpick up" id="film-pp-rise" data-kind="single" role="radiogroup" aria-label="Rise supply length"></div></div></div>
+      <div class="chip c-calm"><h4>Calm</h4><div class="pr"><s>$38</s>$31/mo</div><div class="chip-action"><div class="addsplit"><button class="add-btn" data-add="calm">ADD</button><button class="mini-car" id="film-mc-calm" aria-haspopup="true" aria-expanded="false" aria-label="Calm supply length" onclick="pickTap('film-pp-calm','film-mc-calm')"><span class="car" aria-hidden="true"></span></button></div><div class="planpick up" id="film-pp-calm" data-kind="single" role="radiogroup" aria-label="Calm supply length"></div></div></div>
+      <div class="chip c-rest"><h4>Rest</h4><div class="pr"><s>$38</s>$31/mo</div><div class="chip-action"><div class="addsplit"><button class="add-btn" data-add="rest">ADD</button><button class="mini-car" id="film-mc-rest" aria-haspopup="true" aria-expanded="false" aria-label="Rest supply length" onclick="pickTap('film-pp-rest','film-mc-rest')"><span class="car" aria-hidden="true"></span></button></div><div class="planpick up" id="film-pp-rest" data-kind="single" role="radiogroup" aria-label="Rest supply length"></div></div></div>
     </div>
 
     <div class="beat steady on-color" id="bSteady">
@@ -657,12 +668,14 @@ footer a{color:inherit;}
         <li>30-day guarantee</li>
       </ul>
       <div class="purchasebar">
-        <div class="finalmode" role="group" aria-label="Purchase frequency">
-          <button id="fMonthly" class="on" type="button" aria-pressed="true" aria-haspopup="true" aria-expanded="false" onclick="monthlyTap('f')">Monthly<span class="car" aria-hidden="true"></span></button>
-          <button id="fOnce" type="button" aria-pressed="false" onclick="setMode(false)">Once</button>
+        <div class="modepick">
+          <div class="finalmode" role="group" aria-label="Purchase frequency">
+            <button id="fMonthly" class="on" type="button" aria-pressed="true" aria-haspopup="true" aria-expanded="false" onclick="monthlyTap('f')">Monthly<span class="car" aria-hidden="true"></span></button>
+            <button id="fOnce" type="button" aria-pressed="false" onclick="setMode(false)">Once</button>
+          </div>
+          <div class="planpick" id="fPlanPick" role="radiogroup" aria-label="Supply length"></div>
         </div>
         <button class="om-cta" id="offerBtn" onclick="addTrio()">Complete ritual · $99</button>
-        <div class="planpick" id="fPlanPick" role="radiogroup" aria-label="Supply length"></div>
       </div>
       <div class="minirow" id="miniRow" aria-label="Build your own stack"></div>
       <div class="om-mini" id="offerMini">Subscription · <a href="policies.html">guarantee &amp; terms</a></div>
@@ -820,7 +833,6 @@ footer a{color:inherit;}
     <div class="faq">
       <details open><summary>What is the 4th piece?</summary><p>STEADY — N°04, our Normal Blood Sugar Drops. Six botanicals in a daily 2ml dropper to support healthy energy metabolism*. On its own it's $18, or from $13/mo on subscription. Inside the ritual it's permanent: every delivery ships all four, Rise, Calm, Rest and Steady, for as long as you're subscribed.</p></details>
       <details><summary>How does the subscription work?</summary><p>One delivery a month: Rise, Calm, Rest and Steady — all four, every time. $99/mo (or one-time, $132 — switch in the cart). Want a better rate? Pick your supply under MONTHLY: a 2-month box lands at $95/mo (−28%), a 3-month box at $88/mo (−33%); a 1-month plan already saves −25% against the $132 one-time. Skip a delivery, swap a formula or cancel from the link in any receipt, at least 48h before renewal. No calls, no fees.</p></details>
-      <details><summary>Singles or the ritual — what's the actual math?</summary><p>Three mains on subscription run $93/mo. The complete ritual is $99/mo and carries STEADY too — $6 more for an $18 bottle. Buying all four loose costs $108/mo, so completing the set saves $9 every month — and it stays exactly $9 at every supply length (loose $108/$104/$97 against the ritual's $99/$95/$88). Nothing is a promotion: it's the same four bottles in every delivery, for as long as you stay.</p></details>
       <details><summary>Can I actually cancel anytime?</summary><p>Yes — two taps from any receipt, and the subscription ends with the current month. Nothing to return, nobody to argue with. Every bottle already delivered is yours to keep.</p></details>
       <details><summary>Shipping &amp; returns?</summary><p>Subscriptions and one-time orders ship free in the U.S. at $50+, otherwise shipping is $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
       <details><summary>When will I feel a difference?</summary><p>Honest answer: Rest and Calm often land within days. Rise builds over 2–4 weeks of daily use — that's exactly why the first order carries the guarantee. Give it the month; it costs you nothing if it's not for you.</p></details>
@@ -1111,7 +1123,7 @@ function planRows(kind){
   [1,2,3].forEach(m=>{ BARE[m] = '−'+Math.min(...inCart.map(k=>FLOORS[k][m-1]))+'%'; });
   const table = PLANP[kind] || PLANP.trio;
   return [1,2,3].map(m=>{
-    const on = m===planMonths, lbl = m===1?'1 MONTH':m+' MONTHS';
+    const on = m===planMonths, lbl = m+' MO';
     const price = kind==='bare' ? `<b>${BARE[m]}</b>` : `$${table[m].pm}/MO <b>${table[m].tag}</b>`;
     return `<button role="radio" aria-checked="${on}" class="${on?'on':''}" onclick="setPlan(${m})">
       <span>${lbl}</span><span class="pp-p">${price}</span></button>`;
