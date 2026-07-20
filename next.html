@@ -579,7 +579,6 @@ footer a{color:inherit;}
   .offmenu{display:flex;}
   .splus{display:none;}
   .bottle{height:260px;}
-  #btRest{height:364px;}
   .ghost,.scrollcue,.rail{display:none;}
   .splash,.hero-addon,.stillcue{display:none;}
   .chips{display:flex;justify-content:center;}
@@ -1463,15 +1462,10 @@ function steadyKF(p){
 }
 let bobT = 0;   /* idle-life clock — a gentle constant float on every mockup */
 function place(el, b, ph){
-  const isRest = el.id === 'btRest';
-  const nudgeRise = el.id === 'btRise' && BP() === 'd';
-  const x = b.x + (nudgeRise ? -3 : 0);
-  const y = b.y + (nudgeRise ? -6 : 0);
-  const s = b.s * (isRest ? 1.4 : 1);
   const dy = bobT ? Math.sin(bobT/1500 + (ph||0))*0.5 : 0;
   const dr = bobT ? Math.sin(bobT/2300 + (ph||0)*1.7)*0.5 : 0;
   el.style.opacity = b.o.toFixed(3);
-  el.style.transform = 'translate(-50%,-50%) translate('+x.toFixed(2)+'vw,'+(y+dy).toFixed(2)+'vh) rotate('+(b.r+dr).toFixed(1)+'deg) scale('+s.toFixed(3)+')';
+  el.style.transform = 'translate(-50%,-50%) translate('+b.x.toFixed(2)+'vw,'+(b.y+dy).toFixed(2)+'vh) rotate('+(b.r+dr).toFixed(1)+'deg) scale('+b.s.toFixed(3)+')';
 }
 
 const els = {
@@ -1525,9 +1519,20 @@ function apply(p){
   if(g && g !== els.ghost.textContent) els.ghost.textContent = g;
   els.ghost.style.opacity = (g ? (p<.465 ? win(p,.14,.18,.42,.46) : win(p,.76,.81,.845,.875))*.35 : 0).toFixed(3);
   const S = SLOTS(), ST = STACK();
-  place(els.btRise, riseKF(p), 0);
+  const risePose = riseKF(p);
+  const restPose = soloKF(p, {key:'rest',t0:.36, fromX:16, enterR:14, holdR:-5, slot:S.rest, stack:ST.rest, exitX:95, exitR:42, seatT:.902});
+  /* Opening hero only: return to the original stack before motion starts at .085. */
+  const heroPose = 1-clamp01((p-.06)/.025);
+  if(heroPose>0){
+    if(BP()==='d'){
+      risePose.x -= 3*heroPose;
+      risePose.y -= 6*heroPose;
+    }
+    restPose.s *= 1+.4*heroPose;
+  }
+  place(els.btRise, risePose, 0);
   place(els.btCalm, soloKF(p, {key:'calm',t0:.25, fromX:-16, enterR:-14, holdR:7,  slot:S.calm, stack:ST.calm, exitX:-95, exitR:-48, seatT:.895}), 2.1);
-  place(els.btRest, soloKF(p, {key:'rest',t0:.36, fromX:16,  enterR:14,  holdR:-5, slot:S.rest, stack:ST.rest, exitX:95,  exitR:42, seatT:.902}), 4.2);
+  place(els.btRest, restPose, 4.2);
   place(els.btSteady, steadyKF(p), 1.1);
   els.railfill.style.height = (p*100).toFixed(1)+'%';
   els.rail.classList.toggle('lite', (p>.10 && p<.505) || p>.715);
