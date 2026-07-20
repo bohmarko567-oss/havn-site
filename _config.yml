@@ -1,0 +1,26 @@
+exclude:
+  - api
+  - economics
+  - COLLECTION-DNA.md
+  - README.md
+  - b.html
+  - netlify.toml
+  - package.json
+  - server.local.js
+  - vercel.json
+  - assets/CALM_front.png
+  - assets/REST_front.png
+  - assets/RISE_front.png
+  - assets/og_official.jpg
+  - assets/products/calm_duo.jpg
+  - assets/products/calm_stack.jpg
+  - assets/products/capsules.jpg
+  - assets/products/og_v2.jpg
+  - assets/products/rest_duo.jpg
+  - assets/products/rest_stack.jpg
+  - assets/products/rise_duo.jpg
+  - assets/products/rise_stack.jpg
+  - assets/products/steady_duo.jpg
+  - assets/products/trio_cascade.webp
+  - assets/products/trio_official.jpg
+  - fonts/SpaceGrotesk.ttf
