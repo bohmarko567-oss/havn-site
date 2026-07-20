@@ -666,7 +666,6 @@ footer a{color:inherit;}
         <li>All four — <b>Steady included</b></li>
         <li>Free U.S. shipping at $50+</li>
         <li>Skip, swap or cancel anytime</li>
-        <li>30-day guarantee</li>
       </ul>
       <div class="purchasebar">
         <div class="modepick">
@@ -679,7 +678,7 @@ footer a{color:inherit;}
         <button class="om-cta" id="offerBtn" onclick="addTrio()">Complete ritual · $99</button>
       </div>
       <div class="minirow" id="miniRow" aria-label="Build your own stack"></div>
-      <div class="om-mini" id="offerMini">Subscription · <a href="policies.html">guarantee &amp; terms</a></div>
+      <div class="om-mini" id="offerMini">Subscription · <a href="policies.html">policies &amp; terms</a></div>
       <div class="stillcue" aria-hidden="true"><b>Still not convinced?</b><span>Scroll</span><i>↓</i></div>
     </div>
 
@@ -825,7 +824,6 @@ footer a{color:inherit;}
       <div class="review"><div class="stars">★★★★★</div><p>“Did the math against buying all four seperately — the ritual wins every single month.”</p><div class="who">— Tom W.</div></div>
       <div class="review"><div class="stars">★★★★★</div><p>“Night shift nurse. Rest after work, Rise at 2pm. My sleep schedule finally doesn't feel like jet lag.”</p><div class="who">— Sam O.</div></div>
       <div class="review"><div class="stars">★★★★★</div><p>“The Danish design is what got me, not gonna lie. Three months in, the routine actually stuck.”</p><div class="who">— Freja L.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><p>“Was fully ready to use the refund guarantee. Kept the subscription instead.”</p><div class="who">— Priya N.</div></div>
     </div></div>
   </div>
 
@@ -835,14 +833,14 @@ footer a{color:inherit;}
       <details open><summary>What is the 4th piece?</summary><p>STEADY — N°04, our Normal Blood Sugar Drops. Six botanicals in a daily 2ml dropper to support healthy energy metabolism*. On its own it's $18, or from $13/mo on subscription. Inside the ritual it's permanent: every delivery ships all four, Rise, Calm, Rest and Steady, for as long as you're subscribed.</p></details>
       <details><summary>How does the subscription work?</summary><p>One delivery a month: Rise, Calm, Rest and Steady — all four, every time. $99/mo (or one-time, $132 — switch in the cart). Want a better rate? Pick your supply under MONTHLY: a 2-month box lands at $95/mo (−28%), a 3-month box at $88/mo (−33%); a 1-month plan already saves −25% against the $132 one-time. Skip a delivery, swap a formula or cancel from the link in any receipt, at least 48h before renewal. No calls, no fees.</p></details>
       <details><summary>Can I actually cancel anytime?</summary><p>Yes — two taps from any receipt, and the subscription ends with the current month. Nothing to return, nobody to argue with. Every bottle already delivered is yours to keep.</p></details>
-      <details><summary>Shipping &amp; returns?</summary><p>Subscriptions and one-time orders ship free in the U.S. at $50+, otherwise shipping is $6.95. First order not feeling it? 30-day guarantee — the product price comes back, nothing to send back. <a href="policies.html">Full policies</a>.</p></details>
-      <details><summary>When will I feel a difference?</summary><p>Honest answer: Rest and Calm often land within days. Rise builds over 2–4 weeks of daily use — that's exactly why the first order carries the guarantee. Give it the month; it costs you nothing if it's not for you.</p></details>
+      <details><summary>Shipping &amp; returns?</summary><p>Subscriptions and one-time orders ship free in the U.S. at $50+, otherwise shipping is $6.95. <a href="policies.html">Full policies</a>.</p></details>
+      <details><summary>When will I feel a difference?</summary><p>Honest answer: Rest and Calm often land within days. Rise builds over 2–4 weeks of daily use.</p></details>
       <details><summary>What exactly is in each bottle?</summary><p>No proprietary blends — full doses, printed on the label. In your cart, tap <b>Rise</b>, <b>Calm</b>, <b>Rest</b> or <b>Steady</b> on the ritual line (or the “label” link on any bottle) to see the complete Supplement Facts panel, exactly as it prints.</p></details>
       <details><summary>Is it safe — and who makes it?</summary><p>Manufactured in the USA in FDA-registered, cGMP facilities from globally sourced ingredients — non-GMO, gluten-free, third-party tested, no artificial fillers. As with any supplement: check with a physician if you're pregnant, nursing, under 18 or taking medication.</p></details>
     </div>
   </div>
 
-  <div class="ribbon"><div class="rtrack" id="rtrack"><span><b style="color:#FF9C5F">☀ RISE</b>&nbsp;— FOCUS</span><span><b style="color:#5FD0BF">◐ CALM</b>&nbsp;— BALANCE</span><span><b style="color:#9F96F2">☾ REST</b>&nbsp;— SLEEP</span><span><b style="color:#F08BC0">⊖ STEADY</b>&nbsp;— LEVEL, ALL DAY</span><span>✚ ALL FOUR PIECES — EVERY DELIVERY</span><span>✚ FREE U.S. SHIPPING AT $50+</span><span>◆ 30-DAY FIRST-ORDER GUARANTEE</span></div></div>
+  <div class="ribbon"><div class="rtrack" id="rtrack"><span><b style="color:#FF9C5F">☀ RISE</b>&nbsp;— FOCUS</span><span><b style="color:#5FD0BF">◐ CALM</b>&nbsp;— BALANCE</span><span><b style="color:#9F96F2">☾ REST</b>&nbsp;— SLEEP</span><span><b style="color:#F08BC0">⊖ STEADY</b>&nbsp;— LEVEL, ALL DAY</span><span>✚ ALL FOUR PIECES — EVERY DELIVERY</span><span>✚ FREE U.S. SHIPPING AT $50+</span></div></div>
 
   <footer>HAVN · Designed in Denmark · Manufactured in the USA from globally sourced ingredients · <a href="policies.html">Policies</a> · <a href="mailto:hello@havn.co">hello@havn.co</a><br>*These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease.</footer>
 </div>
@@ -1065,7 +1063,7 @@ function update(){
   /* per-delivery total lives here — secondary to the per-month headline */
   $('offerMini').innerHTML = (subscribe
     ? (planMonths>1 ? `Billed every ${planMonths} months · ${fmt(PLANM(planMonths).total)} per delivery · skip or cancel anytime` : 'Subscription · skip or cancel anytime')
-    : 'One-time order') + ' · <a href="policies.html">guarantee &amp; terms</a>';
+    : 'One-time order') + ' · <a href="policies.html">policies &amp; terms</a>';
   renderPlanPicks();
   /* build-your-own-stack pills (mixed bundles: e.g. two formulas + the drops) */
   $('miniRow').innerHTML = ['rise','calm','rest','steady'].map(id =>
